@@ -119,7 +119,7 @@ MY_CPP_FLAGS ?=
 #  If applicable, link with NetCDF-4 library. Notice that the NetCDF-4
 #  library needs both the HDF5 and MPI libraries.
 
- USE_NETCDF4 ?= on
+ USE_NETCDF4 ?=
 
 #  Top of the ROMS source tree.
 
