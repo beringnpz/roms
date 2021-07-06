@@ -171,7 +171,7 @@ ifdef USE_NETCDF4
 else
     NETCDF_INCDIR ?= /opt/intelsoft/serial/netcdf3/include
     NETCDF_LIBDIR ?= /opt/intelsoft/serial/netcdf3/lib
-      NETCDF_LIBS ?= -lnetcdf
+      NETCDF_LIBS ?= -lnetcdf -lnetcdff
              LIBS += -L$(NETCDF_LIBDIR) $(NETCDF_LIBS)
            INCDIR += $(NETCDF_INCDIR) $(INCDIR)
 endif
