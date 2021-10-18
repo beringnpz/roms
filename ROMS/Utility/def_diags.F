@@ -761,7 +761,7 @@
               DIA(ng)%Vid(ifield)=var_id(i)
             END IF
           END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
           DO ivar=1,NDbio3d
             ifield=iDbio3(ivar)
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,ifield))) THEN
@@ -859,7 +859,7 @@
             RETURN
           END IF
         END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
         DO ivar=1,NDbio3d
           ifield=iDbio3(ivar)
           IF (.not.got_var(ifield).and.Dout(ifield,ng)) THEN
