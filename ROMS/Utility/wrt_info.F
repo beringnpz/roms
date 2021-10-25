@@ -1560,6 +1560,8 @@
 #  include <cobalt_wrt.h>
 # elif defined RED_TIDE
 #  include <red_tide_wrt.h>
+# elif defined BEST_NPZ
+#  include <bestnpz_wrt.h>
 # endif
 #endif
 

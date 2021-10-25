@@ -8,8 +8,29 @@
 !  This routine computes the biological sources and sinks and adds     !
 !  then the global biological fields.                                  !
 !                                                                      !
-!  Georgina Gibsons BESTNPZ Code July 2010
-!
+!  Bering Sea NPZ (BESTNPZ) model: This model simulates lower trophic  !
+!  level dynamics tailored to the Bering Sea region, with a focus on   !
+!  the eastern Bering Sea shelf.  There are several variants of this   !
+!  model found within various ROMS implementations and in the          !
+!  literature; this one reflects the version documented in Kearney et  !
+!  al., 2020, with additional carbonate dynamics as described in       !
+!  Pilcher et al., 2019:                                               !
+!                                                                      !
+!  Kearney K, Hermann A, Cheng W, Ortiz I, Aydin K (2020) A coupled    !
+!     pelagic-benthic-sympagic biogeochemical model for the Bering     !
+!     Sea: documentation and validation of the BESTNPZ model           !
+!     (v2019.08.23) within a high-resolution regional ocean model.     !
+!     Geosci Model Dev 13:597--650                                     !
+!                                                                      !
+!  Pilcher DJ, Naiman DM, Cross JN, Hermann AJ, Siedlecki SA,          !
+!     Gibson GA, Mathis JT (2019) Modeled Effect of Coastal            !
+!     Biogeochemical Processes, Climate Variability, and Ocean         !
+!     Acidification on Aragonite Saturation State in the Bering Sea.   !
+!     Front Mar Sci 5:1–18                                             !
+!                                                                      !
+!  Earlier history:                                                    !
+!  Georgina Gibsons BESTNPZ Code July 2010                             !
+!                                                                      !
 !  Modified from Sarah Hinckleys GOANPZ code                           !
 !  Implemented by Craig Lewis (CVL)                                    !
 !  Modified by Liz Dobbins and Sarah Hinckley                          !

@@ -462,7 +462,7 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
-#  if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT
+#  if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT || defined BEST_NPZ
         DO idiag=1,NDbio2d
 #   ifdef BIO_FENNEL
           IF (idiag.ne.ipCO2) THEN
@@ -478,7 +478,7 @@
 #  endif
         END DO
 #  endif
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
         DO idiag=1,NDbio3d
           DO k=1,N(ng)
             DO j=JstrR,JendR
@@ -618,7 +618,7 @@
 #   endif
 #  endif
 #  ifdef DIAGNOSTICS_BIO
-#   if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT
+#   if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT || defined BEST_NPZ
 !
 !  Biological terms 2D diagnostics.
 !
