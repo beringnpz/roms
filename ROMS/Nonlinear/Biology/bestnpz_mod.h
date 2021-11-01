@@ -237,11 +237,11 @@
 # ifdef CLIM_ICE_1D
       integer, pointer :: idiceLog(:)  ! Ice tracers
 # endif
-      integer :: iIcePhL
-      integer :: iIceNO3
-      integer :: iIceNH4
-      integer :: iIceZ
-      integer :: iIceLog
+      integer :: idIcePhL
+      integer :: idIceNO3
+      integer :: idIceNH4
+      integer :: idIceZ
+      integer :: idIceLog
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer :: iilims
