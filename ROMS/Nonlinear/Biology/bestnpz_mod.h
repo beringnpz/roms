@@ -17,7 +17,7 @@
 !   k_chlC      Other material (CDOM,sediment,etc.) attenuation        !
 !                 coefficient (m^-1)                                   !
 !   k_sed1      Depth-based attenuation coefficient, factor (m^-1)     !
-!   k_sed1      Depth-based attenuation coefficient, exponent          !
+!   k_sed2      Depth-based attenuation coefficient, exponent          !
 !                 (unitless)                                           !
 !   xi          Nitrogen:Carbon ratio (mmol N / mg C)                  !
 !   ccr         Carbon:Chlorophyll ratio, small phyto (mg C / mg       !
@@ -414,7 +414,7 @@
       real(r8), allocatable :: k_chlB(:)
       real(r8), allocatable :: k_chlC(:)
       real(r8), allocatable :: k_sed1(:)
-      real(r8), allocatable :: k_sed1(:)
+      real(r8), allocatable :: k_sed2(:)
       real(r8), allocatable :: xi(:)
       real(r8), allocatable :: ccr(:)
       real(r8), allocatable :: ccrPhL(:)
@@ -643,8 +643,8 @@
         allocate ( k_sed1(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
-      IF (.not.allocated(k_sed1)) THEN
-        allocate ( k_sed1(Ngrids) )
+      IF (.not.allocated(k_sed2)) THEN
+        allocate ( k_sed2(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
       IF (.not.allocated(xi)) THEN

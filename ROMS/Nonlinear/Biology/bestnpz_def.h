@@ -77,7 +77,7 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
    
-      Vinfo( 1)='k_sed1'
+      Vinfo( 1)='k_sed2'
       Vinfo( 2)='Depth-based attenuation coefficient, exponent'
       Vinfo( 3)='unitless'
       status=def_var(ng, model, ncid, varid, NF_TYPE,                   &
