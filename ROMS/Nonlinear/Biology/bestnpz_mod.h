@@ -185,6 +185,7 @@
 #ifdef BENTHIC
       integer, allocatable :: NBeT(:)   
       integer              :: NBEN      ! Benthic tracers
+      integer, allocatable :: idben(:)  ! 
       integer, allocatable :: idBeTvar(:)
       integer, allocatable :: hisBid(:,:)
       integer, allocatable :: avgBid(:,:)
@@ -228,7 +229,6 @@
       integer :: iOxyg              ! Dissolved oxygen concentration
 #endif
 #ifdef BENTHIC
-      integer, pointer :: idben(:)  ! Benthic tracers
       integer :: iBen
       integer :: iDetBen
 #endif
@@ -402,6 +402,7 @@
       integer :: ibiomem_TIC
       integer :: ibiomem_Alk
       integer :: ibiomem_Oxyg
+      integer :: ipar
 #endif
       
 !
