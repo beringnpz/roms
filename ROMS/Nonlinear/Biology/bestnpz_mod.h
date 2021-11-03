@@ -196,7 +196,6 @@
       integer, allocatable :: NIceLog(:)
       integer              :: NIB
       integer, allocatable :: idice(:)
-      integer, allocatable :: idiceLog(:)
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer, allocatable :: iDbio2(:) ! 2D Biological diagnostics
