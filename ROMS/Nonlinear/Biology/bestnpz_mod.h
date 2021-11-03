@@ -185,11 +185,18 @@
 #ifdef BENTHIC
       integer, allocatable :: NBeT(:)   
       integer              :: NBEN      ! Benthic tracers
-      integer, allocatable :: idben(:)  ! 
+      integer, allocatable :: idben(:)   
       integer, allocatable :: idBeTvar(:)
       integer, allocatable :: hisBid(:,:)
       integer, allocatable :: avgBid(:,:)
       integer, allocatable :: rstBid(:,:)
+#endif
+#ifdef ICE_BIO
+      integer, allocatable :: NIceT(:)
+      integer, allocatable :: NIceLog(:)
+      integer              :: NIB
+      integer, allocatable :: idice(:)
+      integer, allocatable :: idiceLog(:)
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer, allocatable :: iDbio2(:) ! 2D Biological diagnostics
@@ -233,9 +240,9 @@
       integer :: iDetBen
 #endif
 #ifdef ICE_BIO
-      integer, pointer :: idice(:)  ! Ice tracers
+!       integer, pointer :: idice(:)  ! Ice tracers
 # ifdef CLIM_ICE_1D
-      integer, pointer :: idiceLog(:)  ! Ice tracers
+!       integer, pointer :: idiceLog(:)  ! Ice tracers
 # endif
       integer :: idIcePhL
       integer :: idIceNO3
@@ -610,7 +617,14 @@
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
       NDbio3d=155
       NDbio2d=3
-#endif              
+#endif
+#ifdef BENTHIC
+      NBEN=2
+#endif
+#ifdef ICE_BIO
+      NIB=4
+#endif
+              
 !
 !-----------------------------------------------------------------------
 !  Allocate various module variables.
@@ -1227,6 +1241,12 @@
       IF (.not.allocated(idben)) THEN
         allocate ( idben(NBEN) )
         Dmem(1)=Dmem(1)+REAL(NBEN,r8)
+      END IF
+# endif
+# ifdef ICE_BIO
+      IF (.not.allocated(idice)) THEN
+        allocate ( idben(NIB) )
+        Dmem(1)=Dmem(1)+REAL(NIB,r8)
       END IF
 # endif
 # ifdef DIAGNOSTICS_BIO   

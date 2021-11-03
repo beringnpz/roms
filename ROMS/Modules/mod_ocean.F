@@ -86,6 +86,9 @@
 !  egg_count    Number of eggs in each box for each species.           !
 # endif
 #endif
+#ifdef BEST_NPZ
+!  TODO: add list
+#endif
 !=======================================================================
 !
         USE mod_kinds
@@ -95,6 +98,9 @@
 #endif
 #if defined BENTHIC
         USE mod_biology, only: NBeT, NBL
+#endif
+#if defined ICE_BIO
+        USE mod_biology, only: NIceT, NIB, NIceLog
 #endif
         implicit none
 
