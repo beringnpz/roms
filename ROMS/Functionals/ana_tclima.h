@@ -114,8 +114,8 @@
         DO i=IstrR,IendR
           DO j=JstrR,JendR
             val3 = MAX(0._r8,MIN(1._r8,(1._r8*GRID(ng)%h(i,j)-Feinh(ng))/(Feoffh(ng)-Feinh(ng))))
-            val1 = Feinlo + val3*(Feofflo(ng)-Feinlo(ng))
-            val2 = Feinhi + val3*(Feoffhi(ng)-Feinhi(ng))
+            val1 = Feinlo(ng) + val3*(Feofflo(ng)-Feinlo(ng))
+            val2 = Feinhi(ng) + val3*(Feoffhi(ng)-Feinhi(ng))
             val3 = (val2-val1) / 300._r8
             DO k=1,N(ng)
               if(GRID(ng)%h(i,j).gt.Feoffh(ng).and.GRID(ng)%z_r(i,j,k).ge.-50_r8)THEN
