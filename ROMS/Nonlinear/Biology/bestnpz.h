@@ -38,6 +38,9 @@
 !=======================================================================
 
       USE mod_param
+#ifdef DIAGNOSTICS_BIO
+      USE mod_diags
+#endif
       USE mod_forces
       USE mod_grid
       USE mod_ncparam
@@ -237,9 +240,9 @@
 # endif
 
 #endif
-#if defined EW_PERIODIC || defined NS_PERIODIC
-      USE exchange_3d_mod
-#endif
+! #if defined EW_PERIODIC || defined NS_PERIODIC
+!       USE exchange_3d_mod
+! #endif
 
 #if defined CLIM_ICE_1D
       USE mod_clima
@@ -541,20 +544,20 @@
 
       ! Parameter default values
 
-#ifdef DISTRIBUTE
-# ifdef EW_PERIODIC
-      logical :: EWperiodic=.TRUE.
-# else
-      logical :: EWperiodic=.FALSE.
-# endif
-# ifdef NS_PERIODIC
-      logical :: NSperiodic=.TRUE.
-# else
-      logical :: NSperiodic=.FALSE.
-# endif
-!       real(r8), allocatable           :: buffer(:)
-!       character (len=3), allocatable  :: op_handle(:)
-#endif
+! #ifdef DISTRIBUTE
+! # ifdef EW_PERIODIC
+!       logical :: EWperiodic=.TRUE.
+! # else
+!       logical :: EWperiodic=.FALSE.
+! # endif
+! # ifdef NS_PERIODIC
+!       logical :: NSperiodic=.TRUE.
+! # else
+!       logical :: NSperiodic=.FALSE.
+! # endif
+! !       real(r8), allocatable           :: buffer(:)
+! !       character (len=3), allocatable  :: op_handle(:)
+! #endif
 
 #ifdef DIAPAUSE
       logical :: downwardNC = .false., upwardNC = .false.
@@ -3428,106 +3431,113 @@
 
       END DO J_LOOP
 
+      ! TODO: As expected, all this tiling/exchange stuff is now incompatible with newer 
+      ! ROMS, and given that I never figured out quite why it was here in the first place,
+      ! I'm not sure how to fix it.  For now, just commenting out.  The eventual plan for 
+      ! this newer BESTNPZ version is to rewrite FEAST to use diagnostics instead of 
+      ! passive tracers so it will be compatible with this newer code.  And hopefully by 
+      ! the time I'm done this update, I'll have cleaned up ice tracers to be more robust. 
+      
       !=============================================
       !  FEAST
       !=============================================
 
-#ifdef FEAST
-      ! This block has something to do with updating the ghost points
-      ! along the tile edges prior to running the FEAST advection code
-      ! (which defines fish movement, independent from water advection).
-      ! The history is a little murky...
-      !
-      ! TODO: maybe separate the fish movement code from the source/sinks
-      ! code?  So the movement doesn't require this extra kludginess?
-      ! (Copy/pasting the physics here seems like a recipe for disaster
-      ! if we ever want to move to a more recent version of ROMS where
-      ! these things may change slightly).
-
-# if defined EW_PERIODIC || defined NS_PERIODIC
-
-      ! Apply periodic boundary conditions.
-
-      DO itrc=1,NBT
-        ibio=idbio(itrc)
-
-        CALL exchange_r3d_tile (ng, tile,                               &
-     &                          LBi, UBi, LBj, UBj, 1, N(ng),           &
-     &                          t(:,:,:,nnew,ibio))
-      END DO
-# endif
-
-# ifdef DISTRIBUTE
-      ! Exchange boundary data.
-
-      !ajh
-      !added block on this for passives when feast is present
-      !NOTE will need to exchange when passives/fish are changed elsewhere
-#  ifdef FEAST_NOEXCHANGE
-      CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
-     &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NAT,         &
-     &                    NghostPoints, EWperiodic, NSperiodic,         &
-     &                    t(:,:,:,nnew,:))
-
-      CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
-     &                    LBi, UBi, LBj, UBj, 1, N(ng),                 &
-     &                    NAT+NPT+1, NT(ng),                            &
-     &                    NghostPoints, EWperiodic, NSperiodic,         &
-     &                    t(:,:,:,nnew,:))
-
-#  else
-      CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
-     &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NT(ng),      &
-     &                    NghostPoints, EWperiodic, NSperiodic,         &
-     &                    t(:,:,:,nnew,:))
-#  endif
+! #ifdef FEAST
+!       ! This block has something to do with updating the ghost points
+!       ! along the tile edges prior to running the FEAST advection code
+!       ! (which defines fish movement, independent from water advection).
+!       ! The history is a little murky...
+!       !
+!       ! TODO: maybe separate the fish movement code from the source/sinks
+!       ! code?  So the movement doesn't require this extra kludginess?
+!       ! (Copy/pasting the physics here seems like a recipe for disaster
+!       ! if we ever want to move to a more recent version of ROMS where
+!       ! these things may change slightly).
 !
-! #  ifdef STATIONARY
+! # if defined EW_PERIODIC || defined NS_PERIODIC
+!
+!       ! Apply periodic boundary conditions.
+!
+!       DO itrc=1,NBT
+!         ibio=idbio(itrc)
+!
+!         CALL exchange_r3d_tile (ng, tile,                               &
+!      &                          LBi, UBi, LBj, UBj, 1, N(ng),           &
+!      &                          t(:,:,:,nnew,ibio))
+!       END DO
+! # endif
+!
+! # ifdef DISTRIBUTE
+!       ! Exchange boundary data.
+!
+!       !ajh
+!       !added block on this for passives when feast is present
+!       !NOTE will need to exchange when passives/fish are changed elsewhere
+! #  ifdef FEAST_NOEXCHANGE
 !       CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
-!      &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NBTS,        &
+!      &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NAT,         &
 !      &                    NghostPoints, EWperiodic, NSperiodic,         &
-!      &                    st(:,:,:,nnew,:))
+!      &                    t(:,:,:,nnew,:))
+!
+!       CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
+!      &                    LBi, UBi, LBj, UBj, 1, N(ng),                 &
+!      &                    NAT+NPT+1, NT(ng),                            &
+!      &                    NghostPoints, EWperiodic, NSperiodic,         &
+!      &                    t(:,:,:,nnew,:))
+!
+! #  else
+!       CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
+!      &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NT(ng),      &
+!      &                    NghostPoints, EWperiodic, NSperiodic,         &
+!      &                    t(:,:,:,nnew,:))
 ! #  endif
-
-      ! Deal with error flags (code uses Kate's branch, ice_frazil.F as example)
-      
-!       buffer(1) = exit_flag
-!       op_handle(1) = 'MAX'
-!       CALL mp_reduce (ng, iNLM, 1, buffer, op_handle)
-!       exit_flag = int(buffer(1))
-
-# endif
-
-# if defined ICE_BIO
-#  ifdef BERING_10K
-#   ifndef MATLABCOMPILE
-
-      CALL IcePhLbc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                nstp, nnew,                                       &
-     &                ui, vi, IcePhL)
-      CALL IceNO3bc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                nstp, nnew,                                       &
-     &                ui, vi, IceNO3)
-      CALL IceNH4bc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                nstp, nnew,                                       &
-     &                ui, vi, IceNH4)
-
-#    if defined EW_PERIODIC || defined NS_PERIODIC || defined DISTRIBUTE
-      CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
-     &                    LBi, UBi, LBj, UBj,                           &
-     &                    NghostPoints, EWperiodic, NSperiodic,         &
-     &                    IcePhL(:,:,nnew), IceNO3(:,:,nnew),           &
-     &                    IceNH4(:,:,nnew))
-#    endif
-#   endif
-#  endif
-# endif
-
-# include "feast_step.h"
-#endif
+! !
+! ! #  ifdef STATIONARY
+! !       CALL mp_exchange4d (ng, tile, iNLM, 1,                            &
+! !      &                    LBi, UBi, LBj, UBj, 1, N(ng), 1, NBTS,        &
+! !      &                    NghostPoints, EWperiodic, NSperiodic,         &
+! !      &                    st(:,:,:,nnew,:))
+! ! #  endif
+!
+!       ! Deal with error flags (code uses Kate's branch, ice_frazil.F as example)
+!
+! !       buffer(1) = exit_flag
+! !       op_handle(1) = 'MAX'
+! !       CALL mp_reduce (ng, iNLM, 1, buffer, op_handle)
+! !       exit_flag = int(buffer(1))
+!
+! # endif
+!
+! # if defined ICE_BIO
+! #  ifdef BERING_10K
+! #   ifndef MATLABCOMPILE
+!
+!       CALL IcePhLbc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                nstp, nnew,                                       &
+!      &                ui, vi, IcePhL)
+!       CALL IceNO3bc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                nstp, nnew,                                       &
+!      &                ui, vi, IceNO3)
+!       CALL IceNH4bc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                nstp, nnew,                                       &
+!      &                ui, vi, IceNH4)
+!
+! #    if defined EW_PERIODIC || defined NS_PERIODIC || defined DISTRIBUTE
+!       CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
+!      &                    LBi, UBi, LBj, UBj,                           &
+!      &                    NghostPoints, EWperiodic, NSperiodic,         &
+!      &                    IcePhL(:,:,nnew), IceNO3(:,:,nnew),           &
+!      &                    IceNH4(:,:,nnew))
+! #    endif
+! #   endif
+! #  endif
+! # endif
+!
+! # include "feast_step.h"
+! #endif
 
       RETURN
       END SUBROUTINE biology_tile
