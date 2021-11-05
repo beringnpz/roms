@@ -714,10 +714,10 @@
       ! NCaS = CM = mostly C. marshallae, on-shelf
       ! NCaO = NC = mostly Neocalanus, off-shelf
 
-      RSNC = MOD(RiseStart, 366.0_r8)
-      RENC = MOD(RiseEnd,   366.0_r8)
-      SSNC = MOD(SinkStart, 366.0_r8)
-      SENC = MOD(SinkEnd,   366.0_r8)
+      RSNC = MOD(RiseStart(ng), 366.0_r8)
+      RENC = MOD(RiseEnd(ng),   366.0_r8)
+      SSNC = MOD(SinkStart(ng), 366.0_r8)
+      SENC = MOD(SinkEnd(ng),   366.0_r8)
 
       ! All 0 is the shortcut for lagging the onshelf group movement
       ! 1 month behind the offshelf group.  This maintains back-
@@ -726,24 +726,24 @@
       ! default.  The one-month lag was the hard-coded behavior before I
       ! added separate input parameters for the NCaS (i.e. CM) group.
 
-      defaultCMdp = ((RiseStartCM .eq. 0.0_r8) .and.                    &
-     &               (RiseEndCM   .eq. 0.0_r8) .and.                    &
-     &               (SinkStartCM .eq. 0.0_r8) .and.                    &
-     &               (SinkEndCM   .eq. 0.0_r8))
+      defaultCMdp = ((RiseStartCM(ng) .eq. 0.0_r8) .and.                    &
+     &               (RiseEndCM(ng)   .eq. 0.0_r8) .and.                    &
+     &               (SinkStartCM(ng) .eq. 0.0_r8) .and.                    &
+     &               (SinkEndCM(ng)   .eq. 0.0_r8))
 
       if (defaultCMdp) then
 
-        RSCM = MOD(RiseStart + 30, 366.0_r8)
-        RECM = MOD(RiseEnd   + 30, 366.0_r8)
-        SSCM = MOD(SinkStart + 30, 366.0_r8)
-        SECM = MOD(SinkEnd   + 30, 366.0_r8)
+        RSCM = MOD(RiseStart(ng) + 30, 366.0_r8)
+        RECM = MOD(RiseEnd(ng)   + 30, 366.0_r8)
+        SSCM = MOD(SinkStart(ng) + 30, 366.0_r8)
+        SECM = MOD(SinkEnd(ng)   + 30, 366.0_r8)
 
       else
 
-        RSCM = MOD(RiseStartCM, 366.0_r8)
-        RECM = MOD(RiseEndCM,   366.0_r8)
-        SSCM = MOD(SinkStartCM, 366.0_r8)
-        SECM = MOD(SinkEndCM,   366.0_r8)
+        RSCM = MOD(RiseStartCM(ng), 366.0_r8)
+        RECM = MOD(RiseEndCM(ng),   366.0_r8)
+        SSCM = MOD(SinkStartCM(ng), 366.0_r8)
+        SECM = MOD(SinkEndCM(ng),   366.0_r8)
 
       endif
 
@@ -1476,13 +1476,13 @@
               ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm, 
               ! entire-mission composite 2012-2018)
             
-              if (k_sed2 .lt. -9990.0_r8) then
+              if (k_sed2(ng) .lt. -9990.0_r8) then
                 ! Lazy way to allow old sediment function without recompiling 
                 ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point 
                 ! issues w/ -9999 equivalence)
-                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*exp(z_w(i,j,0)*0.05)
+                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*exp(z_w(i,j,0)*0.05)
               else
-                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*(-z_w(i,j,0))**k_sed2 
+                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*(-z_w(i,j,0))**k_sed2(ng)
               endif
 
               ! Calculate light at depth levels relevant for Simpson's 
@@ -2843,7 +2843,7 @@
                 ! was nothing deeper than 200m to begin with... if there
                 ! was, that also gets killed off)
 
-                call BioVert(N(ng), -wNCsink, Bio3d(i,:,iiNCaS), dBtmp, &
+                call BioVert(N(ng), -wNCsink(ng), Bio3d(i,:,iiNCaS), dBtmp, &
      &                       Hz(i,j,:), dtdays, z_w(i,j,:),             &
      &                       z_w(i,j,N(ng))+10, flxtmp)
 
@@ -2867,7 +2867,7 @@
 
                 ! In shallow water, flux boundary at bottom.
 
-                call BioVert(N(ng), -wNCsink, Bio3d(i,:,iiNCaS), dBtmp, &
+                call BioVert(N(ng), -wNCsink(ng), Bio3d(i,:,iiNCaS), dBtmp, &
      &                       Hz(i,j,:), dtdays, z_w(i,j,:),             &
      &                       max((z_w(i,j,0)+z_w(i,j,1))/2, -200.0_r8), &
      &                       flxtmp)
@@ -2877,7 +2877,7 @@
 
 # else
 
-              call BioVert(N(ng), -wNCsink, Bio3d(i,:,iiNCaS), dBtmp,   &
+              call BioVert(N(ng), -wNCsink(ng), Bio3d(i,:,iiNCaS), dBtmp,   &
      &                     Hz(i,j,:), dtdays, z_w(i,j,:),               &
      &                     max((z_w(i,j,0)+z_w(i,j,1))/2, -200.0_r8), flxtmp)
               Bio3d(i,1:N(ng),iiNCaS) = Bio3d(i,1:N(ng),iiNCaS) + dBtmp(1,1:N(ng))
@@ -2885,7 +2885,7 @@
 
             else if (upwardCM) then
 
-              call BioVert(N(ng), wNCrise, Bio3d(i,:,iiNCaS), dBtmp,    &
+              call BioVert(N(ng), wNCrise(ng), Bio3d(i,:,iiNCaS), dBtmp,    &
      &                     Hz(i,j,:), dtdays, z_w(i,j,:),               &
      &                     (z_w(i,j,N(ng)-1)+z_w(i,j,N(ng)))/2, flxtmp)
               Bio3d(i,1:N(ng),iiNCaS) = Bio3d(i,1:N(ng),iiNCaS) + dBtmp(1,1:N(ng))
@@ -2905,7 +2905,7 @@
 
             if (downwardNC) then
 
-              call BioVert(N(ng), -wNCsink, Bio3d(i,:,iiNCaO), dBtmp,   &
+              call BioVert(N(ng), -wNCsink(ng), Bio3d(i,:,iiNCaO), dBtmp,   &
      &                     Hz(i,j,:), dtdays, z_w(i,j,:),               &
      &                     -400.0_r8, flxtmp)
               Bio3d(i,1:N(ng),iiNCaO) = Bio3d(i,1:N(ng),iiNCaO) + dBtmp(1,1:N(ng))
@@ -2915,7 +2915,7 @@
 
             else if (upwardNC) then
 
-              call BioVert(N(ng), wNCrise, Bio3d(i,:,iiNCaO), dBtmp,    &
+              call BioVert(N(ng), wNCrise(ng), Bio3d(i,:,iiNCaO), dBtmp,    &
      &                     Hz(i,j,:), dtdays, z_w(i,j,:),               &
      &                     (z_w(i,j,N(ng)-1)+z_w(i,j,N(ng)))/2, flxtmp)
               Bio3d(i,1:N(ng),iiNCaO) = Bio3d(i,1:N(ng),iiNCaO) + dBtmp(1,1:N(ng))
