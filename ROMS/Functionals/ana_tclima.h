@@ -50,7 +50,7 @@
 #if defined BIO_GOANPZ && defined IRON_LIMIT
       USE mod_biology
 #endif
-#if defined BESTNPZ && defined IRON_LIMIT
+#if defined BEST_NPZ && defined IRON_LIMIT
       USE mod_biology
 #endif
 !
