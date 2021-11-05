@@ -308,6 +308,10 @@
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
 #  endif
 # endif
+#ifdef DIAGNOSTICS_BIO
+      real(r8), intent(inout) :: DiaBio2d(LBi:,LBj:,:)
+      real(r8), intent(inout) :: DiaBio3d(LBi:,LBj:,:,:)
+#endif
 
       real(r8), intent(inout) :: Akt(LBi:,LBj:,0:,:) ! TODO why is this passed in?  Never used?
 #if defined CARBON || defined OXYGEN 
@@ -693,8 +697,9 @@
 
       ! Extract year, yday, month, day, and hour
 
-      CALL caldate (r_date, tdays(ng), year, yday, month, iday, hour)
-
+!       CALL caldate (r_date, tdays(ng), year, yday, month, iday, hour)
+      CALL caldate(tdays(ng), yd_dp=yday)
+      
       ! A few parameters...
 
       dtdays = dt(ng)*sec2day/REAL(BioIter(ng),r8)  ! time step, in days
