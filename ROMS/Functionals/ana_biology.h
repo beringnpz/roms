@@ -16,19 +16,19 @@
       USE mod_ncparam
       USE mod_ocean
 
-! #ifdef BEST_NPZ
-! # if defined CLIM_ICE_1D
-!       USE mod_clima
-! # endif
-! # ifdef  ICE_BIO
-!       USE mod_ice
-! # endif
-! #endif
+#ifdef BEST_NPZ
+# if defined CLIM_ICE_1D
+      USE mod_clima
+# endif
+# ifdef  ICE_BIO
+      USE mod_ice
+# endif
+#endif
 
-! #if defined BIO_GOANPZ || defined BEST_NPZ
-!       USE mod_grid
-!       USE mod_biology
-! #endif
+#if defined BIO_GOANPZ || defined BEST_NPZ
+      USE mod_grid
+      USE mod_biology
+#endif
 !
 ! Imported variable declarations.
 !
