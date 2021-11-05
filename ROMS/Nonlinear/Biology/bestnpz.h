@@ -772,19 +772,19 @@
      &              (yday.ge.SSCM .or.  yday.le.SECM))
 
       if (downwardNC) then
-        respNC = respNCa * 0.1_r8
+        respNC = respNCa(ng) * 0.1_r8
         eNC = 0
       else
-        respNC = respNCa
-        eNC = eNCa
+        respNC = respNCa(ng)
+        eNC = eNCa(ng)
       end if
 
       if (downwardCM) then
-        respCM = respNCa * 0.1_r8
+        respCM = respNCa(ng) * 0.1_r8
         eCM = 0
       else
-        respCM = respNCa
-        eCM = eNCa
+        respCM = respNCa(ng)
+        eCM = eNCa(ng)
       end if
 
 #endif
@@ -985,7 +985,7 @@
 
           ! Ice status
 
-          if (ice_thick(i,j).gt.aidz) THEN
+          if (ice_thick(i,j).gt.aidz(ng)) THEN
             itL(i,j,nstp,iIceLog) =1.0_r8
           else
             itL(i,j,nstp,iIceLog) =-1.0_r8
@@ -1020,13 +1020,13 @@
 !             write(*,'(A11,F8.4,A11,F8.4)'), "hi(nstp) = ", hi(i,j,nstp), "hi(nnew) = ", hi(i,j,nnew)
 !           endif
 
-          if     (hi(i,j,nnew).ge.aidz .and. hi(i,j,nstp).lt.aidz) THEN
+          if     (hi(i,j,nnew).ge.aidz(ng) .and. hi(i,j,nstp).lt.aidz(ng)) THEN
             ice_status(i,j) = 1.0  ! ice appeared
-          elseif (hi(i,j,nnew).ge.aidz .and. hi(i,j,nstp).ge.aidz) THEN
+          elseif (hi(i,j,nnew).ge.aidz(ng) .and. hi(i,j,nstp).ge.aidz(ng)) THEN
             ice_status(i,j) = 2.0  ! ice stayed
-          elseif (hi(i,j,nnew).lt.aidz .and. hi(i,j,nstp).ge.aidz) THEN
+          elseif (hi(i,j,nnew).lt.aidz(ng) .and. hi(i,j,nstp).ge.aidz(ng)) THEN
             ice_status(i,j) = -1.0 ! ice disappeared
-          elseif (hi(i,j,nnew).lt.aidz .and. hi(i,j,nstp).lt.aidz) THEN
+          elseif (hi(i,j,nnew).lt.aidz(ng) .and. hi(i,j,nstp).lt.aidz(ng)) THEN
             ice_status(i,j) = 0.0  ! no ice, now or previous
           endif
 
@@ -1063,9 +1063,9 @@
             Bio3d(i,N(ng),iiIceNH4) = IceNH4(i,j,nstp)
 # endif
 
-          Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhL)*aidz
-          Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3)*aidz
-          Bio2d(i,N(ng),iiIceNH4) = Bio3d(i,N(ng),iiIceNH4)*aidz
+          Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhL)*aidz(ng)
+          Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3)*aidz(ng)
+          Bio2d(i,N(ng),iiIceNH4) = Bio3d(i,N(ng),iiIceNH4)*aidz(ng)
 
         END DO
 #endif
@@ -1110,17 +1110,17 @@
             ! layer in the previous step is now spread evenly across the
             ! surface water column and the ice skeletal layer.
 
-            Bio3d(i,N(ng),iiPhL) = Bio2d(i,N(ng),iiPhL)/(Hz(i,j,N(ng))+aidz)
-            Bio3d(i,N(ng),iiNO3) = Bio2d(i,N(ng),iiNO3)/(Hz(i,j,N(ng))+aidz)
-            Bio3d(i,N(ng),iiNH4) = Bio2d(i,N(ng),iiNH4)/(Hz(i,j,N(ng))+aidz)
+            Bio3d(i,N(ng),iiPhL) = Bio2d(i,N(ng),iiPhL)/(Hz(i,j,N(ng))+aidz(ng))
+            Bio3d(i,N(ng),iiNO3) = Bio2d(i,N(ng),iiNO3)/(Hz(i,j,N(ng))+aidz(ng))
+            Bio3d(i,N(ng),iiNH4) = Bio2d(i,N(ng),iiNH4)/(Hz(i,j,N(ng))+aidz(ng))
 
             Bio3d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiPhl)
             Bio3d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiNO3)
             Bio3d(i,N(ng),iiIceNH4) = Bio3d(i,N(ng),iiNH4)
 
-            Frz_PhL_IPhL(i,N(ng)) = (Bio3d(i,N(ng),iiIcePhl) * aidz -  Bio2d(i,N(ng),iiIcePhL))/(dt(ng)*sec2day)
-            Frz_NO3_INO3(i,N(ng)) = (Bio3d(i,N(ng),iiIceNO3) * aidz -  Bio2d(i,N(ng),iiIceNO3))/(dt(ng)*sec2day)
-            Frz_NH4_INH4(i,N(ng)) = (Bio3d(i,N(ng),iiIceNH4) * aidz -  Bio2d(i,N(ng),iiIceNH4))/(dt(ng)*sec2day)
+            Frz_PhL_IPhL(i,N(ng)) = (Bio3d(i,N(ng),iiIcePhl) * aidz(ng) -  Bio2d(i,N(ng),iiIcePhL))/(dt(ng)*sec2day)
+            Frz_NO3_INO3(i,N(ng)) = (Bio3d(i,N(ng),iiIceNO3) * aidz(ng) -  Bio2d(i,N(ng),iiIceNO3))/(dt(ng)*sec2day)
+            Frz_NH4_INH4(i,N(ng)) = (Bio3d(i,N(ng),iiIceNH4) * aidz(ng) -  Bio2d(i,N(ng),iiIceNH4))/(dt(ng)*sec2day)
 
             if (Frz_PhL_IPhL(i,N(ng)) /= Frz_PhL_IPhL(i,N(ng))) then
               write(*, '(A30,I3,A4,I3)') "NaN caught: Frz_PhL_IPhL, i = ", i, "k = ", N(ng)
@@ -1139,9 +1139,9 @@
             Bio2d(i,N(ng),iiNO3)    = Bio3d(i,N(ng),iiNO3) * Hz(i,j,N(ng))
             Bio2d(i,N(ng),iiNH4)    = Bio3d(i,N(ng),iiNH4) * Hz(i,j,N(ng))
 
-            Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhl) * aidz
-            Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3) * aidz
-            Bio2d(i,N(ng),iiIceNH4) = Bio3d(i,N(ng),iiIceNH4) * aidz
+            Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhl) * aidz(ng)
+            Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3) * aidz(ng)
+            Bio2d(i,N(ng),iiIceNH4) = Bio3d(i,N(ng),iiIceNH4) * aidz(ng)
 
           elseif (ice_status(i,j) .le. 0.0) then ! should be <0, but sometimes bio w/o ice?
 
@@ -1423,17 +1423,17 @@
               ! Iron limitation
               ! (Hinckley et al., 2009, Deep Sea Res. II, v56(24))
 
-              IronLimS = min(1.0_r8, eps + Bio3d(i,k,iiFe)/(kfePhS + Bio3d(i,k,iiFe))*(kfePhS + FeCritPS)/FeCritPS) ! unitless
-              IronLimL = min(1.0_r8, eps + Bio3d(i,k,iiFe)/(kfePhL + Bio3d(i,k,iiFe))*(kfePhL + FeCritPL)/FeCritPL)
+              IronLimS = min(1.0_r8, eps + Bio3d(i,k,iiFe)/(kfePhS(ng) + Bio3d(i,k,iiFe))*(kfePhS(ng) + FeCritPS(ng))/FeCritPS(ng)) ! unitless
+              IronLimL = min(1.0_r8, eps + Bio3d(i,k,iiFe)/(kfePhL(ng) + Bio3d(i,k,iiFe))*(kfePhL(ng) + FeCritPL(ng))/FeCritPL(ng))
 #endif
 
               ! Nitrogen limitation
               ! (after COBALT, which uses Frost & Franzen, 1992)
               
-              NOLimS = Bio3d(i,k,iiNO3)/((k1PhS + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhS))
-              NHLimS = Bio3d(i,k,iiNH4)/(k2PhS + Bio3d(i,k,iiNH4))
-              NOLimL = Bio3d(i,k,iiNO3)/((k1PhL + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhL))
-              NHLimL = Bio3d(i,k,iiNH4)/(k2PhL + Bio3d(i,k,iiNH4))
+              NOLimS = Bio3d(i,k,iiNO3)/((k1PhS(ng) + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhS(ng)))
+              NHLimS = Bio3d(i,k,iiNH4)/(k2PhS(ng) + Bio3d(i,k,iiNH4))
+              NOLimL = Bio3d(i,k,iiNO3)/((k1PhL(ng) + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhL(ng)))
+              NHLimL = Bio3d(i,k,iiNH4)/(k2PhL(ng) + Bio3d(i,k,iiNH4))
               
               fratioS = NHLimS/(NOLimS + NHLimS)
               fratioL = NHLimL/(NOLimL + NHLimL)
@@ -1441,18 +1441,18 @@
               ! Maximum uptake rate, carbon-specific and chl-specific
               ! (Frost 1987,  Mar Ecol Prog Ser, v39)
               
-              DrateS = DiS * 10.0_r8 ** (DpS * Temp(i,k)) ! doublings d^-1 (temp dependent doubling rate)
-              DrateL = DiL * 10.0_r8 ** (DpL * Temp(i,k)) ! doublings d^-1
+              DrateS = DiS(ng) * 10.0_r8 ** (DpS(ng) * Temp(i,k)) ! doublings d^-1 (temp dependent doubling rate)
+              DrateL = DiL(ng) * 10.0_r8 ** (DpL(ng) * Temp(i,k)) ! doublings d^-1
 
               PmaxS = (2.0_r8 ** DrateS - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
               PmaxL = (2.0_r8 ** DrateL - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
               
-              PmaxSs = PmaxS*ccr    ! mg C (mg chl)^-1 d^-1
-              PmaxLs = PmaxL*ccrPhl ! mg C (mg chl)^-1 d^-1
+              PmaxSs = PmaxS*ccr(ng)    ! mg C (mg chl)^-1 d^-1
+              PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
               
               ! chl-a in layer
               
-              chl = Bio3d(i,k,iiPhS)/ccr + Bio3d(i,k,iiPhL)/ccrPhL ! mg chl-a m^-3
+              chl = Bio3d(i,k,iiPhS)/ccr(ng) + Bio3d(i,k,iiPhL)/ccrPhL(ng) ! mg chl-a m^-3
               
               ! Attenuation coefficient, including that due to clear water, 
               ! chlorophyll, and optionally other organics/sediment/etc.
@@ -1511,13 +1511,13 @@
               ! Light limitation (Jassby & Platt, 1976, Limnol Oceanogr, 
               ! v21(4))
             
-              LightLimS0 = tanh(alphaPhS * I0/PmaxSs)
-              LightLimS1 = tanh(alphaPhS * I1/PmaxSs)
-              LightLimS2 = tanh(alphaPhS * I2/PmaxSs)
+              LightLimS0 = tanh(alphaPhS(ng) * I0/PmaxSs)
+              LightLimS1 = tanh(alphaPhS(ng) * I1/PmaxSs)
+              LightLimS2 = tanh(alphaPhS(ng) * I2/PmaxSs)
               
-              LightLimL0 = tanh(alphaPhL * I0/PmaxLs)
-              LightLimL1 = tanh(alphaPhL * I1/PmaxLs)
-              LightLimL2 = tanh(alphaPhL * I2/PmaxLs)
+              LightLimL0 = tanh(alphaPhL(ng) * I0/PmaxLs)
+              LightLimL1 = tanh(alphaPhL(ng) * I1/PmaxLs)
+              LightLimL2 = tanh(alphaPhL(ng) * I2/PmaxLs)
 # else
 
               ! Light limitation, Jassby & Platt (1976, Limnol Oceanogr, 
@@ -1611,11 +1611,11 @@
               ! have to split up the large/small calcs; doing it this way
               ! for the sake of maintenance and debugging)
 
-              if (DiS.le.0.0_r8) THEN
+              if (DiS(ng).le.0.0_r8) THEN
                 Gpp_NO3_PhS(i,k) = 0; ! mg C m^-2 d^-1
                 Gpp_NH4_PhS(i,k) = 0; ! mg C m^-2 d^-1
               endif
-              if (DiL.le.0.0_r8) THEN
+              if (DiL(ng).le.0.0_r8) THEN
                 Gpp_NO3_PhL(i,k) = 0; ! mg C m^-2 d^-1
                 Gpp_NH4_PhL(i,k) = 0; ! mg C m^-2 d^-1
               endif
@@ -1662,48 +1662,48 @@
 
               ! Microzooplankton
 
-              cff1 = fpPhSMZL * Bio3d(i,k,iiPhS)**2 +                   &
-     &               fpPhLMZL * Bio3d(i,k,iiPhL)**2
-              cff2 = eMZL * Bio3d(i,k,iiMZL) / (fMZL + cff1)
-              cff3 = Q10MZL**((Temp(i,k)-Q10MZLT)/10.0_r8)
+              cff1 = fpPhSMZL(ng) * Bio3d(i,k,iiPhS)**2 +                   &
+     &               fpPhLMZL(ng) * Bio3d(i,k,iiPhL)**2
+              cff2 = eMZL(ng) * Bio3d(i,k,iiMZL) / (fMZL(ng) + cff1)
+              cff3 = Q10MZL(ng)**((Temp(i,k)-Q10MZLT(ng))/10.0_r8)
 
-              Gra_PhS_MZL(i,k) = fpPhSMZL * (Bio3d(i,k,iiPhS)**2) * cff2 * cff3 ! mg C m^-3
-              Gra_PhL_MZL(i,k) = fpPhLMZL * (Bio3d(i,k,iiPhL)**2) * cff2 * cff3
+              Gra_PhS_MZL(i,k) = fpPhSMZL(ng) * (Bio3d(i,k,iiPhS)**2) * cff2 * cff3 ! mg C m^-3
+              Gra_PhL_MZL(i,k) = fpPhLMZL(ng) * (Bio3d(i,k,iiPhL)**2) * cff2 * cff3
 
-              Ege_MZL_Det(i,k) = (1.0_r8 - gammaMZL) * cff1 * cff2 * cff3 ! mg C m^-2
+              Ege_MZL_Det(i,k) = (1.0_r8 - gammaMZL(ng)) * cff1 * cff2 * cff3 ! mg C m^-2
 
               ! Copepods
 
-              cff1 = fpPhSCop * Bio3d(i,k,iiPhS)**2                     &
-     &             + fpPhLCop * Bio3d(i,k,iiPhL)**2                     &
-     &             + fpMZLCop * Bio3d(i,k,iiMZL)**2                     &
-     &             + fpPhLCop * (IcePhlAvail)**2
+              cff1 = fpPhSCop(ng) * Bio3d(i,k,iiPhS)**2                     &
+     &             + fpPhLCop(ng) * Bio3d(i,k,iiPhL)**2                     &
+     &             + fpMZLCop(ng) * Bio3d(i,k,iiMZL)**2                     &
+     &             + fpPhLCop(ng) * (IcePhlAvail)**2
 
-              cff2 = eCop * Bio3d(i,k,iiCop) / (fCop + cff1)
-              cff3 = Q10Cop**((Temp(i,k)-Q10CopT)/10.0_r8)
+              cff2 = eCop(ng) * Bio3d(i,k,iiCop) / (fCop(ng) + cff1)
+              cff3 = Q10Cop(ng)**((Temp(i,k)-Q10CopT(ng))/10.0_r8)
 
               if (cff1.lt.0.01_r8) THEN ! Starvation response, used in Res below
-                BasMetCop(i,k) = respCop*cff1/0.01_r8
+                BasMetCop(i,k) = respCop(ng)*cff1/0.01_r8
               else
-                BasMetCop(i,k) = respCop
+                BasMetCop(i,k) = respCop(ng)
               endif
 
-              Gra_PhS_Cop(i,k)  = fpPhSCop * (Bio3d(i,k,iiPhS)**2) * cff2 * cff3
-              Gra_PhL_Cop(i,k)  = fpPhLCop * (Bio3d(i,k,iiPhL)**2) * cff2 * cff3
-              Gra_MZL_Cop(i,k)  = fpMZLCop * (Bio3d(i,k,iiMZL)**2) * cff2 * cff3
-              Gra_IPhL_Cop(i,k) = fpPhLCop * (IcePhlAvail)**2  * cff2 * cff3
+              Gra_PhS_Cop(i,k)  = fpPhSCop(ng) * (Bio3d(i,k,iiPhS)**2) * cff2 * cff3
+              Gra_PhL_Cop(i,k)  = fpPhLCop(ng) * (Bio3d(i,k,iiPhL)**2) * cff2 * cff3
+              Gra_MZL_Cop(i,k)  = fpMZLCop(ng) * (Bio3d(i,k,iiMZL)**2) * cff2 * cff3
+              Gra_IPhL_Cop(i,k) = fpPhLCop(ng) * (IcePhlAvail)**2  * cff2 * cff3
 
-              Ege_Cop_DetF(i,k) = (1.0_r8 - gammaCop) * cff1 * cff2 * cff3
+              Ege_Cop_DetF(i,k) = (1.0_r8 - gammaCop(ng)) * cff1 * cff2 * cff3
 
               ! On-shelf Neocalanus
 
-              cff1 = fpPhSNCa * Bio3d(i,k,iiPhS)**2                     &
-     &             + fpPhLNCa * Bio3d(i,k,iiPhL)**2                     &
-     &             + fpMZLNCa * Bio3d(i,k,iiMZL)**2                     &
-     &             + fpPhLNCa * (IcePhlAvail)**2
+              cff1 = fpPhSNCa(ng) * Bio3d(i,k,iiPhS)**2                     &
+     &             + fpPhLNCa(ng) * Bio3d(i,k,iiPhL)**2                     &
+     &             + fpMZLNCa(ng) * Bio3d(i,k,iiMZL)**2                     &
+     &             + fpPhLNCa(ng) * (IcePhlAvail)**2
 
-              cff2 = eNCa * Bio3d(i,k,iiNCaS) / (fNCa + cff1)
-              cff3 = Q10NCa ** ((Temp(i,k)-Q10NCaT)/10.0_r8)
+              cff2 = eNCa(ng) * Bio3d(i,k,iiNCaS) / (fNCa(ng) + cff1)
+              cff3 = Q10NCa(ng) ** ((Temp(i,k)-Q10NCaT(ng))/10.0_r8)
 
               if (cff1.lt.0.01_r8) THEN ! Starvation response, used in Res below
                 BasMetNC(i,k) = respNC*cff1/0.01_r8
@@ -1713,37 +1713,37 @@
                 BasMetCM(i,k) = respCM
               endif
 
-              Gra_PhS_NCaS(i,k)  = fpPhSNCa * Bio3d(i,k,iiPhS)**2 * cff2 * cff3
-              Gra_PhL_NCaS(i,k)  = fpPhLNCa * Bio3d(i,k,iiPhL)**2 * cff2 * cff3
-              Gra_MZL_NCaS(i,k)  = fpMZLNCa * Bio3d(i,k,iiMZL)**2 * cff2 * cff3
-              Gra_IPhL_NCaS(i,k) = fpPhLNCa * (IcePhlAvail)**2 * cff2 * cff3
+              Gra_PhS_NCaS(i,k)  = fpPhSNCa(ng) * Bio3d(i,k,iiPhS)**2 * cff2 * cff3
+              Gra_PhL_NCaS(i,k)  = fpPhLNCa(ng) * Bio3d(i,k,iiPhL)**2 * cff2 * cff3
+              Gra_MZL_NCaS(i,k)  = fpMZLNCa(ng) * Bio3d(i,k,iiMZL)**2 * cff2 * cff3
+              Gra_IPhL_NCaS(i,k) = fpPhLNCa(ng) * (IcePhlAvail)**2 * cff2 * cff3
 
-              Ege_NCaS_DetF(i,k) = (1.0_r8 - gammaNCa) * cff1 * cff2 * cff3
+              Ege_NCaS_DetF(i,k) = (1.0_r8 - gammaNCa(ng)) * cff1 * cff2 * cff3
 
               ! Off-shelf Neocalanus
 
-              cff2 = eNCa * Bio3d(i,k,iiNCaO) / (fNCa + cff1)
+              cff2 = eNCa(ng) * Bio3d(i,k,iiNCaO) / (fNCa(ng) + cff1)
 
-              Gra_PhS_NCaO(i,k)  = fpPhSNCa * Bio3d(i,k,iiPhS)**2 * cff2 * cff3
-              Gra_PhL_NCaO(i,k)  = fpPhLNCa * Bio3d(i,k,iiPhL)**2 * cff2 * cff3
-              Gra_MZL_NCaO(i,k)  = fpMZLNCa * Bio3d(i,k,iiMZL)**2 * cff2 * cff3
-              Gra_IPhL_NCaO(i,k) = fpPhLNCa * (IcePhlAvail)**2 * cff2 * cff3
+              Gra_PhS_NCaO(i,k)  = fpPhSNCa(ng) * Bio3d(i,k,iiPhS)**2 * cff2 * cff3
+              Gra_PhL_NCaO(i,k)  = fpPhLNCa(ng) * Bio3d(i,k,iiPhL)**2 * cff2 * cff3
+              Gra_MZL_NCaO(i,k)  = fpMZLNCa(ng) * Bio3d(i,k,iiMZL)**2 * cff2 * cff3
+              Gra_IPhL_NCaO(i,k) = fpPhLNCa(ng) * (IcePhlAvail)**2 * cff2 * cff3
 
-              Ege_NCaO_DetF(i,k) = (1.0_r8 - gammaNCa) * cff1 * cff2 * cff3
+              Ege_NCaO_DetF(i,k) = (1.0_r8 - gammaNCa(ng)) * cff1 * cff2 * cff3
 
               ! On-shelf euphausiids
 
-              cff1 = fpPhSEup * Bio3d(i,k,iiPhS)**2                      &
-     &             + fpPhLEup * Bio3d(i,k,iiPhL)**2                      &
-     &             + fpMZLEup * Bio3d(i,k,iiMZL)**2                      &
-     &             + fpCopEup * Bio3d(i,k,iiCop)**2                      &
-     &             + fpPhLEup * (IcePhlAvail)**2    ! live food
+              cff1 = fpPhSEup(ng) * Bio3d(i,k,iiPhS)**2                      &
+     &             + fpPhLEup(ng) * Bio3d(i,k,iiPhL)**2                      &
+     &             + fpMZLEup(ng) * Bio3d(i,k,iiMZL)**2                      &
+     &             + fpCopEup(ng) * Bio3d(i,k,iiCop)**2                      &
+     &             + fpPhLEup(ng) * (IcePhlAvail)**2    ! live food
 
-              cff0 = fpDetEup * Bio3d(i,k,iiDet)**2                      &
-     &             + fpDetEup * Bio3d(i,k,iiDetF)**2 ! detrital food
+              cff0 = fpDetEup(ng) * Bio3d(i,k,iiDet)**2                      &
+     &             + fpDetEup(ng) * Bio3d(i,k,iiDetF)**2 ! detrital food
 
-              cff2 = eEup * Bio3d(i,k,iiEupS) / (fEup + cff1 + cff0)
-              cff3 = Q10Eup ** ((Temp(i,k)-Q10EupT) / 10.0_r8)
+              cff2 = eEup(ng) * Bio3d(i,k,iiEupS) / (fEup(ng) + cff1 + cff0)
+              cff3 = Q10Eup(ng) ** ((Temp(i,k)-Q10EupT(ng)) / 10.0_r8)
 
 #ifdef DEPTHLIMITER
               cff4 = 1.0_r8 - (0.5_r8 + 0.5_r8*tanh((h(i,j) - 200_r8)/.3_r8)) ! depth-limiter, stops growth if they move deeper than 200m
@@ -1752,29 +1752,29 @@
 #endif
 
               if (cff1 .lt. 0.01_r8)THEN
-                BasMetEup = respEup*cff1/0.01_r8 ! TODO: doesn't consider detrital food?
+                BasMetEup = respEup(ng)*cff1/0.01_r8 ! TODO: doesn't consider detrital food?
               else
-                BasMetEup = respEup
+                BasMetEup = respEup(ng)
               endif
 
-              Gra_PhS_EupS(i,k)  = fpPhSEup * Bio3d(i,k,iiPhS)**2  * cff2 * cff3 * cff4
-              Gra_PhL_EupS(i,k)  = fpPhLEup * Bio3d(i,k,iiPhL)**2  * cff2 * cff3 * cff4
-              Gra_MZL_EupS(i,k)  = fpMZLEup * Bio3d(i,k,iiMZL)**2  * cff2 * cff3 * cff4
-              Gra_Cop_EupS(i,k)  = fpCopEup * Bio3d(i,k,iiCop)**2  * cff2 * cff3 * cff4
-              Gra_IPhL_EupS(i,k) = fpPhLEup * (IcePhlAvail)**2     * cff2 * cff3 * cff4
-              Gra_Det_EupS(i,k)  = fpDetEup * Bio3d(i,k,iiDet)**2  * cff2 * cff3 * cff4
-              Gra_DetF_EupS(i,k) = fpDetEup * Bio3d(i,k,iiDetF)**2 * cff2 * cff3 * cff4
+              Gra_PhS_EupS(i,k)  = fpPhSEup(ng) * Bio3d(i,k,iiPhS)**2  * cff2 * cff3 * cff4
+              Gra_PhL_EupS(i,k)  = fpPhLEup(ng) * Bio3d(i,k,iiPhL)**2  * cff2 * cff3 * cff4
+              Gra_MZL_EupS(i,k)  = fpMZLEup(ng) * Bio3d(i,k,iiMZL)**2  * cff2 * cff3 * cff4
+              Gra_Cop_EupS(i,k)  = fpCopEup(ng) * Bio3d(i,k,iiCop)**2  * cff2 * cff3 * cff4
+              Gra_IPhL_EupS(i,k) = fpPhLEup(ng) * (IcePhlAvail)**2     * cff2 * cff3 * cff4
+              Gra_Det_EupS(i,k)  = fpDetEup(ng) * Bio3d(i,k,iiDet)**2  * cff2 * cff3 * cff4
+              Gra_DetF_EupS(i,k) = fpDetEup(ng) * Bio3d(i,k,iiDetF)**2 * cff2 * cff3 * cff4
 
-              Ege_EupS_DetF(i,k) = ((1.0_r8 - gammaEup) * cff1 +        &
+              Ege_EupS_DetF(i,k) = ((1.0_r8 - gammaEup(ng)) * cff1 +        &
      &                              (1.0_r8 - 0.3_r8)   * cff0) *       &
      &                              cff2 * cff3 * cff4
 
               ! Off-shelf euphausiids
 
-              cff0 = fpDetEupO * Bio3d(i,k,iiDet)**2                    &
-     &             + fpDetEupO * Bio3d(i,k,iiDetF)**2 ! detrital food
+              cff0 = fpDetEupO(ng) * Bio3d(i,k,iiDet)**2                    &
+     &             + fpDetEupO(ng) * Bio3d(i,k,iiDetF)**2 ! detrital food
 
-              cff2 = eEup * Bio3d(i,k,iiEupO) / (fEup + cff1 + cff0)
+              cff2 = eEup(ng) * Bio3d(i,k,iiEupO) / (fEup(ng) + cff1 + cff0)
 
 #ifdef DEPTHLIMITER
               cff4 = 1.0_r8 - (0.5_r8 + 0.5_r8*tanh((200_r8 - h(i,j))/.3_r8)) ! depth-limiter, stops growth if they move shallower than 200m
@@ -1782,34 +1782,34 @@
               cff4 = 1.0_r8
 #endif
 
-              Gra_PhS_EupO(i,k)  = fpPhSEup * Bio3d(i,k,iiPhS)**2  * cff2 * cff3 * cff4
-              Gra_PhL_EupO(i,k)  = fpPhLEup * Bio3d(i,k,iiPhL)**2  * cff2 * cff3 * cff4
-              Gra_MZL_EupO(i,k)  = fpMZLEup * Bio3d(i,k,iiMZL)**2  * cff2 * cff3 * cff4
-              Gra_Cop_EupO(i,k)  = fpCopEup * Bio3d(i,k,iiCop)**2  * cff2 * cff3 * cff4
-              Gra_IPhL_EupO(i,k) = fpPhLEup * (IcePhlAvail)**2     * cff2 * cff3 * cff4
-              Gra_Det_EupO(i,k)  = fpDetEupO * Bio3d(i,k,iiDet)**2  * cff2 * cff3 * cff4
-              Gra_DetF_EupO(i,k) = fpDetEupO * Bio3d(i,k,iiDetF)**2 * cff2 * cff3 * cff4
+              Gra_PhS_EupO(i,k)  = fpPhSEup(ng) * Bio3d(i,k,iiPhS)**2  * cff2 * cff3 * cff4
+              Gra_PhL_EupO(i,k)  = fpPhLEup(ng) * Bio3d(i,k,iiPhL)**2  * cff2 * cff3 * cff4
+              Gra_MZL_EupO(i,k)  = fpMZLEup(ng) * Bio3d(i,k,iiMZL)**2  * cff2 * cff3 * cff4
+              Gra_Cop_EupO(i,k)  = fpCopEup(ng) * Bio3d(i,k,iiCop)**2  * cff2 * cff3 * cff4
+              Gra_IPhL_EupO(i,k) = fpPhLEup(ng) * (IcePhlAvail)**2     * cff2 * cff3 * cff4
+              Gra_Det_EupO(i,k)  = fpDetEupO(ng) * Bio3d(i,k,iiDet)**2  * cff2 * cff3 * cff4
+              Gra_DetF_EupO(i,k) = fpDetEupO(ng) * Bio3d(i,k,iiDetF)**2 * cff2 * cff3 * cff4
 
-              Ege_EupO_DetF(i,k) = ((1.0_r8 - gammaEup) * cff1 +        &
+              Ege_EupO_DetF(i,k) = ((1.0_r8 - gammaEup(ng)) * cff1 +        &
      &                              (1.0_r8 - 0.3_r8)   * cff0) *       &
      &                              cff2 * cff3 * cff4
 
               ! Jellyfish
 
-              cff1 = fpCopJel * Bio3d(i,k,iiCop)**2 +                   &
-     &               fpNCaJel * Bio3d(i,k,iiNCaS)**2 +                  &
-     &               fpNCaJel * Bio3d(i,k,iiNCaO)**2 +                  &
-     &               fpEupJel * Bio3d(i,k,iiEupS)**2 +                  &
-     &               fpEupJel * Bio3d(i,k,iiEupO)**2
+              cff1 = fpCopJel(ng) * Bio3d(i,k,iiCop)**2 +                   &
+     &               fpNCaJel(ng) * Bio3d(i,k,iiNCaS)**2 +                  &
+     &               fpNCaJel(ng) * Bio3d(i,k,iiNCaO)**2 +                  &
+     &               fpEupJel(ng) * Bio3d(i,k,iiEupS)**2 +                  &
+     &               fpEupJel(ng) * Bio3d(i,k,iiEupO)**2
 
-              cff2 = eJel * Bio3d(i,k,iiJel) / (fJel + cff1)
-              cff3= Q10Jele ** ((Temp(i,k)-Q10JelTe) / 10.0_r8)
+              cff2 = eJel(ng) * Bio3d(i,k,iiJel) / (fJel(ng) + cff1)
+              cff3= Q10Jele(ng) ** ((Temp(i,k)-Q10JelTe(ng)) / 10.0_r8)
 
-              Gra_Cop_Jel(i,k)  = fpCopJel * Bio3d(i,k,iiCop)**2  * cff2 * cff3
-              Gra_NCaS_Jel(i,k) = fpNCaJel * Bio3d(i,k,iiNCaS)**2 * cff2 * cff3
-              Gra_NCaO_Jel(i,k) = fpNCaJel * Bio3d(i,k,iiNCaO)**2 * cff2 * cff3
-              Gra_EupS_Jel(i,k) = fpEupJel * Bio3d(i,k,iiEupS)**2 * cff2 * cff3
-              Gra_EupO_Jel(i,k) = fpEupJel * Bio3d(i,k,iiEupO)**2 * cff2 * cff3
+              Gra_Cop_Jel(i,k)  = fpCopJel(ng) * Bio3d(i,k,iiCop)**2  * cff2 * cff3
+              Gra_NCaS_Jel(i,k) = fpNCaJel(ng) * Bio3d(i,k,iiNCaS)**2 * cff2 * cff3
+              Gra_NCaO_Jel(i,k) = fpNCaJel(ng) * Bio3d(i,k,iiNCaO)**2 * cff2 * cff3
+              Gra_EupS_Jel(i,k) = fpEupJel(ng) * Bio3d(i,k,iiEupS)**2 * cff2 * cff3
+              Gra_EupO_Jel(i,k) = fpEupJel(ng) * Bio3d(i,k,iiEupO)**2 * cff2 * cff3
 
               ! Note: mentioned in Gibson & Spitz, 2011 that gammaJel can be >1 to allow
               ! for an outside food source.  However, GG's code doesn't
@@ -1819,7 +1819,7 @@
               ! we want to allow gammaJel>1, and if so, how should we
               ! handle egestion?
 
-              Ege_Jel_DetF(i,k) = (1.0_r8 - gammaJel) * cff1 * cff2 * cff3
+              Ege_Jel_DetF(i,k) = (1.0_r8 - gammaJel(ng)) * cff1 * cff2 * cff3
 
             END DO
           END DO
@@ -1881,16 +1881,16 @@
 
               ! Phytoplankton (linear senescence)
 
-              Mor_PhS_Det(i,k) = mPhS * Bio3d(i,k,iiPhS)
-              Mor_PhL_Det(i,k) = mPhL * Bio3d(i,k,iiPhL)
+              Mor_PhS_Det(i,k) = mPhS(ng) * Bio3d(i,k,iiPhS)
+              Mor_PhL_Det(i,k) = mPhL(ng) * Bio3d(i,k,iiPhL)
 
               ! Microzooplankton (quadratic mortality, with option for
               ! linear)
 
 #ifdef MZLM0LIN
-              Mor_MZL_Det(i,k) = mMZL*Bio3d(i,k,iiMZL)          ! linear
+              Mor_MZL_Det(i,k) = mMZL(ng)*Bio3d(i,k,iiMZL)          ! linear
 #else
-              Mor_MZL_Det(i,k) = mpredMZL*Bio3d(i,k,iiMZL)**2   ! quadratic
+              Mor_MZL_Det(i,k) = mpredMZL(ng)*Bio3d(i,k,iiMZL)**2   ! quadratic
 #endif
 
 #ifdef fixedPRED
@@ -1905,7 +1905,7 @@
               Mor_NCaO_DetF(i,k) = 0.5
               Mor_EupO_DetF(i,k) = 1.0
 #else
-              TFEup = Q10Eup ** ((Temp(i,k)-Q10EupT) / 10.0_r8)
+              TFEup = Q10Eup(ng) ** ((Temp(i,k)-Q10EupT(ng)) / 10.0_r8)
 # ifdef FEAST
               ! Mesozooplankton (quadratic predation closure).  FEAST
               ! predation only affects zooplankton within a specific
@@ -1915,24 +1915,24 @@
               ! this term does *not* include predation by FEAST fish yet;
               ! that loss term will be added in feast_step.h.
 
-              Mor_Cop_DetF(i,k)  = TFEup*(mpredCop + fpredCop  * GF%zoop_force(1,1,i,j,1))*Bio3d(i,k,iiCop)**2
-              Mor_NCaS_DetF(i,k) = TFEup*(mpredNca + fpredNcaS * GF%zoop_force(1,2,i,j,1))*Bio3d(i,k,iiNCaS)**2
-              Mor_EupS_DetF(i,k) = TFEup*(mpredEup + fpredEupS * GF%zoop_force(1,4,i,j,1))*Bio3d(i,k,iiEupS)**2
-              Mor_NCaO_DetF(i,k) = TFEup*(mpredNca + fpredNcaO * GF%zoop_force(1,3,i,j,1))*Bio3d(i,k,iiNCaO)**2
-              Mor_EupO_DetF(i,k) = TFEup*(mpredEup + fpredEupO * GF%zoop_force(1,5,i,j,1))*Bio3d(i,k,iiEupO)**2
+              Mor_Cop_DetF(i,k)  = TFEup*(mpredCop(ng) + fpredCop  * GF%zoop_force(1,1,i,j,1))*Bio3d(i,k,iiCop)**2
+              Mor_NCaS_DetF(i,k) = TFEup*(mpredNca(ng) + fpredNcaS * GF%zoop_force(1,2,i,j,1))*Bio3d(i,k,iiNCaS)**2
+              Mor_EupS_DetF(i,k) = TFEup*(mpredEup(ng) + fpredEupS * GF%zoop_force(1,4,i,j,1))*Bio3d(i,k,iiEupS)**2
+              Mor_NCaO_DetF(i,k) = TFEup*(mpredNca(ng) + fpredNcaO * GF%zoop_force(1,3,i,j,1))*Bio3d(i,k,iiNCaO)**2
+              Mor_EupO_DetF(i,k) = TFEup*(mpredEup(ng) + fpredEupO * GF%zoop_force(1,5,i,j,1))*Bio3d(i,k,iiEupO)**2
 # else
               ! Mesozooplankton (quadratic predation closure)
-              Mor_Cop_DetF(i,k)  = TFEup*(mpredCop)*Bio3d(i,k,iiCop)**2
-              Mor_NCaS_DetF(i,k) = TFEup*(mpredNca)*Bio3d(i,k,iiNCaS)**2
-              Mor_EupS_DetF(i,k) = TFEup*(mpredEup)*Bio3d(i,k,iiEupS)**2
-              Mor_NCaO_DetF(i,k) = TFEup*(mpredNca)*Bio3d(i,k,iiNCaO)**2
-              Mor_EupO_DetF(i,k) = TFEup*(mpredEup)*Bio3d(i,k,iiEupO)**2
+              Mor_Cop_DetF(i,k)  = TFEup*(mpredCop(ng))*Bio3d(i,k,iiCop)**2
+              Mor_NCaS_DetF(i,k) = TFEup*(mpredNca(ng))*Bio3d(i,k,iiNCaS)**2
+              Mor_EupS_DetF(i,k) = TFEup*(mpredEup(ng))*Bio3d(i,k,iiEupS)**2
+              Mor_NCaO_DetF(i,k) = TFEup*(mpredNca(ng))*Bio3d(i,k,iiNCaO)**2
+              Mor_EupO_DetF(i,k) = TFEup*(mpredEup(ng))*Bio3d(i,k,iiEupO)**2
 # endif
 #endif
 
               ! Jellyfish (quadratic predation closure)
 
-              Mor_Jel_DetF(i,k) = mpredJel*Bio3d(i,k,iiJel)**2
+              Mor_Jel_DetF(i,k) = mpredJel(ng)*Bio3d(i,k,iiJel)**2
 
             END DO
           END DO
@@ -1960,24 +1960,24 @@
 
           ! Phytoplankton
 
-          Res_PhS_NH4 = exp(KtBm_PhS * (Temp - TmaxPhS)) * respPhS * Bio3d(:,:,iiPhS)
-          Res_PhL_NH4 = exp(KtBm_PhL * (Temp - TmaxPhL)) * respPhL * Bio3d(:,:,iiPhL)
+          Res_PhS_NH4 = exp(KtBm_PhS(ng) * (Temp - TmaxPhS(ng))) * respPhS(ng) * Bio3d(:,:,iiPhS)
+          Res_PhL_NH4 = exp(KtBm_PhL(ng) * (Temp - TmaxPhL(ng))) * respPhL(ng) * Bio3d(:,:,iiPhL)
 
           ! Microzooplankton
 
-          Res_MZL_NH4 = exp(KtBm_MZL * (Temp - TmaxMZL)) * respMZL * Bio3d(:,:,iiMZL)
+          Res_MZL_NH4 = exp(KtBm_MZL(ng) * (Temp - TmaxMZL(ng))) * respMZL(ng) * Bio3d(:,:,iiMZL)
 
           ! Mesozooplankton (BasMetXXX is respXXX w/ starvation response)
 
-          Res_Cop_NH4  = exp(ktbmC * (Temp - TrefC)) * BasMetCop * Bio3d(:,:,iiCop)
-          Res_NCaS_NH4 = exp(ktbmN * (Temp - TrefN)) * BasMetCM  * Bio3d(:,:,iiNCaS)
-          Res_NCaO_NH4 = exp(ktbmN * (Temp - TrefN)) * BasMetNC  * Bio3d(:,:,iiNCaO)
-          Res_EupS_NH4 = exp(ktbmE * (Temp - TrefE)) * BasMetEup * Bio3d(:,:,iiEupS)
-          Res_EupO_NH4 = exp(ktbmE * (Temp - TrefE)) * BasMetEup * Bio3d(:,:,iiEupO)
+          Res_Cop_NH4  = exp(ktbmC(ng) * (Temp - TrefC(ng))) * BasMetCop * Bio3d(:,:,iiCop)
+          Res_NCaS_NH4 = exp(ktbmN(ng) * (Temp - TrefN(ng))) * BasMetCM  * Bio3d(:,:,iiNCaS)
+          Res_NCaO_NH4 = exp(ktbmN(ng) * (Temp - TrefN(ng))) * BasMetNC  * Bio3d(:,:,iiNCaO)
+          Res_EupS_NH4 = exp(ktbmE(ng) * (Temp - TrefE(ng))) * BasMetEup * Bio3d(:,:,iiEupS)
+          Res_EupO_NH4 = exp(ktbmE(ng) * (Temp - TrefE(ng))) * BasMetEup * Bio3d(:,:,iiEupO)
 
           ! Jellyfish (Uye & Shimauchi, 2005, J. Plankton Res. 27 (3))
 
-          Res_Jel_NH4 = Q10Jelr ** ((Temp-Q10JelTr)/10.0_r8) * respJel * Bio3d(:,:,iiJel)
+          Res_Jel_NH4 = Q10Jelr(ng) ** ((Temp-Q10JelTr(ng))/10.0_r8) * respJel(ng) * Bio3d(:,:,iiJel)
 
           ! Convert respiration fluxes from volumetric to integrated over
           ! layer
@@ -2006,21 +2006,21 @@
 
               ! Detrital remineralization
 
-              PON = Bio3d(i,k,iiDet)*xi  ! Particulate organic nitrogen in Det, mmol N m^-3
-              Rem_Det_NH4(i,k) = (Pv0 * exp(PvT*Temp(i,k)) * PON) ! mmol N m^-3 d^-1
+              PON = Bio3d(i,k,iiDet)*xi(ng)  ! Particulate organic nitrogen in Det, mmol N m^-3
+              Rem_Det_NH4(i,k) = (Pv0(ng) * exp(PvT(ng)*Temp(i,k)) * PON) ! mmol N m^-3 d^-1
 
-              PON = Bio3d(i,k,iiDetF)*xi  ! Particulate organic nitrogen in DetF
-              Rem_DetF_NH4(i,k) = (Pv0 * exp(PvT*Temp(i,k)) * PON) ! mmol N m^-3 d^-1
+              PON = Bio3d(i,k,iiDetF)*xi(ng)  ! Particulate organic nitrogen in DetF
+              Rem_DetF_NH4(i,k) = (Pv0(ng) * exp(PvT(ng)*Temp(i,k)) * PON) ! mmol N m^-3 d^-1
 
               ! Nitrification
 
-              NitrifMax = Nitr0 * exp(-ktntr*(Temp(i,k) - ToptNtr)**2)     ! Arhonditsis 2005 temperature dependence
+              NitrifMax = Nitr0(ng) * exp(-ktntr(ng)*(Temp(i,k) - ToptNtr(ng))**2)     ! Arhonditsis 2005 temperature dependence
 
               ParW = PAR(i,k) ! convert to W m^-2
               DLNitrif = (1 - MAX(0.0_r8, (ParW - tI0)/(KI + ParW - tI0))) ! Fennel light dependence
               DLNitrif = 1.0_r8  ! No light/depth dependence (overrides previous line)
 
-              cff1 = Bio3d(i,k,iiNH4)/(KNH4Nit + Bio3d(i,k,iiNH4))         ! Arhonditsis saturation
+              cff1 = Bio3d(i,k,iiNH4)/(KNH4Nit(ng) + Bio3d(i,k,iiNH4))         ! Arhonditsis saturation
 
               Nit_NH4_NO3(i,k) = NitrifMax * Bio3d(i,k,iiNH4) * DLNitrif * cff1 !  mmol N m^-3 d^-1
 
@@ -2032,9 +2032,9 @@
 
           DO k=1,N(ng)
             DO i=Istr,Iend
-              Rem_Det_NH4(i,k)  = Rem_Det_NH4(i,k)  * Hz(i,j,k)/xi
-              Rem_DetF_NH4(i,k) = Rem_DetF_NH4(i,k) * Hz(i,j,k)/xi
-              Nit_NH4_NO3(i,k)  = Nit_NH4_NO3(i,k)  * Hz(i,j,k)/xi
+              Rem_Det_NH4(i,k)  = Rem_Det_NH4(i,k)  * Hz(i,j,k)/xi(ng)
+              Rem_DetF_NH4(i,k) = Rem_DetF_NH4(i,k) * Hz(i,j,k)/xi(ng)
+              Nit_NH4_NO3(i,k)  = Nit_NH4_NO3(i,k)  * Hz(i,j,k)/xi(ng)
             END DO
           END DO
 
@@ -2097,21 +2097,21 @@
 
             ! Potential food available from water column
 
-            cff1 = (prefD *totD /((prefD *totD )+LupP))*prefD *totD
-            cff2 = (prefD *totDF/((prefD *totDF)+LupP))*prefD *totDF
-            cff3 = (prefPS*totPS/((prefPS*totPS)+LupP))*prefPS*totPS
-            cff4 = (prefPL*totPL/((prefPL*totPL)+LupP))*prefPL*totPL
+            cff1 = (prefD(ng) *totD /((prefD(ng) *totD )+LupP(ng)))*prefD(ng) *totD
+            cff2 = (prefD(ng) *totDF/((prefD(ng) *totDF)+LupP(ng)))*prefD(ng) *totDF
+            cff3 = (prefPS(ng)*totPS/((prefPS(ng)*totPS)+LupP(ng)))*prefPS(ng)*totPS
+            cff4 = (prefPL(ng)*totPL/((prefPL(ng)*totPL)+LupP(ng)))*prefPL(ng)*totPL
 
             cff6 = cff1+cff2+cff3+cff4 ! Total pelagic food
 
             ! Potential food available from  sea floor
 
             totBD = Bio2d(i,1,iiDetBen)
-            cff5 = (prefD *totBD/((prefD *totBD)+LupD))*prefD *totBD
+            cff5 = (prefD(ng) *totBD/((prefD(ng) *totBD)+LupD(ng)))*prefD(ng) *totBD
 
             ! Temperature mediation (for feeding and mortality)
 
-            cff0 = q10r**((Temp(i,1)-T0benr)/10.0_r8)
+            cff0 = q10r(ng)**((Temp(i,1)-T0benr(ng))/10.0_r8)
 
             ! Total uptake of each food category
             ! TODO: Unit mismatch in the part... cff1 is mC/m^2 and
@@ -2127,11 +2127,11 @@
 !             cff10 = min(cff4,(cff0*cff4*Bio2d(i,1,iiBen)*Rup/(cff6+KupP))) ! PL
 !             cff11 = min(cff5,(cff0*cff5*Bio2d(i,1,iiBen)*Rup/(cff5+KupD))) ! DetBen
 
-            cff7  = cff0*cff1*Bio2d(i,1,iiBen)*Rup/(cff6+KupP) ! D
-            cff8  = cff0*cff2*Bio2d(i,1,iiBen)*Rup/(cff6+KupP) ! DF
-            cff9  = cff0*cff3*Bio2d(i,1,iiBen)*Rup/(cff6+KupP) ! PS
-            cff10 = cff0*cff4*Bio2d(i,1,iiBen)*Rup/(cff6+KupP) ! PL
-            cff11 = cff0*cff5*Bio2d(i,1,iiBen)*Rup/(cff5+KupD) ! DetBen
+            cff7  = cff0*cff1*Bio2d(i,1,iiBen)*Rup(ng)/(cff6+KupP(ng)) ! D
+            cff8  = cff0*cff2*Bio2d(i,1,iiBen)*Rup(ng)/(cff6+KupP(ng)) ! DF
+            cff9  = cff0*cff3*Bio2d(i,1,iiBen)*Rup(ng)/(cff6+KupP(ng)) ! PS
+            cff10 = cff0*cff4*Bio2d(i,1,iiBen)*Rup(ng)/(cff6+KupP(ng)) ! PL
+            cff11 = cff0*cff5*Bio2d(i,1,iiBen)*Rup(ng)/(cff5+KupD(ng)) ! DetBen
 
             ! Distribute pelagic feeding losses to appropriate water
             ! column layers
@@ -2153,31 +2153,31 @@
             ! Assume all excretion occurs in the bottom layer too.  Half
             ! goes to NH4 and half to DetBen
 
-            Exc_Ben_DetBen(i,1) = (eexD * (cff7 + cff8 + cff11) +       &
-     &                             eex  * (cff9 + cff10)) * 0.5_r8
+            Exc_Ben_DetBen(i,1) = (eexD(ng) * (cff7 + cff8 + cff11) +       &
+     &                             eex(ng)  * (cff9 + cff10)) * 0.5_r8
             Exc_Ben_NH4(i,1) = Exc_Ben_DetBen(i,1)
 
             ! Respiration (also takes place in bottom layer)
 
-            cff3 = cff0 * Bio2d(i,1,iiBen) * Rres
-            cff4 = ((1_r8 - eexD) * (cff7 + cff8 + cff11) +             &
-     &              (1_r8 - eex)  * (cff9 + cff10)) * Qres
+            cff3 = cff0 * Bio2d(i,1,iiBen) * Rres(ng)
+            cff4 = ((1_r8 - eexD(ng)) * (cff7 + cff8 + cff11) +             &
+     &              (1_r8 - eex(ng))  * (cff9 + cff10)) * Qres(ng)
 
             Res_Ben_NH4(i,1) = cff3 + cff4 ! mg C m^-2 d^-1
 
             ! Mortality (linear senescence and quadratic predation closure)
 
-            Mor_Ben_DetBen(i,1) = cff0*rmort  *Bio2d(i,1,iiBen) +         &
-     &                            cff0*BenPred*Bio2d(i,1,iiBen)**2  ! mg C m^-2 d^-1
+            Mor_Ben_DetBen(i,1) = cff0*rmort(ng)  *Bio2d(i,1,iiBen) +         &
+     &                            cff0*BenPred(ng)*Bio2d(i,1,iiBen)**2  ! mg C m^-2 d^-1
 
             ! Benthic remineralization: assumes only the top 25% is
             ! available to remineralize to NH4 (in bottom layer) 
             ! (Kawamiya et al., 2000, J. Mar. Syst., v25(2))
 
-            PON = Bio3d(i,1,iiDetBen)*0.25*xi  ! Benthic Particulate organic nitrogen
-            cff1 = Pv0*exp(PvT*Temp(i,1))*PON  ! mmol N m^-3 d^-1
+            PON = Bio3d(i,1,iiDetBen)*0.25*xi(ng)  ! Benthic Particulate organic nitrogen
+            cff1 = Pv0(ng)*exp(PvT(ng)*Temp(i,1))*PON  ! mmol N m^-3 d^-1
 
-            Rem_DetBen_NH4(i,1) = cff1*Hz(i,j,1)/xi ! mg C m^-2 d^-1
+            Rem_DetBen_NH4(i,1) = cff1*Hz(i,j,1)/xi(ng) ! mg C m^-2 d^-1
 
           END DO
 #endif
@@ -2198,12 +2198,12 @@
               Temp1 = Temp(i,N(ng)) ! Assume temperature of top layer = temp ice skeletal layer
               Par1  = PARs(i)  ! surface light, W m^-2
 
-              aiceIfrac = (1-exp(-alphaIb*Par1))*exp(-betaI*Par1) ! light limitation
+              aiceIfrac = (1-exp(-alphaIb(ng)*Par1))*exp(-betaI(ng)*Par1) ! light limitation
 
-              cff1 = Bio3d(i,N(ng),iiIceNO3)/(ksnut1 + Bio3d(i,N(ng),iiIceNO3)) ! NO3 limitation
-              cff2 = Bio3d(i,N(ng),iiIceNH4)/(ksnut2 + Bio3d(i,N(ng),iiIceNH4)) ! NH4 limitation
-              aiceNfrac = cff1*exp(-inhib*Bio3d(i,N(ng),iiIceNH4)) + cff2       ! N limitation
-              fNO3      = cff1*exp(-inhib*Bio3d(i,N(ng),iiIceNH4))/aiceNfrac    ! f-ratio
+              cff1 = Bio3d(i,N(ng),iiIceNO3)/(ksnut1(ng) + Bio3d(i,N(ng),iiIceNO3)) ! NO3 limitation
+              cff2 = Bio3d(i,N(ng),iiIceNH4)/(ksnut2(ng) + Bio3d(i,N(ng),iiIceNH4)) ! NH4 limitation
+              aiceNfrac = cff1*exp(-inhib(ng)*Bio3d(i,N(ng),iiIceNH4)) + cff2       ! N limitation
+              fNO3      = cff1*exp(-inhib(ng)*Bio3d(i,N(ng),iiIceNH4))/aiceNfrac    ! f-ratio
               if (fNO3 /= fNO3) then ! catch NaN if aiceNfrac=0
                 fNO3 = 0
               end if
@@ -2255,27 +2255,27 @@
 
               ! Ice algae production
 
-              grow1 = mu0*exp(0.0633*Temp1)
+              grow1 = mu0(ng)*exp(0.0633*Temp1)
               GROWAice=grow1 * min(aiceNfrac,aiceIfrac) * gesi
 
-              Gpp_INO3_IPhL(i,N(ng)) = (GrowAice * Bio3d(i,N(ng),iiIcePhL) *    fNO3 )*aidz ! mg C m^-2 d^-1
-              Gpp_INH4_IPhL(i,N(ng)) = (GrowAice * Bio3d(i,N(ng),iiIcePhL) * (1-fNO3))*aidz ! mg C m^-2 d^-1
+              Gpp_INO3_IPhL(i,N(ng)) = (GrowAice * Bio3d(i,N(ng),iiIcePhL) *    fNO3 )*aidz(ng) ! mg C m^-2 d^-1
+              Gpp_INH4_IPhL(i,N(ng)) = (GrowAice * Bio3d(i,N(ng),iiIcePhL) * (1-fNO3))*aidz(ng) ! mg C m^-2 d^-1
 
               ! Ice algae respiration
 
-              RAi0 = R0i*mu0*exp(0.0633*Temp1)
+              RAi0 = R0i(ng)*mu0(ng)*exp(0.0633*Temp1)
 
-              Res_IPhL_INH4(i,N(ng)) = (RAi0 * Bio3d(i,N(ng),iiIcePhL))*aidz ! mg C m^-2 d^-1
+              Res_IPhL_INH4(i,N(ng)) = (RAi0 * Bio3d(i,N(ng),iiIcePhL))*aidz(ng) ! mg C m^-2 d^-1
 
               ! Ice algae mortality
 
-              RgAi = rg0*exp(rg*Temp1)
+              RgAi = rg0(ng)*exp(rg(ng)*Temp1)
 
-              Mor_IPhL_INH4(i,N(ng)) = (Bio3d(i,N(ng),iiIcePhL)*RgAi)*aidz ! mg C m^-2 d^-1
+              Mor_IPhL_INH4(i,N(ng)) = (Bio3d(i,N(ng),iiIcePhL)*RgAi)*aidz(ng) ! mg C m^-2 d^-1
 
               ! Nitrification
 
-              Nit_INH4_INO3(i,N(ng)) = (annit*Bio3d(i,N(ng),iiIceNH4)/xi)*aidz ! mg C m^-2 d^-1
+              Nit_INH4_INO3(i,N(ng)) = (annit(ng)*Bio3d(i,N(ng),iiIceNH4)/xi(ng))*aidz(ng) ! mg C m^-2 d^-1
 
               ! Ice/water convective exchange covers transfer of algae,
               ! NO3, and NH4 between the ice and surface water based on
@@ -2313,12 +2313,12 @@
               ! ice-to-water as the naming convention for this flux, but
               ! it may be negative, implying the reverse direction.
 
-              Twi_INO3_NO3(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNO3) - Bio3d(i,N(ng),iiNO3))/xi ! mg C m^-2 d^-1
-              Twi_INH4_NH4(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNH4) - Bio3d(i,N(ng),iiNH4))/xi ! mg C m^-2 d^-1
+              Twi_INO3_NO3(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNO3) - Bio3d(i,N(ng),iiNO3))/xi(ng) ! mg C m^-2 d^-1
+              Twi_INH4_NH4(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNH4) - Bio3d(i,N(ng),iiNH4))/xi(ng) ! mg C m^-2 d^-1
 
 #ifdef CARBON
               Frz_TIC(i,N(ng)) = dhicedt*86400.0_r8*1650.0_r8*12.0_r8  ! convert to mg C for consistency w/ bio loop
-              Frz_TAlk(i,N(ng)) = dhicedt*86400.0_r8*1600.0_r8/xi  ! convert to mg C for consistency w/ bio loop 
+              Frz_TAlk(i,N(ng)) = dhicedt*86400.0_r8*1600.0_r8/xi(ng)  ! convert to mg C for consistency w/ bio loop 
 #endif
 
             endif
@@ -2332,7 +2332,7 @@
           DBio(:,:,iiNO3   ) = (Nit_NH4_NO3                             &
      &                       +  Twi_INO3_NO3                            &
      &                       -  Gpp_NO3_PhS                             &
-     &                       -  Gpp_NO3_PhL)*xi*dtdays ! NO3: mmolN m^-2
+     &                       -  Gpp_NO3_PhL)*xi(ng)*dtdays ! NO3: mmolN m^-2
 
           DBio(:,:,iiNH4   ) = (Res_PhS_NH4                             &
      &                       +  Res_PhL_NH4                             &
@@ -2351,7 +2351,7 @@
      &                       +  Twi_INH4_NH4                            &
      &                       -  Gpp_NH4_PhS                             &
      &                       -  Gpp_NH4_PhL                             &
-     &                       -  Nit_NH4_NO3)*xi*dtdays ! NH4: mmol N m^-2
+     &                       -  Nit_NH4_NO3)*xi(ng)*dtdays ! NH4: mmol N m^-2
 
           DBio(:,:,iiPhS   ) = (Gpp_NO3_PhS                             &
      &                       +  Gpp_NH4_PhS                             &
@@ -2479,7 +2479,7 @@
 
           DBio(:,:,iiFe    )  = (                                       &
      &                        -  Gpp_NO3_PhS                            &
-     &                        -  Gpp_NO3_PhL)*FeC*dtdays ! Fe: umol Fe m^-2
+     &                        -  Gpp_NO3_PhL)*FeC(ng)*dtdays ! Fe: umol Fe m^-2
 
           DBio(:,:,iiBen   )  = (Gra_Det_Ben                            &
      &                        +  Gra_DetF_Ben                           &
@@ -2509,13 +2509,13 @@
 
           DBio(:,:,iiIceNO3)  = (Nit_INH4_INO3                          &
      &                        -  Gpp_INO3_IPhL                          &
-     &                        -  Twi_INO3_NO3)*xi*dtdays ! IceNO3: mmol N m^-2
+     &                        -  Twi_INO3_NO3)*xi(ng)*dtdays ! IceNO3: mmol N m^-2
 
           DBio(:,:,iiIceNH4)  = (Res_IPhL_INH4                          &
      &                        +  Mor_IPhL_INH4                          &
      &                        -  Gpp_INH4_IPhL                          &
      &                        -  Nit_INH4_INO3                          &
-     &                        -  Twi_INH4_NH4)*xi*dtdays ! IceNH4: mmol N m^-2
+     &                        -  Twi_INH4_NH4)*xi(ng)*dtdays ! IceNH4: mmol N m^-2
 
 
           ! Net production rates (for diagnostics)
@@ -2668,14 +2668,15 @@
      &                       -  (2.0_r8*Nit_INH4_INO3)                  &
      &                       -  Gpp_NH4_PhS                             &
      &                       -  Gpp_NH4_PhL                             &
-     &                       -  Gpp_INH4_IPhL)*xi*dtdays !NO3:mmolN m^-2
+     &                       -  Gpp_INH4_IPhL)*xi(ng)*dtdays !NO3:mmolN m^-2
 
 #endif
 
+! TODO: KK: what's up with the units here?
 #ifdef OXYGEN
           DBio(:,:,iiOxyg   ) = ((Gpp_NO3_PhS                           &
      &                       +  Gpp_NO3_PhL                             &
-     &                       +  Gpp_INO3_IPhL)*xi*rOxNO3*dtdays)        &
+     &                       +  Gpp_INO3_IPhL)*xi(ng)*rOxNO3*dtdays)    &
      &                       +  ((Gpp_NH4_PhS                           &
      &                       +  Gpp_NH4_PhL                             &
      &                       +  Gpp_INH4_IPhL                           &
@@ -2694,9 +2695,9 @@
      &                       -  Res_Ben_NH4                             &
      &                       -  Rem_DetBen_NH4                          &
      &                       -  Res_IPhL_INH4                           &
-     &                       -  Mor_IPhL_INH4)*xi*rOxNH4*dtdays)        &
-     &                       -  (2.0_r8*Nit_NH4_NO3*xi*dtdays)          &
-     &                       -  (2.0_r8*Nit_INH4_INO3*xi*dtdays)        
+     &                       -  Mor_IPhL_INH4)*xi(ng)*rOxNH4*dtdays)    &
+     &                       -  (2.0_r8*Nit_NH4_NO3*xi(ng)*dtdays)      &
+     &                       -  (2.0_r8*Nit_INH4_INO3*xi(ng)*dtdays)
 
 #endif
           ! Add DBio terms to existing biomass
@@ -2735,7 +2736,7 @@
                Bio3d(i,k,iiOxyg) = Bio2d(i,k,iiOxyg)/Hz(i,j,k)
 #endif
               DO itrc = 18,20 ! Ice
-                Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/aidz
+                Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/aidz(ng)
               END DO
             END DO
           END DO
@@ -2765,7 +2766,7 @@
 
           DO i=Istr,Iend
 
-            call BioVert(N(ng), -wPhS, Bio3d(i,:,iiPhS), dBtmp,         &
+            call BioVert(N(ng), -wPhS(ng), Bio3d(i,:,iiPhS), dBtmp,         &
      &                   Hz(i,j,:), dtdays, z_w(i,j,:),                 &
      &                   z_w(i,j,N(ng))+10, flxtmp)
             Bio3d(i,1:N(ng),iiPhS) = Bio3d(i,1:N(ng),iiPhS) + dBtmp(1,1:N(ng))
@@ -2781,7 +2782,7 @@
 
           DO i=Istr,Iend
 
-            call BioVert(N(ng), -wPhL, Bio3d(i,:,iiPhL), dBtmp,         &
+            call BioVert(N(ng), -wPhL(ng), Bio3d(i,:,iiPhL), dBtmp,         &
      &                   Hz(i,j,:), dtdays, z_w(i,j,:),                 &
      &                   z_w(i,j,N(ng))+10, flxtmp)
             Bio3d(i,1:N(ng),iiPhL) = Bio3d(i,1:N(ng),iiPhL) + dBtmp(1,1:N(ng))
@@ -2797,7 +2798,7 @@
 
           DO i=Istr,Iend
 
-            call BioVert(N(ng), -wDet, Bio3d(i,:,iiDet), dBtmp,         &
+            call BioVert(N(ng), -wDet(ng), Bio3d(i,:,iiDet), dBtmp,         &
      &                   Hz(i,j,:), dtdays, z_w(i,j,:),                 &
      &                   z_w(i,j,N(ng))+10, flxtmp)
             Bio3d(i,1:N(ng),iiDet) = Bio3d(i,1:N(ng),iiDet) + dBtmp(1,1:N(ng))
@@ -2813,7 +2814,7 @@
 
           DO i=Istr,Iend
 
-            call BioVert(N(ng), -wDetF, Bio3d(i,:,iiDetF), dBtmp,       &
+            call BioVert(N(ng), -wDetF(ng), Bio3d(i,:,iiDetF), dBtmp,       &
      &                   Hz(i,j,:), dtdays, z_w(i,j,:),                 &
      &                   z_w(i,j,N(ng))+10, flxtmp)
             Bio3d(i,1:N(ng),iiDetF) = Bio3d(i,1:N(ng),iiDetF) + dBtmp(1,1:N(ng))
@@ -3263,7 +3264,7 @@
               DiaBio3d(i,j,k,itotrem)  = total_remin(i,k)
 # ifdef CARBON
               DiaBio3d(i,j,k,iflx_Frz_TIC) = Frz_TIC(i,k)/12.0_r8
-              DiaBio3d(i,j,k,iflx_Frz_Alk) = Frz_TAlk(i,k)*xi
+              DiaBio3d(i,j,k,iflx_Frz_Alk) = Frz_TAlk(i,k)*xi(ng)
 # endif
 
             END DO
@@ -3402,9 +3403,9 @@
 # if defined CLIM_ICE_1D
 
         DO i=Istr,Iend
-          it(i,j,nnew,iIceNO3) = it(i,j,nnew,iIceNO3) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz
-          it(i,j,nnew,iIceNH4) = it(i,j,nnew,iIceNH4) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz
-          it(i,j,nnew,iIcePhL) = it(i,j,nnew,iIcePhL) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz
+          it(i,j,nnew,iIceNO3) = it(i,j,nnew,iIceNO3) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
+          it(i,j,nnew,iIceNH4) = it(i,j,nnew,iIceNH4) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
+          it(i,j,nnew,iIcePhL) = it(i,j,nnew,iIcePhL) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
 
           itL(i,j,nnew,iIceLog) = itL(i,j,nstp,iIceLog)
 
@@ -3417,9 +3418,9 @@
         END DO
 # else
         DO i=Istr,Iend
-          IceNO3(i,j,nnew) = IceNO3(i,j,nstp) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz
-          IceNH4(i,j,nnew) = IceNH4(i,j,nstp) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz
-          IcePhL(i,j,nnew) = IcePhL(i,j,nstp) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz
+          IceNO3(i,j,nnew) = IceNO3(i,j,nstp) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
+          IceNH4(i,j,nnew) = IceNH4(i,j,nstp) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
+          IcePhL(i,j,nnew) = IcePhL(i,j,nstp) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
           ! IceLog is already updated, from ice_limit.F
 
 !           IceLog(i,j,nnew) = IceLog(i,j,nstp) ! TODO: Current step value now in both positions... doublecheck that this is correct (real update happens in ice_limit.F))
