@@ -172,7 +172,8 @@
 !   rg          IcePhL temperature coefficient for mortality (1/deg C) !
 !   annit       IcePhL nitrification factor (1/d)                      !
 !   aidz        Ice thickness (m)                                      !
-!                                                                      !
+!   tI0         Nitrification light threshold [W m^-2]                 !
+!   KI          Nitrification light half-saturation constant [W m^-2]  !
 !=======================================================================
 !
       USE mod_param
@@ -567,6 +568,8 @@
       real(r8), allocatable :: rg(:)
       real(r8), allocatable :: annit(:)
       real(r8), allocatable :: aidz(:)
+      real(r8), allocatable :: tI0(:)
+      real(r8), allocatable :: KI(:)
 #endif
 
       CONTAINS
@@ -1227,6 +1230,14 @@
       END IF
       IF (.not.allocated(aidz)) THEN
         allocate ( aidz(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(tI0)) THEN
+        allocate ( tI0(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(KI)) THEN
+        allocate ( KI(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
 !

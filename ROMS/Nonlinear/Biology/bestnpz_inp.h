@@ -410,6 +410,10 @@
               Npts=load_r(Nval, Rval, Ngrids, annit)
             CASE ('aidz')
               Npts=load_r(Nval, Rval, Ngrids, aidz)
+            CASE ('tI0')
+              Npts=load_r(Nval, Rval, Ngrids, tI0)
+            CASE ('KI')
+              Npts=load_r(Nval, Rval, Ngrids, KI)
 #endif
             CASE ('TNU2')
               Npts=load_r(Nval, Rval, NBT, Ngrids, Rbio)
@@ -2893,6 +2897,11 @@
      &            'IcePhL nitrification factor (1/d)'
             WRITE (out,80) aidz(ng), 'aidz',                            &
      &            'Ice thickness (m)'
+           WRITE (out,80) tI0(ng), 'tI0',                               &
+    &            'Nitrification light threshold (W m^-2])'
+           WRITE (out,80) KI(ng), 'KI',                                 &
+    &            'Nitrification light half-saturation constant (W m^-2)'
+     
 #endif
 #ifdef TS_DIF2
             DO itrc=1,NBT
