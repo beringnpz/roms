@@ -1469,7 +1469,8 @@
       io2flx=3
 # endif
 
-    CONTAINS
+      RETURN
+      END SUBROUTINE initialize_biology
   
       ! CalcLinearCapped: Simple helper function to build profiles that are linear 
       ! between two points and capped beyond those points
@@ -1483,5 +1484,4 @@
         CalcLinearCapped = max(ymin,min(ymax,((y2-y1)/(x2-x1))*(x-x1)+y1))
       END FUNCTION CalcLinearCapped
 
-      RETURN
-      END SUBROUTINE initialize_biology
+
