@@ -222,24 +222,24 @@
 #if defined FEAST
       USE mod_feast
 #endif
-#if defined BERING_10K
-
-# if defined ICE_BIO
-#  ifdef BERING_10K
-#   ifndef MATLABCOMPILE
-      USE mod_ice
-      USE IcePhLbc_mod, ONLY : IcePhLbc_tile
-      USE IceNO3bc_mod, ONLY : IceNO3bc_tile
-      USE IceNH4bc_mod, ONLY : IceNH4bc_tile
-#   endif
-#  endif
-# endif
-
-# ifdef DISTRIBUTE
-      USE mp_exchange_mod
-# endif
-
-#endif
+! #if defined BERING_10K
+!
+! # if defined ICE_BIO
+! #  ifdef BERING_10K
+! #   ifndef MATLABCOMPILE
+!       USE mod_ice
+!       USE IcePhLbc_mod, ONLY : IcePhLbc_tile
+!       USE IceNO3bc_mod, ONLY : IceNO3bc_tile
+!       USE IceNH4bc_mod, ONLY : IceNH4bc_tile
+! #   endif
+! #  endif
+! # endif
+!
+! # ifdef DISTRIBUTE
+!       USE mp_exchange_mod
+! # endif
+!
+! #endif
 ! #if defined EW_PERIODIC || defined NS_PERIODIC
 !       USE exchange_3d_mod
 ! #endif
@@ -2017,7 +2017,7 @@
               NitrifMax = Nitr0(ng) * exp(-ktntr(ng)*(Temp(i,k) - ToptNtr(ng))**2)     ! Arhonditsis 2005 temperature dependence
 
               ParW = PAR(i,k) ! convert to W m^-2
-              DLNitrif = (1 - MAX(0.0_r8, (ParW - tI0)/(KI + ParW - tI0))) ! Fennel light dependence
+              DLNitrif = (1 - MAX(0.0_r8, (ParW - tI0(ng))/(KI(ng) + ParW - tI0))) ! Fennel light dependence
               DLNitrif = 1.0_r8  ! No light/depth dependence (overrides previous line)
 
               cff1 = Bio3d(i,k,iiNH4)/(KNH4Nit(ng) + Bio3d(i,k,iiNH4))         ! Arhonditsis saturation

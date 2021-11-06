@@ -2901,7 +2901,6 @@
     &            'Nitrification light threshold (W m^-2])'
            WRITE (out,80) KI(ng), 'KI',                                 &
     &            'Nitrification light half-saturation constant (W m^-2)'
-     
 #endif
 #ifdef TS_DIF2
             DO itrc=1,NBT
