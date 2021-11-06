@@ -2017,7 +2017,7 @@
               NitrifMax = Nitr0(ng) * exp(-ktntr(ng)*(Temp(i,k) - ToptNtr(ng))**2)     ! Arhonditsis 2005 temperature dependence
 
               ParW = PAR(i,k) ! convert to W m^-2
-              DLNitrif = (1 - MAX(0.0_r8, (ParW - tI0(ng))/(KI(ng) + ParW - tI0))) ! Fennel light dependence
+              DLNitrif = (1 - MAX(0.0_r8, (ParW - tI0(ng))/(KI(ng) + ParW - tI0(ng)))) ! Fennel light dependence
               DLNitrif = 1.0_r8  ! No light/depth dependence (overrides previous line)
 
               cff1 = Bio3d(i,k,iiNH4)/(KNH4Nit(ng) + Bio3d(i,k,iiNH4))         ! Arhonditsis saturation
