@@ -189,20 +189,47 @@
      &                liold, linew,                                     &
      &                ui, vi, hi, ti, enthalpi)
 # if defined ICE_BIO && defined BERING_10K
-FOOO
-! Need to change these over to i2d_bc_tile calls
-      CALL IcePhLbc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                liold, linew,                                     &
-     &                ui, vi, IcePhL)
-      CALL IceNO3bc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                liold, linew,                                     &
-     &                ui, vi, IceNO3)
-      CALL IceNH4bc_tile (ng, tile,                                     &
-     &                LBi, UBi, LBj, UBj,                               &
-     &                liold, linew,                                     &
-     &                ui, vi, IceNH4)
+      CALL i2d_bc_tile (ng, tile, iNLM,                                 &
+     &                  LBi, UBi, LBj, UBj,                             &
+     &                  IminS, ImaxS, JminS, JmaxS,                     &
+     &                  liold, linew,                                   &
+     &                  BOUNDARY(ng)%IcePhL_west(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IcePhL_east(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IcePhL_north(LBi:UBi),             &
+     &                  BOUNDARY(ng)%IcePhL_south(LBi:UBi),             &
+     &                  ui, vi, IcePhL, LBC(:,idIcePhL,ng))
+      CALL i2d_bc_tile (ng, tile, iNLM,                                 &
+     &                  LBi, UBi, LBj, UBj,                             &
+     &                  IminS, ImaxS, JminS, JmaxS,                     &
+     &                  liold, linew,                                   &
+     &                  BOUNDARY(ng)%IceNO3_west(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IceNO3_east(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IceNO3_north(LBi:UBi),             &
+     &                  BOUNDARY(ng)%IceNO3_south(LBi:UBi),             &
+     &                  ui, vi, IceNO3, LBC(:,idIceNO3,ng))
+      CALL i2d_bc_tile (ng, tile, iNLM,                                 &
+     &                  LBi, UBi, LBj, UBj,                             &
+     &                  IminS, ImaxS, JminS, JmaxS,                     &
+     &                  liold, linew,                                   &
+     &                  BOUNDARY(ng)%IceNH4_west(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IceNH4_east(LBj:UBj),              &
+     &                  BOUNDARY(ng)%IceNH4_north(LBi:UBi),             &
+     &                  BOUNDARY(ng)%IceNH4_south(LBi:UBi),             &
+     &                  ui, vi, IceNH4, LBC(:,idIceNH4,ng))
+! FOOO
+! ! Need to change these over to i2d_bc_tile calls
+!       CALL IcePhLbc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                liold, linew,                                     &
+!      &                ui, vi, IcePhL)
+!       CALL IceNO3bc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                liold, linew,                                     &
+!      &                ui, vi, IceNO3)
+!       CALL IceNH4bc_tile (ng, tile,                                     &
+!      &                LBi, UBi, LBj, UBj,                               &
+!      &                liold, linew,                                     &
+!      &                ui, vi, IceNH4)
 # endif
 
       IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
