@@ -248,6 +248,8 @@
       USE mod_clima
 #endif
 
+      USE dateclock_mod, ONLY : caldate
+
       implicit none
 
       !  Imported variable declarations.
@@ -303,7 +305,7 @@
       real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
       real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
       real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IceLog(LBi:,LBj:,:)
+      integer, intent(inout)  :: IceLog(LBi:,LBj:,:)
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
 #  endif
@@ -367,7 +369,7 @@
       real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
       real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
       real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
+      integer,  intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
 #  endif
