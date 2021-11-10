@@ -5828,7 +5828,7 @@
             END DO
           END DO
           IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
-            CALL exchange_r2d_tile (ng, tile,                           &
+            CALL exchange_r3d_tile (ng, tile,                           &
      &                              LBi, UBi, LBj, UBj, 1, NBL(ng),     &
      &                              AVERAGE(ng)%avgbt(:,:,:,itrc))
 #    ifdef DISTRIBUTE
