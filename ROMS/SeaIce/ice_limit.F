@@ -69,11 +69,11 @@
 !
       USE i2d_bc_mod, ONLY : i2d_bc_tile
       USE tibc_mod, ONLY : tibc_tile
-# if defined ICE_BIO && defined BERING_10K
-      USE IcePhLbc_mod, ONLY : IcePhLbc_tile
-      USE IceNO3bc_mod, ONLY : IceNO3bc_tile
-      USE IceNH4bc_mod, ONLY : IceNH4bc_tile
-# endif
+! # if defined ICE_BIO && defined BERING_10K
+!       USE IcePhLbc_mod, ONLY : IcePhLbc_tile
+!       USE IceNO3bc_mod, ONLY : IceNO3bc_tile
+!       USE IceNH4bc_mod, ONLY : IceNH4bc_tile
+! # endif
 !
       USE exchange_2d_mod, ONLY : exchange_r2d_tile
 # ifdef DISTRIBUTE
@@ -272,10 +272,10 @@
      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
      &                    IcePhL(:,:,linew), IceNO3(:,:,linew),         &
      &                    IceNH4(:,:,linew))
-!     CALL mp_exchange2d (ng, tile, iNLM, 1,                            &
-!    &                    LBi, UBi, LBj, UBj,                           &
+      CALL mp_exchange2d (ng, tile, iNLM, 1,                            &
+     &                    LBi, UBi, LBj, UBj,                           &
      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-!    &                    IceLog(:,:,linew))
+     &                    IceLog(:,:,linew))
 #  endif
 # endif
       RETURN

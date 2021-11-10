@@ -1163,6 +1163,9 @@
 # endif
 # ifdef ICE_MODEL
       nLBCvar=nLBCvar+9
+#  if defined ICE_BIO && defined BEST_NPZ
+      nLBCvar=nLBCvar+3
+#  endif
 # endif
 #else
       nLBCvar=3

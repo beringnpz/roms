@@ -681,6 +681,11 @@
         integer  :: isSig11                   ! ice 11-stress
         integer  :: isSig12                   ! ice 12-stress
         integer  :: isSig22                   ! ice 22-stress
+# if defined ICE_BIO && defined BEST_NPZ
+        integer  :: isIcePhL
+        integer  :: isIceNO3
+        integer  :: isIceNH4
+# endif
 #endif
 !
 !  Input boundary NetCDF files IDs.
@@ -1322,6 +1327,12 @@
       isSig12=ic+8
       isSig22=ic+9
       ic=ic+9
+# if defined ICE_BIO && defined BEST_NPZ
+      isIcePhL = ic+1
+      isIceNO3 = ic+2
+      isIceNH4 = ic+3
+      ic=ic+3
+# endif
 #endif
       isWvel=ic+1
 !
@@ -3398,6 +3409,11 @@
       idBvar(isSig11)=idSig11
       idBvar(isSig12)=idSig12
       idBvar(isSig22)=idSig22
+! #  if defined ICE_BIO && defined BEST_NPZ
+!       idBvar(isIcePhL)=idIcePhL
+!       idBvar(isIceNO3)=idIceNO3
+!       idBvar(isIceNH4)=idIceNH4
+! #  endif
 # endif
 #endif
 !
