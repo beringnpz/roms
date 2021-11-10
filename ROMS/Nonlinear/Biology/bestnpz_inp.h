@@ -3243,6 +3243,9 @@
               END DO
             END IF
 #endif
+          END IF
+        END DO
+      END IF
 !
 !-----------------------------------------------------------------------
 !  Rescale biological tracer parameters.
