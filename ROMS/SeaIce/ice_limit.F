@@ -152,7 +152,7 @@
 !             IceLog(i,j,linew) = -1
 !           ELSE
 !             IceLog(i,j,linew) = 1  !min(IceLog(i,j,linew),1)
-          END IF
+!           END IF
         END DO
       END DO
 # endif
