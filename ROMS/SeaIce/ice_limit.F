@@ -36,7 +36,7 @@
      &                     ICE(ng) % IcePhL,                            &
      &                     ICE(ng) % IceNO3,                            &
      &                     ICE(ng) % IceNH4,                            &
-     &                     ICE(ng) % IceLog,                            &
+!      &                     ICE(ng) % IceLog,                            &
 # endif
      &                     ICE(ng) % ui,                                &
      &                     ICE(ng) % vi,                                &
@@ -56,7 +56,7 @@
      &                        IminS, ImaxS, JminS, JmaxS,               &
      &                        liold, linew,                             &
 # if defined ICE_BIO && defined BERING_10K
-     &                        IcePhL,IceNO3,IceNH4,IceLog,              &
+     &                        IcePhL,IceNO3,IceNH4,                     &
 # endif
 
      &                        ui, vi, ai, hi, hsn, ti, enthalpi)
@@ -94,7 +94,7 @@
       real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
       real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
       real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
-      integer, intent(inout) :: IceLog(LBi:,LBj:,:)
+!       integer, intent(inout) :: IceLog(LBi:,LBj:,:)
 #  endif
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
@@ -108,7 +108,7 @@
       real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
       real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
       real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
-      integer, intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
+!       integer, intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
 #  endif
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
@@ -148,10 +148,10 @@
           IceNO3(i,j,linew) = MAX(IceNO3(i,j,linew),0.0_r8)
           IceNH4(i,j,linew) = MAX(IceNH4(i,j,linew),0.0_r8)
 
-          IF (hi(i,j,linew).le. 0.02.or.ai(i,j,linew).le.0.5) THEN
-            IceLog(i,j,linew) = -1
-          ELSE
-            IceLog(i,j,linew) = 1  !min(IceLog(i,j,linew),1)
+!           IF (hi(i,j,linew).le. 0.02.or.ai(i,j,linew).le.0.5) THEN
+!             IceLog(i,j,linew) = -1
+!           ELSE
+!             IceLog(i,j,linew) = 1  !min(IceLog(i,j,linew),1)
           END IF
         END DO
       END DO
@@ -197,7 +197,7 @@
      &                  BOUNDARY(ng)%IcePhL_east(LBj:UBj),              &
      &                  BOUNDARY(ng)%IcePhL_north(LBi:UBi),             &
      &                  BOUNDARY(ng)%IcePhL_south(LBi:UBi),             &
-     &                  ui, vi, IcePhL, LBC(:,idIcePhL,ng))
+     &                  ui, vi, IcePhL, LBC(:,isIcePhL,ng))
       CALL i2d_bc_tile (ng, tile, iNLM,                                 &
      &                  LBi, UBi, LBj, UBj,                             &
      &                  IminS, ImaxS, JminS, JmaxS,                     &
@@ -206,7 +206,7 @@
      &                  BOUNDARY(ng)%IceNO3_east(LBj:UBj),              &
      &                  BOUNDARY(ng)%IceNO3_north(LBi:UBi),             &
      &                  BOUNDARY(ng)%IceNO3_south(LBi:UBi),             &
-     &                  ui, vi, IceNO3, LBC(:,idIceNO3,ng))
+     &                  ui, vi, IceNO3, LBC(:,isIceNO3,ng))
       CALL i2d_bc_tile (ng, tile, iNLM,                                 &
      &                  LBi, UBi, LBj, UBj,                             &
      &                  IminS, ImaxS, JminS, JmaxS,                     &
@@ -215,7 +215,7 @@
      &                  BOUNDARY(ng)%IceNH4_east(LBj:UBj),              &
      &                  BOUNDARY(ng)%IceNH4_north(LBi:UBi),             &
      &                  BOUNDARY(ng)%IceNH4_south(LBi:UBi),             &
-     &                  ui, vi, IceNH4, LBC(:,idIceNH4,ng))
+     &                  ui, vi, IceNH4, LBC(:,isIceNH4,ng))
 ! FOOO
 ! ! Need to change these over to i2d_bc_tile calls
 !       CALL IcePhLbc_tile (ng, tile,                                     &
@@ -255,9 +255,9 @@
         CALL exchange_r2d_tile (ng, tile,                                 &
      &                            LBi, UBi, LBj, UBj,                     &
      &                            IceNH4(:,:,linew))
-        CALL exchange_r2d_tile (ng, tile,                                 &
-     &                            LBi, UBi, LBj, UBj,                     &
-     &                            IceLog(:,:,linew))
+!         CALL exchange_r2d_tile (ng, tile,                                 &
+!      &                            LBi, UBi, LBj, UBj,                     &
+!      &                            IceLog(:,:,linew))
 # endif
       END IF
 # ifdef DISTRIBUTE
@@ -272,10 +272,10 @@
      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
      &                    IcePhL(:,:,linew), IceNO3(:,:,linew),         &
      &                    IceNH4(:,:,linew))
-      CALL mp_exchange2d (ng, tile, iNLM, 1,                            &
-     &                    LBi, UBi, LBj, UBj,                           &
-     &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-     &                    IceLog(:,:,linew))
+!       CALL mp_exchange2d (ng, tile, iNLM, 1,                            &
+!      &                    LBi, UBi, LBj, UBj,                           &
+!      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
+!      &                    IceLog(:,:,linew))
 #  endif
 # endif
       RETURN
