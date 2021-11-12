@@ -1501,11 +1501,10 @@
       END DO
 #  endif
 
+#  ifdef PROD2
 !--------------------------------------
 !  Write out 2D production array
 !--------------------------------------
-
-#  ifdef PROD2
       DO itrc=1,NPT2(ng)
         IF (Hout(idPT2var(itrc),ng)) THEN
           scale=1.0_r8
@@ -1536,11 +1535,10 @@
         END IF
       END DO
 #  endif
+#  ifdef PROD3
 !--------------------------------------
 !  Write out 3D production array
 !--------------------------------------
-
-#  ifdef PROD3
       DO itrc=1,NPT3(ng)
         IF (Hout(idPT3var(itrc),ng)) THEN
           scale=1.0_r8
@@ -1571,11 +1569,10 @@
         END IF
       END DO
 #  endif
+#  if defined BENTHIC
 !------------------------------
 !Write out benthic variables
 !-----------------------------
-
-#  if defined BENTHIC
               DO itrc=1,NBeT(ng)
               IF (Hout(idBeTvar(itrc),ng)) THEN
                  scale=1.0_r8
@@ -1611,11 +1608,10 @@
       END DO
 #  endif
 
+#  if defined ICE_BIO
 !------------------------------
 !Write out ice bio variables
 !-----------------------------
-
-#  if defined ICE_BIO
 #   ifdef CLIM_ICE_1D
       DO itrc=1,NIceT(ng)
         IF (Hout(idIceBvar(itrc),ng)) THEN
