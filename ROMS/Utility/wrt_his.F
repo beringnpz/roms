@@ -1573,11 +1573,11 @@
 !------------------------------
 !Write out benthic variables
 !-----------------------------
-              DO itrc=1,NBeT(ng)
-              IF (Hout(idBeTvar(itrc),ng)) THEN
-                 scale=1.0_r8
-                 gtype=gfactor*r2dvar
-             status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                 &
+      DO itrc=1,NBeT(ng)
+        IF (Hout(idBeTvar(itrc),ng)) THEN
+          scale=1.0_r8
+          gtype=gfactor*r2dvar
+          status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                    &
      &                          HIS(ng)%Bid(itrc),                      &
      &                          HIS(ng)%Rindex, gtype,                  &
      &                          LBi, UBi, LBj, UBj, scale,              &
