@@ -239,16 +239,21 @@
       integer :: iBen
       integer :: iDetBen
 #endif
+! #ifdef ICE_BIO
+! !       integer, pointer :: idice(:)  ! Ice tracers
+! # ifdef CLIM_ICE_1D
+! !       integer, pointer :: idiceLog(:)  ! Ice tracers
+! # endif
+!       integer :: idIcePhL
+!       integer :: idIceNO3
+!       integer :: idIceNH4
+!       integer :: idIceZ
+!       integer :: idIceLog
+! #endif
 #ifdef ICE_BIO
-!       integer, pointer :: idice(:)  ! Ice tracers
-# ifdef CLIM_ICE_1D
-!       integer, pointer :: idiceLog(:)  ! Ice tracers
-# endif
-      integer :: idIcePhL
-      integer :: idIceNO3
-      integer :: idIceNH4
-      integer :: idIceZ
-      integer :: idIceLog
+      integer :: iIPhL
+      integer :: iINO3
+      integer :: iINH4
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer :: iilims
@@ -624,7 +629,7 @@
       NBEN=2
 #endif
 #ifdef ICE_BIO
-      NIB=4
+      NIB=3
 #endif
               
 !
@@ -1270,8 +1275,6 @@
         Dmem(1)=Dmem(1)+REAL(NDbio3d,r8)
       END IF
 #endif
-! TODO: idice?
-
 !
 !-----------------------------------------------------------------------
 !  Initialize tracer identification indices.
@@ -1316,6 +1319,22 @@
       iAKt3=ic+1
       ic=ic+1
 # endif
+
+#ifdef BENTHIC
+      iBen=1
+      iDetBen=2
+      DO i=1,NBEN
+        idben(i)=i
+      END DO
+#endif
+#ifdef ICE_BIO
+      iIPhL=1
+      iINO3=2
+      iINH4=3
+      DO i=1,NIB
+        idice(i)=i
+      END DO
+#endif
 
 # ifdef DIAGNOSTICS_BIO
       DO i=1,NDbio3d

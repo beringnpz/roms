@@ -604,7 +604,7 @@
               END DO
 #ifdef BENTHIC
             CASE ('Hout(idBeTvar)')
-              Npts=load_l(Nval, Cval,NBEN, Ngrids, Ltrc)
+              Npts=load_l(Nval, Cval, NBEN, Ngrids, Ltrc)
               DO ng=1,Ngrids
                 DO itrc=1,NBEN
                   i=idBeTvar(idben(itrc))
@@ -612,28 +612,36 @@
                 END DO
               END DO
 #endif
-#ifdef ICEBIO
-            CASE ('Hout(idIcePhL)')
-              IF (idIcePhL.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIcePhL'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Hout(idIcePhL,:))
-            CASE ('Hout(idIceNO3)')
-              IF (idIceNO3.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIceNO3'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Hout(idIceNO3,:))
-            CASE ('Hout(idIceNH4)')
-              IF (idIcePhL.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIceNH4'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Hout(idIceNH4,:))
+#ifdef ICE_BIO
+            CASE ('Hout(idIceTvar)')
+              Npts=load_l(Nval, Cval, NIB, Ngrids, Ltrc)
+              DO ng=1,Ngrids
+                DO itrc=1,NIB
+                  i=idIceTvar(idice(itrc))
+                  Hout(i,ng)=Ltrc(itrc,ng)
+                END DO
+              END DO
+!             CASE ('Hout(idIcePhL)')
+!               IF (idIcePhL.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIcePhL'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Hout(idIcePhL,:))
+!             CASE ('Hout(idIceNO3)')
+!               IF (idIceNO3.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIceNO3'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Hout(idIceNO3,:))
+!             CASE ('Hout(idIceNH4)')
+!               IF (idIcePhL.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIceNH4'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Hout(idIceNH4,:))
 #endif
             CASE ('Qout(idTvar)')
               Npts=load_l(Nval, Cval, NBT, Ngrids, Ltrc)
@@ -687,28 +695,36 @@
                 END DO
               END DO
 #endif
-#ifdef ICEBIO
-            CASE ('Aout(idIcePhL)')
-              IF (idIcePhL.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIcePhL'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Aout(idIcePhL,:))
-            CASE ('Aout(idIceNO3)')
-              IF (idIceNO3.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIceNO3'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Aout(idIceNO3,:))
-            CASE ('Aout(idIceNH4)')
-              IF (idIcePhL.eq.0) THEN
-                IF (Master) WRITE (out,40) 'idIceNH4'
-                exit_flag=5
-                RETURN
-              END IF
-              Npts=load_l(Nval, Cval, Ngrids, Aout(idIceNH4,:))
+#ifdef ICE_BIO
+            CASE ('Aout(idIceTvar)')
+              Npts=load_l(Nval, Cval,NBEN, Ngrids, Ltrc)
+              DO ng=1,Ngrids
+                DO itrc=1,NIB
+                  i=idIceTvar(idice(itrc))
+                  Aout(i,ng)=Ltrc(itrc,ng)
+                END DO
+              END DO
+!             CASE ('Aout(idIcePhL)')
+!               IF (idIcePhL.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIcePhL'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Aout(idIcePhL,:))
+!             CASE ('Aout(idIceNO3)')
+!               IF (idIceNO3.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIceNO3'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Aout(idIceNO3,:))
+!             CASE ('Aout(idIceNH4)')
+!               IF (idIcePhL.eq.0) THEN
+!                 IF (Master) WRITE (out,40) 'idIceNH4'
+!                 exit_flag=5
+!                 RETURN
+!               END IF
+!               Npts=load_l(Nval, Cval, Ngrids, Aout(idIceNH4,:))
 #endif
             CASE ('Aout(idTTav)')
               Npts=load_l(Nval, Cval, NBT, Ngrids, Ltrc)
@@ -3037,18 +3053,24 @@
               END DO
 #endif
 #ifdef ICE_BIO
-              IF (Hout(idIcePhL,ng)) WRITE (out,120)                    &
-     &            Hout(idIcePhL,ng), 'Hout(idIcePhL)',                  &
-     &            'Write out ice tracer', 0,                            &
-     &            TRIM(Vname(1,idIcePhL))
-              IF (Hout(idIceNO3,ng)) WRITE (out,120)                    &
-     &            Hout(idIceNO3,ng), 'Hout(idIceNO3)',                  &
-     &            'Write out ice tracer', 0,                            &
-     &            TRIM(Vname(1,idIceNO3))
-              IF (Hout(idIceNH4,ng)) WRITE (out,120)                    &
-     &            Hout(idIceNH4,ng), 'Hout(idIceNH4)',                  &
-     &            'Write out ice tracer', 0,                            &
-     &            TRIM(Vname(1,idIceNH4))
+              DO itrc=1,NIB
+                i=idice(itrc)
+                IF (Hout(idIceTvar(i),ng)) WRITE (out,120)               &
+   &                Hout(idIceTvar(i),ng), 'Hout(idIceTvar)',            &
+   &                'Write out ice tracer ', i, TRIM(Vname(1,idIceTvar(i)))
+              END DO
+!               IF (Hout(idIcePhL,ng)) WRITE (out,120)                    &
+!      &            Hout(idIcePhL,ng), 'Hout(idIcePhL)',                  &
+!      &            'Write out ice tracer', 0,                            &
+!      &            TRIM(Vname(1,idIcePhL))
+!               IF (Hout(idIceNO3,ng)) WRITE (out,120)                    &
+!      &            Hout(idIceNO3,ng), 'Hout(idIceNO3)',                  &
+!      &            'Write out ice tracer', 0,                            &
+!      &            TRIM(Vname(1,idIceNO3))
+!               IF (Hout(idIceNH4,ng)) WRITE (out,120)                    &
+!      &            Hout(idIceNH4,ng), 'Hout(idIceNH4)',                  &
+!      &            'Write out ice tracer', 0,                            &
+!      &            TRIM(Vname(1,idIceNH4))
 #endif
             END IF
             IF ((nQCK(ng).gt.0).and.ANY(Qout(:,ng))) THEN
@@ -3131,18 +3153,24 @@
               END DO
 #endif
 #ifdef ICE_BIO
-              IF (Aout(idIcePhL,ng)) WRITE (out,120)                    &
-     &            Aout(idIcePhL,ng), 'Aout(idIcePhL)',                  &
-     &            'Write out averaged ice tracer', 0,                   &
-     &            TRIM(Vname(1,idIcePhL))
-              IF (Aout(idIceNO3,ng)) WRITE (out,120)                    &
-     &            Aout(idIceNO3,ng), 'Aout(idIceNO3)',                  &
-     &            'Write out averaged ice tracer', 0,                   &
-     &            TRIM(Vname(1,idIceNO3))
-              IF (Aout(idIceNH4,ng)) WRITE (out,120)                    &
-     &            Aout(idIceNH4,ng), 'Aout(idIceNH4)',                  &
-     &            'Write out averaged ice tracer', 0,                   &
-     &            TRIM(Vname(1,idIceNH4))
+              DO itrc=1,NIB
+                i=idice(itrc)
+                IF (Aout(idIceTvar(i),ng)) WRITE (out,120)               &
+   &                Aout(idIceTvar(i),ng), 'Aout(idIceTvar)',            &
+   &                'Write out averaged ice tracer ', i, TRIM(Vname(1,idIceTvar(i)))
+              END DO
+!               IF (Aout(idIcePhL,ng)) WRITE (out,120)                    &
+!      &            Aout(idIcePhL,ng), 'Aout(idIcePhL)',                  &
+!      &            'Write out averaged ice tracer', 0,                   &
+!      &            TRIM(Vname(1,idIcePhL))
+!               IF (Aout(idIceNO3,ng)) WRITE (out,120)                    &
+!      &            Aout(idIceNO3,ng), 'Aout(idIceNO3)',                  &
+!      &            'Write out averaged ice tracer', 0,                   &
+!      &            TRIM(Vname(1,idIceNO3))
+!               IF (Aout(idIceNH4,ng)) WRITE (out,120)                    &
+!      &            Aout(idIceNH4,ng), 'Aout(idIceNH4)',                  &
+!      &            'Write out averaged ice tracer', 0,                   &
+!      &            TRIM(Vname(1,idIceNH4))
 #endif
             END IF
 #endif

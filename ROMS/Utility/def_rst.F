@@ -1203,6 +1203,27 @@
 !    &                     nvd4,t3dgrd,Aval,Vinfo,ncname)
         END DO
 #  endif
+#  if defined ICE_BIO
+!------------------------------------------
+!  Define ice bio tracer type variables.
+!------------------------------------------
+        DO itrc=1,NIceT(ng)
+          IF (Hout(idIceTvar(itrc),ng)) THEN
+        
+            Vinfo( 1)=Vname(1,idIceTvar(itrc))
+            Vinfo( 2)=Vname(2,idIceTvar(itrc))
+            Vinfo(3)=Vname(3,idIceTvar(itrc))
+            Vinfo(14)=Vname(4,idIceTvar(itrc))
+            Vinfo(16)=Vname(1,idtime)
+            Vinfo(22)='coordinates'
+            Aval(5)=REAL(r2dvar,r8)
+            status=def_var(ng,iNLM,RST(ng)%ncid,                           &
+     &                     RST(ng)%Vid(idIceTvar(itrc)),NF_FOUT,           &
+     &                     nvd3,t2dgrd,Aval,Vinfo,ncname)
+          END IF
+        END DO
+#  endif
+
 #  if defined FORCE_PERTURB
 !------------------------------------------
 !  Define forcing perturbation
@@ -1296,86 +1317,86 @@
 !------------------------------------------
 !  Define ice bio tracer type variables.
 !------------------------------------------
-#  if defined ICE_BIO
-# ifdef CLIM_ICE_1D
-        DO itrc=1,NIceT(ng)
-          IF (Hout(idIceBeTvar(itrc),ng)) THEN
-
-            Vinfo( 1)=Vname(1,idIceBeTvar(itrc))
-            Vinfo( 2)=Vname(2,idIceBeTvar(itrc))
-            Vinfo(3)=Vname(3,idIceBeTvar(itrc))
-            Vinfo(14)=Vname(4,idIceBeTvar(itrc))
-            Vinfo(16)=Vname(1,idtime)
-            Vinfo(22)='coordinates'
-            Aval(5)=REAL(r2dvar,r8)
-            status=def_var(ng,iNLM,RST(ng)%ncid,RST(ng)%IceBid(itrc),      &
-     &                   NF_FOUT, nvd3,t2dgrd,Aval,Vinfo,ncname)
-          END IF
-        END DO
-
-#elif defined BERING_10K
-
-        Vinfo( 1)=Vname(1,idIcePhL)
-        Vinfo( 2)=Vname(2,idIcePhL)
-        Vinfo( 3)=Vname(3,idIcePhL)
-        Vinfo(14)=Vname(4,idIcePhL)
-        Vinfo(16)=Vname(1,idtime)
-#if defined WRITE_WATER && defined MASKING
-        Vinfo(20)='mask_rho'
-#endif
-        Vinfo(22)='coordinates'
-        Aval(5)=REAL(Iinfo(1,idIcePhL,ng),r8)
-        status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIcePhL),      &
-     &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
-        IF (FoundError(exit_flag, NoError, __LINE__,                    &
-     &                   __FILE__)) RETURN
-
-        Vinfo( 1)=Vname(1,idIceNO3)
-        Vinfo( 2)=Vname(2,idIceNO3)
-        Vinfo( 3)=Vname(3,idIceNO3)
-        Vinfo(14)=Vname(4,idIceNO3)
-        Vinfo(16)=Vname(1,idtime)
-#if defined WRITE_WATER && defined MASKING
-        Vinfo(20)='mask_rho'
-#endif
-        Vinfo(22)='coordinates'
-        Aval(5)=REAL(Iinfo(1,idIceNO3,ng),r8)
-        status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceNO3),      &
-     &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
-        IF (FoundError(exit_flag, NoError, __LINE__,                    &
-     &                   __FILE__)) RETURN
-
-        Vinfo( 1)=Vname(1,idIceNH4)
-        Vinfo( 2)=Vname(2,idIceNH4)
-        Vinfo( 3)=Vname(3,idIceNH4)
-        Vinfo(14)=Vname(4,idIceNH4)
-        Vinfo(16)=Vname(1,idtime)
-#if defined WRITE_WATER && defined MASKING
-        Vinfo(20)='mask_rho'
-#endif
-        Vinfo(22)='coordinates'
-        Aval(5)=REAL(Iinfo(1,idIceNH4,ng),r8)
-        status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceNH4),      &
-     &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
-        IF (FoundError(exit_flag, NoError, __LINE__,                    &
-     &                   __FILE__)) RETURN
-
-        Vinfo( 1)=Vname(1,idIceLog)
-        Vinfo( 2)=Vname(2,idIceLog)
-        Vinfo( 3)=Vname(3,idIceLog)
-        Vinfo(14)=Vname(4,idIceLog)
-        Vinfo(16)=Vname(1,idtime)
-#if defined WRITE_WATER && defined MASKING
-        Vinfo(20)='mask_rho'
-#endif
-        Vinfo(22)='coordinates'
-        Aval(5)=REAL(Iinfo(1,idIceLog,ng),r8)
-        status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceLog),      &
-     &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
-        IF (FoundError(exit_flag, NoError, __LINE__,                    &
-     &                   __FILE__)) RETURN
-#  endif
-# endif
+! #  if defined ICE_BIO
+! # ifdef CLIM_ICE_1D
+!         DO itrc=1,NIceT(ng)
+!           IF (Hout(idIceBeTvar(itrc),ng)) THEN
+!
+!             Vinfo( 1)=Vname(1,idIceBeTvar(itrc))
+!             Vinfo( 2)=Vname(2,idIceBeTvar(itrc))
+!             Vinfo(3)=Vname(3,idIceBeTvar(itrc))
+!             Vinfo(14)=Vname(4,idIceBeTvar(itrc))
+!             Vinfo(16)=Vname(1,idtime)
+!             Vinfo(22)='coordinates'
+!             Aval(5)=REAL(r2dvar,r8)
+!             status=def_var(ng,iNLM,RST(ng)%ncid,RST(ng)%IceBid(itrc),      &
+!      &                   NF_FOUT, nvd3,t2dgrd,Aval,Vinfo,ncname)
+!           END IF
+!         END DO
+!
+! #elif defined BERING_10K
+!
+!         Vinfo( 1)=Vname(1,idIcePhL)
+!         Vinfo( 2)=Vname(2,idIcePhL)
+!         Vinfo( 3)=Vname(3,idIcePhL)
+!         Vinfo(14)=Vname(4,idIcePhL)
+!         Vinfo(16)=Vname(1,idtime)
+! #if defined WRITE_WATER && defined MASKING
+!         Vinfo(20)='mask_rho'
+! #endif
+!         Vinfo(22)='coordinates'
+!         Aval(5)=REAL(Iinfo(1,idIcePhL,ng),r8)
+!         status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIcePhL),      &
+!      &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
+!         IF (FoundError(exit_flag, NoError, __LINE__,                    &
+!      &                   __FILE__)) RETURN
+!
+!         Vinfo( 1)=Vname(1,idIceNO3)
+!         Vinfo( 2)=Vname(2,idIceNO3)
+!         Vinfo( 3)=Vname(3,idIceNO3)
+!         Vinfo(14)=Vname(4,idIceNO3)
+!         Vinfo(16)=Vname(1,idtime)
+! #if defined WRITE_WATER && defined MASKING
+!         Vinfo(20)='mask_rho'
+! #endif
+!         Vinfo(22)='coordinates'
+!         Aval(5)=REAL(Iinfo(1,idIceNO3,ng),r8)
+!         status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceNO3),      &
+!      &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
+!         IF (FoundError(exit_flag, NoError, __LINE__,                    &
+!      &                   __FILE__)) RETURN
+!
+!         Vinfo( 1)=Vname(1,idIceNH4)
+!         Vinfo( 2)=Vname(2,idIceNH4)
+!         Vinfo( 3)=Vname(3,idIceNH4)
+!         Vinfo(14)=Vname(4,idIceNH4)
+!         Vinfo(16)=Vname(1,idtime)
+! #if defined WRITE_WATER && defined MASKING
+!         Vinfo(20)='mask_rho'
+! #endif
+!         Vinfo(22)='coordinates'
+!         Aval(5)=REAL(Iinfo(1,idIceNH4,ng),r8)
+!         status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceNH4),      &
+!      &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
+!         IF (FoundError(exit_flag, NoError, __LINE__,                    &
+!      &                   __FILE__)) RETURN
+!
+!         Vinfo( 1)=Vname(1,idIceLog)
+!         Vinfo( 2)=Vname(2,idIceLog)
+!         Vinfo( 3)=Vname(3,idIceLog)
+!         Vinfo(14)=Vname(4,idIceLog)
+!         Vinfo(16)=Vname(1,idtime)
+! #if defined WRITE_WATER && defined MASKING
+!         Vinfo(20)='mask_rho'
+! #endif
+!         Vinfo(22)='coordinates'
+!         Aval(5)=REAL(Iinfo(1,idIceLog,ng),r8)
+!         status=def_var(ng, iNLM, RST(ng)%ncid, RST(ng)%Vid(idIceLog),      &
+!      &                 NF_FRST, nvd3, t2dgrd, Aval, Vinfo, ncname)
+!         IF (FoundError(exit_flag, NoError, __LINE__,                    &
+!      &                   __FILE__)) RETURN
+! #  endif
+! # endif
 
 !
 !  Define density anomaly.
@@ -2690,6 +2711,14 @@
             END IF
           END DO
 # endif
+# ifdef ICE_BIO
+          DO itrc=1,NIceT(ng)
+            IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceTvar(itrc)))) THEN
+              got_var(idIceTvar(itrc))=.TRUE.
+              RST(ng)%Vid(idIceTvar(itrc)) = var_id(i)
+            END IF
+          END DO
+# endif
 # ifdef SEDIMENT
           DO itrc=1,NST
             IF (TRIM(var_name(i)).eq.                                   &
@@ -2747,20 +2776,20 @@
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idHsno))) THEN
             got_var(idHsno)=.TRUE.
             RST(ng)%Vid(idHsno)=var_id(i)
-# if defined ICE_BIO && defined BERING_10K
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIcePhL))) THEN
-            got_var(idIcePhL)=.TRUE.
-            RST(ng)%Vid(idIcePhL)=var_id(i)
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNO3))) THEN
-            got_var(idIceNO3)=.TRUE.
-            RST(ng)%Vid(idIceNO3)=var_id(i)
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNH4))) THEN
-            got_var(idIceNH4)=.TRUE.
-            RST(ng)%Vid(idIceNH4)=var_id(i)
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceLog))) THEN
-            got_var(idIceLog)=.TRUE.
-            RST(ng)%Vid(idIceLog)=var_id(i)
-# endif
+! # if defined ICE_BIO && defined BERING_10K
+!           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIcePhL))) THEN
+!             got_var(idIcePhL)=.TRUE.
+!             RST(ng)%Vid(idIcePhL)=var_id(i)
+!           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNO3))) THEN
+!             got_var(idIceNO3)=.TRUE.
+!             RST(ng)%Vid(idIceNO3)=var_id(i)
+!           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNH4))) THEN
+!             got_var(idIceNH4)=.TRUE.
+!             RST(ng)%Vid(idIceNH4)=var_id(i)
+!           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceLog))) THEN
+!             got_var(idIceLog)=.TRUE.
+!             RST(ng)%Vid(idIceLog)=var_id(i)
+! # endif
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idAgeice))) THEN
             got_var(idAgeice)=.TRUE.
             RST(ng)%Vid(idAgeice)=var_id(i)
@@ -3046,6 +3075,26 @@
             RETURN
           END IF
         END DO
+#ifdef BENTHIC
+        DO itrc=1,NBeT(ng)
+          IF (.not.got_var(idBeTvar(itrc))) THEN
+            IF (Master) WRITE (stdout,40) TRIM(Vname(1,idBeTvar(itrc))),  &
+     &                                    TRIM(ncname)
+            exit_flag=3
+            RETURN
+          END IF
+        END DO
+#endif
+#ifdef ICE_BIO
+        DO itrc=1,NIceT(ng)
+          IF (.not.got_var(idIceTvar(itrc))) THEN
+            IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceTvar(itrc))),  &
+     &                                    TRIM(ncname)
+            exit_flag=3
+            RETURN
+          END IF
+        END DO
+#endif
 # ifdef SEDIMENT
         DO i=1,NST
           IF (.not.got_var(idfrac(i))) THEN
@@ -3132,32 +3181,32 @@
           exit_flag=3
           RETURN
         END IF
-# if defined ICE_BIO && defined BERING_10K
-        IF (.not.got_var(idIcePhL)) THEN
-          IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIcePhL)),        &
-     &                                  TRIM(ncname)
-          exit_flag=3
-          RETURN
-        END IF
-        IF (.not.got_var(idIceNO3)) THEN
-          IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceNO3)),        &
-     &                                  TRIM(ncname)
-          exit_flag=3
-          RETURN
-        END IF
-        IF (.not.got_var(idIceNH4)) THEN
-          IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceNH4)),        &
-     &                                  TRIM(ncname)
-          exit_flag=3
-          RETURN
-        END IF
-        IF (.not.got_var(idIceLog)) THEN
-          IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceLog)),        &
-     &                                  TRIM(ncname)
-          exit_flag=3
-          RETURN
-        END IF
-# endif
+! # if defined ICE_BIO && defined BERING_10K
+!         IF (.not.got_var(idIcePhL)) THEN
+!           IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIcePhL)),        &
+!      &                                  TRIM(ncname)
+!           exit_flag=3
+!           RETURN
+!         END IF
+!         IF (.not.got_var(idIceNO3)) THEN
+!           IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceNO3)),        &
+!      &                                  TRIM(ncname)
+!           exit_flag=3
+!           RETURN
+!         END IF
+!         IF (.not.got_var(idIceNH4)) THEN
+!           IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceNH4)),        &
+!      &                                  TRIM(ncname)
+!           exit_flag=3
+!           RETURN
+!         END IF
+!         IF (.not.got_var(idIceLog)) THEN
+!           IF (Master) WRITE (stdout,40) TRIM(Vname(1,idIceLog)),        &
+!      &                                  TRIM(ncname)
+!           exit_flag=3
+!           RETURN
+!         END IF
+! # endif
         IF (.not.got_var(idAgeice)) THEN
           IF (Master) WRITE (stdout,40) TRIM(Vname(1,idAgeice)),        &
      &                                  TRIM(ncname)
