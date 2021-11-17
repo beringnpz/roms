@@ -188,15 +188,16 @@
       integer              :: NBEN      ! Benthic tracers
       integer, allocatable :: idben(:)   
       integer, allocatable :: idBeTvar(:)
-      integer, allocatable :: hisBid(:,:)
-      integer, allocatable :: avgBid(:,:)
-      integer, allocatable :: rstBid(:,:)
+!       integer, allocatable :: hisBid(:,:)
+!       integer, allocatable :: avgBid(:,:)
+!       integer, allocatable :: rstBid(:,:)
 #endif
 #ifdef ICE_BIO
       integer, allocatable :: NIceT(:)
-      integer, allocatable :: NIceLog(:)
-      integer              :: NIB
+      integer              :: NIB       ! Ice tracers
+!       integer, allocatable :: NIceLog(:)
       integer, allocatable :: idice(:)
+      integer, allocatable :: idIceTvar(:)
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer, allocatable :: iDbio2(:) ! 2D Biological diagnostics
