@@ -1435,7 +1435,7 @@
           status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid,                    &
      &                       HIS(ng)%Vid(idBeTvar(itrc)),               &
      &                       HIS(ng)%Rindex, gtype,                     &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
+     &                       LBi, UBi, LBj, UBj, 1, NBL(ng), scale,     &
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
@@ -1461,10 +1461,10 @@
         IF (Hout(idIceTvar(itrc),ng)) THEN
           scale=1.0_r8
           gtype=gfactor*r3dvar
-          status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid,                    &
+          status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                    &
      &                       HIS(ng)%Vid(idIceTvar(itrc)),              &
      &                       HIS(ng)%Rindex, gtype,                     &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
+     &                       LBi, UBi, LBj, UBj, scale,                 &
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
