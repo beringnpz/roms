@@ -1432,7 +1432,7 @@
         IF (Hout(idBeTvar(itrc),ng)) THEN
           scale=1.0_r8
           gtype=gfactor*r3dvar
-          status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid, 
+          status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid,                    &
      &                       HIS(ng)%Vid(idBeTvar(itrc)),               &
      &                       HIS(ng)%Rindex, gtype,                     &
      &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
@@ -1461,8 +1461,8 @@
         IF (Hout(idIceTvar(itrc),ng)) THEN
           scale=1.0_r8
           gtype=gfactor*r3dvar
-          status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid, 
-     &                       HIS(ng)%Vid(idIceTvar(itrc)),               &
+          status=nf_fwrite3d(ng, iNLM, HIS(ng)%ncid,                    &
+     &                       HIS(ng)%Vid(idIceTvar(itrc)),              &
      &                       HIS(ng)%Rindex, gtype,                     &
      &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
 #  ifdef MASKING
@@ -1472,7 +1472,7 @@
           IF (FoundError(status, nf90_noerr, __LINE__,                  &
      &                   __FILE__)) THEN
             IF (Master) THEN
-              WRITE (stdout,10) TRIM(Vname(1,idIceTvar(itrc))),          &
+              WRITE (stdout,10) TRIM(Vname(1,idIceTvar(itrc))),         &
      &                          HIS(ng)%Rindex
             END IF
             exit_flag=3
