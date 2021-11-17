@@ -41,6 +41,9 @@
 #if defined BENTHIC
       USE mod_biology, only: idBeTvar
 #endif
+# if defined ICE_BIO
+      USE mod_biology, only: idIceTvar
+#endif
 #if defined STOPERTURB
       USE mod_stoperturb
 #endif
@@ -722,19 +725,19 @@
         scale=1.0_r8
         gtype=gfactor*r3dvar
 # ifdef PERFECT_RESTART
-        status=nf_fwrite4d(ng, iNLM, RST(ng)%ncid,                      &
+        status=nf_fwrite3d(ng, iNLM, RST(ng)%ncid,                      &
      &                     RST(ng)%Vid(idIceTvar(itrc)),                &
      &                     RST(ng)%Rindex, gtype,                       &
-     &                     LBi, UBi, LBj, UBj, 1, NBL(ng), 1, 2, scale, &
+     &                     LBi, UBi, LBj, UBj, 1, 2, scale,             &
 #  ifdef MASKING
      &                     GRID(ng) % rmask,                            &
 #  endif
      &                     OCEAN(ng) % it(:,:,:,itrc))
 # else
-        status=nf_fwrite3d(ng, iNLM, RST(ng)%ncid,                      &
+        status=nf_fwrite2d(ng, iNLM, RST(ng)%ncid,                      &
                            RST(ng)%Vid(idIceTvar(itrc)),                &
      &                     RST(ng)%Rindex, gtype,                       &
-     &                     LBi, UBi, LBj, UBj, 1, NBL(ng), scale,       &
+     &                     LBi, UBi, LBj, UBj, scale,                   &
 #  ifdef MASKING
      &                     GRID(ng) % rmask,                            &
 #  endif
