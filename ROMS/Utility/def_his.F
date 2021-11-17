@@ -1303,7 +1303,7 @@
 #  endif
             Vinfo(22)='coordinates'
             Aval(5)=REAL(r2dvar,r8)
-            status=def_var(ng, model, HIS(ng)%ncid,                     &
+            status=def_var(ng, iNLM, HIS(ng)%ncid,                      &
      &                     HIS(ng)%Vid(idBeTvar(itrc)),                 &
      &                     NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
           END IF
@@ -1326,7 +1326,7 @@
 #  endif
             Vinfo(22)='coordinates'
             Aval(5)=REAL(r2dvar,r8)
-            status=def_var(ng, model, HIS(ng)%ncid,                     &
+            status=def_var(ng, iNLM, HIS(ng)%ncid,                      &
      &                     HIS(ng)%Vid(idIceTvar(itrc)),                &
      &                     NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
           END IF
