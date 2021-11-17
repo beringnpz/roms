@@ -209,15 +209,15 @@
                 idTbry(iwest,iOxyg)=varid
 #endif
 #ifdef ICE_BIO
-              CASE ('idIceTvar(iIPhL)')
+              CASE ('idIceTvar(iIcPhL)')
 !                 idIcePhL=varid
-                idIceTvar(iIPhL)=varid
-              CASE ('idIceTvar(iINO3)')
+                idIceTvar(iIcPhL)=varid
+              CASE ('idIceTvar(iIcNO3)')
 !                 idIceNO3=varid
-                idIceTvar(iINO3)=varid
-              CASE ('idIceTvar(iINH4)')
+                idIceTvar(iIcNO3)=varid
+              CASE ('idIceTvar(icINH4)')
 !                 idIceNH4=varid
-                idIceTvar(iINH4)=varid
+                idIceTvar(iIcNH4)=varid
 !               CASE ('iIceLog')
 !                 idIceLog=varid
 #endif

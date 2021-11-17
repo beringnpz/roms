@@ -252,9 +252,9 @@
 !       integer :: idIceLog
 ! #endif
 #ifdef ICE_BIO
-      integer :: iIPhL
-      integer :: iINO3
-      integer :: iINH4
+      integer :: iIcPhL
+      integer :: iIcNO3
+      integer :: iIcNH4
 #endif
 #ifdef DIAGNOSTICS_BIO
       integer :: iilims
