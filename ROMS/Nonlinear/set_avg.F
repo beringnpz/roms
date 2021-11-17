@@ -5902,11 +5902,11 @@
         END DO
         IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
           CALL exchange_r2d_tile (ng, tile,                             &
-     &                            LBi, UBi, LBj, UBj, 1, NIceT(ng),     &
+     &                            LBi, UBi, LBj, UBj,                   &
      &                            AVERAGE(ng)%avgit)
 #    ifdef DISTRIBUTE
-          CALL mp_exchange3d (ng, tile, iNLM, 1,                        &
-     &                        LBi, UBi, LBj, UBj, 1, NIceT(ng),         &
+          CALL mp_exchange2d (ng, tile, iNLM, 1,                        &
+     &                        LBi, UBi, LBj, UBj,                       &
      &                        NghostPoints,                             &
      &                        EWperiodic(ng), NSperiodic(ng),           &
      &                        AVERAGE(ng)%avgit)
