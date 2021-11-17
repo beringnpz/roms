@@ -1329,9 +1329,9 @@
       END DO
 #endif
 #ifdef ICE_BIO
-      iIPhL=1
-      iINO3=2
-      iINH4=3
+      iIcPhL=1
+      iIcNO3=2
+      iIcNH4=3
       DO i=1,NIB
         idice(i)=i
       END DO
