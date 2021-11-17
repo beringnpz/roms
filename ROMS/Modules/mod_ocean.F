@@ -100,7 +100,8 @@
         USE mod_biology, only: NBeT, NBL
 #endif
 #if defined ICE_BIO
-        USE mod_biology, only: NIceT, NIB, NIceLog
+!         USE mod_biology, only: NIceT, NIB, NIceLog
+        USE mod_biology, only: NIceT, NIB
 #endif
         implicit none
 
@@ -164,7 +165,7 @@
 #   endif
 #   if defined ICE_BIO
           real(r8), pointer :: it(:,:,:,:)
-          real(r8), pointer :: itL(:,:,:,:)
+!           real(r8), pointer :: itL(:,:,:,:)
 #   endif
 #   ifdef BIOFLUX
           real(r8), pointer :: bflx(:,:)
@@ -561,8 +562,8 @@
 # if defined ICE_BIO
       allocate ( OCEAN(ng) % it(LBi:UBi,LBj:UBj,3,NIceT(ng)) )
       Dmem(ng)=Dmem(ng)+REAL(NIceT(ng),r8)*size2d*3.0_r8
-      allocate ( OCEAN(ng) % itL(LBi:UBi,LBj:UBj,3, NIceLog(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NIceLog(ng),r8)*size2d*3.0_r8
+!       allocate ( OCEAN(ng) % itL(LBi:UBi,LBj:UBj,3, NIceLog(ng)) )
+!       Dmem(ng)=Dmem(ng)+REAL(NIceLog(ng),r8)*size2d*3.0_r8
 # endif
 # ifdef BIOFLUX
       ! Add a 3D  biology flux array
@@ -1244,70 +1245,70 @@
                 OCEAN(ng) % u10_neutral(i,j) = IniVal
           ENDDO
 # endif
-# ifdef BEST_NPZ
-#    ifdef STATIONARY
-          DO itrc=1,NTS(ng)
-            DO k=1,N(ng)
-              DO i=Imin,Imax
-                OCEAN(ng) % st(i,j,k,1,itrc) = IniVal
-                OCEAN(ng) % st(i,j,k,2,itrc) = IniVal
-                OCEAN(ng) % st(i,j,k,3,itrc) = IniVal
-              END DO
-            END DO
-          END DO
-#    endif
-#    ifdef STATIONARY2
-          DO itrc=1,NTS2(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % st2(i,j,1,itrc) = IniVal
-              OCEAN(ng) % st2(i,j,2,itrc) = IniVal
-              OCEAN(ng) % st2(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#    endif
-#    ifdef PROD2
-          DO itrc=1,NPT2(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % pt2(i,j,1,itrc) = IniVal
-              OCEAN(ng) % pt2(i,j,2,itrc) = IniVal
-              OCEAN(ng) % pt2(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#    endif
-#    ifdef PROD3
-          DO itrc=1,NPT3(ng)
-            DO k=1,N(ng)
-              DO i=Imin,Imax
-                OCEAN(ng) % pt3(i,j,k,1,itrc) = IniVal
-                OCEAN(ng) % pt3(i,j,k,2,itrc) = IniVal
-                OCEAN(ng) % pt3(i,j,k,3,itrc) = IniVal
-              END DO
-            END DO
-          END DO
-#    endif
-#  if defined ICE_BIO
+! # ifdef BEST_NPZ
+! #    ifdef STATIONARY
+!           DO itrc=1,NTS(ng)
+!             DO k=1,N(ng)
+!               DO i=Imin,Imax
+!                 OCEAN(ng) % st(i,j,k,1,itrc) = IniVal
+!                 OCEAN(ng) % st(i,j,k,2,itrc) = IniVal
+!                 OCEAN(ng) % st(i,j,k,3,itrc) = IniVal
+!               END DO
+!             END DO
+!           END DO
+! #    endif
+! #    ifdef STATIONARY2
+!           DO itrc=1,NTS2(ng)
+!             DO i=Imin,Imax
+!               OCEAN(ng) % st2(i,j,1,itrc) = IniVal
+!               OCEAN(ng) % st2(i,j,2,itrc) = IniVal
+!               OCEAN(ng) % st2(i,j,3,itrc) = IniVal
+!             END DO
+!           END DO
+! #    endif
+! #    ifdef PROD2
+!           DO itrc=1,NPT2(ng)
+!             DO i=Imin,Imax
+!               OCEAN(ng) % pt2(i,j,1,itrc) = IniVal
+!               OCEAN(ng) % pt2(i,j,2,itrc) = IniVal
+!               OCEAN(ng) % pt2(i,j,3,itrc) = IniVal
+!             END DO
+!           END DO
+! #    endif
+! #    ifdef PROD3
+!           DO itrc=1,NPT3(ng)
+!             DO k=1,N(ng)
+!               DO i=Imin,Imax
+!                 OCEAN(ng) % pt3(i,j,k,1,itrc) = IniVal
+!                 OCEAN(ng) % pt3(i,j,k,2,itrc) = IniVal
+!                 OCEAN(ng) % pt3(i,j,k,3,itrc) = IniVal
+!               END DO
+!             END DO
+!           END DO
+! #    endif
+# if defined ICE_BIO
           DO itrc=1,NIceT(ng)
             DO i=Imin,Imax
               OCEAN(ng) % it(i,j,1,itrc) = IniVal
               OCEAN(ng) % it(i,j,2,itrc) = IniVal
               OCEAN(ng) % it(i,j,3,itrc) = IniVal
-              OCEAN(ng) % it(i,j,4,itrc) = IniVal
+!               OCEAN(ng) % it(i,j,4,itrc) = IniVal
             END DO
           END DO
-          DO itrc=1,NIceLog(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % itL(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#  endif
-#  ifdef BIOFLUX
-          DO itrc=1,NT(ng)
-            DO itrc2=1,NT(ng)
-              OCEAN(ng) % bflx(itrc,itrc2) = IniVal
-            END DO
-          END DO
-#  endif
+!           DO itrc=1,NIceLog(ng)
+!             DO i=Imin,Imax
+!               OCEAN(ng) % itL(i,j,3,itrc) = IniVal
+!             END DO
+!           END DO
 # endif
+! #  ifdef BIOFLUX
+!           DO itrc=1,NT(ng)
+!             DO itrc2=1,NT(ng)
+!               OCEAN(ng) % bflx(itrc,itrc2) = IniVal
+!             END DO
+!           END DO
+! #  endif
+! # endif
 # ifdef BIO_GOANPZ
           DO itrc=1,NTS(ng)
             DO k=1,N(ng)
