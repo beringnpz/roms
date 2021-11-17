@@ -1439,7 +1439,7 @@
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
-     &                       OCEAN(ng) % bt(:,:,1,NOUT,itrc))
+     &                       OCEAN(ng) % bt(:,:,:,NOUT,itrc))
           IF (FoundError(status, nf90_noerr, __LINE__,                  &
      &                   __FILE__)) THEN
             IF (Master) THEN
