@@ -1460,7 +1460,7 @@
       DO itrc=1,NIceT(ng)
         IF (Hout(idIceTvar(itrc),ng)) THEN
           scale=1.0_r8
-          gtype=gfactor*r3dvar
+          gtype=gfactor*r2dvar
           status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                    &
      &                       HIS(ng)%Vid(idIceTvar(itrc)),              &
      &                       HIS(ng)%Rindex, gtype,                     &

@@ -196,117 +196,128 @@
      &                  ICE(ng)%ui,                                     &
      &                  ICE(ng)%vi,                                     &
      &                  ICE(ng)%hsn, LBC(:,isHsno,ng))
-# if defined ICE_BIO && defined BERING_10K
+! # if defined ICE_BIO && defined BERING_10K
+# if defined ICE_BIO
 !  ---------------------------------------------------------------------
-!  Advect the icePhL
+!  Advect the ice tracers
 !  ---------------------------------------------------------------------
        
-      CALL ice_advect_tile (ng, tile,                                   &
-     &                      LBi, UBi, LBj, UBj,                         &
-     &                      IminS, ImaxS, JminS, JmaxS,                 &
-     &                      nrhs(ng), linew(ng), liold(ng), liunw(ng),  &
-# ifdef MASKING
-     &                      GRID(ng) % rmask,                           &
-# endif
-# ifdef WET_DRY
-     &                      GRID(ng) % rmask_wet,                       &
-# endif
-# ifdef ICESHELF
-     &                      GRID(ng) % zice,                            &
-# endif
-#ifndef ICE_UPWIND
-     &                      GRID(ng) % pm,                              &
-     &                      GRID(ng) % pn,                              &
-#endif
-     &                      GRID(ng) % on_u,                            &
-     &                      GRID(ng) % om_v,                            &
-     &                      GRID(ng) % omn,                             &
-     &                      ICE(ng) % ui,                               &
-     &                      ICE(ng) % vi,                               &
-     &                      ICE(ng) % IcePhL                            &
-     &                      )
+      DO itrc=1,NIceT(ng)
+       
+        CALL ice_advect_tile (ng, tile,                                 &
+     &                        LBi, UBi, LBj, UBj,                       &
+     &                        IminS, ImaxS, JminS, JmaxS,               &
+     &                        nrhs(ng), linew(ng), liold(ng), liunw(ng),&
+# ifdef MASKING               
+     &                        GRID(ng) % rmask,                         &
+# endif                       
+# ifdef WET_DRY               
+     &                        GRID(ng) % rmask_wet,                     &
+# endif                       
+# ifdef ICESHELF              
+     &                        GRID(ng) % zice,                          &
+# endif                       
+#ifndef ICE_UPWIND            
+     &                        GRID(ng) % pm,                            &
+     &                        GRID(ng) % pn,                            &
+#endif                        
+     &                        GRID(ng) % on_u,                          &
+     &                        GRID(ng) % om_v,                          &
+     &                        GRID(ng) % omn,                           &
+     &                        ICE(ng) % ui,                             &
+     &                        ICE(ng) % vi,                             &
+     &                        OCEAN(ng) % it(:,:,itrc,:)                &
+     &                        )
+           
+        CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
+        &                  LBi, UBi, LBj, UBj,                          &
+        &                  IminS, ImaxS, JminS, JmaxS,                  &
+        &                  liold, linew,                                &
+        &                  ui, vi, OCEAN(ng) % it(:,:,itrc,:))
+       ENDDO
+
 !  FOOOO 
 ! Need to change this to i2d_bc_tile calls
-      CALL IcePhLbc_tile (ng, tile,                                   &
-     &                          LBi, UBi, LBj, UBj,                      &
-     &                          liold(ng), linew(ng),                   &
-     &                          ICE(ng)%ui,                             &
-     &                          ICE(ng)%vi,                             &
-     &                          ICE(ng)%IcePhL)
+!       CALL IcePhLbc_tile (ng, tile,                                   &
+!      &                          LBi, UBi, LBj, UBj,                      &
+!      &                          liold(ng), linew(ng),                   &
+!      &                          ICE(ng)%ui,                             &
+!      &                          ICE(ng)%vi,                             &
+!      &                          ICE(ng)%IcePhL)
 
 !  ---------------------------------------------------------------------
 !  Advect the iceNH4
 !  ---------------------------------------------------------------------
 
-      CALL ice_advect_tile (ng, tile,                                   &
-     &                      LBi, UBi, LBj, UBj,                         &
-     &                      IminS, ImaxS, JminS, JmaxS,                 &
-     &                      nrhs(ng), linew(ng), liold(ng), liunw(ng),  &
-# ifdef MASKING
-     &                      GRID(ng) % rmask,                           &
-# endif
-# ifdef WET_DRY
-     &                      GRID(ng) % rmask_wet,                       &
-# endif
-# ifdef ICESHELF
-     &                      GRID(ng) % zice,                            &
-# endif
-#ifndef ICE_UPWIND
-     &                      GRID(ng) % pm,                              &
-     &                      GRID(ng) % pn,                              &
-#endif
-     &                      GRID(ng) % on_u,                            &
-     &                      GRID(ng) % om_v,                            &
-     &                      GRID(ng) % omn,                             &
-     &                      ICE(ng) % ui,                               &
-     &                      ICE(ng) % vi,                               &
-     &                      ICE(ng) % IceNH4                            &
-     &                      )
+!       CALL ice_advect_tile (ng, tile,                                   &
+!      &                      LBi, UBi, LBj, UBj,                         &
+!      &                      IminS, ImaxS, JminS, JmaxS,                 &
+!      &                      nrhs(ng), linew(ng), liold(ng), liunw(ng),  &
+! # ifdef MASKING
+!      &                      GRID(ng) % rmask,                           &
+! # endif
+! # ifdef WET_DRY
+!      &                      GRID(ng) % rmask_wet,                       &
+! # endif
+! # ifdef ICESHELF
+!      &                      GRID(ng) % zice,                            &
+! # endif
+! #ifndef ICE_UPWIND
+!      &                      GRID(ng) % pm,                              &
+!      &                      GRID(ng) % pn,                              &
+! #endif
+!      &                      GRID(ng) % on_u,                            &
+!      &                      GRID(ng) % om_v,                            &
+!      &                      GRID(ng) % omn,                             &
+!      &                      ICE(ng) % ui,                               &
+!      &                      ICE(ng) % vi,                               &
+!      &                      ICE(ng) % IceNH4                            &
+!      &                      )
+! !
+!         CALL IceNH4bc_tile (ng, tile,                                   &
+!      &                          LBi, UBi, LBj, UBj,                     &
+!      &                          liold(ng), linew(ng),                   &
+!      &                          ICE(ng)%ui,                             &
+!      &                          ICE(ng)%vi,                             &
+!      &                          ICE(ng)%IceNH4)
+! !
 !
-        CALL IceNH4bc_tile (ng, tile,                                   &
-     &                          LBi, UBi, LBj, UBj,                     &
-     &                          liold(ng), linew(ng),                   &
-     &                          ICE(ng)%ui,                             &
-     &                          ICE(ng)%vi,                             &
-     &                          ICE(ng)%IceNH4)
+! !
+! !  ---------------------------------------------------------------------
+! !  Advect the iceNO3.
+! !  ---------------------------------------------------------------------
 !
-
-!
-!  ---------------------------------------------------------------------
-!  Advect the iceNO3.
-!  ---------------------------------------------------------------------
-
-      CALL ice_advect_tile (ng, tile,                                   &
-     &                      LBi, UBi, LBj, UBj,                         &
-     &                      IminS, ImaxS, JminS, JmaxS,                 &
-     &                      nrhs(ng), linew(ng), liold(ng), liunw(ng),  &
-# ifdef MASKING
-     &                      GRID(ng) % rmask,                           &
-# endif
-# ifdef WET_DRY
-     &                      GRID(ng) % rmask_wet,                       &
-# endif
-# ifdef ICESHELF
-     &                      GRID(ng) % zice,                            &
-# endif
-#ifndef ICE_UPWIND
-     &                      GRID(ng) % pm,                              &
-     &                      GRID(ng) % pn,                              &
-#endif
-     &                      GRID(ng) % on_u,                            &
-     &                      GRID(ng) % om_v,                            &
-     &                      GRID(ng) % omn,                             &
-     &                      ICE(ng) % ui,                               &
-     &                      ICE(ng) % vi,                               &
-     &                      ICE(ng) % IceNO3                            &
-     &                      )
-!
-        CALL IceNO3bc_tile (ng, tile,                                   &
-     &                          LBi, UBi, LBj, UBj,                     &
-     &                          liold(ng), linew(ng),                   &
-     &                          ICE(ng)%ui,                             &
-     &                          ICE(ng)%vi,                             &
-     &                          ICE(ng)%IceNO3)
+!       CALL ice_advect_tile (ng, tile,                                   &
+!      &                      LBi, UBi, LBj, UBj,                         &
+!      &                      IminS, ImaxS, JminS, JmaxS,                 &
+!      &                      nrhs(ng), linew(ng), liold(ng), liunw(ng),  &
+! # ifdef MASKING
+!      &                      GRID(ng) % rmask,                           &
+! # endif
+! # ifdef WET_DRY
+!      &                      GRID(ng) % rmask_wet,                       &
+! # endif
+! # ifdef ICESHELF
+!      &                      GRID(ng) % zice,                            &
+! # endif
+! #ifndef ICE_UPWIND
+!      &                      GRID(ng) % pm,                              &
+!      &                      GRID(ng) % pn,                              &
+! #endif
+!      &                      GRID(ng) % on_u,                            &
+!      &                      GRID(ng) % om_v,                            &
+!      &                      GRID(ng) % omn,                             &
+!      &                      ICE(ng) % ui,                               &
+!      &                      ICE(ng) % vi,                               &
+!      &                      ICE(ng) % IceNO3                            &
+!      &                      )
+! !
+!         CALL IceNO3bc_tile (ng, tile,                                   &
+!      &                          LBi, UBi, LBj, UBj,                     &
+!      &                          liold(ng), linew(ng),                   &
+!      &                          ICE(ng)%ui,                             &
+!      &                          ICE(ng)%vi,                             &
+!      &                          ICE(ng)%IceNO3)
 !
 # endif
 !
