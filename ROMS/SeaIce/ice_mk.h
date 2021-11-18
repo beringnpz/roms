@@ -240,7 +240,7 @@
       USE mod_biology, ONLY: NIceT
 #endif
 !
-      USE exchange_2d_mod, ONLY : exchange_r2d_tile, exchange_r2d_tile_closed
+      USE exchange_2d_mod, ONLY : exchange_r2d_tile
 #ifdef DISTRIBUTE
       USE mp_exchange_mod, ONLY : mp_exchange2d
 #endif

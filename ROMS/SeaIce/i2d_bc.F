@@ -9,7 +9,7 @@
       implicit none
 
       PRIVATE
-      PUBLIC i2d_bc_tile
+      PUBLIC i2d_bc_tile, i2d_bc_tile_closed
 
       CONTAINS
 !
