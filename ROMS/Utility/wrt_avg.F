@@ -1011,7 +1011,7 @@
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
-     &                       AVERAGE(ng) % avgbt(:,:,1,itrc))
+     &                       AVERAGE(ng) % avgbt(:,:,:,itrc))
           IF (FoundError(status, nf90_noerr, __LINE__,                  &
      &                   __FILE__)) THEN
             IF (Master) THEN
