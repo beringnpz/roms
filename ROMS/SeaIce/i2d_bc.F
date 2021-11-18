@@ -610,6 +610,231 @@
       END IF
       RETURN
       END SUBROUTINE i2d_bc_tile
+      
+!
+!***********************************************************************
+      SUBROUTINE i2d_bc_tile_closed (ng, tile, model,                   &
+     &                        LBi, UBi, LBj, UBj,                       &
+     &                        IminS, ImaxS, JminS, JmaxS,               &
+     &                        liold, linew,                             &
+     &                        ui, vi, ai)
+!***********************************************************************
+! KAK: This is a copy of the i2d_bc_tile subroutine, but with the boundary
+! conditions hard-coded to closed along all boundaries.  I'm adding
+! this as a lazy way to constrain ice biology variables without having to
+! deal with all the complexities of reading in boundary conditions; it's
+! a hack that should probably be removed in favor of typical input-file
+! boundary conditions (but I don't have time for that now :-) ).
+!
+      USE mod_param
+      USE mod_boundary
+      USE mod_grid
+      USE mod_scalars
+
+      implicit none
+!
+!  Imported variable declarations.
+!
+      integer, intent(in) :: ng, tile, model
+      integer, intent(in) :: LBi, UBi, LBj, UBj
+      integer, intent(in) :: IminS, ImaxS, JminS, JmaxS
+      integer, intent(in) :: liold, linew
+!       TYPE(T_LBC), intent(in) :: S(4)
+
+# ifdef ASSUMED_SHAPE
+      real(r8), intent(in)    :: ui(LBi:,LBj:,:)
+      real(r8), intent(in)    :: vi(LBi:,LBj:,:)
+      real(r8), intent(inout) :: ai(LBi:,LBj:,:)
+!       real(r8), intent(in)    :: ai_west(LBj:)
+!       real(r8), intent(in)    :: ai_east(LBj:)
+!       real(r8), intent(in)    :: ai_north(LBi:)
+!       real(r8), intent(in)    :: ai_south(LBi:)
+# else
+      real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
+      real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
+      real(r8), intent(inout) :: ai(LBi:UBi,LBj:UBj,2)
+!       real(r8), intent(in)    :: ai_west(LBj:UBj)
+!       real(r8), intent(in)    :: ai_east(LBj:UBj)
+!       real(r8), intent(in)    :: ai_north(LBi:UBi)
+!       real(r8), intent(in)    :: ai_south(LBi:UBi)
+# endif
+
+!
+!  Local variable declarations.
+!
+      integer :: i, j, know
+      real(r8), parameter :: eps =1.0E-20_r8
+      real(r8) :: Ce, Cx, cff, dTde, dTdt, dTdx, tau 
+
+      real(r8), dimension(IminS:ImaxS,JminS:JmaxS) :: grad
+
+#include "set_bounds.h"
+!
+!-----------------------------------------------------------------------
+!  Set time-indices
+!-----------------------------------------------------------------------
+!
+        know=liold
+!
+!-----------------------------------------------------------------------
+!  Lateral boundary conditions at the western edge.
+!-----------------------------------------------------------------------
+!
+      IF (DOMAIN(ng)%Western_Edge(tile)) THEN
+        
+          DO j=Jstr,Jend
+            ai(0,j,linew)=ai(1,j,linew)
+# ifdef MASKING
+            ai(0,j,linew)=ai(0,j,linew)*                                &
+     &                   GRID(ng)%rmask(0,j)
+# endif
+# ifdef WET_DRY
+            ai(0,j,linew)=ai(0,j,linew)*                                &
+     &                   GRID(ng)%rmask_wet(0,j)
+# endif
+          END DO
+
+# if defined CHUKCHI && defined OUTFLOW_MASK
+        DO j=Jstr,Jend
+          ai(1,j,linew)=ai_west(j)
+#  ifdef MASKING
+          ai(1,j,linew)=ai(1,j,linew)*                                  &
+     &                 GRID(ng)%rmask(1,j)
+#  endif
+#  ifdef WET_DRY
+          ai(1,j,linew)=ai(1,j,linew)*                                  &
+     &                 GRID(ng)%rmask_wet(1,j)
+#  endif
+        END DO
+# endif
+      ENDIF
+
+!
+!-----------------------------------------------------------------------
+!  Lateral boundary conditions at the eastern edge.
+!-----------------------------------------------------------------------
+!
+      IF (DOMAIN(ng)%Eastern_Edge(tile)) THEN
+
+          DO j=Jstr,Jend
+            ai(Lm(ng)+1,j,linew)=ai(Lm(ng),j,linew)
+# ifdef MASKING
+            ai(Lm(ng)+1,j,linew)=ai(Lm(ng)+1,j,linew)*                  &
+     &                          GRID(ng)%rmask(Lm(ng)+1,j)
+# endif
+# ifdef WET_DRY
+            ai(Lm(ng)+1,j,linew)=ai(Lm(ng)+1,j,linew)*                  &
+     &                          GRID(ng)%rmask_wet(Lm(ng)+1,j)
+# endif
+          END DO
+
+# if defined CHUKCHI && defined OUTFLOW_MASK
+        DO j=Jstr,Jend
+          ai(Lm(ng),j,linew)=ai_east(j)
+#  ifdef MASKING
+          ai(Lm(ng),j,linew)=ai(Lm(ng),j,linew)*                        &
+     &                        GRID(ng)%rmask(Lm(ng),j)
+#  endif
+#  ifdef WET_DRY
+          ai(Lm(ng),j,linew)=ai(Lm(ng),j,linew)*                        &
+     &                        GRID(ng)%rmask_wet(Lm(ng),j)
+#  endif
+        END DO
+# endif
+      ENDIF
+
+!
+!-----------------------------------------------------------------------
+!  Lateral boundary conditions at the southern edge.
+!-----------------------------------------------------------------------
+!
+      IF (DOMAIN(ng)%Southern_Edge(tile)) THEN
+
+          DO i=Istr,Iend
+            ai(i,0,linew)=ai(i,1,linew)
+# ifdef MASKING
+            ai(i,0,linew)=ai(i,0,linew)*                                &
+     &                   GRID(ng)%rmask(i,0)
+# endif
+# ifdef WET_DRY
+            ai(i,0,linew)=ai(i,0,linew)*                                &
+     &                   GRID(ng)%rmask_wet(i,0)
+# endif
+          END DO
+
+# if defined CHUKCHI && defined OUTFLOW_MASK
+        DO i=Istr,Iend
+          ai(i,1,linew)=ai_south(i)
+#  ifdef MASKING
+          ai(i,1,linew)=ai(i,1,linew)*                                  &
+     &                   GRID(ng)%rmask(i,1)
+#  endif
+#  ifdef WET_DRY
+          ai(i,1,linew)=ai(i,1,linew)*                                  &
+     &                   GRID(ng)%rmask_wet(i,1)
+#  endif
+        END DO
+# endif
+      ENDIF
+!
+!-----------------------------------------------------------------------
+!  Lateral boundary conditions at the northern edge.
+!-----------------------------------------------------------------------
+!
+      IF (DOMAIN(ng)%Northern_Edge(tile)) THEN
+          DO i=Istr,Iend
+            ai(i,Mm(ng)+1,linew)=ai(i,Mm(ng),linew)
+# ifdef MASKING
+            ai(i,Mm(ng)+1,linew)=ai(i,Mm(ng)+1,linew)*                  &
+     &                          GRID(ng)%rmask(i,Mm(ng)+1)
+# endif
+# ifdef WET_DRY
+            ai(i,Mm(ng)+1,linew)=ai(i,Mm(ng)+1,linew)*                  &
+     &                          GRID(ng)%rmask_wet(i,Mm(ng)+1)
+# endif
+          END DO
+
+# if defined CHUKCHI && defined OUTFLOW_MASK
+        DO i=Istr,Iend
+          ai(i,Mm(ng),linew)=ai_north(i)
+#  ifdef MASKING
+          ai(i,Mm(ng),linew)=ai(i,Mm(ng),linew)*                        &
+     &                          GRID(ng)%rmask(i,Mm(ng))
+#  endif
+#  ifdef WET_DRY
+          ai(i,Mm(ng),linew)=ai(i,Mm(ng),linew)*                        &
+     &                          GRID(ng)%rmask_wet(i,Mm(ng))
+#  endif
+        END DO
+# endif
+      END IF
+!
+!-----------------------------------------------------------------------
+!  Boundary corners.
+!-----------------------------------------------------------------------
+!
+      IF (.not.EWperiodic(ng).and. .not.NSperiodic(ng)) THEN
+        IF (DOMAIN(ng)%SouthWest_Corner(tile)) THEN
+          ai(0,0,linew)=0.5_r8*(ai(1,0,linew)+                          &
+     &                         ai(0,1,linew))
+        END IF
+        IF (DOMAIN(ng)%SouthEast_Corner(tile)) THEN
+          ai(Lm(ng)+1,0,linew)=0.5_r8*(ai(Lm(ng)+1,1,linew)+            &
+     &                                ai(Lm(ng)  ,0,linew))
+        END IF
+        IF (DOMAIN(ng)%NorthWest_Corner(tile)) THEN
+          ai(0,Mm(ng)+1,linew)=0.5_r8*(ai(0,Mm(ng)  ,linew)+            &
+     &                                ai(1,Mm(ng)+1,linew))
+        END IF
+        IF (DOMAIN(ng)%NorthEast_Corner(tile)) THEN
+          ai(Lm(ng)+1,Mm(ng)+1,linew)=0.5_r8*                           &
+     &             (ai(Lm(ng)+1,Mm(ng)  ,linew)+                        &
+     &              ai(Lm(ng)  ,Mm(ng)+1,linew))
+        END IF
+      END IF
+      RETURN
+      END SUBROUTINE i2d_bc_tile_closed      
+
 #endif
 
       END MODULE i2d_bc_mod
