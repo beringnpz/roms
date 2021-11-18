@@ -1004,10 +1004,10 @@
         IF (Aout(idBeTvar(itrc),ng)) THEN
           scale=1.0_r8
           gtype=gfactor*r3dvar
-          status=nf_fwrite3d(ng, iNLM, AVG(ng)%ncid, 
+          status=nf_fwrite3d(ng, iNLM, AVG(ng)%ncid,                    &
      &                       AVG(ng)%Vid(idBeTvar(itrc)),               &
      &                       AVG(ng)%Rindex, gtype,                     &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
+     &                       LBi, UBi, LBj, UBj, 1, NBL(ng), scale,     &
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
@@ -1032,11 +1032,11 @@
       DO itrc=1,NIceT(ng)
         IF (Aout(idIceTvar(itrc),ng)) THEN
           scale=1.0_r8
-          gtype=gfactor*r3dvar
-          status=nf_fwrite3d(ng, iNLM, AVG(ng)%ncid, 
-     &                       AVG(ng)%Vid(idIceTvar(itrc)),               &
+          gtype=gfactor*r2dvar
+          status=nf_fwrite2d(ng, iNLM, AVG(ng)%ncid,                    &
+     &                       AVG(ng)%Vid(idIceTvar(itrc)),              &
      &                       AVG(ng)%Rindex, gtype,                     &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng), scale,       &
+     &                       LBi, UBi, LBj, UBj, scale,                 &
 #  ifdef MASKING
      &                       GRID(ng) % rmask,                          &
 #  endif
@@ -1044,7 +1044,7 @@
           IF (FoundError(status, nf90_noerr, __LINE__,                  &
      &                   __FILE__)) THEN
             IF (Master) THEN
-              WRITE (stdout,10) TRIM(Vname(1,idIceTvar(itrc))),          &
+              WRITE (stdout,10) TRIM(Vname(1,idIceTvar(itrc))),         &
      &                          AVG(ng)%Rindex
             END IF
             exit_flag=3
