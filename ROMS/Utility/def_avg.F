@@ -464,7 +464,7 @@
      &                 SetParAccess = .TRUE.)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
-#ifdef WET_DRY
+#  ifdef WET_DRY
 !
 !  Define wet/dry mask on rho-points.
 !
@@ -482,7 +482,7 @@
      &                 SetFillVal = .FALSE.)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
-#endif
+#  endif
 !
 !  Define free-surface.
 !
@@ -926,9 +926,9 @@
             Vinfo(3)=Vname(3,idBeTvar(itrc))
             Vinfo(14)=Vname(4,idBeTvar(itrc))
             Vinfo(16)=Vname(1,idtime)
-#  if defined WRITE_WATER && defined MASKING
+#   if defined WRITE_WATER && defined MASKING
             Vinfo(20)='mask_rho'
-#  endif
+#   endif
             Vinfo(22)='coordinates'
             Aval(5)=REAL(r2dvar,r8)
             status=def_var(ng, model, AVG(ng)%ncid,                     &
@@ -953,9 +953,9 @@
             Vinfo(3)=Vname(3,idIceTvar(itrc))
             Vinfo(14)=Vname(4,idIceTvar(itrc))
             Vinfo(16)=Vname(1,idtime)
-#  if defined WRITE_WATER && defined MASKING
+#   if defined WRITE_WATER && defined MASKING
             Vinfo(20)='mask_rho'
-#  endif
+#   endif
             Vinfo(22)='coordinates'
             Aval(5)=REAL(r2dvar,r8)
             status=def_var(ng, model, AVG(ng)%ncid,                     &
@@ -1192,8 +1192,8 @@
 ! # endif
 ! #endif
 
-# endif
-# ifdef BIO_GOANPZ
+! # endif
+#  ifdef BIO_GOANPZ
         DO itrc=1,NTS(ng)
           IF (Aout(idTSvar(itrc),ng)) THEN
             Vinfo( 1)=Vname(1,idTSvar(itrc))
@@ -1210,7 +1210,7 @@
      &                   __FILE__)) RETURN
           END IF
         END DO
-# endif
+#  endif
 
 #  if defined AVERAGES_DETIDE && (defined SSH_TIDES || defined UV_TIDES)
 !
