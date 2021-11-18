@@ -1083,7 +1083,7 @@
        &                  LBi, UBi, LBj, UBj,                             &
        &                  IminS, ImaxS, JminS, JmaxS,                     &
        &                  liold, linew,                                   &
-       &                  ui, vi, it(:,:,itrc))
+       &                  ui, vi, it(:,:,itrc,:))
       ENDDO
 #endif
       IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
