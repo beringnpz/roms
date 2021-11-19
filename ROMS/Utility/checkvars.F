@@ -123,9 +123,10 @@
             get_var(idTvar(itrc))=.TRUE.
           END DO
 # endif
-# if defined ICE_BIO && defined BERING_10K
-          DO itrc=1,NBeT(ng)
-           get_var(idBeTvar(itrc))=.TRUE.
+! # if defined ICE_BIO && defined BERING_10K
+# if defined ICE_BIO
+          DO itrc=1,NIceT(ng)
+           get_var(idIceTvar(itrc))=.TRUE.
           END DO
 # endif
         END IF

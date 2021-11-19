@@ -688,24 +688,24 @@
           real(r8), pointer :: viG_north(:,:)
 # endif
 
-# if defined ICE_BIO
-#  ifdef BERING_10K
-          real(r8), pointer :: IceNO3_west(:)
-          real(r8), pointer :: IceNO3_east(:)
-          real(r8), pointer :: IceNO3_south(:)
-          real(r8), pointer :: IceNO3_north(:)
-
-          real(r8), pointer :: IceNH4_west(:)
-          real(r8), pointer :: IceNH4_east(:)
-          real(r8), pointer :: IceNH4_south(:)
-          real(r8), pointer :: IceNH4_north(:)
-
-          real(r8), pointer :: IcePhL_west(:)
-          real(r8), pointer :: IcePhL_east(:)
-          real(r8), pointer :: IcePhL_south(:)
-          real(r8), pointer :: IcePhL_north(:)
-#  endif
-# endif
+! # if defined ICE_BIO
+! #  ifdef BERING_10K
+!           real(r8), pointer :: IceNO3_west(:)
+!           real(r8), pointer :: IceNO3_east(:)
+!           real(r8), pointer :: IceNO3_south(:)
+!           real(r8), pointer :: IceNO3_north(:)
+!
+!           real(r8), pointer :: IceNH4_west(:)
+!           real(r8), pointer :: IceNH4_east(:)
+!           real(r8), pointer :: IceNH4_south(:)
+!           real(r8), pointer :: IceNH4_north(:)
+!
+!           real(r8), pointer :: IcePhL_west(:)
+!           real(r8), pointer :: IcePhL_east(:)
+!           real(r8), pointer :: IcePhL_south(:)
+!           real(r8), pointer :: IcePhL_north(:)
+! #  endif
+! # endif
 #endif
 
 #if defined TANGENT || defined TL_IOMS
@@ -2180,36 +2180,36 @@
       END IF
 # endif
 
-# if defined ICE_BIO
-#  ifdef BERING_10K
-      allocate ( BOUNDARY(ng) % IceNO3_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNO3_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNO3_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IceNO3_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-
-      allocate ( BOUNDARY(ng) % IceNH4_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNH4_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNH4_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IceNH4_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-
-      allocate ( BOUNDARY(ng) % IcePhL_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IcePhL_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IcePhL_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IcePhL_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-#  endif
-# endif
+! # if defined ICE_BIO
+! #  ifdef BERING_10K
+!       allocate ( BOUNDARY(ng) % IceNO3_west(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IceNO3_east(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IceNO3_south(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+!       allocate ( BOUNDARY(ng) % IceNO3_north(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+!
+!       allocate ( BOUNDARY(ng) % IceNH4_west(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IceNH4_east(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IceNH4_south(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+!       allocate ( BOUNDARY(ng) % IceNH4_north(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+!
+!       allocate ( BOUNDARY(ng) % IcePhL_west(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IcePhL_east(LBj:UBj) )
+!       Dmem(ng)=Dmem(ng)+Ysize
+!       allocate ( BOUNDARY(ng) % IcePhL_south(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+!       allocate ( BOUNDARY(ng) % IcePhL_north(LBi:UBi) )
+!       Dmem(ng)=Dmem(ng)+Xsize
+! #  endif
+! # endif
 #endif
 
       RETURN
@@ -2658,14 +2658,14 @@
           BOUNDARY(ng) % viG_west = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO
-#   ifdef BERING_10K
-        IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_west = IniVal
-          BOUNDARY(ng) % IceNH4_west = IniVal
-          BOUNDARY(ng) % IcePhL_west = IniVal
-        END IF
-#   endif
+! #  if defined ICE_BIO
+! #   ifdef BERING_10K
+!         IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
+!           BOUNDARY(ng) % IceNO3_west = IniVal
+!           BOUNDARY(ng) % IceNH4_west = IniVal
+!           BOUNDARY(ng) % IcePhL_west = IniVal
+!         END IF
+! #   endif
 #  endif
 
         IF (DOMAIN(ng)%SouthEast_Test(tile).and.                        &
@@ -2758,14 +2758,14 @@
           BOUNDARY(ng) % viG_east = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO
-#   ifdef BERING_10K
-        IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_east = IniVal
-          BOUNDARY(ng) % IceNH4_east = IniVal
-          BOUNDARY(ng) % IcePhL_east = IniVal
-        END IF
-#   endif
+! #  if defined ICE_BIO
+! #   ifdef BERING_10K
+!         IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
+!           BOUNDARY(ng) % IceNO3_east = IniVal
+!           BOUNDARY(ng) % IceNH4_east = IniVal
+!           BOUNDARY(ng) % IcePhL_east = IniVal
+!         END IF
+! #   endif
 #  endif
 
         IF (DOMAIN(ng)%SouthWest_Test(tile).and.                        &
@@ -2858,14 +2858,14 @@
           BOUNDARY(ng) % viG_south = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO
-#   ifdef BERING_10K
-        IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_south = IniVal
-          BOUNDARY(ng) % IceNH4_south = IniVal
-          BOUNDARY(ng) % IcePhL_south = IniVal
-        END IF
-#   endif
+! #  if defined ICE_BIO
+! #   ifdef BERING_10K
+!         IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
+!           BOUNDARY(ng) % IceNO3_south = IniVal
+!           BOUNDARY(ng) % IceNH4_south = IniVal
+!           BOUNDARY(ng) % IcePhL_south = IniVal
+!         END IF
+! #   endif
 #  endif
 
         IF (DOMAIN(ng)%NorthEast_Test(tile).and.                        &
@@ -2958,15 +2958,15 @@
           BOUNDARY(ng) % viG_north = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO
-#   ifdef BERING_10K
-        IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_north = IniVal
-          BOUNDARY(ng) % IceNH4_north = IniVal
-          BOUNDARY(ng) % IcePhL_north = IniVal
-        END IF
-#   endif
-#  endif
+! #  if defined ICE_BIO
+! #   ifdef BERING_10K
+!         IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
+!           BOUNDARY(ng) % IceNO3_north = IniVal
+!           BOUNDARY(ng) % IceNH4_north = IniVal
+!           BOUNDARY(ng) % IcePhL_north = IniVal
+!         END IF
+! #   endif
+! #  endif
 # endif
       END IF
 

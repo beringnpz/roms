@@ -465,16 +465,23 @@
         CALL exchange_r2d_tile (ng, tile,                               &
      &                          LBi, UBi, LBj, UBj,                     &
      &                          ICE(ng)%hage(:,:,linew(ng)))
-# if defined ICE_BIO && defined BERING_10K
-        CALL exchange_r2d_tile (ng, tile,                               &
-     &                          LBi, UBi, LBj, UBj,                     &
-     &                          ICE(ng)%IcePhL(:,:,linew(ng)))
-        CALL exchange_r2d_tile (ng, tile,                               &
-     &                          LBi, UBi, LBj, UBj,                     &
-     &                          ICE(ng)%IceNO3(:,:,linew(ng)))
-        CALL exchange_r2d_tile (ng, tile,                               &
-     &                          LBi, UBi, LBj, UBj,                     &
-     &                          ICE(ng)%IceNH4(:,:,linew(ng)))
+! # if defined ICE_BIO && defined BERING_10K
+!         CALL exchange_r2d_tile (ng, tile,                               &
+!      &                          LBi, UBi, LBj, UBj,                     &
+!      &                          ICE(ng)%IcePhL(:,:,linew(ng)))
+!         CALL exchange_r2d_tile (ng, tile,                               &
+!      &                          LBi, UBi, LBj, UBj,                     &
+!      &                          ICE(ng)%IceNO3(:,:,linew(ng)))
+!         CALL exchange_r2d_tile (ng, tile,                               &
+!      &                          LBi, UBi, LBj, UBj,                     &
+!      &                          ICE(ng)%IceNH4(:,:,linew(ng)))
+! # endif
+# if defined ICE_BIO
+        DO itrc=1,NIceT(ng)
+          CALL exchange_r2d_tile (ng, tile,                               &
+       &                          LBi, UBi, LBj, UBj,                     &
+       &                          it(:,:,itrc,linew))
+        ENDDO
 # endif
       END IF
 # ifdef DISTRIBUTE
@@ -491,13 +498,21 @@
      &                    ICE(ng)%enthalpi(:,:,linew(ng)),              &
      &                    ICE(ng)%ageice(:,:,linew(ng)),                &
      &                    ICE(ng)%hage(:,:,linew(ng)))
-#  if defined ICE_BIO && defined BERING_10K
-      CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
-     &                    LBi, UBi, LBj, UBj,                           &
-     &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-     &                    ICE(ng)%IcePhL(:,:,linew(ng)),                &
-     &                    ICE(ng)%IceNO3(:,:,linew(ng)),                &
-     &                    ICE(ng)%IceNH4(:,:,linew(ng)))
+! #  if defined ICE_BIO && defined BERING_10K
+!       CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
+!      &                    LBi, UBi, LBj, UBj,                           &
+!      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
+!      &                    ICE(ng)%IcePhL(:,:,linew(ng)),                &
+!      &                    ICE(ng)%IceNO3(:,:,linew(ng)),                &
+!      &                    ICE(ng)%IceNH4(:,:,linew(ng)))
+! #  endif
+#  if defined ICE_BIO
+      DO itrc=1,NIceT(ng)
+        CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
+       &                    LBi, UBi, LBj, UBj,                           &
+       &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
+       &                    it(:,:,itrc,linew))
+      ENDDO
 #  endif
 # endif
 #endif

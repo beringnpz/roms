@@ -2339,7 +2339,8 @@
           END IF
         END DO
 #  endif
-#  if defined BEST_NPZ && defined BERING_10K
+! #  if defined BEST_NPZ && defined BERING_10K
+#  if defined BENTHIC
 
 !  Read in benthic initial conditions.
         DO itrc=1,NBeT(ng)

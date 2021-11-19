@@ -49,17 +49,17 @@
       USE mod_mixing
 
       ! TODO: is ICE_BIO bestnpz-specific?
-#if defined BERING_10K
-# if defined ICE_BIO
+! #if defined BERING_10K
+#if defined ICE_BIO
       USE mod_ice
-# endif
-# if defined FEAST
+#endif
+#if defined FEAST
       USE mod_feast
-# endif
 #endif
-# if defined CLIM_ICE_1D
-      USE mod_clima
-#endif
+! #endif
+! #if defined CLIM_ICE_1D
+!       USE mod_clima
+! #endif
 
       integer, intent(in) :: ng, tile
 
@@ -117,22 +117,22 @@
      &                   ,GFEAST(ng)                                    &
 #endif
 #if defined ICE_BIO
-# ifdef CLIM_ICE_1D
+! # ifdef CLIM_ICE_1D
      &                   ,OCEAN(ng) % it                                &
-     &                   ,OCEAN(ng) % itL                               &
-     &                   ,CLIMA(ng) % tclm                              &
-# elif defined BERING_10K
-     &                   ,ICE(ng) % IcePhL                              &
-     &                   ,ICE(ng) % IceNO3                              &
-     &                   ,ICE(ng) % IceNH4                              &
-     &                   ,ICE(ng) % IceLog                              &
+!      &                   ,OCEAN(ng) % itL                               &
+!      &                   ,CLIMA(ng) % tclm                              &
+! # elif defined BERING_10K
+!      &                   ,ICE(ng) % IcePhL                              &
+!      &                   ,ICE(ng) % IceNO3                              &
+!      &                   ,ICE(ng) % IceNH4                              &
+!      &                   ,ICE(ng) % IceLog                              &
      &                   ,ICE(ng) % ti                                  &
      &                   ,ICE(ng) % hi                                  &
      &                   ,ICE(ng) % ai                                  &
      &                   ,ICE(ng) % ageice                              &
      &                   ,ICE(ng) % ui                                  &
      &                   ,ICE(ng) % vi                                  &
-# endif
+! # endif
 #endif
 #ifdef DIAGNOSTICS_BIO
      &                   ,DIAGS(ng) % DiaBio2d                          &
@@ -185,15 +185,7 @@
      &                         ,GF                                      &
 #endif
 #if defined ICE_BIO
-# ifdef CLIM_ICE_1D
      &                         ,it                                      &
-     &                         ,itL                                     &
-     &                         ,tclm                                    &
-# elif defined BERING_10K
-     &                         ,IcePhL                                  &
-     &                         ,IceNO3                                  &
-     &                         ,IceNH4                                  &
-     &                         ,IceLog                                  &
      &                         ,ti                                      &
      &                         ,hi                                      &
      &                         ,ai                                      &
@@ -293,22 +285,22 @@
       TYPE (T_FEAST)          :: GF
 # endif
 # if defined ICE_BIO
-#  ifdef CLIM_ICE_1D
+! #  ifdef CLIM_ICE_1D
       real(r8), intent(inout) :: it(LBi:,LBj:,:,:)
-      real(r8), intent(inout) :: itL(LBi:,LBj:,:,:)
+!       real(r8), intent(inout) :: itL(LBi:,LBj:,:,:)
 
-#  elif defined BERING_10K
+! #  elif defined BERING_10K
       real(r8), intent(in)    :: ti(LBi:,LBj:,:)
       real(r8), intent(in)    :: hi(LBi:,LBj:,:)
       real(r8), intent(in)    :: ai(LBi:,LBj:,:)
       real(r8), intent(in)    :: ageice(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
-      integer, intent(inout)  :: IceLog(LBi:,LBj:,:)
+!       real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
+!       real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
+!       real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
+!       integer, intent(inout)  :: IceLog(LBi:,LBj:,:)
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
-#  endif
+! #  endif
 # endif
 #ifdef DIAGNOSTICS_BIO
       real(r8), intent(inout) :: DiaBio2d(LBi:,LBj:,:)
@@ -355,24 +347,24 @@
       real(r8), intent(in)    :: u(LBi:UBi,LBj:UBj,UBk,3),v(LBi:UBi,LBj:UBj,UBk,3)
 # endif
 # if defined ICE_BIO
-#  ifdef CLIM_ICE_1D
+! #  ifdef CLIM_ICE_1D
       real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,1)
-      real(r8), intent(inout) :: itL(LBi:UBi,LBj:UBj,3,1)
-
-      real(r8), intent(inout) :: tclmG(LBi:UBi,LBj:UBj,UBk,3,NH(ng)+2)
-      real(r8), intent(inout) :: tclm(LBi:UBi,LBj:UBj,UBk,NT(ng)+2)
-#  elif defined BERING_10K
+!       real(r8), intent(inout) :: itL(LBi:UBi,LBj:UBj,3,1)
+!
+!       real(r8), intent(inout) :: tclmG(LBi:UBi,LBj:UBj,UBk,3,NH(ng)+2)
+!       real(r8), intent(inout) :: tclm(LBi:UBi,LBj:UBj,UBk,NT(ng)+2)
+! #  elif defined BERING_10K
       real(r8), intent(in)    :: ti(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: hi(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ai(LBi:UBi,LBj:UBj,2)     ! TODO: never used?
       real(r8), intent(in)    :: ageice(LBi:UBi,LBj:UBj,2) ! TODO: never used?
-      real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
-      integer,  intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
+!       real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
+!       real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
+!       real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
+!       integer,  intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
-#  endif
+! #  endif
 # endif
 #if defined CARBON || defined OXYGEN 
 !      integer, parameter :: Nsink = 4
@@ -1003,7 +995,7 @@
             ice_status(i,j) = 0.0
           endif
 
-# elif defined BERING_10K
+# else
 
           ! Ice thickness
 
@@ -1055,15 +1047,18 @@
 #ifdef ICE_BIO
         DO i=Istr,Iend
 
-# ifdef CLIM_ICE_1D
-            Bio3d(i,N(ng),iiIcePhL) = it(i,j,nstp,idice(1))
-            Bio3d(i,N(ng),iiIceNO3) = it(i,j,nstp,idice(2))
-            Bio3d(i,N(ng),iiIceNH4) = it(i,j,nstp,idice(3))
-# elif defined BERING_10K
-            Bio3d(i,N(ng),iiIcePhL) = IcePhL(i,j,nstp)
-            Bio3d(i,N(ng),iiIceNO3) = IceNO3(i,j,nstp)
-            Bio3d(i,N(ng),iiIceNH4) = IceNH4(i,j,nstp)
-# endif
+! # ifdef CLIM_ICE_1D
+!             Bio3d(i,N(ng),iiIcePhL) = it(i,j,nstp,idice(1))
+!             Bio3d(i,N(ng),iiIceNO3) = it(i,j,nstp,idice(2))
+!             Bio3d(i,N(ng),iiIceNH4) = it(i,j,nstp,idice(3))
+! # elif defined BERING_10K
+!             Bio3d(i,N(ng),iiIcePhL) = IcePhL(i,j,nstp)
+!             Bio3d(i,N(ng),iiIceNO3) = IceNO3(i,j,nstp)
+!             Bio3d(i,N(ng),iiIceNH4) = IceNH4(i,j,nstp)
+! # endif
+          Bio3d(i,N(ng),iiIcePhL) = it(i,j,idice(1),nstp)
+          Bio3d(i,N(ng),iiIceNO3) = it(i,j,idice(2),nstp)
+          Bio3d(i,N(ng),iiIceNH4) = it(i,j,idice(3),nstp)
 
           Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhL)*aidz(ng)
           Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3)*aidz(ng)
@@ -2210,7 +2205,12 @@
                 fNO3 = 0
               end if
 
-# ifdef BERING_10K
+# ifdef CLIM_ICE_1D
+              ! When running without an accompanying ice model, assume no
+              ! salinity limitation on ice algae growth
+
+              gesi=1.0_r8
+# else
               ! Ice algae growth is also limited by suboptimal brine
               ! salinity in the ice.  This value isn't tracked explicitly
               ! by the ice model, so instead we use the brine salinty vs
@@ -2247,12 +2247,6 @@
      &                          - 4.6033e-5*sb**3                       &
      &                          + 4.926e-7*sb**4                        &
      &                          - 1.659e-9*sb**5              ))
-
-# else
-              ! When running without an accompanying ice model, assume no
-              ! salinity limitation on ice algae growth
-
-              gesi=1.0_r8
 # endif
 
               ! Ice algae production
@@ -2288,7 +2282,7 @@
 
 # if defined CLIM_ICE_1D
               dhicedt=it(i,j,nnew,iIceZ)-it(i,j,nstp,iIceZ) ! change in ice thickness over this time step (m)
-# elif defined BERING_10K
+# else
               dhicedt=hi(i,j,nnew)-hi(i,j,nstp) ! change in ice thickness over this time step (m)
 # endif
               dhicedt=dhicedt*sec2day/dtdays ! convert to m/s for polynomial fit
