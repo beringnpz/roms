@@ -74,6 +74,9 @@
 !
       USE i2d_bc_mod, ONLY : i2d_bc_tile, i2d_bc_tile_closed
       USE tibc_mod, ONLY : tibc_tile
+# ifdef ICE_BIO
+      USE mod_biology, ONLY : NIceT
+# endif
 ! # if defined ICE_BIO && defined BERING_10K
 !       USE IcePhLbc_mod, ONLY : IcePhLbc_tile
 !       USE IceNO3bc_mod, ONLY : IceNO3bc_tile
