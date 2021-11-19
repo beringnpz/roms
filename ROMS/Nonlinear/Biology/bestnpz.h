@@ -3395,39 +3395,39 @@
         ! Note: Ice variables aren't subject to the same tranport
         ! equations as pelagic, so these use tracer units rather than
         ! tranport units in the nnew timestep.
-# if defined CLIM_ICE_1D
+! # if defined CLIM_ICE_1D
 
         DO i=Istr,Iend
-          it(i,j,nnew,iIceNO3) = it(i,j,nnew,iIceNO3) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
-          it(i,j,nnew,iIceNH4) = it(i,j,nnew,iIceNH4) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
-          it(i,j,nnew,iIcePhL) = it(i,j,nnew,iIcePhL) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
+          it(i,j,iIcNO3,nnew) = it(i,j,iIcNO3,nnew) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
+          it(i,j,iIcNH4,nnew) = it(i,j,iIcNH4,nnew) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
+          it(i,j,iIcPhL,nnew) = it(i,j,iIcPhL,nnew) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
 
-          itL(i,j,nnew,iIceLog) = itL(i,j,nstp,iIceLog)
-
-#  ifdef MASKING
-          it( i,j,nnew,iIcePhL) = it( i,j,nnew,iIcePhL)*rmask(i,j)
-          it( i,j,nnew,iIceNH4) = it( i,j,nnew,iIceNH4)*rmask(i,j)
-          it( i,j,nnew,iIceNO3) = it( i,j,nnew,iIceNO3)*rmask(i,j)
-          itL(i,j,nnew,iIceLog) = itL(i,j,nnew,iIceLog)*rmask(i,j)
-#  endif
-        END DO
-# else
-        DO i=Istr,Iend
-          IceNO3(i,j,nnew) = IceNO3(i,j,nstp) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
-          IceNH4(i,j,nnew) = IceNH4(i,j,nstp) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
-          IcePhL(i,j,nnew) = IcePhL(i,j,nstp) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
-          ! IceLog is already updated, from ice_limit.F
-
-!           IceLog(i,j,nnew) = IceLog(i,j,nstp) ! TODO: Current step value now in both positions... doublecheck that this is correct (real update happens in ice_limit.F))
+!           itL(i,j,nnew,iIceLog) = itL(i,j,nstp,iIceLog)
 
 #  ifdef MASKING
-          IcePhL(i,j,nnew) = IcePhL(i,j,nnew)*rmask(i,j)
-          IceNO3(i,j,nnew) = IceNO3(i,j,nnew)*rmask(i,j)
-          IceNH4(i,j,nnew) = IceNH4(i,j,nnew)*rmask(i,j)
+          it( i,j,iIcPhL,nnew) = it( i,j,iIcPhL,nnew)*rmask(i,j)
+          it( i,j,iIcNH4,nnew) = it( i,j,iIcNH4,nnew)*rmask(i,j)
+          it( i,j,iIcNO3,nnew) = it( i,j,iIcNO3,nnew)*rmask(i,j)
+!           itL(i,j,nnew,iIceLog) = itL(i,j,nnew,iIceLog)*rmask(i,j)
 #  endif
         END DO
-
-# endif
+! # else
+!         DO i=Istr,Iend
+!           IceNO3(i,j,nnew) = IceNO3(i,j,nstp) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
+!           IceNH4(i,j,nnew) = IceNH4(i,j,nstp) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
+!           IcePhL(i,j,nnew) = IcePhL(i,j,nstp) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
+!           ! IceLog is already updated, from ice_limit.F
+!
+! !           IceLog(i,j,nnew) = IceLog(i,j,nstp) ! TODO: Current step value now in both positions... doublecheck that this is correct (real update happens in ice_limit.F))
+!
+! #  ifdef MASKING
+!           IcePhL(i,j,nnew) = IcePhL(i,j,nnew)*rmask(i,j)
+!           IceNO3(i,j,nnew) = IceNO3(i,j,nnew)*rmask(i,j)
+!           IceNH4(i,j,nnew) = IceNH4(i,j,nnew)*rmask(i,j)
+! #  endif
+!         END DO
+!
+! # endif
 #endif
 
       END DO J_LOOP
