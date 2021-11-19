@@ -2666,7 +2666,7 @@
 !           BOUNDARY(ng) % IcePhL_west = IniVal
 !         END IF
 ! #   endif
-#  endif
+! #  endif
 
         IF (DOMAIN(ng)%SouthEast_Test(tile).and.                        &
      &      LBC(ieast,isAice,ng)%acquire) THEN
@@ -2766,7 +2766,7 @@
 !           BOUNDARY(ng) % IcePhL_east = IniVal
 !         END IF
 ! #   endif
-#  endif
+! #  endif
 
         IF (DOMAIN(ng)%SouthWest_Test(tile).and.                        &
      &      LBC(isouth,isAice,ng)%acquire) THEN
@@ -2866,7 +2866,7 @@
 !           BOUNDARY(ng) % IcePhL_south = IniVal
 !         END IF
 ! #   endif
-#  endif
+! #  endif
 
         IF (DOMAIN(ng)%NorthEast_Test(tile).and.                        &
      &      LBC(inorth,isAice,ng)%acquire) THEN
