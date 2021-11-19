@@ -466,7 +466,7 @@
 ** BEST_NPZ            use if Gibson et al. Bering Sea model                 **
 ** STATIONARY          use if ??                                             **
 ** BENTHIC             use if benthic components                             **
-** ICE_BIO             use if ice algae                                      **
+** ICE_BIO             use if ice biology tracers                            **
 ** JELLY               use if jellyfish                                      **
 ** CLIM_ICE_1D         use if one-D with ice                                 **
 **                                                                           **
