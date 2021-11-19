@@ -38,7 +38,7 @@
 !      &                     ICE(ng) % IceNO3,                            &
 !      &                     ICE(ng) % IceNH4,                            &
 !      &                     ICE(ng) % IceLog,                            &
-     &                     OCEAN(ng) % it                               &
+     &                     OCEAN(ng) % it,                              &
 # endif
      &                     ICE(ng) % ui,                                &
      &                     ICE(ng) % vi,                                &
