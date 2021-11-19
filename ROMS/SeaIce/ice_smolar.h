@@ -480,7 +480,7 @@
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
        &                          LBi, UBi, LBj, UBj,                     &
-       &                          it(:,:,itrc,linew(ng)))
+       &                          OCEAN%it(:,:,itrc,linew(ng)))
         ENDDO
 # endif
       END IF
@@ -511,7 +511,7 @@
         CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
        &                    LBi, UBi, LBj, UBj,                           &
        &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-       &                    it(:,:,itrc,linew(ng)))
+       &                    OCEAN%it(:,:,itrc,linew(ng)))
       ENDDO
 #  endif
 # endif
