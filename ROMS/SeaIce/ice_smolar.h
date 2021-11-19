@@ -65,7 +65,7 @@
 !
 !  Local variables
 !
-      integer :: i, j
+      integer :: i, j, itrc
       real(r8) :: wrk(LBi:UBi, LBj:UBj, 2)
 
 #include "set_bounds.h"
@@ -232,9 +232,10 @@
         CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
         &                  LBi, UBi, LBj, UBj,                          &
         &                  IminS, ImaxS, JminS, JmaxS,                  &
-        &                  liold, linew,                                &
-        &                  ui, vi, OCEAN(ng) % it(:,:,itrc,:))
-       ENDDO
+        &                  liold(ng), linew(ng),                        &
+        &                  ICE(ng) % ui, ICE(ng) % vi,                  &
+        &                  OCEAN(ng) % it(:,:,itrc,:))
+      ENDDO
 
 !  FOOOO 
 ! Need to change this to i2d_bc_tile calls
