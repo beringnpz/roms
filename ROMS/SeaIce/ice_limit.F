@@ -23,6 +23,9 @@
       USE mod_param
       USE mod_ice
       USE mod_stepping
+#ifdef ICE_BIO
+      USE mod_ocean
+#endif
 
       integer, intent(in) :: ng, tile
 !
