@@ -1272,7 +1272,7 @@
       END IF
       
       IF (.not.allocated(iDbio3)) THEN
-        allocate ( iDbio2(NDbio3d) )
+        allocate ( iDbio3(NDbio3d) )
         Dmem(1)=Dmem(1)+REAL(NDbio3d,r8)
       END IF
 #endif
