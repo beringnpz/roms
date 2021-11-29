@@ -598,29 +598,43 @@
 !-----------------------------------------------------------------------                                                                                                                      
 !  
 
-#  if   (!defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN)
       NBT = 12
-#  elif ( defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \ 
-        (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
-        (!defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
-      NBT = 13
-#  elif ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
-        (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-        ( defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
-        (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
-      NBT = 14
-#  elif ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-        (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-        ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
-        (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-      NBT = 15
-#  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-        ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN) || \
-        (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-      NBT = 16
-#  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-      NBT = 17
-# endif
+#  if defined IRON_LIMIT
+      NBT = NBT+1
+#  endif
+#  if defined JELLY
+      NBT = NBT+1
+#  endif
+#  if defined CARBON
+      NBT = NBT+2
+#  endif
+#  if defined OXYGEN
+      NBT = NBT+1
+#  endif
+
+! #  if   (!defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN)
+!       NBT = 12
+! #  elif ( defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
+!         (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
+!         (!defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
+!       NBT = 13
+! #  elif ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
+!         (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
+!         ( defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
+!         (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
+!       NBT = 14
+! #  elif ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
+!         (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
+!         ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
+!         (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
+!       NBT = 15
+! #  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
+!         ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN) || \
+!         (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
+!       NBT = 16
+! #  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
+!       NBT = 17
+! # endif
    
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
       NDbio3d=155
@@ -1304,7 +1318,7 @@
       ic=ic+1
 # endif
 # ifdef IRON_LIMIT
-      iJel=ic+1
+      iFe=ic+1
       ic=ic+1
 # endif
 # ifdef CARBON
