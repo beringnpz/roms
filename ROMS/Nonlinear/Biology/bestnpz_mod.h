@@ -1261,7 +1261,7 @@
 # endif
 # ifdef ICE_BIO
       IF (.not.allocated(idice)) THEN
-        allocate ( idben(NIB) )
+        allocate ( idice(NIB) )
         Dmem(1)=Dmem(1)+REAL(NIB,r8)
       END IF
 # endif
