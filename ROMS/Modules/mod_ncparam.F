@@ -1328,12 +1328,10 @@
       isSig22=ic+9
       ic=ic+9
 # if defined ICE_BIO && defined BEST_NPZ
-      print *, "ice is indices"
       isIcePhL = ic+1
       isIceNO3 = ic+2
       isIceNH4 = ic+3
       ic=ic+3
-      print *, "done ice is indices"
 # endif
 #endif
       isWvel=ic+1

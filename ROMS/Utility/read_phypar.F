@@ -12,9 +12,12 @@
 !                                                                      !
 !=======================================================================
 !
+      print *, "mod_param"
       USE mod_param
+      print *, "mod_parallel"
       USE mod_parallel
 #ifdef BIOLOGY
+      print *, "mod_biology"
       USE mod_biology
 #endif
 #if defined MODEL_COUPLING && defined MCT_LIB
@@ -23,24 +26,32 @@
 #if defined FOUR_DVAR || defined VERIFICATION
       USE mod_fourdvar
 #endif
+      print *, "mod_iounits"
       USE mod_iounits
+      print *, "mod_ncparam"
       USE mod_ncparam
 #ifdef NESTING
       USE mod_nesting
 #endif
+      print *, "mod_netcdf"
       USE mod_netcdf
+      print *, "mod_scalars"
       USE mod_scalars
 #if defined SEDIMENT || defined BBL_MODEL
       USE mod_sediment
 #endif
+      print *, "mod_stepping"
       USE mod_stepping
 #ifdef PROPAGATOR
       USE mod_storage
 #endif
+      print *, "mod_strings"
       USE mod_strings
 !
+      print *, "inp_decode_mod"
       USE inp_decode_mod
 !
+      print *, "dateclock_mod"
       USE dateclock_mod, ONLY : ref_clock
       USE strings_mod,   ONLY : FoundError
 !
