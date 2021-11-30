@@ -1295,12 +1295,10 @@
 !  Initialize tracer identification indices.
 !-----------------------------------------------------------------------
 !
-      print *, "idbio"
       ic=NAT+NPT+NCS+NNS
       DO i=1,NBT
         idbio(i)=ic+i
       END DO
-      print *, "bio indices"
       iNO3=ic+1
       iNH4=ic+2
       iPhS=ic+3
@@ -1338,7 +1336,6 @@
 # endif
 
 #ifdef BENTHIC
-      print *, "benthic indices"
       iBen=1
       iDetBen=2
       DO i=1,NBEN
@@ -1346,7 +1343,6 @@
       END DO
 #endif
 #ifdef ICE_BIO
-      print *, "ice indices"
       iIcPhL=1
       iIcNO3=2
       iIcNH4=3
@@ -1356,7 +1352,6 @@
 #endif
 
 # ifdef DIAGNOSTICS_BIO
-      print *, "diagnostic indices"
       DO i=1,NDbio3d
         iDbio3(i)=i
       END DO
@@ -1518,7 +1513,6 @@
       ipco2=2
       io2flx=3
 # endif
-      print *, "End mod_biology"
 
       RETURN
       END SUBROUTINE initialize_biology

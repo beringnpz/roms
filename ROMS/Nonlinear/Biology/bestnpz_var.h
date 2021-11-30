@@ -16,6 +16,7 @@
 ************************************************************************
 */
 
+              print *, "idTvar"
               CASE ('idTvar(iNO3)')
                 idTvar(iNO3)=varid
               CASE ('idTvar(iNH4)')
@@ -46,6 +47,7 @@
                 idTvar(iJel)=varid
               CASE ('idTvar(iFe)')
                 idTvar(iFe)=varid
+              print *, "idTbry"
               CASE ('idTbry(ieast,iMZS)')
                 idTbry(ieast,iMZS)=varid
               CASE ('idTbry(inorth,iMZS)')
@@ -167,6 +169,7 @@
               CASE ('idTbry(iwest,iNO3)')
                 idTbry(iwest,iNO3)=varid
 #ifdef CARBON
+              print *, "carbon"
               CASE ('idpCO2air')
                 idpCO2air=varid
               CASE ('idTvar(iTAlk)')
@@ -191,12 +194,14 @@
                 idTbry(iwest,iTIC_)=varid
 #endif
 #ifdef CARBON_FLUX
+              print *, "carbon flux"
               CASE ('idTAFlux')
                 idTAFlux=varid
               CASE ('idDICFlux')
                 idDICFlux=varid
 #endif
 #ifdef OXYGEN
+              print *, "oxygen"
               CASE ('idTvar(iOxyg)')
                 idTvar(iOxyg)=varid
               CASE ('idTbry(ieast,iOxyg)')
@@ -209,6 +214,7 @@
                 idTbry(iwest,iOxyg)=varid
 #endif
 #ifdef ICE_BIO
+              print *, "ice bio"
               CASE ('idIceTvar(iIcPhL)')
 !                 idIcePhL=varid
                 idIceTvar(iIcPhL)=varid
@@ -222,12 +228,14 @@
 !                 idIceLog=varid
 #endif
 #ifdef BENTHIC
+              print *, "benthic"
               CASE ('idBeTvar(iBen)')
                 idBeTvar(iBen)=varid
               CASE ('idBeTvar(iDetBen)')
                 idBeTvar(iDetBen)=varid
 #endif
 #ifdef DIAGNOSTICS_BIO
+              print *, "diagnostics"
               CASE ('iDbio3(iilims)')
                 iDbio3(iilims)=varid
               CASE ('iDbio3(iiliml)')
@@ -532,4 +540,5 @@
                 iDbio2(ipco2)=varid
               CASE ('iDbio2(io2flx)')
                 iDbio2(io2flx)=varid
+              print *, "Done"
 #endif
