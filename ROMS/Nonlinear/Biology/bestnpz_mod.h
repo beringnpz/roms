@@ -652,6 +652,7 @@
 !  Allocate various module variables.
 !-----------------------------------------------------------------------
 !
+      print *, "Starting memory allocation: parameters"
       IF (.not.allocated(BioIter)) THEN
         allocate ( BioIter(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
@@ -1260,6 +1261,7 @@
         allocate ( KI(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+      print *, "Starting memory allocation: vectors"
 !
 !  Allocate biological tracer vector.
 !
@@ -1289,6 +1291,7 @@
         allocate ( iDbio3(NDbio3d) )
         Dmem(1)=Dmem(1)+REAL(NDbio3d,r8)
       END IF
+      print *, "Done memory allocation"
 #endif
 !
 !-----------------------------------------------------------------------
