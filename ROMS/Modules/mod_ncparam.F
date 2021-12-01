@@ -1212,6 +1212,7 @@
 !
 !  Initialize DOMAIN structure.
 !
+      print *, "Start mod_ncparam"
       DO ng=1,Ngrids
         DOMAIN(ng) % Eastern_Edge  = .FALSE.
         DOMAIN(ng) % Western_Edge  = .FALSE.
