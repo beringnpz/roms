@@ -205,7 +205,7 @@
               CASE ('idIceTvar(iIcNO3)')
 !                 idIceNO3=varid
                 idIceTvar(iIcNO3)=varid
-              CASE ('idIceTvar(icINH4)')
+              CASE ('idIceTvar(iIcNH4)')
 !                 idIceNH4=varid
                 idIceTvar(iIcNH4)=varid
 !               CASE ('iIceLog')

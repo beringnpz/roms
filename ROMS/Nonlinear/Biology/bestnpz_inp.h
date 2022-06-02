@@ -615,6 +615,8 @@
 #ifdef ICE_BIO
             CASE ('Hout(idIceTvar)')
               Npts=load_l(Nval, Cval, NIB, Ngrids, Ltrc)
+              print *, idIceTvar
+              print *, idice
               DO ng=1,Ngrids
                 DO itrc=1,NIB
                   i=idIceTvar(idice(itrc))
