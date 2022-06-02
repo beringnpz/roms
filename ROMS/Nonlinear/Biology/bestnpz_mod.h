@@ -1278,15 +1278,6 @@
       IF (.not.allocated(idBeTvar)) THEN
         allocate ( idBeTvar(NBEN) )
       END IF
-      IF (.not.allocated(hisBid)) THEN
-        allocate ( hisBid(NBEN,Ngrids) )
-      ENDIF
-      IF (.not.allocated(avgBid)) THEN
-        allocate ( avgBid(NBEN,Ngrids) )
-      ENDIF
-      IF (.not.allocated(rstBid)) THEN
-        allocate ( rstBid(NBEN,Ngrids) )
-      ENDIF
 # endif
 # ifdef ICE_BIO
       IF (.not.allocated(idice)) THEN
