@@ -1856,7 +1856,6 @@
             CASE ('idHbbl')
               idHbbl=varid
 #ifdef ICE_MODEL
-            print *, "mod_ncparam (1859)"
             CASE ('idAibc(iwest)')
               idAibc(iwest)=varid
             CASE ('idAibc(ieast)')
@@ -2401,7 +2400,6 @@
                 idVnms=varid
 #endif
 #if defined ICE_MODEL || defined CICE_MODEL
-              print *, "mod_ncparam (2404)"
               CASE ('idUice')
                 idUice=varid
               CASE ('idVice')
@@ -2469,7 +2467,6 @@
               CASE ('idVIclm')
                 idVIclm=varid
 ! Ice diagnostics
-              print *, "mod_ncparam (2472)"
               CASE ('idAlbI')
                 idAlbI=varid
               CASE ('idLWdn')
