@@ -223,6 +223,7 @@
 #endif
 #ifdef BENTHIC
               CASE ('idBeTvar(iBen)')
+              print *, "Ben: ", iBen, idBeTvar
                 idBeTvar(iBen)=varid
               CASE ('idBeTvar(iDetBen)')
                 idBeTvar(iDetBen)=varid
