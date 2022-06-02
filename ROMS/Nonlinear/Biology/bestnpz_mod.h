@@ -1280,14 +1280,24 @@
       END IF
       IF (.not.allocated(NBeT)) THEN
         allocate ( NBeT(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
       IF (.not.allocated(idBeTvar)) THEN
         allocate ( idBeTvar(NBEN) )
+        Dmem(1)=Dmem(1)+REAL(NBEN,r8)
       END IF
 # endif
 # ifdef ICE_BIO
       IF (.not.allocated(idice)) THEN
         allocate ( idice(NIB) )
+        Dmem(1)=Dmem(1)+REAL(NIB,r8)
+      END IF
+      IF (.not.allocated(NIceT)) THEN
+        allocate ( NIceT(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(idIceTvar)) THEN
+        allocate ( idIceTvar(NIB) )
         Dmem(1)=Dmem(1)+REAL(NIB,r8)
       END IF
 # endif
