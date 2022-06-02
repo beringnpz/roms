@@ -24,8 +24,6 @@
                 idTvar(iPhS)=varid
               CASE ('idTvar(iPhL)')
                 idTvar(iPhL)=varid
-              CASE ('idTvar(iMZS)')
-                idTvar(iMZS)=varid
               CASE ('idTvar(iMZL)')
                 idTvar(iMZL)=varid
               CASE ('idTvar(iCop)')
@@ -46,14 +44,6 @@
                 idTvar(iJel)=varid
               CASE ('idTvar(iFe)')
                 idTvar(iFe)=varid
-              CASE ('idTbry(ieast,iMZS)')
-                idTbry(ieast,iMZS)=varid
-              CASE ('idTbry(inorth,iMZS)')
-                idTbry(inorth,iMZS)=varid
-              CASE ('idTbry(isouth,iMZS)')
-                idTbry(isouth,iMZS)=varid
-              CASE ('idTbry(iwest,iMZS)')
-                idTbry(iwest,iMZS)=varid
               CASE ('idTbry(ieast,iCop)')
                 idTbry(ieast,iCop)=varid
               CASE ('idTbry(ieast,iDet)')
@@ -223,7 +213,6 @@
 #endif
 #ifdef BENTHIC
               CASE ('idBeTvar(iBen)')
-              print *, "Ben: ", iBen, idBeTvar
                 idBeTvar(iBen)=varid
               CASE ('idBeTvar(iDetBen)')
                 idBeTvar(iDetBen)=varid

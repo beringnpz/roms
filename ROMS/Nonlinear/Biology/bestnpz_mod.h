@@ -203,13 +203,19 @@
       integer, allocatable :: iDbio2(:) ! 2D Biological diagnostics
       integer, allocatable :: iDbio3(:) ! 3D Biological diagnostics
 #endif
+#ifdef CARBON
+      integer :: idpCO2air
+#endif
+#ifdef CARBON_FLUX
+      integer :: idTAFlux
+      integer :: idDICFlux
+#endif
       
       integer :: iNO3               ! Nitrate
       integer :: iNH4               ! Ammonium
       integer :: iPhS               ! Small Phytoplankton
       integer :: iPhL               ! Large Phytoplankton
-      integer :: iMZS               ! Small Microzooplankton
-      integer :: iMZL               ! Large Microzooplankton
+      integer :: iMZL               ! Microzooplankton
       integer :: iCop               ! Small Coastal Copepods
       integer :: iNCaS              ! Neocalanus
       integer :: iEupS              ! Euphausiids
@@ -600,16 +606,16 @@
 
       NBT = 12
 #  if defined IRON_LIMIT
-      NBT = NBT+1
+      NBT = NBT+1 ! Fe
 #  endif
 #  if defined JELLY
-      NBT = NBT+1
+      NBT = NBT+1 ! jelly
 #  endif
 #  if defined CARBON
-      NBT = NBT+2
+      NBT = NBT+2 ! DIC+alk
 #  endif
 #  if defined OXYGEN
-      NBT = NBT+1
+      NBT = NBT+1 ! oxygen
 #  endif
 
 ! #  if   (!defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN)
@@ -1309,16 +1315,15 @@
       iNH4=ic+2
       iPhS=ic+3
       iPhL=ic+4
-      iMZS=ic+5
-      iMZL=ic+6
-      iCop=ic+7
-      iNCaS=ic+8
-      iEupS=ic+9
-      iNCaO=ic+10
-      iEupO=ic+11
-      iDet=ic+12
-      iDetF=ic+13
-      ic = ic+13
+      iMZL=ic+5
+      iCop=ic+6
+      iNCaS=ic+7
+      iEupS=ic+8
+      iNCaO=ic+9
+      iEupO=ic+10
+      iDet=ic+11
+      iDetF=ic+12
+      ic = ic+12
 # ifdef JELLY
       iJel=ic+1
       ic=ic+1

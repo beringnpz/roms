@@ -476,7 +476,7 @@
 
       ! Bio tracer setup
 
-      integer  :: iiNO3,    iiNH4,    iiPhS,  iiPhL,  iiMZS, iiMZL, iiCop
+      integer  :: iiNO3,    iiNH4,    iiPhS,  iiPhL,  iiMZL, iiCop
       integer  :: iiNCaS,   iiNCaO,   iiEupS, iiEupO, iiDet, iiDetF
       integer  :: iiJel,    iiFe,     iiBen,  iiDetBen
       integer  :: iiIcePhL, iiIceNO3, iiIceNH4
@@ -827,26 +827,25 @@
         iiNH4    = 2
         iiPhS    = 3
         iiPhL    = 4
-        iiMZS    = 5
-        iiMZL    = 6
-        iiCop    = 7
-        iiNCaS   = 8
-        iiEupS   = 9
-        iiNCaO   = 10
-        iiEupO   = 11
-        iiDet    = 12
-        iiDetF   = 13
-        iiJel    = 14
-        iiFe     = 15
-        iiBen    = 16
-        iiDetBen = 17
-        iiIcePhL = 18
-        iiIceNO3 = 19
-        iiIceNH4 = 20
+        iiMZL    = 5
+        iiCop    = 6
+        iiNCaS   = 7
+        iiEupS   = 8
+        iiNCaO   = 9
+        iiEupO   = 10
+        iiDet    = 11
+        iiDetF   = 12
+        iiJel    = 13
+        iiFe     = 14
+        iiBen    = 15
+        iiDetBen = 16
+        iiIcePhL = 17
+        iiIceNO3 = 18
+        iiIceNH4 = 19
 #ifdef CARBON
-        iiTIC_   = 21
-        iiTAlk   = 22
-        iiOxyg   = 23
+        iiTIC_   = 20
+        iiTAlk   = 21
+        iiOxyg   = 22 ! TODO wrap in OXYGEN CPP
 #endif
 
         ! All state variables will be saved in two different versions:
@@ -867,7 +866,6 @@
             Bio3d(i,k,iiNH4 ) = t(i,j,k,nstp,iNH4)
             Bio3d(i,k,iiPhS ) = t(i,j,k,nstp,iPhS)
             Bio3d(i,k,iiPhL ) = t(i,j,k,nstp,iPhL)
-            Bio3d(i,k,iiMZS ) = t(i,j,k,nstp,iMZS)
             Bio3d(i,k,iiMZL ) = t(i,j,k,nstp,iMZL)
             Bio3d(i,k,iiCop ) = t(i,j,k,nstp,iCop)
             Bio3d(i,k,iiNCaS) = t(i,j,k,nstp,iNCaS)
@@ -3298,7 +3296,6 @@
             t(i,j,k,nnew,iDetF) = t(i,j,k,nnew,iDetF) + (Bio2d(i,k,iiDetF) - Bio_bak(i,k,iiDetF))
             t(i,j,k,nnew,iJel ) = t(i,j,k,nnew,iJel ) + (Bio2d(i,k,iiJel ) - Bio_bak(i,k,iiJel ))
             t(i,j,k,nnew,iFe  ) = t(i,j,k,nnew,iFe  ) + (Bio2d(i,k,iiFe  ) - Bio_bak(i,k,iiFe  ))
-            t(i,j,k,nnew,iMZS ) = t(i,j,k,nnew,iMZS ) + 0.0_r8
 
 #ifdef CARBON
             t(i,j,k,nnew,iTIC_ ) = t(i,j,k,nnew,iTIC_ ) + (Bio2d(i,k,iiTIC_ ) - Bio_bak(i,k,iiTIC_ ))
@@ -3360,7 +3357,6 @@
             t(i,j,k,3,iDetF) = t(i,j,k,nnew,iDetF) * Hz_inv(i,k)
             t(i,j,k,3,iJel ) = t(i,j,k,nnew,iJel ) * Hz_inv(i,k)
             t(i,j,k,3,iFe  ) = t(i,j,k,nnew,iFe  ) * Hz_inv(i,k)
-            t(i,j,k,3,iMZS ) = 0
 #endif
           END DO
         END DO
