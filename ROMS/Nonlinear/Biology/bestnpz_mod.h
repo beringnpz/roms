@@ -1529,6 +1529,7 @@
       itotresp=147
       itotrem=148
       iflx_Frz_Alk=149
+      iflx_Frz_TIC=150
       
       ico2flx=1
       ipco2=2
