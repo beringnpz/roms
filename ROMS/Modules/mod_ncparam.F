@@ -1212,7 +1212,6 @@
 !
 !  Initialize DOMAIN structure.
 !
-      print *, "mod_ncparam (1215)"
       DO ng=1,Ngrids
         DOMAIN(ng) % Eastern_Edge  = .FALSE.
         DOMAIN(ng) % Western_Edge  = .FALSE.
@@ -1294,7 +1293,6 @@
 !
 !  Set IDs for state some state variables.
 !
-      print *, "mod_ncparam (1297)"
       ic=5
       DO i=1,MT
         ic=ic+1
@@ -1330,7 +1328,6 @@
       isSig22=ic+9
       ic=ic+9
 # if defined ICE_BIO && defined BEST_NPZ
-      print *, "mod_ncparam (1333)"
       isIcePhL = ic+1
       isIceNO3 = ic+2
       isIceNH4 = ic+3
@@ -1359,7 +1356,6 @@
 !
 !  Initialize IO information variables.
 !
-      print *, "mod_ncparam (1362)"
       DO ng=1,Ngrids
         DO i=1,NV
           Linfo(1,i,ng)=.FALSE.
@@ -1439,7 +1435,6 @@
 !
 !  Open input variable information file.
 !
-      print *, "mod_ncparam (1442)"
       OPEN (inp, FILE=TRIM(varname), FORM='formatted', STATUS='old',    &
      &      ERR=10)
       GOTO 20
@@ -1511,7 +1506,6 @@
 !
 !  Assign identification indices.
 !
-          print *, "mod_ncparam (1514) ", TRIM(ADJUSTL(Vinfo(6)))
           load=.TRUE.
           varid=varid+1
           SELECT CASE (TRIM(ADJUSTL(Vinfo(6))))
