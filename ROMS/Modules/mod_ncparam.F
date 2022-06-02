@@ -1511,7 +1511,7 @@
 !
 !  Assign identification indices.
 !
-          print *, "mod_ncparam (1514)"
+          print *, "mod_ncparam (1514) ", TRIM(ADJUSTL(Vinfo(6)))
           load=.TRUE.
           varid=varid+1
           SELECT CASE (TRIM(ADJUSTL(Vinfo(6))))
