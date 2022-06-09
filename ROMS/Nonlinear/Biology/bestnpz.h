@@ -3007,7 +3007,7 @@
             Bio3d(i,k,iiOxyg)=Bio3d(i,k,iiOxyg)+                        &
       &         O2_Flux*Hz_inv(i,k)
 #ifdef DIAGNOSTICS_BIO
-           DiaBio2(i,j,io2flx) = DiaBio2(i,j,io2flx) + O2_Flux
+            DiaBio2d(i,j,io2flx) = DiaBio2d(i,j,io2flx) + O2_Flux
 #endif
           END DO
 #endif
@@ -3099,8 +3099,8 @@
      &            CO2_Flux*Hz_inv(i,k)
 
 # ifdef DIAGNOSTICS_BIO
-          DiaBio2(i,j,ico2flx) = DiaBio2(i,j,ico2flx) + CO2_Flux
-          DiaBio2(i,j,ipco2) = pCO2(i)
+            DiaBio2d(i,j,ico2flx) = DiaBio2d(i,j,ico2flx) + CO2_Flux
+            DiaBio2d(i,j,ipco2) = pCO2(i)
 #endif
           END DO
 #endif
