@@ -32,7 +32,7 @@
 !                                                                      !
 !  Biology Variables.                                                  !
 !                                                                      !
-# if defined BIO_FENNEL && defined CARBON
+# if (defined BIO_FENNEL || defined BEST_NPZ || defined BIO_UMAINE) && defined CARBON
 !  pH           Surface concentration of hydrogen ions.                !
 # endif
 # ifdef RED_TIDE
@@ -192,7 +192,7 @@
           real(r8), pointer :: u_stokes(:,:,:)
           real(r8), pointer :: v_stokes(:,:,:)
 # endif
-# if (defined BIO_FENNEL || defined BIO_UMAINE) && defined CARBON
+# if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && defined CARBON
           real(r8), pointer :: pH(:,:)
 # endif
 
@@ -612,7 +612,7 @@
       Dmem(ng)=Dmem(ng)+REAL(N(ng),r8)*size2d
 # endif
 
-# if (defined BIO_FENNEL || defined BIO_UMAINE) && defined CARBON
+# if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && defined CARBON
       allocate ( OCEAN(ng) % pH(LBi:UBi,LBj:UBj) )
       Dmem(ng)=Dmem(ng)+size2d
 # endif
@@ -1140,7 +1140,7 @@
             OCEAN(ng) % ubar_stokes(i,j) = IniVal
             OCEAN(ng) % vbar_stokes(i,j) = IniVal
 #endif
-#if (defined BIO_FENNEL || defined BIO_UMAINE) && \
+#if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && \
       defined CARBON && defined SOLVED3D
             OCEAN(ng) % pH(i,j) = 8.0_r8
 #endif
