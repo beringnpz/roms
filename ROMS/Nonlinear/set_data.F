@@ -519,6 +519,44 @@
 ! end of BIO_COBALT
 #  endif
 
+# ifdef CARBON_FLUX
+!---------------------------------------
+! Set the DIC and ALK flux from the runoff file
+!---------------------------------------
+      CALL set_2dfld_tile (ng, tile, iNLM, idTAFlux,                    &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%TAFluxG,                          &
+     &                     FORCES(ng)%TAFlux,                           &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+      CALL set_2dfld_tile (ng, tile, iNLM, idDICFlux,                   &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%DICFluxG,                         &
+     &                     FORCES(ng)%DICFlux,                          &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+# endif
+
+# ifdef CARBON
+!---------------------------------------
+! Set the atmospheric pCO2
+!---------------------------------------
+      CALL set_2dfld_tile (ng, tile, iNLM, idpCO2air,                   &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%pCO2airG,                         &
+     &                     FORCES(ng)%pCO2air,                          &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+# endif
+
+
+
 #  ifdef CLOUDS
 !
 #   ifdef CLOUDS

@@ -618,6 +618,16 @@
 #  endif
 # endif
 #endif
+#ifdef CARBON
+          real(r8), pointer :: pCO2air(:,:)
+          real(r8), pointer :: pCO2airG(:,:,:)
+#endif
+#ifdef CARBON_FLUX
+          real(r8), pointer :: TAFlux(:,:)
+          real(r8), pointer :: TAFluxG(:,:,:)
+          real(r8), pointer :: DICFlux(:,:)
+          real(r8), pointer :: DICFluxG(:,:,:)
+#endif
 
         END TYPE T_FORCES
 
@@ -1351,6 +1361,26 @@
 #  endif
 # endif
 #endif
+#ifdef CARBON
+      allocate ( FORCES(ng) % pCO2air(LBi:UBi,LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+size2d
+
+      allocate ( FORCES(ng) % pCO2airG(LBi:UBi,LBj:UBj,2) )
+      Dmem(ng)=Dmem(ng)+2.0_r8*size2d
+#endif
+#ifdef CARBON_FLUX
+      allocate ( FORCES(ng) % TAFlux(LBi:UBi,LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+size2d
+
+      allocate ( FORCES(ng) % TAFluxG(LBi:UBi,LBj:UBj,2) )
+      Dmem(ng)=Dmem(ng)+2.0_r8*size2d
+
+      allocate ( FORCES(ng) % DICFlux(LBi:UBi,LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+size2d
+
+      allocate ( FORCES(ng) % DICFluxG(LBi:UBi,LBj:UBj,2) )
+      Dmem(ng)=Dmem(ng)+2.0_r8*size2d
+#endif
 
 #if defined ADJUST_WSTRESS || defined ADJUST_STFLUX
 !
@@ -1544,6 +1574,19 @@
             FORCES(ng) % tau_aiy_n(i,j) = IniVal
             FORCES(ng) % sustr_aw(i,j) = IniVal
             FORCES(ng) % svstr_aw(i,j) = IniVal
+# ifdef CARBON
+            FORCES(ng) % pCO2air(i,j) = IniVal
+            FORCES(ng) % pCO2airG(i,j,1) = IniVal
+            FORCES(ng) % pCO2airG(i,j,2) = IniVal
+# endif
+# ifdef CARBON_FLUX
+            FORCES(ng) % TAFlux(i,j) = IniVal
+            FORCES(ng) % TAFluxG(i,j,1) = IniVal
+            FORCES(ng) % TAFluxG(i,j,2) = IniVal
+            FORCES(ng) % DICFlux(i,j) = IniVal
+            FORCES(ng) % DICFluxG(i,j,1) = IniVal
+            FORCES(ng) % DICFluxG(i,j,2) = IniVal
+# endif
           END DO
         END DO
       END IF

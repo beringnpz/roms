@@ -824,6 +824,52 @@
 ! END OF BIO_COBALT
 # endif
 
+# ifdef CARBON_FLUX
+!
+! BEST_NPZ
+!-----------------------------------------------------------------------
+! Get the Carbon and ALK runoff data
+!-----------------------------------------------------------------------
+!
+      CALL get_2dfld (ng, iNLM, idTAFlux, ncFRCid(idTAFlux,ng),         &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                LBi, UBi, LBj, UBj, 2, 1,                         &
+#  ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#  endif
+     &                FORCES(ng) % TAFluxG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+      CALL get_2dfld (ng, iNLM, idDICFlux, ncFRCid(idDICFlux,ng),       &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                LBi, UBi, LBj, UBj, 2, 1,                         &
+#  ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#  endif
+     &                FORCES(ng) % DICFluxG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+# endif
+# ifdef CARBON
+!
+!-----------------------------------------------------------------------
+! Get the Atmospheric pCO2 data
+!-----------------------------------------------------------------------
+!
+      CALL get_2dfld (ng, iNLM, idpCO2air, ncFRCid(idpCO2air,ng),       &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                 LBi, UBi, LBj, UBj, 2, 1,                        &
+#  ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#  endif
+     &                FORCES(ng) % pCO2airG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+! End of BEST_NPZ
+# endif
+
 # if !(defined ANA_CLOUD || defined FRC_COUPLING) && defined CLOUDS
 !
 !-----------------------------------------------------------------------
