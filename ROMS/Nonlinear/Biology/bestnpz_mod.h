@@ -643,7 +643,7 @@
 ! # endif
    
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
-      NDbio3d=155
+      NDbio3d=156
       NDbio2d=3
 #endif
 #ifdef BENTHIC
