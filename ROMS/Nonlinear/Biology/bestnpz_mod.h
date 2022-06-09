@@ -1530,6 +1530,12 @@
       itotrem=148
       iflx_Frz_Alk=149
       iflx_Frz_TIC=150
+      ibiomem_TIC=151
+      ibiomem_Alk=152
+      ibiomem_Oxyg=153
+      iflx_Adv_TIC=154
+      iflx_Adv_Alk=155
+      iflx_Adv_Oxyg=156
       
       ico2flx=1
       ipco2=2
