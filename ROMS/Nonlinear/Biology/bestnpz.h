@@ -1066,9 +1066,15 @@
 
         ! Extract temperature and salinity, for easier reference
 
-        print *, Istr, Iend
-        Temp = t(Istr:Iend,j,1:N(ng),nstp,itemp) ! deg C
-        Salt = t(Istr:Iend,j,1:N(ng),nstp,isalt) ! unitless
+        DO k=1,N(ng)
+          DO i=Istr,Iend
+            Temp(i,k) = t(i,j,k,nstp,itemp) ! deg C
+            Salt(i,k) = t(i,j,k,nstp,isalt) ! unitless
+          END DO
+        END DO
+
+!         Temp = t(Istr:Iend,j,1:N(ng),nstp,itemp) ! deg C
+!         Salt = t(Istr:Iend,j,1:N(ng),nstp,isalt) ! unitless
 
 
 #ifdef CORRECT_TEMP_BIAS
