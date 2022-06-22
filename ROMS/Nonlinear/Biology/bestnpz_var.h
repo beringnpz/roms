@@ -202,6 +202,7 @@
               CASE ('idIceTvar(iIcPhL)')
 !                 idIcePhL=varid
                 idIceTvar(iIcPhL)=varid
+                print *, "Found IcePhL in varinfo"
               CASE ('idIceTvar(iIcNO3)')
 !                 idIceNO3=varid
                 idIceTvar(iIcNO3)=varid
