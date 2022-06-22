@@ -1066,6 +1066,7 @@
 
         ! Extract temperature and salinity, for easier reference
 
+        print *, Istr, Iend
         Temp = t(Istr:Iend,j,1:N(ng),nstp,itemp) ! deg C
         Salt = t(Istr:Iend,j,1:N(ng),nstp,isalt) ! unitless
 
