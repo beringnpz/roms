@@ -688,24 +688,24 @@
           real(r8), pointer :: viG_north(:,:)
 # endif
 
-! # if defined ICE_BIO
-! #  ifdef BERING_10K
-!           real(r8), pointer :: IceNO3_west(:)
-!           real(r8), pointer :: IceNO3_east(:)
-!           real(r8), pointer :: IceNO3_south(:)
-!           real(r8), pointer :: IceNO3_north(:)
-!
-!           real(r8), pointer :: IceNH4_west(:)
-!           real(r8), pointer :: IceNH4_east(:)
-!           real(r8), pointer :: IceNH4_south(:)
-!           real(r8), pointer :: IceNH4_north(:)
-!
-!           real(r8), pointer :: IcePhL_west(:)
-!           real(r8), pointer :: IcePhL_east(:)
-!           real(r8), pointer :: IcePhL_south(:)
-!           real(r8), pointer :: IcePhL_north(:)
-! #  endif
-! # endif
+# if defined ICE_BIO && defined BEST_NPZ
+          real(r8), pointer :: IceNO3_west(:)
+          real(r8), pointer :: IceNO3_east(:)
+          real(r8), pointer :: IceNO3_south(:)
+          real(r8), pointer :: IceNO3_north(:)
+
+          real(r8), pointer :: IceNH4_west(:)
+          real(r8), pointer :: IceNH4_east(:)
+          real(r8), pointer :: IceNH4_south(:)
+          real(r8), pointer :: IceNH4_north(:)
+
+          real(r8), pointer :: IcePhL_west(:)
+          real(r8), pointer :: IcePhL_east(:)
+          real(r8), pointer :: IcePhL_south(:)
+          real(r8), pointer :: IcePhL_north(:)
+          
+          ! Note: currently requires analytical ice bio bc's
+#  endif
 #endif
 
 #if defined TANGENT || defined TL_IOMS
@@ -2180,36 +2180,34 @@
       END IF
 # endif
 
-! # if defined ICE_BIO
-! #  ifdef BERING_10K
-!       allocate ( BOUNDARY(ng) % IceNO3_west(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IceNO3_east(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IceNO3_south(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-!       allocate ( BOUNDARY(ng) % IceNO3_north(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-!
-!       allocate ( BOUNDARY(ng) % IceNH4_west(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IceNH4_east(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IceNH4_south(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-!       allocate ( BOUNDARY(ng) % IceNH4_north(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-!
-!       allocate ( BOUNDARY(ng) % IcePhL_west(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IcePhL_east(LBj:UBj) )
-!       Dmem(ng)=Dmem(ng)+Ysize
-!       allocate ( BOUNDARY(ng) % IcePhL_south(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-!       allocate ( BOUNDARY(ng) % IcePhL_north(LBi:UBi) )
-!       Dmem(ng)=Dmem(ng)+Xsize
-! #  endif
-! # endif
+# if defined ICE_BIO && defined BEST_NPZ
+      allocate ( BOUNDARY(ng) % IceNO3_west(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IceNO3_east(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IceNO3_south(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+      allocate ( BOUNDARY(ng) % IceNO3_north(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+
+      allocate ( BOUNDARY(ng) % IceNH4_west(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IceNH4_east(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IceNH4_south(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+      allocate ( BOUNDARY(ng) % IceNH4_north(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+
+      allocate ( BOUNDARY(ng) % IcePhL_west(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IcePhL_east(LBj:UBj) )
+      Dmem(ng)=Dmem(ng)+Ysize
+      allocate ( BOUNDARY(ng) % IcePhL_south(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+      allocate ( BOUNDARY(ng) % IcePhL_north(LBi:UBi) )
+      Dmem(ng)=Dmem(ng)+Xsize
+# endif
 #endif
 
       RETURN

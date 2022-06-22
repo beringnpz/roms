@@ -1922,13 +1922,11 @@
       END IF
 
       IF (.not.(RefinedGrid(ng).and.RefineScale(ng).gt.0)) THEN
-! # if defined ICE_BIO
-! #  ifdef BERING_10K
-!         CALL ana_IcePhLbc (ng, tile, iNLM)
-!         CALL ana_IceNO3bc (ng, tile, iNLM)
-!         CALL ana_IceNH4bc (ng, tile, iNLM)
-! #  endif
-! # endif
+# ifdef ANA_ICEBIOBC
+        CALL ana_IcePhLbc (ng, tile, iNLM)
+        CALL ana_IceNO3bc (ng, tile, iNLM)
+        CALL ana_IceNH4bc (ng, tile, iNLM)
+# endif
       END IF
 
       IF (.not.(RefinedGrid(ng).and.RefineScale(ng).gt.0)) THEN
