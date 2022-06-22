@@ -2656,15 +2656,13 @@
           BOUNDARY(ng) % viG_west = IniVal
         END IF
 #  endif
-! #  if defined ICE_BIO
-! #   ifdef BERING_10K
-!         IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
-!           BOUNDARY(ng) % IceNO3_west = IniVal
-!           BOUNDARY(ng) % IceNH4_west = IniVal
-!           BOUNDARY(ng) % IcePhL_west = IniVal
-!         END IF
-! #   endif
-! #  endif
+#  if defined ICE_BIO && defined BEST_NPZ
+        IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
+          BOUNDARY(ng) % IceNO3_west = IniVal
+          BOUNDARY(ng) % IceNH4_west = IniVal
+          BOUNDARY(ng) % IcePhL_west = IniVal
+        END IF
+#  endif
 
         IF (DOMAIN(ng)%SouthEast_Test(tile).and.                        &
      &      LBC(ieast,isAice,ng)%acquire) THEN
@@ -2756,16 +2754,13 @@
           BOUNDARY(ng) % viG_east = IniVal
         END IF
 #  endif
-! #  if defined ICE_BIO
-! #   ifdef BERING_10K
-!         IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
-!           BOUNDARY(ng) % IceNO3_east = IniVal
-!           BOUNDARY(ng) % IceNH4_east = IniVal
-!           BOUNDARY(ng) % IcePhL_east = IniVal
-!         END IF
-! #   endif
-! #  endif
-
+#  if defined ICE_BIO && defined BEST_NPZ
+        IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
+          BOUNDARY(ng) % IceNO3_east = IniVal
+          BOUNDARY(ng) % IceNH4_east = IniVal
+          BOUNDARY(ng) % IcePhL_east = IniVal
+        END IF
+#  endif
         IF (DOMAIN(ng)%SouthWest_Test(tile).and.                        &
      &      LBC(isouth,isAice,ng)%acquire) THEN
           BOUNDARY(ng) % ai_south = IniVal
@@ -2856,16 +2851,13 @@
           BOUNDARY(ng) % viG_south = IniVal
         END IF
 #  endif
-! #  if defined ICE_BIO
-! #   ifdef BERING_10K
-!         IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
-!           BOUNDARY(ng) % IceNO3_south = IniVal
-!           BOUNDARY(ng) % IceNH4_south = IniVal
-!           BOUNDARY(ng) % IcePhL_south = IniVal
-!         END IF
-! #   endif
-! #  endif
-
+#  if defined ICE_BIO && defined BEST_NPZ
+        IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
+          BOUNDARY(ng) % IceNO3_south = IniVal
+          BOUNDARY(ng) % IceNH4_south = IniVal
+          BOUNDARY(ng) % IcePhL_south = IniVal
+        END IF
+#   endif
         IF (DOMAIN(ng)%NorthEast_Test(tile).and.                        &
      &      LBC(inorth,isAice,ng)%acquire) THEN
           BOUNDARY(ng) % ai_north = IniVal
@@ -2956,15 +2948,13 @@
           BOUNDARY(ng) % viG_north = IniVal
         END IF
 #  endif
-! #  if defined ICE_BIO
-! #   ifdef BERING_10K
-!         IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
-!           BOUNDARY(ng) % IceNO3_north = IniVal
-!           BOUNDARY(ng) % IceNH4_north = IniVal
-!           BOUNDARY(ng) % IcePhL_north = IniVal
-!         END IF
-! #   endif
-! #  endif
+#  if defined ICE_BIO && defined BEST_NPZ
+        IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
+          BOUNDARY(ng) % IceNO3_north = IniVal
+          BOUNDARY(ng) % IceNH4_north = IniVal
+          BOUNDARY(ng) % IcePhL_north = IniVal
+        END IF
+#   endif
 # endif
       END IF
 

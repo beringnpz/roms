@@ -3409,11 +3409,11 @@
       idBvar(isSig11)=idSig11
       idBvar(isSig12)=idSig12
       idBvar(isSig22)=idSig22
-! #  if defined ICE_BIO && defined BEST_NPZ
-!       idBvar(isIcePhL)=idIcePhL
-!       idBvar(isIceNO3)=idIceNO3
-!       idBvar(isIceNH4)=idIceNH4
-! #  endif
+#  if defined ICE_BIO && defined BEST_NPZ
+      idBvar(isIcePhL)=idIceTvar(iIcPhL)
+      idBvar(isIceNO3)=idIceTvar(iIcNO3)
+      idBvar(isIceNH4)=idIceTvar(iIcNH4)
+#  endif
 # endif
 #endif
 !
