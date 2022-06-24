@@ -1073,10 +1073,6 @@
           END DO
         END DO
 
-!         Temp = t(Istr:Iend,j,1:N(ng),nstp,itemp) ! deg C
-!         Salt = t(Istr:Iend,j,1:N(ng),nstp,isalt) ! unitless
-
-
 #ifdef CORRECT_TEMP_BIAS
         Temp = Temp - 1.94_r8 ! bias correction for bio only, not fed back
 #endif
