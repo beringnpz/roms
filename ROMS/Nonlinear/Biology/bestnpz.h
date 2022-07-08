@@ -1121,6 +1121,7 @@
 
             if (Frz_PhL_IPhL(i,N(ng)) /= Frz_PhL_IPhL(i,N(ng))) then
               write(*, '(A30,I3,A4,I3)') "NaN caught: Frz_PhL_IPhL, i = ", i, "k = ", N(ng)
+              print *, Bio3d(i,N(ng),iiIcePhl), aidz(ng), dt(ng), sec2day
               exit_flag = 1
             end if
             if (Frz_NO3_INO3(i,N(ng)) /= Frz_NO3_INO3(i,N(ng))) then
