@@ -84,7 +84,7 @@
             CASE ('k_sed1')
               Npts=load_r(Nval, Rval, Ngrids, k_sed1)
             CASE ('k_sed2')
-              Npts=load_r(Nval, Rval, Ngrids, k_sed1)
+              Npts=load_r(Nval, Rval, Ngrids, k_sed2)
 
             ! Conversion factors
 
