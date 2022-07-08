@@ -1121,7 +1121,6 @@
 
             if (Frz_PhL_IPhL(i,N(ng)) /= Frz_PhL_IPhL(i,N(ng))) then
               write(*, '(A30,I3,A4,I3)') "NaN caught: Frz_PhL_IPhL, i = ", i, "k = ", N(ng)
-              write(*, '(E10.2,E10.2,E10.2,E10.2)') Bio3d(i,N(ng),iiIcePhl), aidz(ng), dt(ng), sec2day
               exit_flag = 1
             end if
             if (Frz_NO3_INO3(i,N(ng)) /= Frz_NO3_INO3(i,N(ng))) then
@@ -1152,6 +1151,7 @@
             
             if (Frz_PhL_IPhL(i,N(ng)) /= Frz_PhL_IPhL(i,N(ng))) then
               write(*, '(A30,I3,A4,I3)') "NaN caught: Frz_PhL_IPhL, i = ", i, "k = ", N(ng)
+              write(*, '(E10.2,E10.2,E10.2,E10.2)') Bio2d(i,N(ng),iiIcePhL), dt(ng), sec2day
               exit_flag = 1
             end if
             if (Frz_NO3_INO3(i,N(ng)) /= Frz_NO3_INO3(i,N(ng))) then
