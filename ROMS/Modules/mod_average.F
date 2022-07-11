@@ -1990,9 +1990,11 @@
       IF (ANY(Aout(idBeTvar(:),ng))) THEN
         DO itrc=1,NBeT(ng)
           DO k=1,NBL(ng)
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgbt(i,j,k,itrc) = IniVal
+            DO j=Jmin,Jmax
+              DO i=Imin,Imax
+                AVERAGE(ng) % avgbt(i,j,k,itrc) = IniVal
               END DO
+            END DO
           END DO
         END DO
       ENDIF
@@ -2000,8 +2002,10 @@
 # ifdef ICE_BIO
       IF (ANY(Aout(idIceTvar(:),ng))) THEN
         DO itrc=1,NIceT(ng)
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgit(i,j,itrc) = IniVal
+          DO j=Jmin,Jmax
+            DO i=Imin,Imax
+              AVERAGE(ng) % avgit(i,j,itrc) = IniVal
+            END DO
           END DO
         END DO
       ENDIF
