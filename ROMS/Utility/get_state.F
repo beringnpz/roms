@@ -2344,10 +2344,13 @@
 
 !  Read in benthic initial conditions.
         DO itrc=1,NBeT(ng)
+          print *, "Entered get_state benthic loop: id = ", itrc
           IF (get_var(idBeTvar(itrc))) THEN
+            print *, "get_var true"
             foundit=find_string(var_name, n_var,                        &
      &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
             IF (foundit) THEN
+              print *, "foundit"
               gtype=var_flag(varid)*r2dvar
               IF (Perfect2D) THEN
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
