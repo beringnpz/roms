@@ -1286,6 +1286,131 @@
             END IF
           END IF
         END DO
+        
+#  if defined BENTHIC
+!
+!  Read in benthic initial conditions.
+!
+        print *, "Counter check: NT(ng)=", NT(ng), " NBeT(ng)=", NBeT(ng), " NIceT(ng)=", NIceT(ng)
+        DO itrc=1,NBeT(ng)
+          print *, "Entered get_state benthic loop: id = ", itrc
+          IF (get_var(idBeTvar(itrc))) THEN
+            print *, "get_var true"
+            foundit=find_string(var_name, n_var,                        &
+     &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
+            IF (foundit) THEN
+              print *, "foundit"
+              gtype=var_flag(varid)*r2dvar
+              IF (Perfect2D) THEN
+                status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
+     &                            Vname(1,idBeTvar(itrc)), varid,       &
+     &                            InpRec, gtype, Vsize,                 &
+     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
+     &                            Fscl, Fmin, Fmax,                     &
+#   ifdef MASKING
+     &                            GRID(ng) % rmask,                     &
+#   endif
+     &                            OCEAN(ng) % bt(:,:,NBL(ng),:,itrc))
+              ELSE
+                status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
+     &                            Vname(1,idBeTvar(itrc)), varid,       &
+     &                            InpRec, gtype, Vsize,                 &
+     &                            LBi, UBi, LBj, UBj,                   &
+     &                            Fscl, Fmin, Fmax,                     &
+#   ifdef MASKING
+     &                            GRID(ng) % rmask,                     &
+#   endif
+     &                            OCEAN(ng) % bt(:,:,NBL(ng),Tindex,itrc))
+              END IF
+              IF (FoundError(status, nf90_noerr, __LINE__,              &
+     &                       __FILE__)) THEN
+                IF (Master) THEN
+                  WRITE (stdout,60) string, TRIM(Vname(1,idBeTvar(itrc))),&
+     &                              InpRec, TRIM(ncname)
+                END IF
+                exit_flag=2
+                ioerror=status
+                RETURN
+              ELSE
+                IF (Master) THEN
+                  WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
+     &                               Fmin, Fmax
+                END IF
+              END IF
+            ELSE
+              IF (Master) THEN
+                WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
+     &                             Fmin, Fmax
+              END IF
+              exit_flag=4
+              IF (FoundError(exit_flag, nf90_noerr, __LINE__,           &
+     &                       __FILE__)) THEN
+                RETURN
+              END IF
+            END IF
+          END IF
+        END DO
+#  endif
+
+#  if defined ICE_BIO
+
+!  Read in ice bio initial conditions.
+        DO itrc=1,NIceT(ng)
+          IF (get_var(idIceTvar(itrc))) THEN
+            foundit=find_string(var_name, n_var,                        &
+     &                          TRIM(Vname(1,idIceTvar(itrc))), varid)
+            IF (foundit) THEN
+              gtype=var_flag(varid)*r2dvar
+              IF (Perfect2D) THEN
+                status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
+     &                            Vname(1,idIceTvar(itrc)), varid,      &
+     &                            InpRec, gtype, Vsize,                 &
+     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
+     &                            Fscl, Fmin, Fmax,                     &
+#   ifdef MASKING
+     &                            GRID(ng) % rmask,                     &
+#   endif
+     &                            OCEAN(ng) % it(:,:,:,itrc))
+              ELSE
+                status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
+     &                            Vname(1,idIceTvar(itrc)), varid,      &
+     &                            InpRec, gtype, Vsize,                 &
+     &                            LBi, UBi, LBj, UBj,                   &
+     &                            Fscl, Fmin, Fmax,                     &
+#   ifdef MASKING
+     &                            GRID(ng) % rmask,                     &
+#   endif
+     &                            OCEAN(ng) % it(:,:,Tindex,itrc))
+              END IF
+              IF (FoundError(status, nf90_noerr, __LINE__,              &
+     &                       __FILE__)) THEN
+                IF (Master) THEN
+                  WRITE (stdout,60) string, TRIM(Vname(1,idIceTvar(itrc))),&
+     &                              InpRec, TRIM(ncname)
+                END IF
+                exit_flag=2
+                ioerror=status
+                RETURN
+              ELSE
+                IF (Master) THEN
+                  WRITE (stdout,70) TRIM(Vname(2,idIceTvar(itrc))),        &
+     &                               Fmin, Fmax
+                END IF
+              END IF
+            ELSE
+              IF (Master) THEN
+                WRITE (stdout,70) TRIM(Vname(2,idIceTvar(itrc))),        &
+     &                             Fmin, Fmax
+              END IF
+              exit_flag=4
+              IF (FoundError(exit_flag, nf90_noerr, __LINE__,           &
+     &                       __FILE__)) THEN
+                RETURN
+              END IF
+            END IF
+          END IF
+        END DO
+#  endif
 
 #  ifdef NEMURO_SED1
 !
@@ -2339,130 +2464,6 @@
           END IF
         END DO
 #  endif
-! #  if defined BEST_NPZ && defined BERING_10K
-#  if defined BENTHIC
-
-!  Read in benthic initial conditions.
-        DO itrc=1,NBeT(ng)
-          print *, "Entered get_state benthic loop: id = ", itrc
-          IF (get_var(idBeTvar(itrc))) THEN
-            print *, "get_var true"
-            foundit=find_string(var_name, n_var,                        &
-     &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
-            IF (foundit) THEN
-              print *, "foundit"
-              gtype=var_flag(varid)*r2dvar
-              IF (Perfect2D) THEN
-                status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
-     &                            Vname(1,idBeTvar(itrc)), varid,       &
-     &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
-     &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
-     &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % bt(:,:,NBL(ng),:,itrc))
-              ELSE
-                status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
-     &                            Vname(1,idBeTvar(itrc)), varid,       &
-     &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj,                   &
-     &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
-     &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % bt(:,:,NBL(ng),Tindex,itrc))
-              END IF
-              IF (FoundError(status, nf90_noerr, __LINE__,              &
-     &                       __FILE__)) THEN
-                IF (Master) THEN
-                  WRITE (stdout,60) string, TRIM(Vname(1,idBeTvar(itrc))),&
-     &                              InpRec, TRIM(ncname)
-                END IF
-                exit_flag=2
-                ioerror=status
-                RETURN
-              ELSE
-                IF (Master) THEN
-                  WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
-     &                               Fmin, Fmax
-                END IF
-              END IF
-            ELSE
-              IF (Master) THEN
-                WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
-     &                             Fmin, Fmax
-              END IF
-              exit_flag=4
-              IF (FoundError(exit_flag, nf90_noerr, __LINE__,           &
-     &                       __FILE__)) THEN
-                RETURN
-              END IF
-            END IF
-          END IF
-        END DO
-#  endif
-
-#  if defined ICE_BIO
-
-!  Read in ice bio initial conditions.
-        DO itrc=1,NIceT(ng)
-          IF (get_var(idIceTvar(itrc))) THEN
-            foundit=find_string(var_name, n_var,                        &
-     &                          TRIM(Vname(1,idIceTvar(itrc))), varid)
-            IF (foundit) THEN
-              gtype=var_flag(varid)*r2dvar
-              IF (Perfect2D) THEN
-                status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
-     &                            Vname(1,idIceTvar(itrc)), varid,      &
-     &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
-     &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
-     &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % it(:,:,:,itrc))
-              ELSE
-                status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
-     &                            Vname(1,idIceTvar(itrc)), varid,      &
-     &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj,                   &
-     &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
-     &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % it(:,:,Tindex,itrc))
-              END IF
-              IF (FoundError(status, nf90_noerr, __LINE__,              &
-     &                       __FILE__)) THEN
-                IF (Master) THEN
-                  WRITE (stdout,60) string, TRIM(Vname(1,idIceTvar(itrc))),&
-     &                              InpRec, TRIM(ncname)
-                END IF
-                exit_flag=2
-                ioerror=status
-                RETURN
-              ELSE
-                IF (Master) THEN
-                  WRITE (stdout,70) TRIM(Vname(2,idIceTvar(itrc))),        &
-     &                               Fmin, Fmax
-                END IF
-              END IF
-            ELSE
-              IF (Master) THEN
-                WRITE (stdout,70) TRIM(Vname(2,idIceTvar(itrc))),        &
-     &                             Fmin, Fmax
-              END IF
-              exit_flag=4
-              IF (FoundError(exit_flag, nf90_noerr, __LINE__,           &
-     &                       __FILE__)) THEN
-                RETURN
-              END IF
-            END IF
-          END IF
-        END DO
-#  endif
-
 
 #  ifdef ICE_MODEL
         read_ice = .true.
