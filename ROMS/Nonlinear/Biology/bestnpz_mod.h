@@ -1542,6 +1542,21 @@
       io2flx=3
 # endif
 
+! Distribute tracer counters to grids
+
+#ifdef BENTHIC
+      DO ng=1,Ngrids
+        NBeT(ng)=NBEN
+      END DO
+#endif
+
+#ifdef ICE_BIO
+      DO ng=1,Ngrids
+        NIceT(ng)=NIB
+
+      END DO
+# endif
+
       RETURN
       END SUBROUTINE initialize_biology
   
