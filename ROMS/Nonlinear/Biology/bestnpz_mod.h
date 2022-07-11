@@ -1545,15 +1545,14 @@
 ! Distribute tracer counters to grids
 
 #ifdef BENTHIC
-      DO ng=1,Ngrids
-        NBeT(ng)=NBEN
+      DO i=1,Ngrids
+        NBeT(i)=NBEN
       END DO
 #endif
 
 #ifdef ICE_BIO
-      DO ng=1,Ngrids
-        NIceT(ng)=NIB
-
+      DO i=1,Ngrids
+        NIceT(i)=NIB
       END DO
 # endif
 
