@@ -1352,15 +1352,11 @@
 !
 !  Read in ice bio initial conditions.
 !
-        print *, "Counter check: NT(ng)=", NT(ng), " NBeT(ng)=", NBeT(ng), " NIceT(ng)=", NIceT(ng)
         DO itrc=1,NIceT(ng)
-          print *, "Entered get_state ice bio loop: id = ", itrc
           IF (get_var(idIceTvar(itrc))) THEN
-            print *, "get_var true"
             foundit=find_string(var_name, n_var,                        &
      &                          TRIM(Vname(1,idIceTvar(itrc))), varid)
             IF (foundit) THEN
-              print *, "foundit"
               gtype=var_flag(varid)*r2dvar
               IF (Perfect2D) THEN
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
