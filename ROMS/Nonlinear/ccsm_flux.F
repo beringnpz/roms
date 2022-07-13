@@ -156,15 +156,15 @@ contains
      &                     FORCES(ng) % tau_aix_n,                      &
      &                     FORCES(ng) % tau_aiy_n,                      &
 # endif
-# if defined BEST_NPZ
-#  if defined CLIM_ICE_1D
+# if defined BEST_NPZ & defined ICE_BIO
+! #  if defined CLIM_ICE_1D
      &                     OCEAN(ng) % it,                              &
-     &                     CLIMA(ng) % tclm,                            &
-#  elif defined ICE_BIO
-     &                     OCEAN(ng) % it,                              &
-     &                     ICE(ng) % IcePhL,                            &
-     &                     ICE(ng) % IceLog,                            &
-#  endif
+!      &                     CLIMA(ng) % tclm,                            &
+! #  elif defined ICE_BIO
+!      &                     OCEAN(ng) % it,                              &
+!      &                     ICE(ng) % IcePhL,                            &
+!      &                     ICE(ng) % IceLog,                            &
+! #  endif
 # endif
 # ifdef EMINUSP
      &                     FORCES(ng) % EminusP,                        &
@@ -259,12 +259,12 @@ contains
      &                           sustr_aw, svstr_aw, qao_n,             &
      &                           tau_aix_n, tau_aiy_n,                  &
 # endif
-# if defined BEST_NPZ
-#  if defined CLIM_ICE_1D
-     &                           it, tclm,                              &
-#  elif defined ICE_BIO
-     &                           it, IcePhL, IceLog,                    &
-#  endif
+# if defined BEST_NPZ & defined ICE_BIO
+! #  if defined CLIM_ICE_1D
+     &                           it,                                    &
+! #  elif defined ICE_BIO
+!      &                           it, IcePhL, IceLog,                    &
+! #  endif
 # endif
 # ifdef EMINUSP
      &                           EminusP, evap,                         &
@@ -410,14 +410,14 @@ contains
       real(r8), intent(out) :: tau_aix_n(LBi:,LBj:)
       real(r8), intent(out) :: tau_aiy_n(LBi:,LBj:)
 #  endif
-#  if defined BEST_NPZ
-#   if defined CLIM_ICE_1D
-      real(r8), intent(in) ::tclm(LBi:,LBj:,:,:,:)
+#  if defined BEST_NPZ & defined ICE_BIO
+! #   if defined CLIM_ICE_1D
+!       real(r8), intent(in) ::tclm(LBi:,LBj:,:,:,:)
+!       real(r8), intent(in) :: it(LBi:,LBj:,:,:)
+! #   elif defined ICE_BIO
       real(r8), intent(in) :: it(LBi:,LBj:,:,:)
-#   elif defined ICE_BIO
-      real(r8), intent(in) :: it(LBi:,LBj:,:,:)
-      real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
-      integer, intent(inout) :: IceLog(LBi:,LBj:,:)
+!       real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
+!       integer, intent(inout) :: IceLog(LBi:,LBj:,:)
 #   endif
 #  endif
 
@@ -532,15 +532,15 @@ contains
       real(r8), intent(out) :: tau_aix_n(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: tau_aiy_n(LBi:UBi,LBj:UBj)
 #  endif
-#  if defined BEST_NPZ
-#   if defined CLIM_ICE_1D
+#  if defined BEST_NPZ & defined ICE_BIO
+! #   if defined CLIM_ICE_1D
+!       real(r8), intent(in) :: it(LBi:UBi,LBj:UBj,3,1)
+!       real(r8), intent(in) ::tclm(LBi:UBi,LBj:UBj,UBk,3,UBt+1)
+! #   elif defined ICE_BIO
       real(r8), intent(in) :: it(LBi:UBi,LBj:UBj,3,1)
-      real(r8), intent(in) ::tclm(LBi:UBi,LBj:UBj,UBk,3,UBt+1)
-#   elif defined ICE_BIO
-      real(r8), intent(in) :: it(LBi:UBi,LBj:UBj,3,1)
-      real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
-      integer, intent(inout) :: IceLog(LBi:,LBj:,:)
-#   endif
+!       real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
+!       integer, intent(inout) :: IceLog(LBi:,LBj:,:)
+! #   endif
 #  endif
 
 #  ifdef EMINUSP
