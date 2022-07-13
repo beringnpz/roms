@@ -418,7 +418,7 @@ contains
       real(r8), intent(in) :: it(LBi:,LBj:,:,:)
 !       real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
 !       integer, intent(inout) :: IceLog(LBi:,LBj:,:)
-#   endif
+! #   endif
 #  endif
 
 #  ifdef EMINUSP
