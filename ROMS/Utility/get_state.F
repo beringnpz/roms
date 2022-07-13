@@ -24,10 +24,10 @@
 !
       USE mod_param
       USE mod_parallel
-#if defined BEST_NPZ || defined BIO_COBALT
-      USE mod_biology
-#endif
-#if defined BENTHIC
+! #if defined BEST_NPZ || defined BIO_COBALT
+!       USE mod_biology
+! #endif
+#if defined BENTHIC || defined ICE_BIO
       USE mod_biology
 #endif
 #if defined ADJUST_BOUNDARY
