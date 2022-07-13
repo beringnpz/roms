@@ -43,9 +43,9 @@ contains
 # ifdef EVAP_SHALLOW
       USE mod_coupling
 # endif
-# if defined BEST_NPZ && defined CLIM_ICE_1D
-      USE mod_clima
-# endif
+! # if defined BEST_NPZ && defined CLIM_ICE_1D
+!       USE mod_clima
+! # endif
       USE mod_stepping
 !
 !  Imported variable declarations.
