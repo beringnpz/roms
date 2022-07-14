@@ -257,6 +257,7 @@
 !  Set minimum and maximum time values.
 !
       Nfiles=S(ng)%Nfiles
+      print *, Nfiles
       DO ifile=1,Nfiles
         ncname=S(ng)%files(ifile)
         print *, ifile, Nfiles, ncname
