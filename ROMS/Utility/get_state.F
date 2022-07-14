@@ -27,7 +27,7 @@
 ! #if defined BEST_NPZ || defined BIO_COBALT
 !       USE mod_biology
 ! #endif
-#if defined BENTHIC || defined ICE_BIO
+#if defined BENTHIC || defined ICE_BIO || defined BIO_COBALT
       USE mod_biology
 #endif
 #if defined ADJUST_BOUNDARY
