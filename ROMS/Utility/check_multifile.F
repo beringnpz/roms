@@ -106,7 +106,22 @@
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
         print *, "debugging lateral boundary..."
-        print *, nBCfiles
+        print *, 'Nfiles',   BRY % Nfiles
+        print *, 'Fcount',   BRY % Fcount
+        print *, 'load',     BRY % load
+        print *, 'Rindex',   BRY % Rindex
+        print *, 'ncid',     BRY % ncid
+        print *, 'Nrec',     BRY % Nrec
+        print *, 'Vid',      BRY % Vid
+        print *, 'Tid',      BRY % Tid
+        print *, 'Bid',      BRY % Bid
+        print *, 'time_min', BRY % time_min
+        print *, 'time_max', BRY % time_max
+        print *, 'label',    BRY % label
+        print *, 'head ',    BRY % head 
+        print *, 'base',     BRY % base
+        print *, 'name',     BRY % name
+        print *, 'files',    BRY % files
         CALL multifile_info_s2d (ng, model, file_type, nBCfiles,        &
      &                           max_files, BRY)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
