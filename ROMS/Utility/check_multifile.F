@@ -106,7 +106,7 @@
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
         print *, "debugging lateral boundary..."
-        do i=1,nBCfiles
+        do i=1,nBCfiles(ng)
           print *, 'Nfiles',   BRY(i,ng) % Nfiles
           print *, 'Fcount',   BRY(i,ng) % Fcount
           print *, 'load',     BRY(i,ng) % load
