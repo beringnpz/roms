@@ -105,7 +105,8 @@
       IF (ObcData(ng)) THEN
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
-        print *, BRY
+        print *, "debugging lateral boundary..."
+        print *, nBCfiles, BRY
         CALL multifile_info_s2d (ng, model, file_type, nBCfiles,        &
      &                           max_files, BRY)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
