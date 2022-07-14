@@ -106,22 +106,22 @@
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
         print *, "debugging lateral boundary..."
-        print *, 'Nfiles',   BRY % Nfiles
-        print *, 'Fcount',   BRY % Fcount
-        print *, 'load',     BRY % load
-        print *, 'Rindex',   BRY % Rindex
-        print *, 'ncid',     BRY % ncid
-        print *, 'Nrec',     BRY % Nrec
-        print *, 'Vid',      BRY % Vid
-        print *, 'Tid',      BRY % Tid
-        print *, 'Bid',      BRY % Bid
-        print *, 'time_min', BRY % time_min
-        print *, 'time_max', BRY % time_max
-        print *, 'label',    BRY % label
-        print *, 'head ',    BRY % head 
-        print *, 'base',     BRY % base
-        print *, 'name',     BRY % name
-        print *, 'files',    BRY % files
+        print *, 'Nfiles',   BRY(ng) % Nfiles
+        print *, 'Fcount',   BRY(ng) % Fcount
+        print *, 'load',     BRY(ng) % load
+        print *, 'Rindex',   BRY(ng) % Rindex
+        print *, 'ncid',     BRY(ng) % ncid
+        print *, 'Nrec',     BRY(ng) % Nrec
+        print *, 'Vid',      BRY(ng) % Vid
+        print *, 'Tid',      BRY(ng) % Tid
+        print *, 'Bid',      BRY(ng) % Bid
+        print *, 'time_min', BRY(ng) % time_min
+        print *, 'time_max', BRY(ng) % time_max
+        print *, 'label',    BRY(ng) % label
+        print *, 'head ',    BRY(ng) % head 
+        print *, 'base',     BRY(ng) % base
+        print *, 'name',     BRY(ng) % name
+        print *, 'files',    BRY(ng) % files
         CALL multifile_info_s2d (ng, model, file_type, nBCfiles,        &
      &                           max_files, BRY)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
