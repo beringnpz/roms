@@ -105,6 +105,7 @@
       IF (ObcData(ng)) THEN
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
+        print *, BRY
         CALL multifile_info_s2d (ng, model, file_type, nBCfiles,        &
      &                           max_files, BRY)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
@@ -428,10 +429,10 @@
 !
       DO i=1,InpFiles(ng)
         Nfiles=S(i,ng)%Nfiles
-        write(*,'(A15,I2)') "S(ng)%Nfiles = ", Nfiles 
+        write(*,'(A15,I5)') "S(ng)%Nfiles = ", Nfiles 
         DO ifile=1,Nfiles
           ncname=S(i,ng)%files(ifile)
-          write(*,'(A10,I2,A10,A256)') "  ifile = ", ifile, " ncname = ", ncname
+          write(*,'(A10,I5,A10,A256)') "  ifile = ", ifile, " ncname = ", ncname
           foundit=check_file(ng, model, Nfiles, ncname,                 &
      &                       Tmin, Tmax, Tscale, Lcheck)
           IF (FoundError(exit_flag, NoError, __LINE__,                  &
