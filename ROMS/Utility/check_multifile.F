@@ -259,6 +259,7 @@
       Nfiles=S(ng)%Nfiles
       DO ifile=1,Nfiles
         ncname=S(ng)%files(ifile)
+        print *, ifile, Nfiles, ncname
         foundit=check_file(ng, model, Nfiles, ncname,                   &
      &                     Tmin, Tmax, Tscale,  Lcheck)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
