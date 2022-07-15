@@ -105,25 +105,6 @@
       IF (ObcData(ng)) THEN
         file_type='Lateral Boundary'
         max_files=MAXVAL(nBCfiles)
-        print *, "debugging lateral boundary..."
-        do i=1,nBCfiles(ng)
-          print *, 'Nfiles',   BRY(i,ng) % Nfiles
-          print *, 'Fcount',   BRY(i,ng) % Fcount
-          print *, 'load',     BRY(i,ng) % load
-          print *, 'Rindex',   BRY(i,ng) % Rindex
-          print *, 'ncid',     BRY(i,ng) % ncid
-          print *, 'Nrec',     BRY(i,ng) % Nrec
-          print *, 'Vid',      BRY(i,ng) % Vid
-          print *, 'Tid',      BRY(i,ng) % Tid
-          print *, 'Bid',      BRY(i,ng) % Bid
-          print *, 'time_min', BRY(i,ng) % time_min
-          print *, 'time_max', BRY(i,ng) % time_max
-          print *, 'label',    BRY(i,ng) % label
-          print *, 'head ',    BRY(i,ng) % head 
-          print *, 'base',     BRY(i,ng) % base
-          print *, 'name',     BRY(i,ng) % name
-          print *, 'files',    BRY(i,ng) % files
-        end do
         CALL multifile_info_s2d (ng, model, file_type, nBCfiles,        &
      &                           max_files, BRY)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
@@ -276,10 +257,8 @@
 !  Set minimum and maximum time values.
 !
       Nfiles=S(ng)%Nfiles
-      write(*,'(A15,I2)') "S(ng)%Nfiles = ", Nfiles 
       DO ifile=1,Nfiles
         ncname=S(ng)%files(ifile)
-        write(*,'(A10,I2,A10,A256)') "  ifile = ", ifile, " ncname = ", ncname
         foundit=check_file(ng, model, Nfiles, ncname,                   &
      &                     Tmin, Tmax, Tscale,  Lcheck)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
@@ -447,10 +426,8 @@
 !
       DO i=1,InpFiles(ng)
         Nfiles=S(i,ng)%Nfiles
-        write(*,'(A15,I5)') "S(ng)%Nfiles = ", Nfiles 
         DO ifile=1,Nfiles
           ncname=S(i,ng)%files(ifile)
-          write(*,'(A10,I5,A10,A256)') "  ifile = ", ifile, " ncname = ", ncname
           foundit=check_file(ng, model, Nfiles, ncname,                 &
      &                       Tmin, Tmax, Tscale, Lcheck)
           IF (FoundError(exit_flag, NoError, __LINE__,                  &
