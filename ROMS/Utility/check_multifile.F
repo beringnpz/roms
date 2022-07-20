@@ -257,7 +257,6 @@
 !  Set minimum and maximum time values.
 !
       Nfiles=S(ng)%Nfiles
-      print *, S(ng)%Nfiles
       DO ifile=1,Nfiles
         ncname=S(ng)%files(ifile)
         foundit=check_file(ng, model, Nfiles, ncname,                   &
@@ -427,6 +426,7 @@
 !
       DO i=1,InpFiles(ng)
         Nfiles=S(i,ng)%Nfiles
+        print *, S(ng)%Nfiles
         DO ifile=1,Nfiles
           ncname=S(i,ng)%files(ifile)
           foundit=check_file(ng, model, Nfiles, ncname,                 &
