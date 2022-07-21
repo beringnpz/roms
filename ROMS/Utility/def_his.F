@@ -4183,20 +4183,6 @@
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idHsno))) THEN
             got_var(idHsno)=.true.
             HIS(ng)%Vid(idHsno)=var_id(i)
-! # if defined ICE_BIO
-!          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIcePhL))) THEN
-!             got_var(idIcePhL)=.true.
-!             HIS(ng)%Vid(idIcePhL)=var_id(i)
-!          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNO3))) THEN
-!             got_var(idIceNO3)=.true.
-!             HIS(ng)%Vid(idIceNO3)=var_id(i)
-!          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceNH4))) THEN
-!             got_var(idIceNH4)=.true.
-!             HIS(ng)%Vid(idIceNH4)=var_id(i)
-!          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceLog))) THEN
-!             got_var(idIceLog)=.true.
-!             HIS(ng)%Vid(idIceLog)=var_id(i)
-! # endif
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idAgeice))) THEN
             got_var(idAgeice)=.true.
             HIS(ng)%Vid(idAgeice)=var_id(i)
@@ -5002,14 +4988,6 @@
           exit_flag=3
           RETURN
         END IF
-! # if defined ICE_BIO
-!         IF (.not.got_var(idIcePhL).and.Hout(idIcePhL,ng)) THEN
-!           IF (Master) WRITE (stdout,70) TRIM(Vname(1,idIcePhL)),        &
-!      &                                  TRIM(ncname)
-!           exit_flag=3
-!           RETURN
-!         END IF
-! # endif
         IF (.not.got_var(idAgeice).and.Hout(idAgeice,ng)) THEN
           IF (Master) WRITE (stdout,70) TRIM(Vname(1,idAgeice)),        &
      &                                  TRIM(ncname)

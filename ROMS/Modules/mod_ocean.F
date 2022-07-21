@@ -403,9 +403,6 @@
 #ifdef NEMURO_SAN
       USE mod_types
 #endif
-#ifdef BEST_NPZ
-      USE mod_biology
-#endif
 #if defined NEMURO || defined BEST_NPZ
       USE mod_biology
 #endif

@@ -78,7 +78,6 @@
 # elif defined BERING_10K 
               CASE ('idIcePhL')
                 idIcePhL=varid
-
               CASE ('idIcePhLbc(iwest)')
                 idIcePhLbc(iwest)=varid
               CASE ('idIcePhLbc(ieast)')

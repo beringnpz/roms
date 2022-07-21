@@ -1048,34 +1048,6 @@
       CALL tibc_tile (ng, tile, iNLM,                                   &
      &                          LBi, UBi, LBj, UBj, liold, linew,       &
      &                          ui, vi, hi, ti, enthalpi)
-!      CALL i2d_bc_tile (ng, tile, iNLM,                                 &
-!     &                  LBi, UBi, LBj, UBj,                             &
-!     &                  IminS, ImaxS, JminS, JmaxS,                     &
-!     &                  liold, linew,                                   &
-!     &                  BOUNDARY(ng)%ageice_west,                       &
-!     &                  BOUNDARY(ng)%ageice_east,                       &
-!     &                  BOUNDARY(ng)%ageice_north,                      &
-!     &                  BOUNDARY(ng)%ageice_south,                      &
-!     &                  ui, vi, ageice, LBC(:,isAgeice,ng))
-!     CALL ageicebc_tile (ng, tile,                                     &
-!    &                          LBi, UBi, LBj, UBj, liold, linew,       &
-!    &                          min_h(ng), ui, vi, hi, ageice, hage)
-! #if defined ICE_BIO && defined BERING_10K
-! FOOO
-! ! Convert these too.
-!       CALL IcePhLbc_tile (ng, tile,                                     &
-!      &                LBi, UBi, LBj, UBj,                               &
-!      &                liold, linew,                                     &
-!      &                ui, vi, IcePhL)
-!       CALL IceNO3bc_tile (ng, tile,                                     &
-!      &                LBi, UBi, LBj, UBj,                               &
-!      &                liold, linew,                                     &
-!      &                ui, vi, IceNO3)
-!       CALL IceNH4bc_tile (ng, tile,                                     &
-!      &                LBi, UBi, LBj, UBj,                               &
-!      &                liold, linew,                                     &
-!      &                ui, vi, IceNH4)
-! #endif
 
 #ifdef ICE_BIO
       DO itrc=1,NIceT(ng)
@@ -1108,16 +1080,6 @@
         CALL exchange_r2d_tile (ng, tile,                               &
      &                          LBi, UBi, LBj, UBj,                     &
      &                          hage(:,:,linew))
-! # if defined ICE_BIO && defined BERING_10K
-!         CALL exchange_r2d_tile (ng, tile,                               &
-!      &                          LBi, UBi, LBj, UBj,                     &
-!      &                          IcePhL(:,:,linew))
-!         CALL exchange_r2d_tile (ng, tile,                               &
-!      &                          LBi, UBi, LBj, UBj,                     &
-!      &                          IceNO3(:,:,linew))
-!         CALL exchange_r2d_tile (ng, tile,                               &
-!      &                          LBi, UBi, LBj, UBj,                     &
-!      &                          IceNH4(:,:,linew))
 # if defined ICE_BIO
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
@@ -1137,12 +1099,6 @@
      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
      &                    enthalpi(:,:,linew),                          &
      &                    ageice(:,:,linew), hage(:,:,linew))
-! # if defined ICE_BIO && defined BERING_10K
-!       CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
-!      &                    LBi, UBi, LBj, UBj,                           &
-!      &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-!      &                    IcePhL(:,:,linew), IceNO3(:,:,linew),         &
-!      &                    IceNH4(:,:,linew))
 # if defined ICE_BIO
       DO itrc=1,NIceT(ng)
         CALL mp_exchange2d (ng, tile, iNLM, 3,                            &

@@ -153,7 +153,6 @@
         integer,  pointer :: Nrec(:)             ! NetCDF record size
         integer,  pointer :: Vid(:)              ! NetCDF variables IDs
         integer,  pointer :: Tid(:)              ! NetCDF tracers IDs
-        integer,  pointer :: Bid(:)              ! NetCDF benthic tracers IDs
         real(dp), pointer :: time_min(:)         ! starting time
         real(dp), pointer :: time_max(:)         ! ending time
         character (len=50 ) :: label             ! structure label
