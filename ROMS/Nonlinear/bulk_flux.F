@@ -75,9 +75,6 @@
 # ifdef EVAP_SHALLOW
       USE mod_coupling
 # endif
-! # if defined BEST_NPZ && defined CLIM_ICE_1D
-!       USE mod_clima
-! # endif
       USE mod_stepping
 !
 !  Imported variable declarations.
@@ -189,14 +186,7 @@
      &                     FORCES(ng) % tau_aiy_n,                      &
 # endif
 # if defined BEST_NPZ & defined ICE_BIO
-! #  if defined CLIM_ICE_1D
      &                     OCEAN(ng) % it,                              &
-!      &                     CLIMA(ng) % tclm,                            &
-!      &                     nstp(ng),                                    &
-! #  elif defined ICE_BIO
-!      &                     ICE(ng) % IcePhL,                            &
-!      &                     ICE(ng) % IceLog,                            &
-! #  endif
 # endif
 # ifdef EMINUSP
      &                     FORCES(ng) % EminusP,                        &
@@ -298,13 +288,7 @@
      &                           tau_aix_n, tau_aiy_n,                  &
 # endif
 # if defined BEST_NPZ & defined ICE_BIO
-! #  if defined CLIM_ICE_1D 
      &                           it,                                    &
-!      &                           tclm, nstp,                            &
-! #  elif defined ICE_BIO
-!      &                           IcePhL,                                &
-!      &                           IceLog,                                &
-! #  endif
 # endif
 # ifdef EMINUSP
      &                           EminusP, evap,                         &
@@ -329,9 +313,6 @@
       USE mod_scalars
 # ifdef ICE_MODEL
       USE mod_ice
-# endif
-# if defined BEST_NPZ && defined CLIM_ICE_1D
-      USE mod_clima
 # endif
 !
       USE exchange_2d_mod
@@ -474,9 +455,7 @@
       real(r8), intent(out) :: svstr(LBi:,LBj:)
 
 #   if defined BEST_NPZ && defined ICE_BIO
-!        real(r8), intent(in) :: tclm(LBi:,LBj:,:,:,:)
        real(r8), intent(in) :: it(LBi:,LBj:,:,:)
-!         integer, intent(in) :: nstp
 #   endif
 # else
 

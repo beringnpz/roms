@@ -246,17 +246,6 @@
       integer :: iBen
       integer :: iDetBen
 #endif
-! #ifdef ICE_BIO
-! !       integer, pointer :: idice(:)  ! Ice tracers
-! # ifdef CLIM_ICE_1D
-! !       integer, pointer :: idiceLog(:)  ! Ice tracers
-! # endif
-!       integer :: idIcePhL
-!       integer :: idIceNO3
-!       integer :: idIceNH4
-!       integer :: idIceZ
-!       integer :: idIceLog
-! #endif
 #ifdef ICE_BIO
       integer :: iIcPhL
       integer :: iIcNO3

@@ -49,17 +49,13 @@
       USE mod_mixing
 
       ! TODO: is ICE_BIO bestnpz-specific?
-! #if defined BERING_10K
 #if defined ICE_BIO
       USE mod_ice
 #endif
 #if defined FEAST
       USE mod_feast
 #endif
-! #endif
-! #if defined CLIM_ICE_1D
-!       USE mod_clima
-! #endif
+
 
       integer, intent(in) :: ng, tile
 
@@ -117,15 +113,7 @@
      &                   ,GFEAST(ng)                                    &
 #endif
 #if defined ICE_BIO
-! # ifdef CLIM_ICE_1D
      &                   ,OCEAN(ng) % it                                &
-!      &                   ,OCEAN(ng) % itL                               &
-!      &                   ,CLIMA(ng) % tclm                              &
-! # elif defined BERING_10K
-!      &                   ,ICE(ng) % IcePhL                              &
-!      &                   ,ICE(ng) % IceNO3                              &
-!      &                   ,ICE(ng) % IceNH4                              &
-!      &                   ,ICE(ng) % IceLog                              &
      &                   ,ICE(ng) % ti                                  &
      &                   ,ICE(ng) % hi                                  &
      &                   ,ICE(ng) % ai                                  &
@@ -235,9 +223,6 @@
 !       USE exchange_3d_mod
 ! #endif
 
-#if defined CLIM_ICE_1D
-      USE mod_clima
-#endif
 
       USE dateclock_mod, ONLY : caldate
 
@@ -284,19 +269,11 @@
       TYPE (T_FEAST)          :: GF
 # endif
 # if defined ICE_BIO
-! #  ifdef CLIM_ICE_1D
       real(r8), intent(inout) :: it(LBi:,LBj:,:,:)
-!       real(r8), intent(inout) :: itL(LBi:,LBj:,:,:)
-
-! #  elif defined BERING_10K
       real(r8), intent(in)    :: ti(LBi:,LBj:,:)
       real(r8), intent(in)    :: hi(LBi:,LBj:,:)
       real(r8), intent(in)    :: ai(LBi:,LBj:,:)
       real(r8), intent(in)    :: ageice(LBi:,LBj:,:)
-!       real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
-!       real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
-!       real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
-!       integer, intent(inout)  :: IceLog(LBi:,LBj:,:)
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
 ! #  endif
@@ -346,24 +323,13 @@
       real(r8), intent(in)    :: u(LBi:UBi,LBj:UBj,UBk,3),v(LBi:UBi,LBj:UBj,UBk,3)
 # endif
 # if defined ICE_BIO
-! #  ifdef CLIM_ICE_1D
       real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,1)
-!       real(r8), intent(inout) :: itL(LBi:UBi,LBj:UBj,3,1)
-!
-!       real(r8), intent(inout) :: tclmG(LBi:UBi,LBj:UBj,UBk,3,NH(ng)+2)
-!       real(r8), intent(inout) :: tclm(LBi:UBi,LBj:UBj,UBk,NT(ng)+2)
-! #  elif defined BERING_10K
       real(r8), intent(in)    :: ti(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: hi(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ai(LBi:UBi,LBj:UBj,2)     ! TODO: never used?
       real(r8), intent(in)    :: ageice(LBi:UBi,LBj:UBj,2) ! TODO: never used?
-!       real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
-!       real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
-!       real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
-!       integer,  intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
-! #  endif
 # endif
 #if defined CARBON || defined OXYGEN 
 !      integer, parameter :: Nsink = 4
@@ -1044,15 +1010,6 @@
 #ifdef ICE_BIO
         DO i=Istr,Iend
 
-! # ifdef CLIM_ICE_1D
-!             Bio3d(i,N(ng),iiIcePhL) = it(i,j,nstp,idice(1))
-!             Bio3d(i,N(ng),iiIceNO3) = it(i,j,nstp,idice(2))
-!             Bio3d(i,N(ng),iiIceNH4) = it(i,j,nstp,idice(3))
-! # elif defined BERING_10K
-!             Bio3d(i,N(ng),iiIcePhL) = IcePhL(i,j,nstp)
-!             Bio3d(i,N(ng),iiIceNO3) = IceNO3(i,j,nstp)
-!             Bio3d(i,N(ng),iiIceNH4) = IceNH4(i,j,nstp)
-! # endif
           Bio3d(i,N(ng),iiIcePhL) = it(i,j,idice(1),nstp)
           Bio3d(i,N(ng),iiIceNO3) = it(i,j,idice(2),nstp)
           Bio3d(i,N(ng),iiIceNH4) = it(i,j,idice(3),nstp)
@@ -3394,39 +3351,18 @@
         ! Note: Ice variables aren't subject to the same tranport
         ! equations as pelagic, so these use tracer units rather than
         ! tranport units in the nnew timestep.
-! # if defined CLIM_ICE_1D
 
         DO i=Istr,Iend
           it(i,j,iIcNO3,nnew) = it(i,j,iIcNO3,nnew) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
           it(i,j,iIcNH4,nnew) = it(i,j,iIcNH4,nnew) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
           it(i,j,iIcPhL,nnew) = it(i,j,iIcPhL,nnew) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
 
-!           itL(i,j,nnew,iIceLog) = itL(i,j,nstp,iIceLog)
-
 #  ifdef MASKING
           it( i,j,iIcPhL,nnew) = it( i,j,iIcPhL,nnew)*rmask(i,j)
           it( i,j,iIcNH4,nnew) = it( i,j,iIcNH4,nnew)*rmask(i,j)
           it( i,j,iIcNO3,nnew) = it( i,j,iIcNO3,nnew)*rmask(i,j)
-!           itL(i,j,nnew,iIceLog) = itL(i,j,nnew,iIceLog)*rmask(i,j)
 #  endif
         END DO
-! # else
-!         DO i=Istr,Iend
-!           IceNO3(i,j,nnew) = IceNO3(i,j,nstp) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
-!           IceNH4(i,j,nnew) = IceNH4(i,j,nstp) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
-!           IcePhL(i,j,nnew) = IcePhL(i,j,nstp) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
-!           ! IceLog is already updated, from ice_limit.F
-!
-! !           IceLog(i,j,nnew) = IceLog(i,j,nstp) ! TODO: Current step value now in both positions... doublecheck that this is correct (real update happens in ice_limit.F))
-!
-! #  ifdef MASKING
-!           IcePhL(i,j,nnew) = IcePhL(i,j,nnew)*rmask(i,j)
-!           IceNO3(i,j,nnew) = IceNO3(i,j,nnew)*rmask(i,j)
-!           IceNH4(i,j,nnew) = IceNH4(i,j,nnew)*rmask(i,j)
-! #  endif
-!         END DO
-!
-! # endif
 #endif
 
       END DO J_LOOP

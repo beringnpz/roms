@@ -162,41 +162,12 @@
 
 # ifdef SOLVE3D
 
-! #  ifdef BIO_COBALT
-! #   ifdef BENTHIC
-!           real(r8), pointer :: avgbt(:,:,:,:)
-! #   endif
-! #  endif
-! #  ifdef BEST_NPZ
-! #   ifdef STATIONARY
-!           real(r8), pointer :: avgst(:,:,:,:)
-! #   endif
-! #   ifdef STATIONARY2
-!           real(r8), pointer :: avgst2(:,:,:)
-! #   endif
-! #   ifdef PROD3
-!           real(r8), pointer :: avgpt3(:,:,:,:)
-! #   endif
-! #   ifdef PROD2
-!           real(r8), pointer :: avgpt2(:,:,:)
-! #   endif
 #  ifdef BENTHIC
           real(r8), pointer :: avgbt(:,:,:,:)
 #  endif
 #  ifdef ICE_BIO
-! #     ifdef CLIM_ICE_1D
           real(r8), pointer :: avgit(:,:,:)
-! #     elif defined BERING_10K
-!           real(r8), pointer :: avgIPhL(:,:)
-!           real(r8),pointer:: avgINO3(:,:)
-!           real(r8), pointer :: avgINH4(:,:)
-!           real(r8), pointer :: avgILog(:,:)
-! #     endif
 #  endif
-! #   if defined BIOFLUX
-!           real(r8), pointer :: avgbflx(:,:)
-! #   endif
-! #  endif
 
 #  ifdef BIO_GOANPZ
           real(r8), pointer :: avgst(:,:,:,:)
@@ -464,65 +435,6 @@
       END IF
 
 # ifdef SOLVE3D
-
-! #  ifdef BIO_COBALT
-! #   ifdef BENTHIC
-! !      IF ( ANY(Aout(idBeTvar,ng)) ) THEN
-! !        PRINT *, 'RD : trying to allocate AVERAGE'
-! !        PRINT *, 'RD', NBL(ng),NBeT(ng)
-! !        allocate ( AVERAGE(ng) % avgbt(LBi:UBi,LBj:UBj,NBL(ng),NBeT(ng)) )
-! !      END IF
-! #   endif
-! #  endif
-! #  ifdef BEST_NPZ
-! #   ifdef STATIONARY
-!       allocate ( AVERAGE(ng) % avgst(LBi:UBi,LBj:UBj,N(ng),NTS(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(N(ng)*NTS(ng),r8)*size2d
-! #   endif
-! #   ifdef STATIONARY2
-!       allocate ( AVERAGE(ng) % avgst2(LBi:UBi,LBj:UBj,NTS2(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(NTS2(ng),r8)*size2d
-! #   endif
-! #   ifdef PROD3
-!       allocate ( AVERAGE(ng) % avgpt3(LBi:UBi,LBj:UBj,N(ng),NPT3(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(N(ng)*NPT3(ng),r8)*size2d
-! #   endif
-! #   ifdef PROD2
-!       allocate ( AVERAGE(ng) % avgpt2(LBi:UBi,LBj:UBj,NPT2(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(NPT2(ng),r8)*size2d
-! #   endif
-! #   ifdef BENTHIC
-!       allocate ( AVERAGE(ng) % avgbt(LBi:UBi,LBj:UBj,NBL(ng),NBeT(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(NBL(ng)*NBeT(ng),r8)*size2d
-! #   endif
-! #   ifdef ICE_BIO
-! #    ifdef CLIM_ICE_1D
-!       allocate ( AVERAGE(ng) % avgit(LBi:UBi,LBj:UBj,NIceT(ng)) )
-!       Dmem(ng)=Dmem(ng)+REAL(NIceT(ng),r8)*size2d
-! #    elif defined BERING_10K
-!       IF (Aout(idIceNO3,ng)) THEN
-!         allocate ( AVERAGE(ng) % avgINO3(LBi:UBi,LBj:UBj) )
-!         Dmem(ng)=Dmem(ng)+size2d
-!       END IF
-!       IF (Aout(idIcePhL,ng)) THEN
-!         allocate ( AVERAGE(ng) % avgIPhL(LBi:UBi,LBj:UBj) )
-!         Dmem(ng)=Dmem(ng)+size2d
-!       END IF
-!       IF (Aout(idIceNH4,ng)) THEN
-!         allocate ( AVERAGE(ng) % avgINH4(LBi:UBi,LBj:UBj) )
-!         Dmem(ng)=Dmem(ng)+size2d
-!       END IF
-!       IF (Aout(idIceLog,ng)) THEN
-!         allocate ( AVERAGE(ng) % avgILog(LBi:UBi,LBj:UBj) )
-!         Dmem(ng)=Dmem(ng)+size2d
-!       END IF
-! #    endif
-! #   endif
-! #   ifdef BIOFLUX
-!         allocate ( AVERAGE(ng) % avgbflx(NAT+NBT,NAT+NBT) )
-!         Dmem(ng)=Dmem(ng)+REAL((NAT+NBT)**2,r8)
-! #   endif
-! #  endif
 
 #  ifdef BENTHIC
       allocate ( AVERAGE(ng) % avgbt(LBi:UBi,LBj:UBj,NBL(ng),NBeT(ng)) )
@@ -1885,106 +1797,6 @@
       END IF
 # ifdef SOLVE3D
 
-! #ifdef BIO_COBALT
-! # ifdef BENTHIC
-! !        DO itrc=1,NBeT(ng)
-! !          DO k=1,NBL(ng)
-! !            DO i=Imin,Imax
-! !              AVERAGE(ng) % avgbt(i,j,k,itrc) = IniVal
-! !              END DO
-! !          END DO
-! !        END DO
-! # endif
-! #endif
-! #ifdef BEST_NPZ
-! # ifdef STATIONARY
-!         DO itrc=1,NTS(ng)
-!           DO k=1,N(ng)
-!             DO i=Imin,Imax
-!               AVERAGE(ng) % avgst(i,j,k,itrc) = IniVal
-!             END DO
-!           END DO
-!         END DO
-! # endif
-! # ifdef STATIONARY2
-!         DO itrc=1,NTS2(ng)
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgst2(i,j,itrc) = IniVal
-!           END DO
-!         END DO
-! # endif
-! # ifdef PROD3
-!         DO itrc=1,NPT3(ng)
-!           DO k=1,N(ng)
-!             DO i=Imin,Imax
-!               AVERAGE(ng) % avgpt3(i,j,k,itrc) = IniVal
-!             END DO
-!           END DO
-!         END DO
-! # endif
-! # ifdef PROD2
-!         DO itrc=1,NPT2(ng)
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgpt2(i,j,itrc) = IniVal
-!           END DO
-!         END DO
-! # endif
-! # ifdef BENTHIC
-!         DO itrc=1,NBeT(ng)
-!           DO k=1,NBL(ng)
-!             DO i=Imin,Imax
-!               AVERAGE(ng) % avgbt(i,j,k,itrc) = IniVal
-!               END DO
-!           END DO
-!         END DO
-! # endif
-! # ifdef ICE_BIO
-! #  ifdef CLIM_ICE_1D
-!         DO itrc=1,NIceT(ng)
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgit(i,j,itrc) = IniVal
-!           END DO
-!         END DO
-! #  elif defined BERING_10K
-!       IF (Aout(idIceNO3,ng)) THEN
-!         DO j=Jmin,Jmax
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgINO3(i,j) = IniVal
-!           END DO
-!         END DO
-!       END IF
-!       IF (Aout(idIceNH4,ng)) THEN
-!         DO j=Jmin,Jmax
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgINH4(i,j) = IniVal
-!           END DO
-!         END DO
-!       END IF
-!       IF (Aout(idIcePhL,ng)) THEN
-!         DO j=Jmin,Jmax
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgIPhL(i,j) = IniVal
-!           END DO
-!         END DO
-!       END IF
-!       IF (Aout(idIceLog,ng)) THEN
-!         DO j=Jmin,Jmax
-!           DO i=Imin,Imax
-!             AVERAGE(ng) % avgILog(i,j) = IniVal
-!           END DO
-!         END DO
-!       END IF
-! #  endif
-! # endif
-! # ifdef BIOFLUX
-!         DO itrc=1,NT(ng)
-!           DO itrc2=1,NT(ng)
-!             AVERAGE(ng) % avgbflx(itrc,itrc2) = IniVal
-!           END DO
-!         END DO
-! # endif
-!
-! #endif
 
 # ifdef BENTHIC
       IF (ANY(Aout(idBeTvar(:),ng))) THEN

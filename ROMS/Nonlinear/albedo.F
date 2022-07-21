@@ -107,10 +107,6 @@ contains
 # if defined BEST_NPZ
       USE mod_biology
 # endif
-!
-! # if defined BEST_NPZ && defined CLIM_ICE_1D
-!       USE mod_clima
-! # endif
 
       USE exchange_2d_mod
 # ifdef DISTRIBUTE
