@@ -1923,9 +1923,7 @@
 
       IF (.not.(RefinedGrid(ng).and.RefineScale(ng).gt.0)) THEN
 # ifdef ANA_ICEBIOBC
-        CALL ana_IcePhLbc (ng, tile, iNLM)
-        CALL ana_IceNO3bc (ng, tile, iNLM)
-        CALL ana_IceNH4bc (ng, tile, iNLM)
+        CALL ana_itobc (ng, tile, iNLM)
 # endif
       END IF
 
