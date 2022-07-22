@@ -838,6 +838,9 @@
       USE mod_param
       USE mod_ncparam
       USE mod_scalars
+#ifdef ICE_BIO
+      USE mod_biology, only : NIceT
+#endif
 !
 !  Imported variable declarations.
 !
