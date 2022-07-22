@@ -2569,25 +2569,29 @@
 #endif
 
 # if defined ICE_BIO
-        IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
+        IF (DOMAIN(ng)%NorthWest_Test(tile)).and.                       &
+     &      ANY(LBC(iwest,isIvar(:),ng)%acquire)) THEN
           BOUNDARY(ng) % it_west = IniVal
 #  ifndef ANA_ICEBIOBC
           BOUNDARY(ng) % itG_west = IniVal
 #  endif
         END IF
-        IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
+        IF (DOMAIN(ng)%SouthEast_Test(tile)).and.                       &
+     &      ANY(LBC(ieast,isIvar(:),ng)%acquire)) THEN
           BOUNDARY(ng) % it_east = IniVal
 #  ifndef ANA_ICEBIOBC
           BOUNDARY(ng) % itG_east = IniVal
 #  endif
         END IF
-        IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
+        IF (DOMAIN(ng)%SouthWest_Test(tile)).and.                       &
+     &      ANY(LBC(isouth,isIvar(:),ng)%acquire)) THEN
           BOUNDARY(ng) % it_south = IniVal
 #  ifndef ANA_ICEBIOBC
           BOUNDARY(ng) % itG_south = IniVal
 #  endif
         END IF
-        IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
+        IF (DOMAIN(ng)%NorthEast_Test(tile)).and.                       &
+     &      ANY(LBC(inorth,isIvar(:),ng)%acquire)) THEN
           BOUNDARY(ng) % it_north = IniVal
 #  ifndef ANA_ICEBIOBC
           BOUNDARY(ng) % itG_north = IniVal
