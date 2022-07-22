@@ -191,8 +191,8 @@
 #endif
 #ifdef ICE_BIO
       integer, allocatable :: NIceT(:)
-      integer              :: NIB       ! Ice tracers
-!       integer, allocatable :: NIceLog(:)
+      ! KK: NIB defined in mod_param.F, change there to increase ice bio tracers
+!       integer              :: NIB       ! Ice tracers
       integer, allocatable :: idice(:)
       integer, allocatable :: idIceTvar(:)
 #endif

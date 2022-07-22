@@ -547,6 +547,12 @@
 !  Number of non-cohesive (sand) sediments.
 !
       integer :: NNS = 0
+#ifdef ICE_BIO
+!
+!  Number of ice biology tracers
+!
+      integer :: NIB
+#endif
 
 #if defined FLOATS || defined NEMURO_SAN
 !
@@ -1143,6 +1149,11 @@
         NSV(ng)=NSV(ng)+NT(ng)
 #endif
       END DO
+#ifdef ICE_BIO
+# ifdef BEST_NPZ
+        NIB = 3
+# endif
+#endif
 !
 !  Set maximum number of tracer between all nested grids.
 !
@@ -1163,6 +1174,9 @@
 # endif
 # ifdef ICE_MODEL
       nLBCvar=nLBCvar+9
+# endif
+# ifdef ICE_BIO
+      nLBCvar=nLBCvar+NIB
 # endif
 #else
       nLBCvar=3
