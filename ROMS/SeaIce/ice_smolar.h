@@ -231,7 +231,7 @@
         CALL i2d_bc_tile (ng, tile, iNLM,                               &
      &                    LBi, UBi, LBj, UBj,                           &
      &                    IminS, ImaxS, JminS, JmaxS,                   &
-     &                    liold(ng), linew(ng)                          &
+     &                    liold(ng), linew(ng),                         &
      &                    BOUNDARY(ng)%it_west(LBj:UBj,itrc),           &
      &                    BOUNDARY(ng)%it_east(LBj:UBj,itrc),           &
      &                    BOUNDARY(ng)%it_north(LBi:UBi,itrc),          &
