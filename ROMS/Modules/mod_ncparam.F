@@ -70,6 +70,9 @@
 !=======================================================================
 !
         USE mod_param
+#ifdef ICE_BIO
+        USE mod_biology, only : NIB
+#endif
 !
         implicit none
 !
