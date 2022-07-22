@@ -67,7 +67,7 @@
       USE mod_scalars
       USE mod_boundary
 !
-      USE i2d_bc_mod, ONLY : i2d_bc_tile, i2d_bc_tile_closed
+      USE i2d_bc_mod, ONLY : i2d_bc_tile
       USE tibc_mod, ONLY : tibc_tile
 # ifdef ICE_BIO
       USE mod_biology, ONLY : NIceT
