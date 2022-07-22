@@ -36,11 +36,6 @@
      &                     IminS, ImaxS, JminS, JmaxS,                  &
      &                     liold(ng), linew(ng),                        &
 # if defined ICE_BIO
-! # if defined ICE_BIO && defined BERING_10K
-!      &                     ICE(ng) % IcePhL,                            &
-!      &                     ICE(ng) % IceNO3,                            &
-!      &                     ICE(ng) % IceNH4,                            &
-!      &                     ICE(ng) % IceLog,                            &
      &                     OCEAN(ng) % it,                              &
 # endif
      &                     ICE(ng) % ui,                                &
@@ -179,34 +174,6 @@
      &                LBi, UBi, LBj, UBj,                               &
      &                liold, linew,                                     &
      &                ui, vi, hi, ti, enthalpi)
-! # if defined ICE_BIO
-!       CALL i2d_bc_tile (ng, tile, iNLM,                                 &
-!      &                  LBi, UBi, LBj, UBj,                             &
-!      &                  IminS, ImaxS, JminS, JmaxS,                     &
-!      &                  liold, linew,                                   &
-!      &                  BOUNDARY(ng)%IcePhL_west(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IcePhL_east(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IcePhL_north(LBi:UBi),             &
-!      &                  BOUNDARY(ng)%IcePhL_south(LBi:UBi),             &
-!      &                  ui, vi, IcePhL, LBC(:,isIcePhL,ng))
-!       CALL i2d_bc_tile (ng, tile, iNLM,                                 &
-!      &                  LBi, UBi, LBj, UBj,                             &
-!      &                  IminS, ImaxS, JminS, JmaxS,                     &
-!      &                  liold, linew,                                   &
-!      &                  BOUNDARY(ng)%IceNO3_west(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IceNO3_east(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IceNO3_north(LBi:UBi),             &
-!      &                  BOUNDARY(ng)%IceNO3_south(LBi:UBi),             &
-!      &                  ui, vi, IceNO3, LBC(:,isIceNO3,ng))
-!       CALL i2d_bc_tile (ng, tile, iNLM,                                 &
-!      &                  LBi, UBi, LBj, UBj,                             &
-!      &                  IminS, ImaxS, JminS, JmaxS,                     &
-!      &                  liold, linew,                                   &
-!      &                  BOUNDARY(ng)%IceNH4_west(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IceNH4_east(LBj:UBj),              &
-!      &                  BOUNDARY(ng)%IceNH4_north(LBi:UBi),             &
-!      &                  BOUNDARY(ng)%IceNH4_south(LBi:UBi),             &
-!      &                  ui, vi, IceNH4, LBC(:,isIceNH4,ng))
 #ifdef ICE_BIO
       DO itrc=1,NIceT(ng)
         CALL i2d_bc_tile (ng, tile, iNLM,                                 &
@@ -218,11 +185,6 @@
        &                  BOUNDARY(ng)%it_north(LBi:UBi,itrc),            &
        &                  BOUNDARY(ng)%it_south(LBi:UBi,itrc),            &
        &                  ui, vi, it(:,:,itrc,:), LBC(:,isIvar(itrc),ng))
-!         CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
-!      &                           LBi, UBi, LBj, UBj,                    &
-!      &                           IminS, ImaxS, JminS, JmaxS,            &
-!      &                           liold, linew,                          &
-!      &                           ui, vi, it(:,:,itrc,:))
       END DO
 #endif
 

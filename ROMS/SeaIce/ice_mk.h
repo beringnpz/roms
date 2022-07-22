@@ -72,11 +72,6 @@
      &                      ICE(ng) % s0mk,                             &
      &                      ICE(ng) % t0mk,                             &
      &                      ICE(ng) % io_mflux,                         &
-! #if defined ICE_BIO && defined BERING_10K
-!      &                      ICE(ng) % IcePhL,                           &
-!      &                      ICE(ng) % IceNO3,                           &
-!      &                      ICE(ng) % IceNH4,                           &
-! #endif
 #if defined ICE_BIO
      &                      OCEAN(ng) % it,                             &
 #endif
@@ -290,10 +285,6 @@
       real(r8), intent(inout) :: s0mk(LBi:,LBj:)
       real(r8), intent(inout) :: t0mk(LBi:,LBj:)
       real(r8), intent(out) :: io_mflux(LBi:,LBj:)
-! #if defined ICE_BIO && defined BERING_10K
-!       real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
-!       real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
-!       real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
 #if defined ICE_BIO
       real(r8), intent(inout) :: it(LBi:,LBj:,:,:)
 #endif
@@ -351,10 +342,6 @@
       real(r8), intent(inout) :: s0mk(LBi:UBi,LBj:UBj)
       real(r8), intent(inout) :: t0mk(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: io_mflux(LBi:UBi,LBj:UBj)
-! #if defined ICE_BIO && defined BERING_10K
-!       real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBj,2)
-!       real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBj,2)
-!       real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBj,2)
 #if defined ICE_BIO
         real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,NIceT(ng),2)
 # endif
