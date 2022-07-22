@@ -538,16 +538,26 @@
               Npts=load_lbc(Nval, Cval, line, nline, ifield, igrid,     &
      &                      idbio(iTrcStr), idbio(iTrcEnd),             &
      &                      Vname(1,idTvar(idbio(itracer))), LBC)
-#ifdef ICE_BIO && defined BEST_NPZ
-            CASE ('LBC(isIcePhL)')
-              Npts=load_lbc(Nval, Cval, line, nline, isIcePhL, igrid,   &
- &                          0, 0, Vname(1,idIceTvar(iIcPhL)), LBC)
-            CASE ('LBC(isIceNH4)')
-              Npts=load_lbc(Nval, Cval, line, nline, isIceNH4, igrid,   &
- &                          0, 0, Vname(1,idIceTvar(iIcNH4)), LBC)
-            CASE ('LBC(isIceNO3)')
-              Npts=load_lbc(Nval, Cval, line, nline, isIceNO3, igrid,   &
- &                          0, 0, Vname(1,idIceTvar(iIcNO3)), LBC)
+#ifdef ICE_BIO
+           CASE ('LBC(isIvar)')
+             IF (itracer.lt.NIB) THEN
+               itracer=itracer+1
+             ELSE
+               itracer=1                      ! next nested grid
+             END IF
+             ifield=isIvar(idice(itracer))
+             Npts=load_lbc(Nval, Cval, line, nline, ifield, igrid,     &
+    &                      idice(1), idice(NIB),                       &
+    &                      Vname(1,idIceTvar(idice(itracer))), LBC)
+!             CASE ('LBC(isIcePhL)')
+!               Npts=load_lbc(Nval, Cval, line, nline, isIcePhL, igrid,   &
+!  &                          0, 0, Vname(1,idIceTvar(iIcPhL)), LBC)
+!             CASE ('LBC(isIceNH4)')
+!               Npts=load_lbc(Nval, Cval, line, nline, isIceNH4, igrid,   &
+!  &                          0, 0, Vname(1,idIceTvar(iIcNH4)), LBC)
+!             CASE ('LBC(isIceNO3)')
+!               Npts=load_lbc(Nval, Cval, line, nline, isIceNO3, igrid,   &
+!  &                          0, 0, Vname(1,idIceTvar(iIcNO3)), LBC)
 #endif
 
 #if defined ADJOINT || defined TANGENT || defined TL_IOMS

@@ -196,7 +196,6 @@
      &                  ICE(ng)%ui,                                     &
      &                  ICE(ng)%vi,                                     &
      &                  ICE(ng)%hsn, LBC(:,isHsno,ng))
-! # if defined ICE_BIO && defined BERING_10K
 # if defined ICE_BIO
 !  ---------------------------------------------------------------------
 !  Advect the ice tracers
@@ -229,14 +228,20 @@
      &                        OCEAN(ng) % it(:,:,itrc,:)                &
      &                        )
            
-        CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
-        &                  LBi, UBi, LBj, UBj,                          &
-        &                  IminS, ImaxS, JminS, JmaxS,                  &
-        &                  liold(ng), linew(ng),                        &
-        &                  ICE(ng) % ui, ICE(ng) % vi,                  &
-        &                  OCEAN(ng) % it(:,:,itrc,:))
+        CALL i2d_bc_tile (ng, tile, iNLM,                               &
+     &                    LBi, UBi, LBj, UBj,                           &
+     &                    IminS, ImaxS, JminS, JmaxS,                   &
+     &                    liold, linew,                                 &
+     &                    BOUNDARY(ng)%it_west(LBj:UBj,itrc),           &
+     &                    BOUNDARY(ng)%it_east(LBj:UBj,itrc),           &
+     &                    BOUNDARY(ng)%it_north(LBi:UBi,itrc),          &
+     &                    BOUNDARY(ng)%it_south(LBi:UBi,itrc),          &
+     &                    ICE(ng) % ui,                                 &
+     &                    ICE(ng) % vi,                                 &
+     &                    OCEAN(ng)%it(:,:,itrc,:),                     &
+     &                    LBC(:,isIvar(itrc),ng))
       ENDDO
-
+ 
 # endif
 !
 ! ---------------------------------------------------------------------

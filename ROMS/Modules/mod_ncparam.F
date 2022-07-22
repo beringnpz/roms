@@ -681,11 +681,9 @@
         integer  :: isSig11                   ! ice 11-stress
         integer  :: isSig12                   ! ice 12-stress
         integer  :: isSig22                   ! ice 22-stress
-# if defined ICE_BIO && defined BEST_NPZ
-        integer  :: isIcePhL
-        integer  :: isIceNO3
-        integer  :: isIceNH4
-# endif
+#endif
+#if defined ICE_BIO
+        integer, allocatable :: isIvar(:)
 #endif
 !
 !  Input boundary NetCDF files IDs.
@@ -1057,6 +1055,12 @@
         allocate ( idSbry(MAXVAL(NSV)+1) )
         Dmem(1)=Dmem(1)+REAL(MAXVAL(NSV)+1,r8)
       END IF
+#ifdef ICE_BIO
+      IF (.not.allocated(isIvar)) THEN
+        allocate ( isIvar(NIB) )
+        Dmem(1)=Dmem(1)+REAL(NIB,r8)
+      END IF
+#endif
 
       IF (.not. allocated(ncBRYid)) allocate ( ncBRYid(NV,Ngrids) )
       IF (.not. allocated(ncCLMid)) allocate ( ncCLMid(NV,Ngrids) )
@@ -1327,12 +1331,12 @@
       isSig12=ic+8
       isSig22=ic+9
       ic=ic+9
-# if defined ICE_BIO && defined BEST_NPZ
-      isIcePhL = ic+1
-      isIceNO3 = ic+2
-      isIceNH4 = ic+3
-      ic=ic+3
-# endif
+#endif
+#if defined ICE_BIO
+      DO i=1,NIB
+        ic=ic+1
+        isIvar(i)=ic
+      END DO
 #endif
       isWvel=ic+1
 !
@@ -3409,12 +3413,14 @@
       idBvar(isSig11)=idSig11
       idBvar(isSig12)=idSig12
       idBvar(isSig22)=idSig22
-#  if defined ICE_BIO && defined BEST_NPZ
-      idBvar(isIcePhL)=idIceTvar(iIcPhL)
-      idBvar(isIceNO3)=idIceTvar(iIcNO3)
-      idBvar(isIceNH4)=idIceTvar(iIcNH4)
-#  endif
 # endif
+
+# if defined ICE_BIO
+      DO i=1,NIB
+        idBvar(isIvar(i))=idIceTvar(i)
+      END DO
+# endif
+
 #endif
 !
 !-----------------------------------------------------------------------

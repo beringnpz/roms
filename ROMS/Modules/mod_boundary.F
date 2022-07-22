@@ -579,6 +579,19 @@
 # endif
 #endif
 
+#ifdef ICE_BIO
+          real(r8), pointer :: it_west(:,:)
+          real(r8), pointer :: it_east(:,:)
+          real(r8), pointer :: it_south(:,:)
+          real(r8), pointer :: it_north(:,:)
+# ifndef ANA_ICEBIOBC
+          real(r8), pointer :: itG_west(:,:)
+          real(r8), pointer :: itG_east(:,:)
+          real(r8), pointer :: itG_south(:,:)
+          real(r8), pointer :: itG_north(:,:)
+# endif
+#endif
+
 #ifdef ICE_MODEL
           real(r8), pointer :: ai_west(:)
           real(r8), pointer :: ai_east(:)
@@ -687,25 +700,6 @@
           real(r8), pointer :: viG_south(:,:)
           real(r8), pointer :: viG_north(:,:)
 # endif
-
-# if defined ICE_BIO && defined BEST_NPZ
-          real(r8), pointer :: IceNO3_west(:)
-          real(r8), pointer :: IceNO3_east(:)
-          real(r8), pointer :: IceNO3_south(:)
-          real(r8), pointer :: IceNO3_north(:)
-
-          real(r8), pointer :: IceNH4_west(:)
-          real(r8), pointer :: IceNH4_east(:)
-          real(r8), pointer :: IceNH4_south(:)
-          real(r8), pointer :: IceNH4_north(:)
-
-          real(r8), pointer :: IcePhL_west(:)
-          real(r8), pointer :: IcePhL_east(:)
-          real(r8), pointer :: IcePhL_south(:)
-          real(r8), pointer :: IcePhL_north(:)
-          
-          ! Note: currently requires analytical ice bio bc's
-#  endif
 #endif
 
 #if defined TANGENT || defined TL_IOMS
@@ -1903,6 +1897,41 @@
       Dmem(ng)=Dmem(ng)+4.0_r8*XYsize
 #endif
 
+#ifdef ICE_BIO
+      IF (ANY(LBC(iwest,isIvar(:),ng)%acquire)) THEN
+        allocate ( BOUNDARY(ng) % it_west(LBj:UBj,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Ysize
+# ifndef ANA_ICEBIOBC
+        allocate ( BOUNDARY(ng) % itG_west(LBi:UBi,2,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Ysize
+# endif
+      END IF
+      IF (ANY(LBC(ieast,isIvar(:),ng)%acquire)) THEN
+        allocate ( BOUNDARY(ng) % it_east(LBj:UBj,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Ysize
+# ifndef ANA_ICEBIOBC
+        allocate ( BOUNDARY(ng) % itG_east(LBi:UBi,2,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Ysize
+# endif
+      END IF
+      IF (ANY(LBC(isouth,isIvar(:),ng)%acquire)) THEN
+        allocate ( BOUNDARY(ng) % it_south(LBi:UBi,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Xsize
+# ifndef ANA_ICEBIOBC
+        allocate ( BOUNDARY(ng) % itG_south(LBi:UBi,2,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Xsize
+# endif
+      END IF
+      IF (ANY(LBC(inorth,isIvar(:),ng)%acquire)) THEN
+        allocate ( BOUNDARY(ng) % it_north(LBi:UBi,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Xsize
+# ifndef ANA_ICEBIOBC
+        allocate ( BOUNDARY(ng) % itG_north(LBi:UBi,2,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Xsize
+# endif
+      END IF
+#endif
+
 #ifdef ICE_MODEL
       allocate ( BOUNDARY(ng) % ai_west(LBj:UBj) )
       Dmem(ng)=Dmem(ng)+Ysize
@@ -2178,35 +2207,6 @@
         allocate ( BOUNDARY(ng) % viG_north(LBi:UBi,2) )
         Dmem(ng)=Dmem(ng)+Xsize*2
       END IF
-# endif
-
-# if defined ICE_BIO && defined BEST_NPZ
-      allocate ( BOUNDARY(ng) % IceNO3_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNO3_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNO3_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IceNO3_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-
-      allocate ( BOUNDARY(ng) % IceNH4_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNH4_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IceNH4_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IceNH4_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-
-      allocate ( BOUNDARY(ng) % IcePhL_west(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IcePhL_east(LBj:UBj) )
-      Dmem(ng)=Dmem(ng)+Ysize
-      allocate ( BOUNDARY(ng) % IcePhL_south(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
-      allocate ( BOUNDARY(ng) % IcePhL_north(LBi:UBi) )
-      Dmem(ng)=Dmem(ng)+Xsize
 # endif
 #endif
 
@@ -2565,6 +2565,33 @@
         END IF
 #endif
 
+# if defined ICE_BIO
+        IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
+          BOUNDARY(ng) % it_west = IniVal
+#  ifndef ANA_ICEBIOBC
+          BOUNDARY(ng) % itG_west = IniVal
+#  endif
+        END IF
+        IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
+          BOUNDARY(ng) % it_east = IniVal
+#  ifndef ANA_ICEBIOBC
+          BOUNDARY(ng) % itG_east = IniVal
+#  endif
+        END IF
+        IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
+          BOUNDARY(ng) % it_south = IniVal
+#  ifndef ANA_ICEBIOBC
+          BOUNDARY(ng) % itG_south = IniVal
+#  endif
+        END IF
+        IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
+          BOUNDARY(ng) % it_north = IniVal
+#  ifndef ANA_ICEBIOBC
+          BOUNDARY(ng) % itG_north = IniVal
+#  endif
+        END IF
+# endif
+
 # ifdef ICE_MODEL
         IF (DOMAIN(ng)%NorthWest_Test(tile).and.                        &
      &      LBC(iwest,isAice,ng)%acquire) THEN
@@ -2656,13 +2683,7 @@
           BOUNDARY(ng) % viG_west = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO && defined BEST_NPZ
-        IF (DOMAIN(ng)%NorthWest_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_west = IniVal
-          BOUNDARY(ng) % IceNH4_west = IniVal
-          BOUNDARY(ng) % IcePhL_west = IniVal
-        END IF
-#  endif
+
 
         IF (DOMAIN(ng)%SouthEast_Test(tile).and.                        &
      &      LBC(ieast,isAice,ng)%acquire) THEN
@@ -2754,13 +2775,7 @@
           BOUNDARY(ng) % viG_east = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO && defined BEST_NPZ
-        IF (DOMAIN(ng)%SouthEast_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_east = IniVal
-          BOUNDARY(ng) % IceNH4_east = IniVal
-          BOUNDARY(ng) % IcePhL_east = IniVal
-        END IF
-#  endif
+
         IF (DOMAIN(ng)%SouthWest_Test(tile).and.                        &
      &      LBC(isouth,isAice,ng)%acquire) THEN
           BOUNDARY(ng) % ai_south = IniVal
@@ -2851,13 +2866,6 @@
           BOUNDARY(ng) % viG_south = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO && defined BEST_NPZ
-        IF (DOMAIN(ng)%SouthWest_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_south = IniVal
-          BOUNDARY(ng) % IceNH4_south = IniVal
-          BOUNDARY(ng) % IcePhL_south = IniVal
-        END IF
-#   endif
         IF (DOMAIN(ng)%NorthEast_Test(tile).and.                        &
      &      LBC(inorth,isAice,ng)%acquire) THEN
           BOUNDARY(ng) % ai_north = IniVal
@@ -2948,13 +2956,6 @@
           BOUNDARY(ng) % viG_north = IniVal
         END IF
 #  endif
-#  if defined ICE_BIO && defined BEST_NPZ
-        IF (DOMAIN(ng)%NorthEast_Test(tile)) THEN
-          BOUNDARY(ng) % IceNO3_north = IniVal
-          BOUNDARY(ng) % IceNH4_north = IniVal
-          BOUNDARY(ng) % IcePhL_north = IniVal
-        END IF
-#   endif
 # endif
       END IF
 

@@ -209,12 +209,21 @@
 !      &                  ui, vi, IceNH4, LBC(:,isIceNH4,ng))
 #ifdef ICE_BIO
       DO itrc=1,NIceT(ng)
-        CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
-     &                           LBi, UBi, LBj, UBj,                    &
-     &                           IminS, ImaxS, JminS, JmaxS,            &
-     &                           liold, linew,                          &
-     &                           ui, vi, it(:,:,itrc,:))
-      ENDDO
+        CALL i2d_bc_tile (ng, tile, iNLM,                                 &
+       &                  LBi, UBi, LBj, UBj,                             &
+       &                  IminS, ImaxS, JminS, JmaxS,                     &
+       &                  liold, linew,                                   &
+       &                  BOUNDARY(ng)%it_west(LBj:UBj,itrc),             &
+       &                  BOUNDARY(ng)%it_east(LBj:UBj,itrc),             &
+       &                  BOUNDARY(ng)%it_north(LBi:UBi,itrc),            &
+       &                  BOUNDARY(ng)%it_south(LBi:UBi,itrc),            &
+       &                  ui, vi, it(:,:,itrc,:), LBC(:,isIvar(itrc),ng))
+!         CALL i2d_bc_tile_closed (ng, tile, iNLM,                        &
+!      &                           LBi, UBi, LBj, UBj,                    &
+!      &                           IminS, ImaxS, JminS, JmaxS,            &
+!      &                           liold, linew,                          &
+!      &                           ui, vi, it(:,:,itrc,:))
+      END DO
 #endif
 
       IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
