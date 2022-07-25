@@ -99,11 +99,6 @@
 !   Initialize model variables.
 !=======================================================================
 !
-      do ng=1,Ngrids
-        print *, "KK check 1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 !$OMP MASTER
       IF (Master) THEN
 #if defined PERTURBATION
@@ -234,11 +229,7 @@
         END DO
       END IF
 
-      do ng=1,Ngrids
-        print *, "KK check 2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
+
 # ifdef ADJUST_BOUNDARY
 !
 !  Initialize open boundary counter for storage arrays.
@@ -315,11 +306,7 @@
      &                   __FILE__)) RETURN
         END DO
 #endif
-        do ng=1,Ngrids
-          print *, "KK check 3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-          print *, "KK check 3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-          print *, "KK check 3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        end do
+
 
 #ifdef SOLVE3D
 !
@@ -332,11 +319,7 @@
           CALL set_scoord (ng)
 !$OMP END MASTER
         END DO
-        do ng=1,Ngrids
-          print *, "KK check 4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-          print *, "KK check 4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-          print *, "KK check 4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        end do
+
 !$OMP BARRIER
 #endif
 
@@ -351,11 +334,7 @@
           CALL set_weights (ng)
 !$OMP END MASTER
         END DO
-        do ng=1,Ngrids
-          print *, "KK check 5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-          print *, "KK check 5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-          print *, "KK check 5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        end do
+
 !$OMP BARRIER
 #endif
 !
@@ -369,11 +348,7 @@
           END DO
 !$OMP BARRIER
         END DO
-        do ng=1,Ngrids
-          print *, "KK check 6, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-          print *, "KK check 6, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-          print *, "KK check 6, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        end do
+        
 #ifdef ICE_STRENGTH_QUAD
 !
 !-----------------------------------------------------------------------
@@ -447,11 +422,6 @@
         END DO
 # endif
 #endif
-        do ng=1,Ngrids
-          print *, "KK check 7, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-          print *, "KK check 7, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-          print *, "KK check 7, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        end do
       END IF
 !
 !-----------------------------------------------------------------------
@@ -469,11 +439,6 @@
         END DO
 !$OMP BARRIER
       END DO
-      do ng=1,Ngrids
-        print *, "KK check 8, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 8, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 8, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 
 #ifndef OFFLINE_FLOATS
 #ifdef ANA_SPONGE
@@ -511,11 +476,6 @@
       END DO
 #endif
 
-      do ng=1,Ngrids
-        print *, "KK check 9, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 9, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 9, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 
 #if defined SOLVE3D && !defined INI_FILE
 !
@@ -531,11 +491,6 @@
 !$OMP BARRIER
       END DO
 #endif
-      do ng=1,Ngrids
-        print *, "KK check 10, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 10, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 10, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 !
 !-----------------------------------------------------------------------
 !  Set primitive variables initial conditions.
@@ -584,9 +539,9 @@
       END DO
 #endif
       do ng=1,Ngrids
-        print *, "KK check 11, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 11, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 11, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+        print *, "KK check 1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+        print *, "KK check 1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+        print *, "KK check 1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
       end do
 
 #if defined ANA_SEDIMENT && defined SOLVE3D
@@ -609,6 +564,11 @@
 !
 !  Read in initial conditions from initial NetCDF file.
 !
+do ng=1,Ngrids
+  print *, "KK check 2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+  print *, "KK check 2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+  print *, "KK check 2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+end do
       DO ng=1,Ngrids
 !$OMP MASTER
         CALL get_state (ng, iNLM, 1, INI(ng)%name,                      &
@@ -622,26 +582,22 @@
      &                 __FILE__)) RETURN
         time(ng)=io_time                     ! needed for shared-memory
       END DO
+      do ng=1,Ngrids
+        print *, "KK check 3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+        print *, "KK check 3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+        print *, "KK check 3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+      end do
 #else
 !
 !  If restart, read in initial conditions restart NetCDF file.
 !
-      do ng=1,Ngrids
-        print *, "KK check 12, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 12, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 12, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
       DO ng=1,Ngrids
         IF (nrrec(ng).ne.0) THEN
 !$OMP MASTER
           CALL get_state (ng, 0, 1, INI(ng)%name,                       &
      &                    IniRec(ng), Tindex(ng))
 !$OMP END MASTER
-      do ng=1,Ngrids
-        print *, "KK check 13, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 13, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 13, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
+
 # ifdef DISTRIBUTE
           CALL mp_bcasti (ng, iNLM, exit_flag)
 # endif
@@ -653,6 +609,11 @@
       END DO
 #endif
 
+do ng=1,Ngrids
+  print *, "KK check 4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+  print *, "KK check 4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+  print *, "KK check 4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+end do
 #ifdef ANA_ICE
 !
 !  Analytical initial conditions for sea ice.
@@ -670,9 +631,9 @@
       END DO
 #endif
       do ng=1,Ngrids
-        print *, "KK check 14, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 14, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 14, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+        print *, "KK check 5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+        print *, "KK check 5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+        print *, "KK check 5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
       end do
 #ifdef WET_DRY
 !
@@ -734,11 +695,6 @@
 !  file.
 !-----------------------------------------------------------------------
 !
-do ng=1,Ngrids
-  print *, "KK check 15, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check 15, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check 15, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
       IF (Nrun.gt.1) THEN
         DO ng=1,Ngrids
 !$OMP MASTER
@@ -754,11 +710,6 @@ end do
         END DO
       END IF
 #endif
-do ng=1,Ngrids
-  print *, "KK check 16, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check 16, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check 16, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
 
 #ifdef TLM_CHECK
 !
@@ -891,11 +842,6 @@ end do
 !  structure, so the appropriate input single or multi-file is selected
 !  during initialization/restart.
 !
-do ng=1,Ngrids
-  print *, "KK check 17, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check 17, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check 17, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
       DO ng=1,Ngrids
 !$OMP MASTER
         CALL close_inp (ng, iNLM)
