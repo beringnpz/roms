@@ -1136,6 +1136,7 @@
         allocate ( ToptNtr(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+# ifdef BENTHIC
       IF (.not.allocated(q10r)) THEN
         allocate ( q10r(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
@@ -1200,6 +1201,8 @@
         allocate ( BenPred(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+# endif
+# ifdef ICE_BIO
       IF (.not.allocated(alphaIb)) THEN
         allocate ( alphaIb(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
@@ -1252,6 +1255,7 @@
         allocate ( KI(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+# endif
 !
 !  Allocate biological tracer vector.
 !
