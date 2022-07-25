@@ -255,11 +255,11 @@
 !
 !  Lateral boundary conditions attribute not checked in restart file.
 !
-do ng=1,Ngrids
+
   print *, "KK check gs1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
   print *, "KK check gs1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
   print *, "KK check gs1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
+
       IF (((model.eq.0).or.(model.eq.iNLM)).and.(nrrec(ng).ne.0)) THEN
         IF (Master) WRITE (stdout,20) string, 'NLM_LBC', TRIM(ncname)
       END IF
@@ -269,11 +269,11 @@ end do
 !  from restart file and check keyword strings with structure vlues
 !  for consistency.
 !
-do ng=1,Ngrids
+
   print *, "KK check gs2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
   print *, "KK check gs2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
   print *, "KK check gs2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
+
       IF (((model.eq.0).or.(model.eq.iNLM)).and.(nrrec(ng).ne.0)) THEN
         CALL lbc_getatt (ng, model, ncINPid, ncname, 'NLM_LBC', LBC)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
