@@ -1071,13 +1071,13 @@
         CALL exchange_r2d_tile (ng, tile,                               &
      &                          LBi, UBi, LBj, UBj,                     &
      &                          hage(:,:,linew))
-# if defined ICE_BIO
+#if defined ICE_BIO
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
        &                          LBi, UBi, LBj, UBj,                     &
        &                          it(:,:,itrc,linew))
         ENDDO
-# endif
+#endif
       END IF
 #ifdef DISTRIBUTE
       CALL mp_exchange2d (ng, tile, iNLM, 4,                            &

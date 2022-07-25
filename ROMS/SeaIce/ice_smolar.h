@@ -173,10 +173,10 @@
 # ifdef ICESHELF
      &                      GRID(ng) % zice,                            &
 # endif
-#ifndef ICE_UPWIND
+# ifndef ICE_UPWIND
      &                      GRID(ng) % pm,                              &
      &                      GRID(ng) % pn,                              &
-#endif
+# endif
      &                      GRID(ng) % on_u,                            &
      &                      GRID(ng) % om_v,                            &
      &                      GRID(ng) % omn,                             &
@@ -200,26 +200,26 @@
 !  ---------------------------------------------------------------------
 !  Advect the ice tracers
 !  ---------------------------------------------------------------------
-       
+
       DO itrc=1,NIceT(ng)
-       
+
         CALL ice_advect_tile (ng, tile,                                 &
      &                        LBi, UBi, LBj, UBj,                       &
      &                        IminS, ImaxS, JminS, JmaxS,               &
      &                        nrhs(ng), linew(ng), liold(ng), liunw(ng),&
-# ifdef MASKING               
+#  ifdef MASKING
      &                        GRID(ng) % rmask,                         &
-# endif                       
-# ifdef WET_DRY               
+#  endif
+#  ifdef WET_DRY
      &                        GRID(ng) % rmask_wet,                     &
-# endif                       
-# ifdef ICESHELF              
+#  endif
+#  ifdef ICESHELF
      &                        GRID(ng) % zice,                          &
-# endif                       
-#ifndef ICE_UPWIND            
+#  endif
+#  ifndef ICE_UPWIND
      &                        GRID(ng) % pm,                            &
      &                        GRID(ng) % pn,                            &
-#endif                        
+#  endif
      &                        GRID(ng) % on_u,                          &
      &                        GRID(ng) % om_v,                          &
      &                        GRID(ng) % omn,                           &
@@ -227,7 +227,7 @@
      &                        ICE(ng) % vi,                             &
      &                        OCEAN(ng) % it(:,:,itrc,:)                &
      &                        )
-           
+
         CALL i2d_bc_tile (ng, tile, iNLM,                               &
      &                    LBi, UBi, LBj, UBj,                           &
      &                    IminS, ImaxS, JminS, JmaxS,                   &
@@ -241,7 +241,7 @@
      &                    OCEAN(ng)%it(:,:,itrc,:),                     &
      &                    LBC(:,isIvar(itrc),ng))
       ENDDO
- 
+
 # endif
 !
 ! ---------------------------------------------------------------------
@@ -261,10 +261,10 @@
 # ifdef ICESHELF
      &                      GRID(ng) % zice,                            &
 # endif
-#ifndef ICE_UPWIND
+# ifndef ICE_UPWIND
      &                      GRID(ng) % pm,                              &
      &                      GRID(ng) % pn,                              &
-#endif
+# endif
      &                      GRID(ng) % on_u,                            &
      &                      GRID(ng) % om_v,                            &
      &                      GRID(ng) % omn,                             &
@@ -322,10 +322,10 @@
 # ifdef ICESHELF
      &                      GRID(ng) % zice,                            &
 # endif
-#ifndef ICE_UPWIND
+# ifndef ICE_UPWIND
      &                      GRID(ng) % pm,                              &
      &                      GRID(ng) % pn,                              &
-#endif
+# endif
      &                      GRID(ng) % on_u,                            &
      &                      GRID(ng) % om_v,                            &
      &                      GRID(ng) % omn,                             &
@@ -655,10 +655,10 @@
 ! Antidiffusive corrector step:
 !-------------- --------- -----
 ! This is needed to avoid touching "aif" under land mask.
-! Note that only aif(i,j) and aif(i-1,j) are allowed to appear 
-! explicitly in the code segment below. This is OK 
-! because if either of them masked, then "ui" is zero 
-! at that point, and therefore no additional masking is required. 
+! Note that only aif(i,j) and aif(i-1,j) are allowed to appear
+! explicitly in the code segment below. This is OK
+! because if either of them masked, then "ui" is zero
+! at that point, and therefore no additional masking is required.
 !
       DO j=Jstr,Jend+1
         DO i=Istr,Iend+1

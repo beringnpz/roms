@@ -300,12 +300,6 @@
      &                           saltflux_ocean,                        &
 # endif
      &                           u10_neutral,                           &
-# ifdef ICE_DIAGS
-     &                           LW_down, SW_down,                      &
-     &                           lat_ice, sens_ice,                     &
-     &                           LW_up_ice, SW_up_ice,                  &
-     &                           saltflux_ocean,                        &
-# endif
      &                           sustr, svstr)
 !***********************************************************************
 !
@@ -422,12 +416,10 @@
 #   endif
       real(r8), intent(out) :: tau_aix_n(LBi:,LBj:)
       real(r8), intent(out) :: tau_aiy_n(LBi:,LBj:)
-#   if defined ICE_BIO
-      real(r8), intent(in) :: IcePhL(LBi:,LBj:,:)
-      integer, intent(inout) :: IceLog(LBi:,LBj:,:)
-#   endif
 #  endif
-
+#  if defined BEST_NPZ & defined ICE_BIO
+       real(r8), intent(in) :: it(LBi:,LBj:,:,:)
+#  endif
 #  ifdef EMINUSP
       real(r8), intent(out) :: EminusP(LBi:,LBj:)
       real(r8), intent(out) :: evap(LBi:,LBj:)
@@ -442,21 +434,8 @@
       real(r8), intent(out) :: saltflux_ocean(LBi:,LBj:)
 #  endif
       real(r8), intent(out) :: u10_neutral(LBi:,LBj:)
-#  ifdef ICE_DIAGS
-      real(r8), intent(out) :: LW_down(LBi:,LBj:)
-      real(r8), intent(out) :: SW_down(LBi:,LBj:)
-      real(r8), intent(out) :: lat_ice(LBi:,LBj:)
-      real(r8), intent(out) :: sens_ice(LBi:,LBj:)
-      real(r8), intent(out) :: LW_up_ice(LBi:,LBj:)
-      real(r8), intent(out) :: SW_up_ice(LBi:,LBj:)
-      real(r8), intent(out) :: saltflux_ocean(LBi:,LBj:)
-#  endif
       real(r8), intent(out) :: sustr(LBi:,LBj:)
       real(r8), intent(out) :: svstr(LBi:,LBj:)
-
-#   if defined BEST_NPZ && defined ICE_BIO
-       real(r8), intent(in) :: it(LBi:,LBj:,:,:)
-#   endif
 # else
 
 #  ifdef MASKING
@@ -549,10 +528,9 @@
 #   endif
       real(r8), intent(out) :: tau_aix_n(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: tau_aiy_n(LBi:UBi,LBj:UBj)
-#   if defined ICE_BIO
-      real(r8), intent(in) :: IcePhL(LBi:UBi,LBj:UBj,2)
-      integer, intent(inout) :: IceLog(LBi:UBi,LBj:UBj,2)
-#   endif
+#  endif
+#  if defined ICE_BIO & defined BEST_NPZ
+      real(r8), intent(in) :: it(LBi:UBi,LBj:UBj,3,1)
 #  endif
 
 #  ifdef EMINUSP
@@ -569,24 +547,8 @@
       real(r8), intent(out) :: saltflux_ocean(LBi:UBi,LBj:UBj)
 #  endif
       real(r8), intent(out) :: u10_neutral(LBi:UBi,LBj:UBj)
-#  ifdef ICE_DIAGS
-      real(r8), intent(out) :: LW_down(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: SW_down(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: lat_ice(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: sens_ice(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: LW_up_ice(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: SW_up_ice(LBi:UBi,LBj:UBj)
-      real(r8), intent(out) :: saltflux_ocean(LBi:UBi,LBj:UBj)
-#  endif
       real(r8), intent(out) :: sustr(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: svstr(LBi:UBi,LBj:UBj)
-
-#  if defined BEST_NPZ && defined ICE_BIO
-      real(r8), intent(in) :: it(LBi:UBi,LBj:UBj,3,1)
-!       real(r8), intent(in) ::tclm(LBi:UBi,LBj:UBj,UBk,3,UBt+1)
-!       integer, intent(in) :: nstp
-#  endif
-
 # endif
 !
 !  Local variable declarations.

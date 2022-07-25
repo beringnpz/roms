@@ -295,7 +295,7 @@ contains
       integer, intent(in) :: liold
       integer, intent(in) :: linew
 # endif
-# if defined BEST_NPZ && defined ICE_BIO
+# if defined BEST_NPZ & defined ICE_BIO
       integer, intent(in) :: nstp
 # endif
 !

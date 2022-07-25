@@ -48,8 +48,7 @@
       USE mod_stepping
       USE mod_mixing
 
-      ! TODO: is ICE_BIO bestnpz-specific?
-#if defined ICE_BIO
+#if defined ICE_BIO & !defined CLIM_ICE_1D
       USE mod_ice
 #endif
 #if defined FEAST
@@ -114,13 +113,14 @@
 #endif
 #if defined ICE_BIO
      &                   ,OCEAN(ng) % it                                &
+# ifndef CLIM_ICE_1D
      &                   ,ICE(ng) % ti                                  &
      &                   ,ICE(ng) % hi                                  &
      &                   ,ICE(ng) % ai                                  &
      &                   ,ICE(ng) % ageice                              &
      &                   ,ICE(ng) % ui                                  &
      &                   ,ICE(ng) % vi                                  &
-! # endif
+# endif
 #endif
 #ifdef DIAGNOSTICS_BIO
      &                   ,DIAGS(ng) % DiaBio2d                          &
@@ -174,12 +174,14 @@
 #endif
 #if defined ICE_BIO
      &                         ,it                                      &
+# ifndef CLIM_ICE_1D
      &                         ,ti                                      &
      &                         ,hi                                      &
      &                         ,ai                                      &
      &                         ,ageice                                  &
      &                         ,ui                                      &
      &                         ,vi                                      &
+# endif
 #endif
 #ifdef DIAGNOSTICS_BIO
      &                         ,DiaBio2d, DiaBio3d                      &
@@ -270,13 +272,14 @@
 # endif
 # if defined ICE_BIO
       real(r8), intent(inout) :: it(LBi:,LBj:,:,:)
+# ifndef CLIM_ICE_1D
       real(r8), intent(in)    :: ti(LBi:,LBj:,:)
       real(r8), intent(in)    :: hi(LBi:,LBj:,:)
       real(r8), intent(in)    :: ai(LBi:,LBj:,:)
       real(r8), intent(in)    :: ageice(LBi:,LBj:,:)
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
-! #  endif
+#  endif
 # endif
 #ifdef DIAGNOSTICS_BIO
       real(r8), intent(inout) :: DiaBio2d(LBi:,LBj:,:)
@@ -324,12 +327,14 @@
 # endif
 # if defined ICE_BIO
       real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,1)
+#  ifndef CLIM_ICE_1D
       real(r8), intent(in)    :: ti(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: hi(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: ai(LBi:UBi,LBj:UBj,2)     ! TODO: never used?
       real(r8), intent(in)    :: ageice(LBi:UBi,LBj:UBj,2) ! TODO: never used?
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
+#  endif
 # endif
 #if defined CARBON || defined OXYGEN 
 !      integer, parameter :: Nsink = 4
@@ -337,7 +342,6 @@
 #else
 !      integer, parameter :: Nsink = 4
 #endif
-
       real(r8), intent(inout) :: Akt(LBi:UBi,LBj:UBj,0:N(ng),NAT)
 #endif
 

@@ -2701,39 +2701,39 @@
           END DO
         END IF
 #  endif
-#  ifdef ICE_BIO
-        IF (Aout2(idIcePhL,ng)) THEN
-          DO j=JstrR,JendR
-            DO i=IstrR,IendR
-              AVERAGE2(ng)%avgIPhL(i,j)=rfac(i,j)*                      &
-     &                   AVERAGE2(ng)%avgIPhL(i,j)
-            END DO
-          END DO
-        END IF
-        IF (Aout2(idIceNO3,ng)) THEN
-          DO j=JstrR,JendR
-            DO i=IstrR,IendR
-              AVERAGE2(ng)%avgINO3(i,j)=rfac(i,j)*                      &
-     &                   AVERAGE2(ng)%avgINO3(i,j)
-            END DO
-          END DO
-        END IF
-        IF (Aout2(idIceNH4,ng)) THEN
-          DO j=JstrR,JendR
-            DO i=IstrR,IendR
-              AVERAGE2(ng)%avgINH4(i,j)=rfac(i,j)*                      &
-     &                   AVERAGE2(ng)%avgINH4(i,j)
-            END DO
-          END DO
-        END IF
-        IF (Aout2(idIceLog,ng)) THEN
-          DO j=JstrR,JendR
-            DO i=IstrR,IendR
-              AVERAGE2(ng)%avgILog(i,j)=rfac(i,j)*AVERAGE2(ng)%avgILog(i,j)
-            END DO
-          END DO
-        END IF
-#  endif
+! #  ifdef ICE_BIO
+!         IF (Aout2(idIcePhL,ng)) THEN
+!           DO j=JstrR,JendR
+!             DO i=IstrR,IendR
+!               AVERAGE2(ng)%avgIPhL(i,j)=rfac(i,j)*                      &
+!      &                   AVERAGE2(ng)%avgIPhL(i,j)
+!             END DO
+!           END DO
+!         END IF
+!         IF (Aout2(idIceNO3,ng)) THEN
+!           DO j=JstrR,JendR
+!             DO i=IstrR,IendR
+!               AVERAGE2(ng)%avgINO3(i,j)=rfac(i,j)*                      &
+!      &                   AVERAGE2(ng)%avgINO3(i,j)
+!             END DO
+!           END DO
+!         END IF
+!         IF (Aout2(idIceNH4,ng)) THEN
+!           DO j=JstrR,JendR
+!             DO i=IstrR,IendR
+!               AVERAGE2(ng)%avgINH4(i,j)=rfac(i,j)*                      &
+!      &                   AVERAGE2(ng)%avgINH4(i,j)
+!             END DO
+!           END DO
+!         END IF
+!         IF (Aout2(idIceLog,ng)) THEN
+!           DO j=JstrR,JendR
+!             DO i=IstrR,IendR
+!               AVERAGE2(ng)%avgILog(i,j)=rfac(i,j)*AVERAGE2(ng)%avgILog(i,j)
+!             END DO
+!           END DO
+!         END IF
+! #  endif
 # endif
 
 !
