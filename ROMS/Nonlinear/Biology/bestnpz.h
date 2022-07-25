@@ -2698,9 +2698,11 @@
 #ifdef OXYGEN
                Bio3d(i,k,iiOxyg) = Bio2d(i,k,iiOxyg)/Hz(i,j,k)
 #endif
+#ifdef ICE_BIO
               DO itrc = 18,20 ! Ice
                 Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/aidz(ng)
               END DO
+#endif
             END DO
           END DO
 
@@ -2972,8 +2974,12 @@
 !
 !  Add in O2 gas exchange.
 !
+#ifdef ICE_BIO & !defined CLIM_ICE_1D
             O2_Flux=cff3*(O2satu-Bio3d(i,k,iiOxyg))*                    &
-      &         (1.0_r8-ai(i,j,nstp))
+      &         (1.0_r8-ai(i,j,nstp)) ! TODO: add CLIM_ICE_1D option
+#else
+            O2_Flux=cff3*(O2satu-Bio3d(i,k,iiOxyg))
+#endif
             Bio3d(i,k,iiOxyg)=Bio3d(i,k,iiOxyg)+                        &
       &         O2_Flux*Hz_inv(i,k)
 #ifdef DIAGNOSTICS_BIO
