@@ -573,6 +573,11 @@ end do
 !$OMP MASTER
         CALL get_state (ng, iNLM, 1, INI(ng)%name,                      &
      &                  IniRec(ng), Tindex(ng))
+     do ng=1,Ngrids
+       print *, "KK check 2b, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+       print *, "KK check 2b, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+       print *, "KK check 2b, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+     end do
 !$OMP END MASTER
 # ifdef DISTRIBUTE
         CALL mp_bcasti (ng, iNLM, exit_flag)
