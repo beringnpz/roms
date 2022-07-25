@@ -744,6 +744,7 @@
         IF (ObcData(ng)) THEN
           DO i=1,nBCfiles(ng)
             IF (exit_flag.eq.NoError) THEN
+              print *, "def_info (def_info.F line 747), ng=", ng, "i=",i,"BRY(i,ng)%Nfiles=",BRY(i,ng)%Nfiles
               CALL join_string (BRY(i,ng)%files, BRY(i,ng)%Nfiles,      &
      &                          string, lstr)
               WRITE (bryatt,50) i

@@ -7120,6 +7120,7 @@
 !
           IF (ObcData(ng)) THEN
             DO i=1,nBCfiles(ng)
+              print *, "read_PhyPar (read_phypar.F line 7123), ng=", ng, "i=",i,"BRY(i,ng)%Nfiles=",BRY(i,ng)%Nfiles
               DO ifile=1,BRY(i,ng)%Nfiles
                 fname=BRY(i,ng)%files(ifile)
                 IF (.not.find_file(ng, fname, 'BRYNAME')) GO TO 30

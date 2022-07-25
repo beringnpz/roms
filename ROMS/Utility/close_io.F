@@ -63,6 +63,7 @@
 !
       IF (ObcData(ng)) THEN
         DO i=1,nBCfiles(ng)
+          print *, "close_inp (close_io.F line 66), ng=", ng, "i=",i,"BRY(i,ng)%Nfiles=",BRY(i,ng)%Nfiles
           IF ((BRY(i,ng)%Nfiles.gt.1).and.(BRY(i,ng)%ncid.ge.0)) THEN
             CALL netcdf_close (ng, model, BRY(i,ng)%ncid,               &
      &                         BRY(i,ng)%name,  .FALSE.)
