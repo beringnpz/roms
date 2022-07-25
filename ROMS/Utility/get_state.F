@@ -279,6 +279,10 @@
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
       END IF
+      
+      print *, "KK check gs3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+      print *, "KK check gs3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+      print *, "KK check gs3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #endif
 !
 !  Inquire about the input time variable.
@@ -292,6 +296,9 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 !
+print *, "KK check gs4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !  Allocate input time variable and read its value(s).  Recall that
 !  input time variable is a one-dimensional array with one or several
 !  values.
