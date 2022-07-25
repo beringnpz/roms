@@ -566,9 +566,10 @@
       real(r8), allocatable :: rg(:)
       real(r8), allocatable :: annit(:)
       real(r8), allocatable :: aidz(:)
+#endif
       real(r8), allocatable :: tI0(:)
       real(r8), allocatable :: KI(:)
-#endif
+
 
       CONTAINS
 
@@ -1247,6 +1248,7 @@
         allocate ( aidz(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+# endif
       IF (.not.allocated(tI0)) THEN
         allocate ( tI0(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
@@ -1255,7 +1257,7 @@
         allocate ( KI(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
-# endif
+
 !
 !  Allocate biological tracer vector.
 !
