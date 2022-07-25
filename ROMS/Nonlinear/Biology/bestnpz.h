@@ -3062,8 +3062,12 @@
 !  Add in CO2 gas exchange.
 !
              if(pCO2(i).gt.0.0_r8)then
+# ifdef ICE_BIO & !defined CLIM_ICE_1D
                 CO2_Flux=cff3*CO2_sol*(pCO2air(i,j)-pCO2(i))*           &
      &            (1.0_r8-ai(i,j,nstp))    ! mmolC/m^2
+# else
+                CO2_Flux=cff3*CO2_sol*(pCO2air(i,j)-pCO2(i)) ! mmolC/m^2
+# endif
 !               if(ai(i,j,nstp).gt.0.8_r8)then
 !                 print *, 'pCO2air', pCO2air(i,j)
 !               else
