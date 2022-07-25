@@ -310,6 +310,10 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
      &                      ncid = ncINPid)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+
+     print *, "KK check gs5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+     print *, "KK check gs5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+     print *, "KK check gs5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !
 !  If using the latest time record from input NetCDF file as the
 !  initialization record, assign input time.
@@ -464,6 +468,9 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !-----------------------------------------------------------------------
 !
       NLM_STATE: IF ((model.eq.iNLM).or.(model.eq.0)) THEN
+      print *, "KK check gs6, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+      print *, "KK check gs6, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+      print *, "KK check gs6, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 
 # ifdef PERFECT_RESTART
 !
