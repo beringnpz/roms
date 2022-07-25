@@ -8409,7 +8409,13 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !  Close input NetCDF file.
 !-----------------------------------------------------------------------
 !
+print *, "KK check gs7, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs7, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs7, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
       CALL netcdf_close (ng, IDmod, ncINPid, ncname, .FALSE.)
+      print *, "KK check gs8, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+      print *, "KK check gs8, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+      print *, "KK check gs8, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 
 #ifdef PROFILE
 !
