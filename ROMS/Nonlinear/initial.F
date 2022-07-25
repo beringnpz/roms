@@ -538,11 +538,6 @@
         END IF
       END DO
 #endif
-      do ng=1,Ngrids
-        print *, "KK check 1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 
 #if defined ANA_SEDIMENT && defined SOLVE3D
 !
@@ -564,20 +559,10 @@
 !
 !  Read in initial conditions from initial NetCDF file.
 !
-do ng=1,Ngrids
-  print *, "KK check 2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check 2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check 2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
       DO ng=1,Ngrids
 !$OMP MASTER
         CALL get_state (ng, iNLM, 1, INI(ng)%name,                      &
      &                  IniRec(ng), Tindex(ng))
-     do ng=1,Ngrids
-       print *, "KK check 2b, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-       print *, "KK check 2b, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-       print *, "KK check 2b, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-     end do
 !$OMP END MASTER
 # ifdef DISTRIBUTE
         CALL mp_bcasti (ng, iNLM, exit_flag)
@@ -587,11 +572,6 @@ end do
      &                 __FILE__)) RETURN
         time(ng)=io_time                     ! needed for shared-memory
       END DO
-      do ng=1,Ngrids
-        print *, "KK check 3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 #else
 !
 !  If restart, read in initial conditions restart NetCDF file.
@@ -614,11 +594,6 @@ end do
       END DO
 #endif
 
-do ng=1,Ngrids
-  print *, "KK check 4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check 4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check 4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-end do
 #ifdef ANA_ICE
 !
 !  Analytical initial conditions for sea ice.
@@ -635,11 +610,6 @@ end do
         END IF
       END DO
 #endif
-      do ng=1,Ngrids
-        print *, "KK check 5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-        print *, "KK check 5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-        print *, "KK check 5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-      end do
 #ifdef WET_DRY
 !
 !-----------------------------------------------------------------------
