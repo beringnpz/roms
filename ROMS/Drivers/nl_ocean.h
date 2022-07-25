@@ -110,6 +110,14 @@
         CALL inp_par (iNLM)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
+     
+        do ng=1,Ngrids
+          print *, "KK check 1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+          print *, "KK check 1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+          print *, "KK check 1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+        end do
+     
+     
 #ifdef NEMURO_SAN
         CALL ini_fish (iNLM)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
@@ -164,9 +172,19 @@
 !
 !  Allocate and initialize all model state arrays.
 !
+        do ng=1,Ngrids
+          print *, "KK check 2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+          print *, "KK check 2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+          print *, "KK check 2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+        end do
 !$OMP PARALLEL
         CALL mod_arrays (allocate_vars)
 !$OMP END PARALLEL
+        do ng=1,Ngrids
+          print *, "KK check 3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+          print *, "KK check 3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+          print *, "KK check 3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+        end do
 
 #ifdef VERIFICATION
 !
@@ -197,9 +215,19 @@
 !  if applicable.
 !-----------------------------------------------------------------------
 !
+      do ng=1,Ngrids
+        print *, "KK check 4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+        print *, "KK check 4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+        print *, "KK check 4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+      end do
 !$OMP PARALLEL
       CALL initial
 !$OMP END PARALLEL
+      do ng=1,Ngrids
+        print *, "KK check 5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+        print *, "KK check 5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+        print *, "KK check 5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
+      end do
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 !
