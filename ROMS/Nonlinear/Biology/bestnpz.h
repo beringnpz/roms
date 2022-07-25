@@ -424,9 +424,9 @@
       real(r8) :: grow1, GROWAice, fNO3, RAi0, RgAi
       real(r8) :: sb, gesi
       real(r8), dimension(IminS:ImaxS,JminS:JmaxS) :: ice_thick, ice_status
-#ifdef CARBON
+# ifdef CARBON
       real(r8), dimension(IminS:ImaxS,N(ng)) :: Frz_TIC, Frz_TAlk
-#endif
+# endif
 #endif
 #ifdef CARBON
       real(r8), dimension(IminS:ImaxS) :: pCO2
@@ -1337,8 +1337,10 @@
           Ver_NCaS_DetBen = 0.0_r8
           Ver_NCaS_DetBen = 0.0_r8
 #ifdef CARBON
+# ifdef ICE_BIO
           Frz_TIC        = 0.0_r8
           Frz_TAlk       = 0.0_r8
+# endif
           CO2_Flux       = 0.0_r8
 #endif
 
@@ -2273,10 +2275,10 @@
               Twi_INO3_NO3(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNO3) - Bio3d(i,N(ng),iiNO3))/xi(ng) ! mg C m^-2 d^-1
               Twi_INH4_NH4(i,N(ng)) = twi * (Bio3d(i,N(ng),iiIceNH4) - Bio3d(i,N(ng),iiNH4))/xi(ng) ! mg C m^-2 d^-1
 
-#ifdef CARBON
+# ifdef CARBON
               Frz_TIC(i,N(ng)) = dhicedt*86400.0_r8*1650.0_r8*12.0_r8  ! convert to mg C for consistency w/ bio loop
               Frz_TAlk(i,N(ng)) = dhicedt*86400.0_r8*1600.0_r8/xi(ng)  ! convert to mg C for consistency w/ bio loop 
-#endif
+# endif
 
             endif
           END DO
@@ -2591,7 +2593,9 @@
      &                       +  Exc_Ben_NH4                             &
      &                       +  Res_Ben_NH4                             &
      &                       +  Rem_DetBen_NH4                          &
+# ifdef ICE_BIO
      &                       +  Frz_TIC                                 &
+# endif
      &                       +  Res_IPhL_INH4                           &
      &                       +  Mor_IPhL_INH4                           &
      &                       -  Gpp_NO3_PhS                             &
@@ -2618,7 +2622,9 @@
      &                       +  Exc_Ben_NH4                             &
      &                       +  Res_Ben_NH4                             &
      &                       +  Rem_DetBen_NH4                          &
+# ifdef ICE_BIO
      &                       +  Frz_TAlk                                &
+# endif
      &                       +  Res_IPhL_INH4                           &
      &                       +  Mor_IPhL_INH4                           & 
      &                       -  (2.0_r8*Nit_NH4_NO3)                    &
@@ -3220,8 +3226,10 @@
               DiaBio3d(i,j,k,itotresp) = total_resp(i,k)
               DiaBio3d(i,j,k,itotrem)  = total_remin(i,k)
 # ifdef CARBON
+#  ifdef ICE_BIO
               DiaBio3d(i,j,k,iflx_Frz_TIC) = Frz_TIC(i,k)/12.0_r8
               DiaBio3d(i,j,k,iflx_Frz_Alk) = Frz_TAlk(i,k)*xi(ng)
+#  endif
 # endif
 
             END DO
