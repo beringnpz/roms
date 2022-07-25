@@ -635,7 +635,7 @@
      &                      DIAGS(ng)%DiaBio2d)
 #    endif
 #   endif
-#   if defined BIO_FENNEL || defined BIO_COBALT
+#   if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
 !
 !  Biological terms 3D diagnostics.
 !
