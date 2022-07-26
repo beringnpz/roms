@@ -1372,6 +1372,9 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
         END DO
 #  endif
 
+print *, "KK check gs preice, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs preice, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs preice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #  if defined ICE_BIO
 !
 !  Read in ice bio initial conditions.
@@ -1433,6 +1436,9 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
         END DO
 #  endif
 
+print *, "KK check gs postice, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs postice, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs postice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #  ifdef NEMURO_SED1
 !
 !  Read in bio sediment variables.
