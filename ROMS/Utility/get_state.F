@@ -255,11 +255,6 @@
 !
 !  Lateral boundary conditions attribute not checked in restart file.
 !
-
-  print *, "KK check gs1, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check gs1, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check gs1, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-
       IF (((model.eq.0).or.(model.eq.iNLM)).and.(nrrec(ng).ne.0)) THEN
         IF (Master) WRITE (stdout,20) string, 'NLM_LBC', TRIM(ncname)
       END IF
@@ -269,20 +264,11 @@
 !  from restart file and check keyword strings with structure vlues
 !  for consistency.
 !
-
-  print *, "KK check gs2, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-  print *, "KK check gs2, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-  print *, "KK check gs2, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-
       IF (((model.eq.0).or.(model.eq.iNLM)).and.(nrrec(ng).ne.0)) THEN
         CALL lbc_getatt (ng, model, ncINPid, ncname, 'NLM_LBC', LBC)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
       END IF
-      
-      print *, "KK check gs3, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-      print *, "KK check gs3, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-      print *, "KK check gs3, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #endif
 !
 !  Inquire about the input time variable.
@@ -296,9 +282,6 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 !
-print *, "KK check gs4, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs4, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !  Allocate input time variable and read its value(s).  Recall that
 !  input time variable is a one-dimensional array with one or several
 !  values.
@@ -311,9 +294,6 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 
-     print *, "KK check gs5, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-     print *, "KK check gs5, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-     print *, "KK check gs5, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !
 !  If using the latest time record from input NetCDF file as the
 !  initialization record, assign input time.
@@ -467,11 +447,6 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !  restart variables.
 !-----------------------------------------------------------------------
 !
-      NLM_STATE: IF ((model.eq.iNLM).or.(model.eq.0)) THEN
-      print *, "KK check gs6, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-      print *, "KK check gs6, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-      print *, "KK check gs6, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-
 # ifdef PERFECT_RESTART
 !
 !  Read in time-stepping indices.
@@ -1255,9 +1230,6 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !
 !  Read in nonlinear tracer type variables.
 !
-print *, "KK check gs prepelagic, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs prepelagic, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs prepelagic, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
         DO itrc=1,NT(ng)
           IF (get_var(idTvar(itrc))) THEN
             foundit=find_string(var_name, n_var,                        &
@@ -1275,6 +1247,21 @@ print *, "KK check gs prepelagic, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)
 #  endif
      &                            OCEAN(ng) % t(:,:,:,:,itrc))
               ELSE
+                print *, "ng        =", ng         
+                print *, "model     =", IDmod      
+                print *, "ncname    =", ncname     
+                print *, "ncid      =", ncINPid    
+                print *, "ncvname   =", Vname(1,idTvar(itrc)) 
+                print *, "ncvarid   =", varid    
+                print *, "tindex    =", InpRec     
+                print *, "gtype     =", gtype      
+                print *, "Vsize     =", Vsize      
+                print *, "LBi       =", LBi        
+                print *, "UBi       =", UBi        
+                print *, "LBj       =", LBj        
+                print *, "UBj       =", UBj        
+                print *, "LBk       =", 1        
+                print *, "UBk       =", N(ng)        
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idTvar(itrc)), varid,         &
      &                            InpRec, gtype, Vsize,                 &
@@ -1314,10 +1301,6 @@ print *, "KK check gs prepelagic, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)
           END IF
         END DO
         
-print *, "KK check gs preben, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs preben, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs preben, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
-        
 #  if defined BENTHIC
 !
 !  Read in benthic initial conditions.
@@ -1326,6 +1309,7 @@ print *, "KK check gs preben, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfi
           IF (get_var(idBeTvar(itrc))) THEN
             foundit=find_string(var_name, n_var,                        &
      &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
+            print *, "itrc=", itrc, "foundit=", foundit
             IF (foundit) THEN
               gtype=var_flag(varid)*r2dvar
               IF (Perfect2D) THEN
@@ -1339,6 +1323,21 @@ print *, "KK check gs preben, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfi
 #   endif
      &                            OCEAN(ng) % bt(:,:,NBL(ng),:,itrc))
               ELSE
+                print *, "ng        =", ng         
+                print *, "model     =", IDmod      
+                print *, "ncname    =", ncname     
+                print *, "ncid      =", ncINPid    
+                print *, "ncvname   =", Vname(1,idBeTvar(itrc)) 
+                print *, "ncvarid   =", varid    
+                print *, "tindex    =", InpRec     
+                print *, "gtype     =", gtype      
+                print *, "Vsize     =", Vsize      
+                print *, "LBi       =", LBi        
+                print *, "UBi       =", UBi        
+                print *, "LBj       =", LBj        
+                print *, "UBj       =", UBj        
+                print *, "LBk       =", 1        
+                print *, "UBk       =", NBL(ng)        
                 status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idBeTvar(itrc)), varid,       &
      &                            InpRec, gtype, Vsize,                 &
@@ -1379,9 +1378,6 @@ print *, "KK check gs preben, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfi
         END DO
 #  endif
 
-print *, "KK check gs preice, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs preice, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs preice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #  if defined ICE_BIO
 !
 !  Read in ice bio initial conditions.
@@ -1442,10 +1438,6 @@ print *, "KK check gs preice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfi
           END IF
         END DO
 #  endif
-
-print *, "KK check gs postice, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs postice, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs postice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 #  ifdef NEMURO_SED1
 !
 !  Read in bio sediment variables.
@@ -8422,13 +8414,7 @@ print *, "KK check gs postice, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nf
 !  Close input NetCDF file.
 !-----------------------------------------------------------------------
 !
-print *, "KK check gs7, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-print *, "KK check gs7, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-print *, "KK check gs7, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
       CALL netcdf_close (ng, IDmod, ncINPid, ncname, .FALSE.)
-      print *, "KK check gs8, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
-      print *, "KK check gs8, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
-      print *, "KK check gs8, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 
 #ifdef PROFILE
 !
