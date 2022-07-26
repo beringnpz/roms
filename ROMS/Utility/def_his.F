@@ -89,6 +89,7 @@
       ncname=HIS(ng)%name
 !
       IF (Master) THEN
+        print *, "ng=", ng, "ncname=", ncname, "ldef=", ldef
         IF (ldef) THEN
           WRITE (stdout,10) ng, TRIM(ncname)
         ELSE
