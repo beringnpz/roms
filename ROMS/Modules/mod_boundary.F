@@ -1901,6 +1901,7 @@
 #endif
 
 #ifdef ICE_BIO
+      print *, "ANY(LBC(iwest,isIvar(:),ng)%acquire)=", ANY(LBC(iwest,isIvar(:),ng)%acquire)
       IF (ANY(LBC(iwest,isIvar(:),ng)%acquire)) THEN
         allocate ( BOUNDARY(ng) % it_west(LBj:UBj,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Ysize

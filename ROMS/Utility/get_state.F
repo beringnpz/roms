@@ -1287,8 +1287,6 @@
             END IF
           END IF
         END DO
-        
-        print *, "BRY(1,ng)%Nfiles=", BRY(1,ng)%Nfiles
 #  if defined BENTHIC
 !
 !  Read in benthic tracer variables
@@ -1349,8 +1347,6 @@
           END IF
         END DO
 #  endif
-print *, "BRY(1,ng)%Nfiles=", BRY(1,ng)%Nfiles
-
 #  if defined ICE_BIO
 !
 !  Read in ice bio initial conditions.
@@ -1365,7 +1361,7 @@ print *, "BRY(1,ng)%Nfiles=", BRY(1,ng)%Nfiles
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idIceTvar(itrc)), varid,      &
      &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
+     &                            LBi, UBi, LBj, UBj, 1, 3,             &
      &                            Fscl, Fmin, Fmax,                     &
 #   ifdef MASKING
      &                            GRID(ng) % rmask,                     &
