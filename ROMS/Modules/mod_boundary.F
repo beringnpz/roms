@@ -1901,39 +1901,33 @@
 #endif
 
 #ifdef ICE_BIO
-      print *, "ANY(LBC(iwest,isIvar(:),ng)%acquire)=", ANY(LBC(iwest,isIvar(:),ng)%acquire)
-      IF (ANY(LBC(iwest,isIvar(:),ng)%acquire)) THEN
+        ! KK: I don't entirely understand the logic for where/how the %acquire variable is 
+        ! set for the other tracers.  Regardless, we need to allocate for ice bio, so 
+        ! dropping the if/then wrapper (same pattern as Kate's other ice tracers)
         allocate ( BOUNDARY(ng) % it_west(LBj:UBj,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Ysize
 # ifndef ANA_ICEBIOBC
         allocate ( BOUNDARY(ng) % itG_west(LBi:UBi,2,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Ysize
 # endif
-      END IF
-      IF (ANY(LBC(ieast,isIvar(:),ng)%acquire)) THEN
         allocate ( BOUNDARY(ng) % it_east(LBj:UBj,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Ysize
 # ifndef ANA_ICEBIOBC
         allocate ( BOUNDARY(ng) % itG_east(LBi:UBi,2,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Ysize
 # endif
-      END IF
-      IF (ANY(LBC(isouth,isIvar(:),ng)%acquire)) THEN
         allocate ( BOUNDARY(ng) % it_south(LBi:UBi,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Xsize
 # ifndef ANA_ICEBIOBC
         allocate ( BOUNDARY(ng) % itG_south(LBi:UBi,2,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Xsize
 # endif
-      END IF
-      IF (ANY(LBC(inorth,isIvar(:),ng)%acquire)) THEN
         allocate ( BOUNDARY(ng) % it_north(LBi:UBi,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NIceT(ng),r8)*Xsize
 # ifndef ANA_ICEBIOBC
         allocate ( BOUNDARY(ng) % itG_north(LBi:UBi,2,NIceT(ng)) )
         Dmem(ng)=Dmem(ng)+2.0_r8*REAL(NIceT(ng),r8)*Xsize
 # endif
-      END IF
 #endif
 
 #ifdef ICE_MODEL
