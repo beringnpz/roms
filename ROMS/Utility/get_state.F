@@ -447,6 +447,8 @@
 !  restart variables.
 !-----------------------------------------------------------------------
 !
+      NLM_STATE: IF ((model.eq.iNLM).or.(model.eq.0)) THEN
+
 # ifdef PERFECT_RESTART
 !
 !  Read in time-stepping indices.
