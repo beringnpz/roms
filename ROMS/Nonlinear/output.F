@@ -130,7 +130,7 @@
           print *, "NewFile=", NewFile
           print *, "iic(ng)=", iic(ng)
           print *, "ntstart(ng)=", ntstart(ng)
-          print *, "HIS(ng)%name", HIS(ng)%name
+          print *, "HIS(ng)%base", HIS(ng)%base
           IF (Ldefine) THEN                     ! create new file or
             IF (iic(ng).eq.ntstart(ng)) THEN    ! inquire existing file
               HIS(ng)%load=0                    ! reset filename counter
@@ -139,6 +139,7 @@
             Fcount=HIS(ng)%load
             HIS(ng)%Nrec(Fcount)=0
             ifile=(iic(ng)-1)/ndefHIS(ng)+1
+            print *, "ifile", ifile
             IF (Master) THEN
               WRITE (HIS(ng)%name,10) TRIM(HIS(ng)%base), ifile
 #ifdef LONG_NUMS
@@ -147,6 +148,7 @@
   10          FORMAT (a,'_',i4.4,'.nc')
 #endif
             END IF
+            print *, "HIS(ng)%name", HIS(ng)%name
 # ifdef DISTRIBUTE
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
