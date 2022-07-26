@@ -426,7 +426,6 @@
 !
       DO i=1,InpFiles(ng)
         Nfiles=S(i,ng)%Nfiles
-        print *, S(i,ng)%Nfiles
         DO ifile=1,Nfiles
           ncname=S(i,ng)%files(ifile)
           foundit=check_file(ng, model, Nfiles, ncname,                 &
