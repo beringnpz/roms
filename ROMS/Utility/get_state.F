@@ -1255,6 +1255,9 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
 !
 !  Read in nonlinear tracer type variables.
 !
+print *, "KK check gs prepelagic, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs prepelagic, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs prepelagic, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
         DO itrc=1,NT(ng)
           IF (get_var(idTvar(itrc))) THEN
             foundit=find_string(var_name, n_var,                        &
@@ -1310,6 +1313,10 @@ print *, "KK check gs4, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
             END IF
           END IF
         END DO
+        
+print *, "KK check gs preben, ng=", ng, "i=",1,"BRY(i,ng)%Nfiles=",BRY(1,ng)%Nfiles
+print *, "KK check gs preben, ng=", ng, "i=",2,"BRY(i,ng)%Nfiles=",BRY(2,ng)%Nfiles
+print *, "KK check gs preben, ng=", ng, "i=",3,"BRY(i,ng)%Nfiles=",BRY(3,ng)%Nfiles
         
 #  if defined BENTHIC
 !
