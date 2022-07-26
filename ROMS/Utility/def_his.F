@@ -86,10 +86,10 @@
 !
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+      print *, "ng=", ng, "HIS(ng)%name", HIS(ng)%name, "ldef=", ldef
       ncname=HIS(ng)%name
 !
       IF (Master) THEN
-        print *, "ng=", ng, "ncname=", ncname, "ldef=", ldef
         IF (ldef) THEN
           WRITE (stdout,10) ng, TRIM(ncname)
         ELSE
