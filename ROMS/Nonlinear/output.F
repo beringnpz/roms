@@ -97,6 +97,9 @@
 !  create several files during a single model run.
 !
 # ifndef NO_HIS
+      print *, "LdefHIS(ng)=", LdefHIS(ng)
+      print *, "ndefHIS(ng)=", ndefHIS(ng)
+      print *, "idefHIS(ng)=", idefHIS(ng)
       IF (LdefHIS(ng)) THEN
         IF (ndefHIS(ng).gt.0) THEN
           IF (idefHIS(ng).lt.0) THEN
