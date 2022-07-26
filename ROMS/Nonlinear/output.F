@@ -126,6 +126,11 @@
           ELSE
             Ldefine=.FALSE.
           END IF
+          print *, "Ldefine=", Ldefine
+          print *, "NewFile=", NewFile
+          print *, "iic(ng)=", iic(ng)
+          print *, "ntstart(ng)=", ntstart(ng)
+          print *, "HIS(ng)%name", HIS(ng)%name
           IF (Ldefine) THEN                     ! create new file or
             IF (iic(ng).eq.ntstart(ng)) THEN    ! inquire existing file
               HIS(ng)%load=0                    ! reset filename counter
