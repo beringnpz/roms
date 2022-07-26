@@ -1249,21 +1249,6 @@
 #  endif
      &                            OCEAN(ng) % t(:,:,:,:,itrc))
               ELSE
-                print *, "ng        =", ng         
-                print *, "model     =", IDmod      
-                print *, "ncname    =", ncname     
-                print *, "ncid      =", ncINPid    
-                print *, "ncvname   =", Vname(1,idTvar(itrc)) 
-                print *, "ncvarid   =", varid    
-                print *, "tindex    =", InpRec     
-                print *, "gtype     =", gtype      
-                print *, "Vsize     =", Vsize      
-                print *, "LBi       =", LBi        
-                print *, "UBi       =", UBi        
-                print *, "LBj       =", LBj        
-                print *, "UBj       =", UBj        
-                print *, "LBk       =", 1        
-                print *, "UBk       =", N(ng)        
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idTvar(itrc)), varid,         &
      &                            InpRec, gtype, Vsize,                 &
@@ -1303,52 +1288,37 @@
           END IF
         END DO
         
+        print *, "BRY(1,ng)%Nfiles=", BRY(1,ng)%Nfiles
 #  if defined BENTHIC
 !
-!  Read in benthic initial conditions.
+!  Read in benthic tracer variables
 !
         DO itrc=1,NBeT(ng)
           IF (get_var(idBeTvar(itrc))) THEN
             foundit=find_string(var_name, n_var,                        &
      &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
-            print *, "itrc=", itrc, "foundit=", foundit
             IF (foundit) THEN
-              gtype=var_flag(varid)*r2dvar
-              IF (Perfect2D) THEN
+              gtype=var_flag(varid)*r3dvar
+              IF (Perfect3D) THEN
+                status=nf_fread4d(ng, IDmod, ncname, ncINPid,           &
+     &                            Vname(1,idBeTvar(itrc)), varid,       &
+     &                            InpRec, gtype, Vsize,                 &
+     &                            LBi, UBi, LBj, UBj, 1, NBL(ng), 1, 2, &
+     &                            Fscl, Fmin, Fmax,                     &
+#  ifdef MASKING
+     &                            GRID(ng) % rmask,                     &
+#  endif
+     &                            OCEAN(ng) % bt(:,:,:,:,itrc))
+              ELSE
                 status=nf_fread3d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idBeTvar(itrc)), varid,       &
      &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj, NBL(ng), 3,       &
+     &                            LBi, UBi, LBj, UBj, 1, NBL(ng),       &
      &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
+#  ifdef MASKING
      &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % bt(:,:,NBL(ng),:,itrc))
-              ELSE
-                print *, "ng        =", ng         
-                print *, "model     =", IDmod      
-                print *, "ncname    =", ncname     
-                print *, "ncid      =", ncINPid    
-                print *, "ncvname   =", Vname(1,idBeTvar(itrc)) 
-                print *, "ncvarid   =", varid    
-                print *, "tindex    =", InpRec     
-                print *, "gtype     =", gtype      
-                print *, "Vsize     =", Vsize      
-                print *, "LBi       =", LBi        
-                print *, "UBi       =", UBi        
-                print *, "LBj       =", LBj        
-                print *, "UBj       =", UBj        
-                print *, "LBk       =", 1        
-                print *, "UBk       =", NBL(ng)        
-                status=nf_fread2d(ng, IDmod, ncname, ncINPid,           &
-     &                            Vname(1,idBeTvar(itrc)), varid,       &
-     &                            InpRec, gtype, Vsize,                 &
-     &                            LBi, UBi, LBj, UBj,                   &
-     &                            Fscl, Fmin, Fmax,                     &
-#   ifdef MASKING
-     &                            GRID(ng) % rmask,                     &
-#   endif
-     &                            OCEAN(ng) % bt(:,:,NBL(ng),Tindex,itrc))
+#  endif
+     &                            OCEAN(ng) % bt(:,:,:,Tindex,itrc))
               END IF
               IF (FoundError(status, nf90_noerr, __LINE__,              &
      &                       __FILE__)) THEN
@@ -1362,13 +1332,13 @@
               ELSE
                 IF (Master) THEN
                   WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
-     &                               Fmin, Fmax
+     &                              Fmin, Fmax
                 END IF
               END IF
             ELSE
               IF (Master) THEN
-                WRITE (stdout,70) TRIM(Vname(2,idBeTvar(itrc))),        &
-     &                             Fmin, Fmax
+                WRITE (stdout,80) string, TRIM(Vname(1,idBeTvar(itrc))),  &
+     &                            TRIM(ncname)
               END IF
               exit_flag=4
               IF (FoundError(exit_flag, nf90_noerr, __LINE__,           &
@@ -1379,6 +1349,7 @@
           END IF
         END DO
 #  endif
+print *, "BRY(1,ng)%Nfiles=", BRY(1,ng)%Nfiles
 
 #  if defined ICE_BIO
 !
