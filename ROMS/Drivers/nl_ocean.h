@@ -101,7 +101,27 @@
 !  Initialize parallel control switches. These scalars switches are
 !  independent from standard input parameters.
 !
+print *, "Check: pre initialize_parallel"
+print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+print *, "HIS(1)%load  =", HIS(1)%load                     
+print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+print *, "HIS(1)%label =", HIS(1)%label       
+print *, "HIS(1)%head  =", HIS(1)%head            
+print *, "HIS(1)%base  =", HIS(1)%base              
+print *, "HIS(1)%name  =", HIS(1)%name 
         CALL initialize_parallel
+        print *, "Check: post initialize_parallel, pre inp_par"
+        print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+        print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+        print *, "HIS(1)%load  =", HIS(1)%load                     
+        print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+        print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+        print *, "HIS(1)%label =", HIS(1)%label       
+        print *, "HIS(1)%head  =", HIS(1)%head            
+        print *, "HIS(1)%base  =", HIS(1)%base              
+        print *, "HIS(1)%name  =", HIS(1)%name 
 !
 !  Read in model tunable parameters from standard input. Allocate and
 !  initialize variables in several modules after the number of nested
@@ -110,6 +130,16 @@
         CALL inp_par (iNLM)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
+     print *, "Check: post inp_par"
+     print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+     print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+     print *, "HIS(1)%load  =", HIS(1)%load                     
+     print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+     print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+     print *, "HIS(1)%label =", HIS(1)%label       
+     print *, "HIS(1)%head  =", HIS(1)%head            
+     print *, "HIS(1)%base  =", HIS(1)%base              
+     print *, "HIS(1)%name  =", HIS(1)%name 
 #ifdef NEMURO_SAN
         CALL ini_fish (iNLM)
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
@@ -165,7 +195,27 @@
 !  Allocate and initialize all model state arrays.
 !
 !$OMP PARALLEL
+print *, "Check: pre mod_arrays"
+print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+print *, "HIS(1)%load  =", HIS(1)%load                     
+print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+print *, "HIS(1)%label =", HIS(1)%label       
+print *, "HIS(1)%head  =", HIS(1)%head            
+print *, "HIS(1)%base  =", HIS(1)%base              
+print *, "HIS(1)%name  =", HIS(1)%name 
         CALL mod_arrays (allocate_vars)
+        print *, "Check: post mod_arrays"
+        print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+        print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+        print *, "HIS(1)%load  =", HIS(1)%load                     
+        print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+        print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+        print *, "HIS(1)%label =", HIS(1)%label       
+        print *, "HIS(1)%head  =", HIS(1)%head            
+        print *, "HIS(1)%base  =", HIS(1)%base              
+        print *, "HIS(1)%name  =", HIS(1)%name 
 !$OMP END PARALLEL
 
 #ifdef VERIFICATION
@@ -198,7 +248,27 @@
 !-----------------------------------------------------------------------
 !
 !$OMP PARALLEL
+print *, "Check: pre initial"
+print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+print *, "HIS(1)%load  =", HIS(1)%load                     
+print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+print *, "HIS(1)%label =", HIS(1)%label       
+print *, "HIS(1)%head  =", HIS(1)%head            
+print *, "HIS(1)%base  =", HIS(1)%base              
+print *, "HIS(1)%name  =", HIS(1)%name 
       CALL initial
+      print *, "Check: post initial"
+      print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+      print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+      print *, "HIS(1)%load  =", HIS(1)%load                     
+      print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+      print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+      print *, "HIS(1)%label =", HIS(1)%label       
+      print *, "HIS(1)%head  =", HIS(1)%head            
+      print *, "HIS(1)%base  =", HIS(1)%base              
+      print *, "HIS(1)%name  =", HIS(1)%name 
 !$OMP END PARALLEL
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
