@@ -170,7 +170,6 @@ print *, "HIS(1)%label =", HIS(1)%label
 print *, "HIS(1)%head  =", HIS(1)%head            
 print *, "HIS(1)%base  =", HIS(1)%base              
 print *, "HIS(1)%name  =", HIS(1)%name 
-print *, "HIS(1)%files  =", HIS(1)%files
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
             print *, "Check: output.F 174"
             print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
