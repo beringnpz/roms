@@ -96,6 +96,16 @@
 !  append new data to it.  Also,  notice that it is possible to
 !  create several files during a single model run.
 !
+print *, "Check: output.F 99"
+print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+print *, "HIS(1)%load  =", HIS(1)%load                     
+print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+print *, "HIS(1)%label =", HIS(1)%label       
+print *, "HIS(1)%head  =", HIS(1)%head            
+print *, "HIS(1)%base  =", HIS(1)%base              
+print *, "HIS(1)%name  =", HIS(1)%name 
 # ifndef NO_HIS
       IF (LdefHIS(ng)) THEN
         IF (ndefHIS(ng).gt.0) THEN
@@ -143,10 +153,40 @@
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
+            print *, "Check: output.F 156"
+            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+            print *, "HIS(1)%load  =", HIS(1)%load                     
+            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+            print *, "HIS(1)%label =", HIS(1)%label       
+            print *, "HIS(1)%head  =", HIS(1)%head            
+            print *, "HIS(1)%base  =", HIS(1)%base              
+            print *, "HIS(1)%name  =", HIS(1)%name 
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
+            print *, "Check: output.F 169"
+            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+            print *, "HIS(1)%load  =", HIS(1)%load                     
+            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+            print *, "HIS(1)%label =", HIS(1)%label       
+            print *, "HIS(1)%head  =", HIS(1)%head            
+            print *, "HIS(1)%base  =", HIS(1)%base              
+            print *, "HIS(1)%name  =", HIS(1)%name 
             CALL def_his (ng, NewFile)
+            print *, "Check: output.F 180"
+            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
+            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
+            print *, "HIS(1)%load  =", HIS(1)%load                     
+            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
+            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
+            print *, "HIS(1)%label =", HIS(1)%label       
+            print *, "HIS(1)%head  =", HIS(1)%head            
+            print *, "HIS(1)%base  =", HIS(1)%base              
+            print *, "HIS(1)%name  =", HIS(1)%name 
             IF (FoundError(exit_flag, NoError, __LINE__,                &
      &                     __FILE__)) RETURN
           END IF
