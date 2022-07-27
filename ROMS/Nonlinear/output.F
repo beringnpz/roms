@@ -148,14 +148,17 @@
   10          FORMAT (a,'_',i4.4,'.nc')
 #endif
             END IF
-            print *, "HIS(ng)%name", HIS(ng)%name
+            print *, "HIS(ng)%name 1", HIS(ng)%name
 # ifdef DISTRIBUTE
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
+            print *, "HIS(ng)%name 2", HIS(ng)%name
+            print *, "HIS(ng)%ncid", HIS(ng)%ncid
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
+            print *, "HIS(ng)%name 3", HIS(ng)%name
             CALL def_his (ng, NewFile)
             IF (FoundError(exit_flag, NoError, __LINE__,                &
      &                     __FILE__)) RETURN
