@@ -97,9 +97,6 @@
 !  create several files during a single model run.
 !
 # ifndef NO_HIS
-      print *, "LdefHIS(ng)=", LdefHIS(ng)
-      print *, "ndefHIS(ng)=", ndefHIS(ng)
-      print *, "idefHIS(ng)=", idefHIS(ng)
       IF (LdefHIS(ng)) THEN
         IF (ndefHIS(ng).gt.0) THEN
           IF (idefHIS(ng).lt.0) THEN
@@ -126,11 +123,6 @@
           ELSE
             Ldefine=.FALSE.
           END IF
-          print *, "Ldefine=", Ldefine
-          print *, "NewFile=", NewFile
-          print *, "iic(ng)=", iic(ng)
-          print *, "ntstart(ng)=", ntstart(ng)
-          print *, "HIS(ng)%base", HIS(ng)%base
           IF (Ldefine) THEN                     ! create new file or
             IF (iic(ng).eq.ntstart(ng)) THEN    ! inquire existing file
               HIS(ng)%load=0                    ! reset filename counter
@@ -139,7 +131,6 @@
             Fcount=HIS(ng)%load
             HIS(ng)%Nrec(Fcount)=0
             ifile=(iic(ng)-1)/ndefHIS(ng)+1
-            print *, "ifile", ifile
             IF (Master) THEN
               WRITE (HIS(ng)%name,10) TRIM(HIS(ng)%base), ifile
 #ifdef LONG_NUMS
@@ -148,20 +139,13 @@
   10          FORMAT (a,'_',i4.4,'.nc')
 #endif
             END IF
-            print *, "HIS(ng)%name 1", HIS(ng)%name
 # ifdef DISTRIBUTE
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
-            print *, "Fcount=", Fcount
-            print *, "HIS(ng)%files=", HIS(ng)%files
-            print *, "HIS(ng)%name 2", HIS(ng)%name
-            print *, "TRIM(HIS(ng)%name)=", TRIM(HIS(ng)%name)
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
-            print *, "HIS(ng)%ncid", HIS(ng)%ncid
-            print *, "HIS(ng)%name 3", HIS(ng)%name
             CALL def_his (ng, NewFile)
             IF (FoundError(exit_flag, NoError, __LINE__,                &
      &                     __FILE__)) RETURN
