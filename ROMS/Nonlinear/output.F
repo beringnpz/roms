@@ -96,32 +96,15 @@
 !  append new data to it.  Also,  notice that it is possible to
 !  create several files during a single model run.
 !
-print *, "Check: output.F 99"
-print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
-print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
-print *, "HIS(1)%load  =", HIS(1)%load                     
-print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
-print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
-print *, "HIS(1)%label =", HIS(1)%label       
-print *, "HIS(1)%head  =", HIS(1)%head            
-print *, "HIS(1)%base  =", HIS(1)%base              
-print *, "HIS(1)%name  =", HIS(1)%name 
 # ifndef NO_HIS
-      print *, "LdefHIS(ng)=", LdefHIS(ng)
       IF (LdefHIS(ng)) THEN
-        print *, "ndefHIS(ng)=", ndefHIS(ng)
         IF (ndefHIS(ng).gt.0) THEN
-          print *, "idefHIS(ng)=", idefHIS(ng)
           IF (idefHIS(ng).lt.0) THEN
             idefHIS(ng)=((ntstart(ng)-1)/ndefHIS(ng))*ndefHIS(ng)
             IF (idefHIS(ng).lt.iic(ng)-1) THEN
               idefHIS(ng)=idefHIS(ng)+ndefHIS(ng)
             END IF
           END IF
-          print *, "idefHIS(ng)=", idefHIS(ng)
-          print *, "nrrec(ng)", nrrec(ng)
-          print *, "iic(ng)", iic(ng)
-          print *, "ntstart(ng)", ntstart(ng)
           IF ((nrrec(ng).ne.0).and.(iic(ng).eq.ntstart(ng))) THEN
             IF ((iic(ng)-1).eq.idefHIS(ng)) THEN
               Ldefine=.FALSE.                 ! finished file, delay
@@ -140,7 +123,6 @@ print *, "HIS(1)%name  =", HIS(1)%name
           ELSE
             Ldefine=.FALSE.
           END IF
-          print *, "Ldefine", Ldefine
           IF (Ldefine) THEN                     ! create new file or
             IF (iic(ng).eq.ntstart(ng)) THEN    ! inquire existing file
               HIS(ng)%load=0                    ! reset filename counter
@@ -160,51 +142,11 @@ print *, "HIS(1)%name  =", HIS(1)%name
 # ifdef DISTRIBUTE
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
-print *, "Check: output.F 163"
-print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
-print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
-print *, "HIS(1)%load  =", HIS(1)%load                     
-print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
-print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
-print *, "HIS(1)%label =", HIS(1)%label       
-print *, "HIS(1)%head  =", HIS(1)%head            
-print *, "HIS(1)%base  =", HIS(1)%base              
-print *, "HIS(1)%name  =", HIS(1)%name 
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
-            print *, "Check: output.F 174"
-            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
-            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
-            print *, "HIS(1)%load  =", HIS(1)%load                     
-            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
-            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
-            print *, "HIS(1)%label =", HIS(1)%label       
-            print *, "HIS(1)%head  =", HIS(1)%head            
-            print *, "HIS(1)%base  =", HIS(1)%base              
-            print *, "HIS(1)%name  =", HIS(1)%name 
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
-            print *, "Check: output.F 187"
-            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
-            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
-            print *, "HIS(1)%load  =", HIS(1)%load                     
-            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
-            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
-            print *, "HIS(1)%label =", HIS(1)%label       
-            print *, "HIS(1)%head  =", HIS(1)%head            
-            print *, "HIS(1)%base  =", HIS(1)%base              
-            print *, "HIS(1)%name  =", HIS(1)%name 
             CALL def_his (ng, NewFile)
-            print *, "Check: output.F 198"
-            print *, "HIS(1)%Nfiles=", HIS(1)%Nfiles                   
-            print *, "HIS(1)%Fcount=", HIS(1)%Fcount                   
-            print *, "HIS(1)%load  =", HIS(1)%load                     
-            print *, "HIS(1)%Rindex=", HIS(1)%Rindex                   
-            print *, "HIS(1)%ncid  =", HIS(1)%ncid                    
-            print *, "HIS(1)%label =", HIS(1)%label       
-            print *, "HIS(1)%head  =", HIS(1)%head            
-            print *, "HIS(1)%base  =", HIS(1)%base              
-            print *, "HIS(1)%name  =", HIS(1)%name 
             IF (FoundError(exit_flag, NoError, __LINE__,                &
      &                     __FILE__)) RETURN
           END IF
