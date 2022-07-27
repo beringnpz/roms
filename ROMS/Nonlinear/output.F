@@ -107,14 +107,21 @@ print *, "HIS(1)%head  =", HIS(1)%head
 print *, "HIS(1)%base  =", HIS(1)%base              
 print *, "HIS(1)%name  =", HIS(1)%name 
 # ifndef NO_HIS
+      print *, "LdefHIS(ng)=", LdefHIS(ng)
       IF (LdefHIS(ng)) THEN
+        print *, "ndefHIS(ng)=", ndefHIS(ng)
         IF (ndefHIS(ng).gt.0) THEN
+          print *, "idefHIS(ng)=", idefHIS(ng)
           IF (idefHIS(ng).lt.0) THEN
             idefHIS(ng)=((ntstart(ng)-1)/ndefHIS(ng))*ndefHIS(ng)
             IF (idefHIS(ng).lt.iic(ng)-1) THEN
               idefHIS(ng)=idefHIS(ng)+ndefHIS(ng)
             END IF
           END IF
+          print *, "idefHIS(ng)=", idefHIS(ng)
+          print *, "nrrec(ng)", nrrec(ng)
+          print *, "iic(ng)", iic(ng)
+          print *, "ntstart(ng)", ntstart(ng)
           IF ((nrrec(ng).ne.0).and.(iic(ng).eq.ntstart(ng))) THEN
             IF ((iic(ng)-1).eq.idefHIS(ng)) THEN
               Ldefine=.FALSE.                 ! finished file, delay
@@ -133,6 +140,7 @@ print *, "HIS(1)%name  =", HIS(1)%name
           ELSE
             Ldefine=.FALSE.
           END IF
+          print *, "Ldefine", Ldefine
           IF (Ldefine) THEN                     ! create new file or
             IF (iic(ng).eq.ntstart(ng)) THEN    ! inquire existing file
               HIS(ng)%load=0                    ! reset filename counter
