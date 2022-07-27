@@ -157,11 +157,10 @@
             print *, "HIS(ng)%name 2", HIS(ng)%name
             print *, "TRIM(HIS(ng)%name)=", TRIM(HIS(ng)%name)
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
-           
-            print *, "HIS(ng)%ncid", HIS(ng)%ncid
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
+            print *, "HIS(ng)%ncid", HIS(ng)%ncid
             print *, "HIS(ng)%name 3", HIS(ng)%name
             CALL def_his (ng, NewFile)
             IF (FoundError(exit_flag, NoError, __LINE__,                &
