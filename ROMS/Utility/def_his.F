@@ -87,6 +87,9 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
       ncname=HIS(ng)%name
+      print *, "Here come some prints..."
+      print *, "ng=",ng
+      print *, "ncname=",ncname
 !
       IF (Master) THEN
         IF (ldef) THEN
