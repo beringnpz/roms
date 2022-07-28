@@ -4213,6 +4213,8 @@
 !  If multiple output files, edit derived type structure to store the
 !  information about all multi-files.
 !
+      print *, "Hello world!"
+      print *, "Ngrids=", Ngrids
       DO ng=1,Ngrids
         print *, "nHIS(ng)=", nHIS(ng)
         print *, "ndefHIS(ng)=", ndefHIS(ng)
