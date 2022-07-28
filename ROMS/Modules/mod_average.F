@@ -437,12 +437,16 @@
 # ifdef SOLVE3D
 
 #  ifdef BENTHIC
-      allocate ( AVERAGE(ng) % avgbt(LBi:UBi,LBj:UBj,NBL(ng),NBeT(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NBL(ng)*NBeT(ng),r8)*size2d
+      IF (ANY(Aout(idBeTvar(:),ng))) THEN
+        allocate ( AVERAGE(ng) % avgbt(LBi:UBi,LBj:UBj,NBL(ng),NBeT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(NBL(ng)*NBeT(ng),r8)*size2d
+      END IF
 #  endif
 #  ifdef ICE_BIO
-      allocate ( AVERAGE(ng) % avgit(LBi:UBi,LBj:UBj,NIceT(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NIceT(ng),r8)*size2d
+      IF (ANY(Aout(idIceTvar(:),ng))) THEN
+        allocate ( AVERAGE(ng) % avgit(LBi:UBi,LBj:UBj,NIceT(ng)) )
+        Dmem(ng)=Dmem(ng)+REAL(NIceT(ng),r8)*size2d
+      END IF
 #  endif
 
 #  ifdef BIO_GOANPZ
