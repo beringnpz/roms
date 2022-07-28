@@ -4213,32 +4213,40 @@
 !  If multiple output files, edit derived type structure to store the
 !  information about all multi-files.
 !
-      print *, "Hello world!"
-      print *, "Ngrids=", Ngrids
       DO ng=1,Ngrids
-        print *, "nHIS(ng)=", nHIS(ng)
-        print *, "ndefHIS(ng)=", ndefHIS(ng)
         IF ((nHIS(ng).gt.0).and.(ndefHIS(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefHIS(ng)
-          print *, "OutFiles=", OutFiles
-          IF (nHIS(ng).eq.ndefHIS(ng)) OutFiles=Outfiles+1  ! because IC
+          IF ((nHIS(ng).eq.ndefHIS(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefHIS(ng)).ge.nHIS(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, HIS)
         END IF
         IF ((nQCK(ng).gt.0).and.(ndefQCK(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefQCK(ng)
-          IF (nQCK(ng).eq.ndefQCK(ng)) OutFiles=Outfiles+1  ! because IC
+          IF ((nQCK(ng).eq.ndefQCK(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefQCK(ng)).ge.nQCK(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, QCK)
         END IF
 #ifdef ADJOINT
         IF ((nADJ(ng).gt.0).and.(ndefADJ(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefADJ(ng)
-          IF (nADJ(ng).eq.ndefADJ(ng)) OutFiles=Outfiles+1  ! because IC
+          IF ((nADJ(ng).eq.ndefADJ(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefADJ(ng)).ge.nADJ(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, ADM)
         END IF
 #endif
 #ifdef AVERAGES
         IF ((nAVG(ng).gt.0).and.(ndefAVG(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefAVG(ng)
+          IF ((nAVG(ng).eq.ndefAVG(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefAVG(ng)).ge.nAVG(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, AVG)
           AVG(ng)%load=0       ! because delayed creation of NetCDF file
         END IF                 ! due to time-aveeraging
@@ -4246,12 +4254,20 @@
 #ifdef AVERAGES2
         IF ((nAVG2(ng).gt.0).and.(ndefAVG2(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefAVG2(ng)
+          IF ((nAVG2(ng).eq.ndefAVG2(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefAVG2(ng)).ge.nAVG2(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, AVG2)
         END IF
 #endif
 #ifdef DIAGNOSTICS
         IF ((nDIA(ng).gt.0).and.(ndefDIA(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefDIA(ng)
+          IF ((nDIA(ng).eq.ndefDIA(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefDIA(ng)).ge.nDIA(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           CALL edit_file_struct (ng, OutFiles, DIA)
           DIA(ng)%load=0       ! because delayed creation of NetCDF file
         END IF                 ! due to time-aveeraging
@@ -4259,6 +4275,10 @@
 #if defined TANGENT || defined TL_IOMS
         IF ((nTLM(ng).gt.0).and.(ndefTLM(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefTLM(ng)
+          IF ((nTLM(ng).eq.ndefTLM(ng)).or.                             &
+     &        (MOD(ntimes(ng),ndefTLM(ng)).ge.nTLM(ng))) THEN
+            OutFiles=Outfiles+1
+          END IF
           IF (nTLM(ng).eq.ndefTLM(ng)) OutFiles=Outfiles+1  ! because IC
           CALL edit_file_struct (ng, OutFiles, TLM)
         END IF
