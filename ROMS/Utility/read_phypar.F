@@ -4214,8 +4214,11 @@
 !  information about all multi-files.
 !
       DO ng=1,Ngrids
+        print *, "nHIS(ng)=", nHIS(ng)
+        print *, "ndefHIS(ng)=", ndefHIS(ng)
         IF ((nHIS(ng).gt.0).and.(ndefHIS(ng).gt.0)) THEN
           OutFiles=ntimes(ng)/ndefHIS(ng)
+          print *, "OutFiles=", OutFiles
           IF (nHIS(ng).eq.ndefHIS(ng)) OutFiles=Outfiles+1  ! because IC
           CALL edit_file_struct (ng, OutFiles, HIS)
         END IF

@@ -142,7 +142,12 @@
 # ifdef DISTRIBUTE
             CALL mp_bcasts (ng, iNLM, HIS(ng)%name)
 # endif
+            print *, "TRIM(HIS(ng)%name)=", TRIM(HIS(ng)%name)
+            print *, "Fcount=", Fcount
+            print *, "ng=", ng
+            print *, "HIS(ng)%ncid=", HIS(ng)%ncid
             HIS(ng)%files(Fcount)=TRIM(HIS(ng)%name)
+            print *, "Hello world!"
             IF (HIS(ng)%ncid.ne.-1) THEN
               CALL netcdf_close (ng, iNLM, HIS(ng)%ncid)
             END IF
