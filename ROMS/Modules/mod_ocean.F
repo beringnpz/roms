@@ -495,10 +495,6 @@
       allocate ( OCEAN(ng) % obgc(LBi:UBi,LBj:UBj,N(ng),NOBGC) )
       Dmem(ng)=Dmem(ng)+REAL(N(ng)*NOBGC,r8)*size2d
 # endif
-# ifdef BENTHIC
-      allocate ( OCEAN(ng) % bt(LBi:UBi,LBj:UBj,NBL(ng),3,NBeT(ng)) )
-      Dmem(ng)=Dmem(ng)+3.0_r8*REAL(NBL(ng)*NBeT(ng),r8)*size2d
-# endif
 # ifdef TIMESERIES
       allocate ( OCEAN(ng) % tms(1,1,NT(ng)) )
       Dmem(ng)=Dmem(ng)+REAL(NT(ng),r8)

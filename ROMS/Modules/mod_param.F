@@ -1148,12 +1148,17 @@
 #ifdef ADJUST_STFLUX
         NSV(ng)=NSV(ng)+NT(ng)
 #endif
+#ifdef BENTHIC
+        NBL(ng)=1
+#endif
       END DO
 #ifdef ICE_BIO
 # ifdef BEST_NPZ
-        NIB = 3
+      NIB = 3
 # endif
 #endif
+
+
 !
 !  Set maximum number of tracer between all nested grids.
 !
