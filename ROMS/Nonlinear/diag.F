@@ -691,12 +691,12 @@
               DO k=1,N(ng)
                 DO i=Istr,Iend
                   IF (t(i,j,k,nstp,idbio(ibt)) /= t(i,j,k,nstp,idbio(ibt))) THEN
-                    IF (Master) 
+                    IF (Master) THEN
                       write(*, '(A34,I3,A4,I3,A1,I3,A1,I3,A1)')                          &
      &                 "BIO trouble (NaN) in DIAG, tracer ", ibt, "at (",                &
      &                 i, ",", j, ",", k, ")"
-                      exit_flag=1 
-                    END IF 
+                      exit_flag=1
+                    END IF
                   END IF
                 END DO
               END DO
