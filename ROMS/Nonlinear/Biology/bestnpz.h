@@ -3288,15 +3288,15 @@
 #endif
             ! Check for negatives and NaNs (for debugging)
 
-!             do itrc = iNO3,size(t,5)
+            do itrc = iNO3,size(t,5)
 !               if (t(i,j,k,nnew,itrc) < 0) then
 !                 write(*, '(A19,I3,A1,I3,A1,I3,A1,I3,A1,I3,A1)') "Negative tracer: t(", i, ",", j, ",", k, ",", nnew, ",", itrc, ")"
 !               end if
-!
-!               if (t(i,j,k,nnew,itrc) /= t(i,j,k,nnew,itrc)) then
-!                 write(*, '(A23,I3,A1,I3,A1,I3,A1,I3,A1,I3,A1)') "NaN in tracer array: t(", i, ",", j, ",", k, ",", nnew, ",", itrc, ")"
-!               end if
-!             end do
+
+              if (t(i,j,k,nnew,itrc) /= t(i,j,k,nnew,itrc)) then
+                write(*, '(A23,I3,A1,I3,A1,I3,A1,I3,A1,I3,A1)') "NaN in tracer array: t(", i, ",", j, ",", k, ",", nnew, ",", itrc, ")"
+              end if
+            end do
 
 #ifdef DIAGNOSTICS_BIO
             ! Add 2D tracer values to diagnostic array to allow
