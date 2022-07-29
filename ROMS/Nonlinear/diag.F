@@ -695,11 +695,12 @@
                       write(*, '(A34,I3,A4,I3,A1,I3,A1,I3,A1)')                          &
      &                 "BIO trouble (NaN) in DIAG, tracer ", ibt, "at (",                &
      &                 i, ",", j, ",", k, ")"
-                      exit_flag=1
                     END IF
+                    exit_flag=1  
                   END IF
                 END DO
               END DO
+            END DO
           END DO
 # endif
 #endif
