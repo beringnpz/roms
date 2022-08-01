@@ -225,7 +225,7 @@
      &                        GRID(ng) % omn,                           &
      &                        ICE(ng) % ui,                             &
      &                        ICE(ng) % vi,                             &
-     &                        OCEAN(ng) % it(:,:,itrc,:)                &
+     &                        OCEAN(ng) % it(:,:,:,itrc)                &
      &                        )
 
         CALL i2d_bc_tile (ng, tile, iNLM,                               &
@@ -238,7 +238,7 @@
      &                    BOUNDARY(ng)%it_south(LBi:UBi,itrc),          &
      &                    ICE(ng) % ui,                                 &
      &                    ICE(ng) % vi,                                 &
-     &                    OCEAN(ng)%it(:,:,itrc,:),                     &
+     &                    OCEAN(ng)%it(:,:,:,itrc),                     &
      &                    LBC(:,isIvar(itrc),ng))
       ENDDO
 
@@ -391,7 +391,7 @@
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
        &                          LBi, UBi, LBj, UBj,                     &
-       &                          OCEAN(ng)%it(:,:,itrc,linew(ng)))
+       &                          OCEAN(ng)%it(:,:,linew(ng),itrc))
         ENDDO
 # endif
       END IF
@@ -414,7 +414,7 @@
         CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
        &                    LBi, UBi, LBj, UBj,                           &
        &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-       &                    OCEAN(ng)%it(:,:,itrc,linew(ng)))
+       &                    OCEAN(ng)%it(:,:,linew(ng),itrc))
       ENDDO
 #  endif
 # endif

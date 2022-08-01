@@ -343,7 +343,7 @@
       real(r8), intent(inout) :: t0mk(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: io_mflux(LBi:UBi,LBj:UBj)
 #if defined ICE_BIO
-        real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,NIceT(ng),2)
+        real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,2,NIceT(ng))
 # endif
 #ifdef ICE_DIAGS
       real(r8), intent(out) :: saltflux_ice(LBi:UBi,LBj:UBj)
@@ -1046,7 +1046,7 @@
      &                    BOUNDARY(ng)%it_east(LBj:UBj,itrc),           &
      &                    BOUNDARY(ng)%it_north(LBi:UBi,itrc),          &
      &                    BOUNDARY(ng)%it_south(LBi:UBi,itrc),          &
-     &                    ui, vi, it(:,:,itrc,:), LBC(:,isIvar(itrc),ng))
+     &                    ui, vi, it(:,:,:,itrc), LBC(:,isIvar(itrc),ng))
       END DO
 #endif
       IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
@@ -1075,7 +1075,7 @@
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
        &                          LBi, UBi, LBj, UBj,                     &
-       &                          it(:,:,itrc,linew))
+       &                          it(:,:,linew,itrc))
         ENDDO
 #endif
       END IF
@@ -1095,7 +1095,7 @@
         CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
        &                    LBi, UBi, LBj, UBj,                           &
        &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-       &                    it(:,:,itrc,linew))
+       &                    it(:,:,linew,itrc))
       ENDDO
 # endif
 #endif

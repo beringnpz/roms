@@ -100,7 +100,7 @@
       real(r8), intent(inout) :: enthalpi(LBi:,LBj:,:)
 # else
 # if defined ICE_BIO
-      real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,NIceT(ng),2)
+      real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,2,NIceT(ng))
 #  endif
       real(r8), intent(in)    :: ui(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
@@ -137,7 +137,7 @@
       DO j=Jstr,Jend
         DO i=Istr,Iend
           DO itrc=1,NIceT(ng)
-            it(i,j,itrc,linew) = MAX(it(i,j,itrc,linew), 0.0_r8)
+            it(i,j,linew,itrc) = MAX(it(i,j,linew,itrc), 0.0_r8)
           END DO
         END DO
       END DO
@@ -184,7 +184,7 @@
        &                  BOUNDARY(ng)%it_east(LBj:UBj,itrc),             &
        &                  BOUNDARY(ng)%it_north(LBi:UBi,itrc),            &
        &                  BOUNDARY(ng)%it_south(LBi:UBi,itrc),            &
-       &                  ui, vi, it(:,:,itrc,:), LBC(:,isIvar(itrc),ng))
+       &                  ui, vi, it(:,:,:,itrc), LBC(:,isIvar(itrc),ng))
       END DO
 #endif
 
@@ -205,7 +205,7 @@
         DO itrc=1,NIceT(ng)
           CALL exchange_r2d_tile (ng, tile,                               &
        &                          LBi, UBi, LBj, UBj,                     &
-       &                          it(:,:,itrc,linew))
+       &                          it(:,:,linew,itrc))
         ENDDO
 # endif
       END IF
@@ -220,7 +220,7 @@
         CALL mp_exchange2d (ng, tile, iNLM, 3,                            &
        &                    LBi, UBi, LBj, UBj,                           &
        &                    NghostPoints, EWperiodic(ng), NSperiodic(ng), &
-       &                    it(:,:,itrc,linew))
+       &                    it(:,:,linew,itrc))
       ENDDO
 #  endif
 # endif

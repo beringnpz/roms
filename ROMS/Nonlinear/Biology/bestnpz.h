@@ -326,7 +326,7 @@
       real(r8), intent(in)    :: u(LBi:UBi,LBj:UBj,UBk,3),v(LBi:UBi,LBj:UBj,UBk,3)
 # endif
 # if defined ICE_BIO
-      real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,1)
+      real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,NIceT(ng))
 #  ifndef CLIM_ICE_1D
       real(r8), intent(in)    :: ti(LBi:UBi,LBj:UBj,2)
       real(r8), intent(in)    :: hi(LBi:UBi,LBj:UBj,2)
@@ -1014,9 +1014,9 @@
 #ifdef ICE_BIO
         DO i=Istr,Iend
 
-          Bio3d(i,N(ng),iiIcePhL) = it(i,j,idice(1),nstp)
-          Bio3d(i,N(ng),iiIceNO3) = it(i,j,idice(2),nstp)
-          Bio3d(i,N(ng),iiIceNH4) = it(i,j,idice(3),nstp)
+          Bio3d(i,N(ng),iiIcePhL) = it(i,j,nstp,idice(1))
+          Bio3d(i,N(ng),iiIceNO3) = it(i,j,nstp,idice(2))
+          Bio3d(i,N(ng),iiIceNH4) = it(i,j,nstp,idice(3))
 
           Bio2d(i,N(ng),iiIcePhL) = Bio3d(i,N(ng),iiIcePhL)*aidz(ng)
           Bio2d(i,N(ng),iiIceNO3) = Bio3d(i,N(ng),iiIceNO3)*aidz(ng)
@@ -2244,6 +2244,7 @@
               ! change of ice thickness.
 
 # if defined CLIM_ICE_1D
+              ! TODO: update
               dhicedt=it(i,j,nnew,iIceZ)-it(i,j,nstp,iIceZ) ! change in ice thickness over this time step (m)
 # else
               dhicedt=hi(i,j,nnew)-hi(i,j,nstp) ! change in ice thickness over this time step (m)
@@ -3375,14 +3376,14 @@
         ! tranport units in the nnew timestep.
 
         DO i=Istr,Iend
-          it(i,j,iIcNO3,nnew) = it(i,j,iIcNO3,nnew) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
-          it(i,j,iIcNH4,nnew) = it(i,j,iIcNH4,nnew) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
-          it(i,j,iIcPhL,nnew) = it(i,j,iIcPhL,nnew) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
+          it(i,j,nnew,iIcNO3) = it(i,j,nnew,iIcNO3) + (Bio2d(i,N(ng),iiIceNO3) - Bio_bak(i,N(ng),iiIceNO3))/aidz(ng)
+          it(i,j,nnew,iIcNH4) = it(i,j,nnew,iIcNH4) + (Bio2d(i,N(ng),iiIceNH4) - Bio_bak(i,N(ng),iiIceNH4))/aidz(ng)
+          it(i,j,nnew,iIcPhL) = it(i,j,nnew,iIcPhL) + (Bio2d(i,N(ng),iiIcePhL) - Bio_bak(i,N(ng),iiIcePhL))/aidz(ng)
 
 #  ifdef MASKING
-          it( i,j,iIcPhL,nnew) = it( i,j,iIcPhL,nnew)*rmask(i,j)
-          it( i,j,iIcNH4,nnew) = it( i,j,iIcNH4,nnew)*rmask(i,j)
-          it( i,j,iIcNO3,nnew) = it( i,j,iIcNO3,nnew)*rmask(i,j)
+          it(i,j,nnew,iIcNO3) = it(i,j,nnew,iIcNO3)*rmask(i,j)
+          it(i,j,nnew,iIcNH4) = it(i,j,nnew,iIcNH4)*rmask(i,j)
+          it(i,j,nnew,iIcPhL) = it(i,j,nnew,iIcPhL)*rmask(i,j)
 #  endif
         END DO
 #endif
