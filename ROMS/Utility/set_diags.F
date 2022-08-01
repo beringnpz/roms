@@ -462,7 +462,7 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
-#  if DIAGBIO2
+#  ifdef DIAGBIO2
         DO idiag=1,NDbio2d
 #   ifdef BIO_FENNEL
           IF (idiag.ne.ipCO2) THEN
