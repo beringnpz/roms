@@ -47,10 +47,13 @@
         TYPE T_DIAGS
 
 # ifdef DIAGNOSTICS_BIO
-#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
+#  ifdef DIAGBIO2
           real(r8), pointer :: DiaBio2d(:,:,:)
+#  endif
+#  ifdef DIAGBIO3
           real(r8), pointer :: DiaBio3d(:,:,:,:)
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
           real(r8), pointer :: DiaBio3d(:,:,:,:)
           real(r8), pointer :: DiaBio4d(:,:,:,:,:)
 #  endif
@@ -121,16 +124,19 @@
 !  Diagnostic arrays.
 !
 # ifdef DIAGNOSTICS_BIO
-#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
+#  ifdef DIAGBIO2
       IF (NDbio2d.gt.0) THEN
         allocate ( DIAGS(ng) % DiaBio2d(LBi:UBi,LBj:UBj,NDbio2d) )
         Dmem(ng)=Dmem(ng)+REAL(NDbio2d,r8)*size2d
       END IF
+#  endif
+#  ifdef DIAGBIO3
       IF (NDbio3d.gt.0) THEN
         allocate ( DIAGS(ng) % DiaBio3d(LBi:UBi,LBj:UBj,N(ng),NDbio3d) )
         Dmem(ng)=Dmem(ng)+REAL(N(ng)*NDbio3d,r8)*size2d
       END IF
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
       IF (NDbio3d.gt.0) THEN
         allocate ( DIAGS(ng) % DiaBio3d(LBi:UBi,LBj:UBj,                &
      &                                  NDbands,NDbio3d) )
@@ -275,7 +281,7 @@
 !
       DO j=Jmin,Jmax
 # ifdef DIAGNOSTICS_BIO
-#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
+#  ifdef DIAGBIO2
         IF (NDbio2d.gt.0) THEN
           DO idiag=1,NDbio2d
             DO i=Imin,Imax
@@ -283,6 +289,8 @@
             END DO
           END DO
         END IF
+#  endif
+#  ifdef DIAGBIO3
         IF (NDbio3d.gt.0) THEN
           DO idiag=1,NDbio3d
             DO k=1,N(ng)
@@ -292,7 +300,8 @@
             END DO
           END DO
         END IF
-#  elif defined ECOSIM
+#  endif
+#  if defined ECOSIM
         IF (NDbio3d.gt.0) THEN
           DO idiag=1,NDbio3d
             DO k=1,NDbands

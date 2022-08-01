@@ -1037,9 +1037,7 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+17)=' DENITRIFICATION,'
 #endif
-#if defined DIAGNOSTICS_BIO && (defined BIO_FENNEL || \
-                                defined BIO_COBALT || \
-                                defined BEST_NPZ)
+#if defined DIAGNOSTICS_BIO
 !
       IF (Master) WRITE (stdout,20) 'DIAGNOSTICS_BIO',                  &
      &   'Computing and writing biological diagnostic terms'

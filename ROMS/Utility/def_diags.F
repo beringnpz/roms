@@ -557,6 +557,7 @@
 # endif
 
 # if defined DIAGNOSTICS_BIO
+#  ifdef DIAGBIO2
 !
 !  Define 2D biological diagnostic fields.
 !
@@ -579,7 +580,8 @@
      &                     __FILE__)) RETURN
           END IF
         END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  endif
+#  ifdef DIAGBIO3
 !
 !  Define 3D biological diagnostic fields.
 !
@@ -602,7 +604,8 @@
      &                     __FILE__)) RETURN
           END IF
         END DO
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
 !
 !  Define 3D biological diagnostic fields.
 !
@@ -754,6 +757,7 @@
           END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
+#  ifdef DIAGBIO2
           DO ivar=1,NDbio2d
             ifield=iDbio2(ivar)
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,ifield))) THEN
@@ -761,7 +765,8 @@
               DIA(ng)%Vid(ifield)=var_id(i)
             END IF
           END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
+#  endif
+#  ifdef DIAGBIO3
           DO ivar=1,NDbio3d
             ifield=iDbio3(ivar)
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,ifield))) THEN
@@ -769,7 +774,8 @@
               DIA(ng)%Vid(ifield)=var_id(i)
             END IF
           END DO
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
           DO ivar=1,NDbio3d
             ifield=iDbio3(ivar)
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,ifield))) THEN
@@ -850,6 +856,7 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
+#  ifdef DIAGBIO2
         DO ivar=1,NDbio2d
           ifield=iDbio2(ivar)
           IF (.not.got_var(ifield).and.Dout(ifield,ng)) THEN
@@ -859,7 +866,8 @@
             RETURN
           END IF
         END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
+#  endif
+#  ifdef DIAGBIO3
         DO ivar=1,NDbio3d
           ifield=iDbio3(ivar)
           IF (.not.got_var(ifield).and.Dout(ifield,ng)) THEN
@@ -869,7 +877,8 @@
             RETURN
           END IF
         END DO
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
         DO ivar=1,NDbio3d
           ifield=iDbio3(ivar)
           IF (.not.got_var(ifield).and.Dout(ifield,ng)) THEN
