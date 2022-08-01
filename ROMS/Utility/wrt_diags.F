@@ -275,7 +275,7 @@
           END IF
         END IF
       END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  if defined BIO_FENNEL || defined BIO_COBALT || defined BEST_NPZ
 !
 !  Write out 3D biological diagnostic fields.
 !
