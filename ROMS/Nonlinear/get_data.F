@@ -2033,17 +2033,6 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 # endif
-# if defined ICE_BIO && defined CLIM_ICE_1D
-       CALL get_3dfld (ng, iNLM, idTclm(i1CI), ncCLMid(idTclm(i1CI),ng),&
-     &                nCLMfiles(ng), CLM(1,ng), update(1),              &
-     &                LBi, UBi, LBj, UBj, 1, N(ng), 2, 1,               &
-#  ifdef MASKING
-     &                GRID(ng) % rmask,                                 &
-#  endif
-     &                CLIMA(ng) % tclmG(:,:,:,:,i1CI))
-      IF (FoundError(exit_flag, NoError, __LINE__,                      &
-     &               __FILE__)) RETURN
-# endif
 # if !defined ANA_OCLIMA && defined OCLIMATOLOGY
       CALL get_3dfld (ng, iNLM, idOclm, ncCLMid(idOclm,ng),             &
      &                nCLMfiles(ng), CLM(1,ng), update(1),              &

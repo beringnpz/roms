@@ -223,9 +223,6 @@
 #endif
       integer :: iDet               ! Detritus
       integer :: iDetF              ! Fast Sinking Detritus
-#ifdef CLIM_ICE_1D
-      integer :: i1CI
-#endif
 #ifdef AKT_3D
       integer ::iAKt3
 #endif

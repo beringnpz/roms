@@ -2431,22 +2431,6 @@
      &                       update)
 
 #  endif
-#  if defined BEST_NPZ
-#   if defined ICE_BIO && defined CLIM_ICE_1D
-      CALL set_3dfld_tile (ng, tile, iNLM, idTclm(i1CI),                &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng),              &
-     &                       CLIMA(ng)%tclmG(:,:,:,:,i1CI),             &
-     &                       CLIMA(ng)%tclm(:,:,:,i1CI),                &
-     &                       update)
-      DO j=Jstr,Jend
-        DO i=Istr,Iend
-          OCEAN(ng)%it(i,j,nnew(ng),iIceZ) =                            &
-     &                  CLIMA(ng)%tclm(i,j,N(ng),i1CI)
-        END DO
-      END DO
-#   endif
-#  endif
-
 #  if defined OFFLINE
       DO itrc=1,NAT
         DO k=1,N(ng)
