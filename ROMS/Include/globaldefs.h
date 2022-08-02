@@ -547,6 +547,10 @@
      defined BIO_UMAINE)
 # define DIAGBIO3
 #endif
+#if defined DIAGNOSTICS_BIO &&                    \
+    (defined BIO_COBALT  || defined BIO_FENNEL)
+# define DIAGBIOAVG
+#endif
 
 
 /*

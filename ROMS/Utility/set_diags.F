@@ -462,7 +462,7 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
-#  ifdef DIAGBIO2
+#  ifdef DIAGBIO2 && if defined DIAGBIOAVG
         DO idiag=1,NDbio2d
 #   ifdef BIO_FENNEL
           IF (idiag.ne.ipCO2) THEN
@@ -478,7 +478,7 @@
 #   endif
         END DO
 #  endif
-#  ifdef DIAGBIO3
+#  ifdef DIAGBIO3 && if defined DIAGBIOAVG
         DO idiag=1,NDbio3d
           DO k=1,N(ng)
             DO j=JstrR,JendR
