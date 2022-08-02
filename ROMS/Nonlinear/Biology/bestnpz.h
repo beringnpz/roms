@@ -3107,7 +3107,7 @@
           END DO
 
 
-#ifdef DIAGNOSTCS_BIO
+#ifdef DIAGNOSTICS_BIO
 
           DO i = Istr,Iend
             DO k = 1,N(ng)
