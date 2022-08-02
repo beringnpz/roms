@@ -2416,6 +2416,17 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+            CASE ('Dout(iclimice)')
+              IF (iDbio2(iclimice).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio2(iclimice)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio2(iclimice)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
             CASE ('Dout(ipco2)')
               IF (iDbio2(ipco2).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio2(ipco2)'

@@ -5,7 +5,7 @@
 !    Licensed under a MIT/X style license                              !
 !    See License_ROMS.txt                                              !
 !=======================================================================
-! 
+!
 ! Parameters for the BESTNPZ model:
 !
 !   PARfrac     Fraction of irradiance that is photosynthetically      !
@@ -184,9 +184,9 @@
 !
       integer, allocatable :: idbio(:)  ! Biological tracers
 #ifdef BENTHIC
-      integer, allocatable :: NBeT(:)   
+      integer, allocatable :: NBeT(:)
       integer              :: NBEN      ! Benthic tracers
-      integer, allocatable :: idben(:)   
+      integer, allocatable :: idben(:)
       integer, allocatable :: idBeTvar(:)
 #endif
 #ifdef ICE_BIO
@@ -207,7 +207,7 @@
       integer :: idTAFlux
       integer :: idDICFlux
 #endif
-      
+
       integer :: iNO3               ! Nitrate
       integer :: iNH4               ! Ammonium
       integer :: iPhS               ! Small Phytoplankton
@@ -408,8 +408,9 @@
       integer :: ibiomem_Alk
       integer :: ibiomem_Oxyg
       integer :: ipar
+      integer :: iclimice
 #endif
-      
+
 !
 !  Biological parameters.
 !
@@ -587,9 +588,9 @@
       integer :: i, ic
 !
 !-----------------------------------------------------------------------
-!  Determine number of biological tracers.                                                                                                                                                    
-!-----------------------------------------------------------------------                                                                                                                      
-!  
+!  Determine number of biological tracers.
+!-----------------------------------------------------------------------
+!
 
       NBT = 12
 #  if defined IRON_LIMIT
@@ -605,33 +606,9 @@
       NBT = NBT+1 ! oxygen
 #  endif
 
-! #  if   (!defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN)
-!       NBT = 12
-! #  elif ( defined JELLY && !defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
-!         (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
-!         (!defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
-!       NBT = 13
-! #  elif ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON && !defined OXYGEN) || \
-!         (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-!         ( defined JELLY && !defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
-!         (!defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN)
-!       NBT = 14
-! #  elif ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-!         (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-!         ( defined JELLY &&  defined IRON_LIMIT && !defined CARBON &&  defined OXYGEN) || \
-!         (!defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-!       NBT = 15
-! #  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON && !defined OXYGEN) || \
-!         ( defined JELLY && !defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN) || \
-!         (!defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-!       NBT = 16
-! #  elif ( defined JELLY &&  defined IRON_LIMIT &&  defined CARBON &&  defined OXYGEN)
-!       NBT = 17
-! # endif
-   
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
       NDbio3d=156
-      NDbio2d=3
+      NDbio2d=4
 #endif
 #ifdef BENTHIC
       NBEN=2
@@ -639,7 +616,7 @@
 #ifdef ICE_BIO
       NIB=3
 #endif
-              
+
 !
 !-----------------------------------------------------------------------
 !  Allocate various module variables.
@@ -1263,8 +1240,8 @@
 !
       IF (.not.allocated(idbio)) THEN
         allocate ( idbio(NBT) )
-        Dmem(1)=Dmem(1)+REAL(NBT,r8)                                                                                                                                                          
-      END IF  
+        Dmem(1)=Dmem(1)+REAL(NBT,r8)
+      END IF
 # ifdef BENTHIC
       IF (.not.allocated(idben)) THEN
         allocate ( idben(NBEN) )
@@ -1293,12 +1270,12 @@
         Dmem(1)=Dmem(1)+REAL(NIB,r8)
       END IF
 # endif
-# ifdef DIAGNOSTICS_BIO   
+# ifdef DIAGNOSTICS_BIO
       IF (.not.allocated(iDbio2)) THEN
         allocate ( iDbio2(NDbio2d) )
         Dmem(1)=Dmem(1)+REAL(NDbio2d,r8)
       END IF
-      
+
       IF (.not.allocated(iDbio3)) THEN
         allocate ( iDbio3(NDbio3d) )
         Dmem(1)=Dmem(1)+REAL(NDbio3d,r8)
@@ -1342,7 +1319,7 @@
 # ifdef OXYGEN
       iOxyg=ic+1
       ic=ic+1
-# endif 
+# endif
 # ifdef AKT_3D
       iAKt3=ic+1
       ic=ic+1
@@ -1371,7 +1348,7 @@
       DO i=1,NDbio2d
         iDbio2(i)=i
       END DO
-      
+
       iilims=1
       iiliml=2
       inolims=3
@@ -1528,10 +1505,11 @@
       iflx_Adv_TIC=154
       iflx_Adv_Alk=155
       iflx_Adv_Oxyg=156
-      
+
       ico2flx=1
       ipco2=2
       io2flx=3
+      iclimice=4
 # endif
 
 ! Distribute tracer counters to grids
@@ -1550,17 +1528,72 @@
 
       RETURN
       END SUBROUTINE initialize_biology
-  
-      ! CalcLinearCapped: Simple helper function to build profiles that are linear 
+
+      ! CalcLinearCapped: Simple helper function to build profiles that are linear
       ! between two points and capped beyond those points
       FUNCTION CalcLinearCapped(x1, y1, x2, y2, x)
         real(r8) :: x1,y1,x2,y2,x,ymax,ymin
         real(r8) :: CalcLinearCapped
-    
+
         ymax = max(y1,y2)
         ymin = min(y1,y2)
-    
+
         CalcLinearCapped = max(ymin,min(ymax,((y2-y1)/(x2-x1))*(x-x1)+y1))
       END FUNCTION CalcLinearCapped
 
+      ! ClimIce: Climatological ice thickness (m), based on a 4-knot
+      ! spline fit to the Bering10K-simulated ice thickness at the M8
+      ! mooring location.
+      ! TODO: Update spline parameters to real data (model has some
+      ! bias, but will suffice as a standin during model development)
+
+      FUNCTION ClimIce(yday)
+        real(r8) :: yday
+        real(r8) :: ClimIce
+        real(r8), dimension(4) :: knots
+        real(r8), dimension(4,2) :: coef
+        integer :: xbin, ii
+        real(r8) :: x, y, dx, t, t2, t3, s2, s3
+
+        ! Spline details
+
+        knots = (/67.0, 128.33, 189.67, 251.0/)
+        coef = reshape((/0.00889125, 0.59996, 0.703953, 8.94912e-13,   &
+     &                  -0.000839656, 0.00905171, -0.00136957,         &
+     &                  -0.0329193/),                                  &
+     &                 shape(coef))
+
+        ! Shift to Oct-to-Oct axis
+
+        IF (yday .gt. 274_r8) THEN
+            x = yday - 274_r8
+        ELSE
+            x = yday + 92_r8
+        ENDIF
+
+        ! Evaluate spline
+
+        IF (x .lt. knots(1)) .or. (x .gt. knots(4)) THEN
+            y = 0
+        ELSE
+          DO ii = 1,3
+            IF (x .ge. knots(ii)) .and. (x .lt. knots(ii+1)) THEN
+              xbin = ii
+            END IF
+          END DO
+
+          dx = knots(xbin+1)-knots(xbin)
+          t = (x - knots(xbin))/dx
+          t2 = t^2
+          t3 = t^3
+          s2 = (1-t)^2
+          s3 = (1-t)^3
+          y = (-coef(xbin,2)*(s3-s2) +                               &
+     &          coef(xbin+1,2)*(t3-t2))*dx +                         &
+     &          coef(xbin,1)*(3*s2-2*s3) +                           &
+     &          coef(xbin+1,1)*(3*t2-2*t3)
+
+        END IF
+
+      END FUNCTION ClimIce
 

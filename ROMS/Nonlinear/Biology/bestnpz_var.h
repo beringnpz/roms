@@ -522,4 +522,6 @@
                 iDbio2(ipco2)=varid
               CASE ('iDbio2(io2flx)')
                 iDbio2(io2flx)=varid
+              CASE ('iDbio2(iclimice)')
+                iDbio2(iclimice)=varid
 #endif

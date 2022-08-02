@@ -90,7 +90,7 @@
      &                   ,GRID(ng) % latr                               &
      &                   ,FORCES(ng) % srflx                            &
      &                   ,OCEAN(ng) % t                                 &
-# if defined CARBON || defined OXYGEN 
+# if defined CARBON || defined OXYGEN
 # ifdef BULK_FLUXES
      &                   ,FORCES(ng) % Uwind                            &
      &                   ,FORCES(ng) % Vwind                            &
@@ -99,7 +99,7 @@
      &                   ,FORCES(ng) % svstr                            &
 # endif
 # endif
-# ifdef CARBON 
+# ifdef CARBON
      &                   ,OCEAN(ng) % pH                                &
      &                   ,FORCES(ng) % pCO2air                          &
 #endif
@@ -249,7 +249,7 @@
       real(r8), intent(in)    :: lat(LBi:,LBj:)
       real(r8), intent(in)    :: srflx(LBi:,LBj:)
       real(r8), intent(inout) :: t(LBi:,LBj:,:,:,:)
-#if defined CARBON || defined OXYGEN  
+#if defined CARBON || defined OXYGEN
 #  ifdef BULK_FLUXES
       real(r8), intent(in) :: Uwind(LBi:,LBj:)
       real(r8), intent(in) :: Vwind(LBi:,LBj:)
@@ -287,7 +287,7 @@
 #endif
 
       real(r8), intent(inout) :: Akt(LBi:,LBj:,0:,:) ! TODO why is this passed in?  Never used?
-#if defined CARBON || defined OXYGEN 
+#if defined CARBON || defined OXYGEN
 !      integer, parameter :: Nsink = 4
       real(r8) :: u10squ
 #else
@@ -306,7 +306,7 @@
       real(r8), intent(in)    :: lat(LBi:UBi,LBj:UBj)
       real(r8), intent(in)    :: srflx(LBi:UBi,LBj:UBj)
       real(r8), intent(inout) :: t(LBi:UBi,LBj:UBj,UBk,3,UBt)
-# if defined CARBON  || defined OXYGEN 
+# if defined CARBON  || defined OXYGEN
 #  ifdef BULK_FLUXES
       real(r8), intent(in) :: Uwind(LBi:UBi,LBj:UBj)
       real(r8), intent(in) :: Vwind(LBi:UBi,LBj:UBj)
@@ -336,7 +336,7 @@
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
 #  endif
 # endif
-#if defined CARBON || defined OXYGEN 
+#if defined CARBON || defined OXYGEN
 !      integer, parameter :: Nsink = 4
       real(r8) :: u10squ
 #else
@@ -423,7 +423,7 @@
       real(r8) :: aiceIfrac, aiceNfrac, dhicedt, trs, twi
       real(r8) :: grow1, GROWAice, fNO3, RAi0, RgAi
       real(r8) :: sb, gesi
-      real(r8), dimension(IminS:ImaxS,JminS:JmaxS) :: ice_thick, ice_status
+      real(r8), dimension(IminS:ImaxS,JminS:JmaxS) :: ice_thick, ice_status, ice_prev
 # ifdef CARBON
       real(r8), dimension(IminS:ImaxS,N(ng)) :: Frz_TIC, Frz_TAlk
 # endif
@@ -482,11 +482,11 @@
       real(r8), dimension(IminS:ImaxS,N(ng)) :: total_prod, total_resp, total_remin
 
 !#ifdef CARBON
-!      real(r8), dimension(IminS:ImaxS,N(ng)) :: CO2_Flux 
+!      real(r8), dimension(IminS:ImaxS,N(ng)) :: CO2_Flux
 !#endif
 
 !#ifdef OXYGEN
-!      real(r8), dimension(IminS:ImaxS,N(ng)) :: O2_Flux 
+!      real(r8), dimension(IminS:ImaxS,N(ng)) :: O2_Flux
 !#endif
 
       ! Biological source/sinks
@@ -534,12 +534,12 @@
       real(r8), parameter :: eps  = 1.0E-20_r8
       real(r8), parameter :: minv = 0.0E-20_r8
       real(r8), parameter :: watts2photons = 0.394848_r8 ! W m^-2 -> E/m^2/d
-      
+
       ! Note on watts2photons above:
       !
-      ! Conversion factor of 4.57 umol photons s^-1 m^-2 per 1 W m^-2 
-      ! comes from Thimijan and Heins (1983, HortScience, vol 18(6)), 
-      ! estimate for the 400-700 nm band with a light source of "sun & 
+      ! Conversion factor of 4.57 umol photons s^-1 m^-2 per 1 W m^-2
+      ! comes from Thimijan and Heins (1983, HortScience, vol 18(6)),
+      ! estimate for the 400-700 nm band with a light source of "sun &
       ! sky, daylight"
 
 #ifdef CARBON
@@ -596,7 +596,7 @@
       real(r8) :: C_Flux_RemineL, C_Flux_RemineS
       real(r8) :: CO2_Flux, CO2_sol, SchmidtN, TempK
 #endif
-      
+
 #include "set_bounds.h"
 
 #ifdef MATLABCOMPILE
@@ -662,7 +662,7 @@
 
 !       CALL caldate (r_date, tdays(ng), year, yday, month, iday, hour)
       CALL caldate(tdays(ng), yd_dp=yday)
-      
+
       ! A few parameters...
 
       dtdays = dt(ng)*sec2day/REAL(BioIter(ng),r8)  ! time step, in days
@@ -770,16 +770,16 @@
         ! running with the ice submodel, or being set analytically in
         ! climatological 1D mode).
         !
-        ! Further complicating things is the mix of units and 
-        ! stage-of-integration of the various tracers.  The array for 
-        ! water column tracers uses tracer units (Tunits) in the current 
-        ! step, i.e. t(:,:,:,nstp,:), and transport units (Tunits * m) in 
-        ! the predictor step, i.e. t(:,:,:,nnew,:); the predictor step 
-        ! may already include some changes due to advection and diffusion 
-        ! since the biological routine is called in the middle of the 
-        ! forward-stepping process.  The ice and benthic variables are 
-        ! not subject to the same integration procedure; tracer units are 
-        ! used in both time indices in their arrays (per volume for ice, 
+        ! Further complicating things is the mix of units and
+        ! stage-of-integration of the various tracers.  The array for
+        ! water column tracers uses tracer units (Tunits) in the current
+        ! step, i.e. t(:,:,:,nstp,:), and transport units (Tunits * m) in
+        ! the predictor step, i.e. t(:,:,:,nnew,:); the predictor step
+        ! may already include some changes due to advection and diffusion
+        ! since the biological routine is called in the middle of the
+        ! forward-stepping process.  The ice and benthic variables are
+        ! not subject to the same integration procedure; tracer units are
+        ! used in both time indices in their arrays (per volume for ice,
         ! and per area for benthic).
         !
         ! To make long-term maintenance of this code easier, within this
@@ -855,7 +855,7 @@
             Bio3d(i,k,iiTAlk ) = t(i,j,k,nstp,iTAlk)
 #endif
 #ifdef OXYGEN
-            Bio3d(i,k,iiOxyg ) = t(i,j,k,nstp,iOxyg) 
+            Bio3d(i,k,iiOxyg ) = t(i,j,k,nstp,iOxyg)
 #endif
             DO itrc = iiNO3,iiFe
               Bio2d(i,k,itrc) = Bio3d(i,k,itrc)*Hz(i,j,k)
@@ -903,8 +903,8 @@
         ! we ever change the number of benthic layers, we may need to
         ! rethink this schema.
         !
-        ! The 3d equivalent here is just for bookkeeping consistency (and 
-        ! it's never used) so I'll just use the thickness of the bottom 
+        ! The 3d equivalent here is just for bookkeeping consistency (and
+        ! it's never used) so I'll just use the thickness of the bottom
         ! layer for this conversion.
 
 #ifdef BENTHIC
@@ -939,59 +939,26 @@
 
         DO i=Istr,Iend
 # if defined CLIM_ICE_1D
-
-          ! Ice thickness
-
-          ice_thick(i,j) = MAX(0.0_r8,tclm(3,3,N(ng),i1CI))
-
-          ! Ice status
-
-          if (ice_thick(i,j).gt.aidz(ng)) THEN
-            itL(i,j,nstp,iIceLog) =1.0_r8
-          else
-            itL(i,j,nstp,iIceLog) =-1.0_r8
-          endif
-
-          if     (itL(i,j,nstp,iIceLog).gt.0 .and. itL(i,j,nnew,iIceLog).le.0) THEN
-            ice_status(i,j) = 1.0
-          elseif (itL(i,j,nstp,iIceLog).gt.0 .and. itL(i,j,nnew,iIceLog).gt.0) THEN
-            ice_status(i,j) = 2.0
-          elseif (itL(i,j,nstp,iIceLog).le.0 .and. itL(i,j,nnew,iIceLog).gt.0) THEN
-            ice_status(i,j) = -1.0
-          else
-            ice_status(i,j) = 0.0
-          endif
-
+          ice_thick(i,j) = ClimIce(yday)         ! current time step
+          ice_prev(i,j) = DiaBio2d(i,j,iclimice) ! previous time step
 # else
+          ice_thick(i,j) = max(hi(i,j,nstp), 0.0_r8) ! current time step
+          ice_prev(i,j) = max(hi(i,j,nnew), 0.0_r8)  ! previous time step
+# endif
 
-          ! Ice thickness
-
-          if (hi(i,j,nstp).gt.0.0_r8)THEN
-            ice_thick(i,j) = hi(i,j,nstp)
-          else
-            ice_thick(i,j)=0.0_r8
-          end if
-
-          ! Ice status
-          !
-          ! IceLog(i,j,nstp) holds the previous time step, and 
-          ! IceLog(i,j,nnew) has the current one.  I think.  Maybe.
-
-!           if ((i .eq. 103) .and. (j .eq. 131)) then
-!             write(*,'(A11,F8.4,A11,F8.4)'), "hi(nstp) = ", hi(i,j,nstp), "hi(nnew) = ", hi(i,j,nnew)
-!           endif
-
-          if     (hi(i,j,nnew).ge.aidz(ng) .and. hi(i,j,nstp).lt.aidz(ng)) THEN
+          if     (ice_thick(i,j).ge.aidz(ng) .and. ice_prev(i,j).lt.aidz(ng)) THEN
             ice_status(i,j) = 1.0  ! ice appeared
-          elseif (hi(i,j,nnew).ge.aidz(ng) .and. hi(i,j,nstp).ge.aidz(ng)) THEN
+          elseif (ice_thick(i,j).ge.aidz(ng) .and. ice_prev(i,j).ge.aidz(ng)) THEN
             ice_status(i,j) = 2.0  ! ice stayed
-          elseif (hi(i,j,nnew).lt.aidz(ng) .and. hi(i,j,nstp).ge.aidz(ng)) THEN
+          elseif (ice_thick(i,j).lt.aidz(ng) .and. ice_prev(i,j).ge.aidz(ng)) THEN
             ice_status(i,j) = -1.0 ! ice disappeared
-          elseif (hi(i,j,nnew).lt.aidz(ng) .and. hi(i,j,nstp).lt.aidz(ng)) THEN
+          elseif (ice_thick(i,j).lt.aidz(ng) .and. ice_prev(i,j).lt.aidz(ng)) THEN
             ice_status(i,j) = 0.0  ! no ice, now or previous
           endif
+          
+          DiaBio2d(i,j,iclimice) = ice_thick(i,j) 
 
-# endif
+
         END DO
 #endif
 
@@ -1008,7 +975,7 @@
         ! Start by extracting ice biomass from the main ice bio tracer
         ! arrays (we'll deal with changes due to appearing or
         ! disappearing ice in a moment)
-        
+
         ! TODO: double check indices... should this be nstp or nnew?
 
 #ifdef ICE_BIO
@@ -1109,7 +1076,7 @@
             Frz_PhL_IPhL(i,N(ng)) = -Bio2d(i,N(ng),iiIcePhL)/(dt(ng)*sec2day)
             Frz_NO3_INO3(i,N(ng)) = -Bio2d(i,N(ng),iiIceNO3)/(dt(ng)*sec2day)
             Frz_NH4_INH4(i,N(ng)) = -Bio2d(i,N(ng),iiIceNH4)/(dt(ng)*sec2day)
-            
+
             if (Frz_PhL_IPhL(i,N(ng)) /= Frz_PhL_IPhL(i,N(ng))) then
               write(*, '(A30,I3,A4,I3)') "NaN caught: Frz_PhL_IPhL, i = ", i, "k = ", N(ng)
               exit_flag = 1
@@ -1219,9 +1186,9 @@
           ! Shortwave radiation input (in deg C m/s) is converted to
           ! W/m^2 (assuming standard density rho0=1025 kg/m^3 and heat
           ! capacity Cp=3985 J/kg/degC of seawater)
-          
+
           PARs(i) = PARfrac(ng) * srflx(i,j) * rho0 * Cp ! W m^-2
-          
+
         END DO
 
         !================================================================
@@ -1368,16 +1335,16 @@
           NLimL     = 1.0_r8
 
           DO i=Istr,Iend
-            
-            ! Set top-of-layer irradiance to surface irradiance, 
+
+            ! Set top-of-layer irradiance to surface irradiance,
             ! converted to E/m^2/d
-            
+
             I0 = PARs(i) * watts2photons
-            
+
             ! Loop over layers, starting at surface...
-            
+
             DO k=N(ng),1,-1
-              
+
 #ifdef IRON_LIMIT
 
               ! Iron limitation
@@ -1389,102 +1356,102 @@
 
               ! Nitrogen limitation
               ! (after COBALT, which uses Frost & Franzen, 1992)
-              
+
               NOLimS = Bio3d(i,k,iiNO3)/((k1PhS(ng) + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhS(ng)))
               NHLimS = Bio3d(i,k,iiNH4)/(k2PhS(ng) + Bio3d(i,k,iiNH4))
               NOLimL = Bio3d(i,k,iiNO3)/((k1PhL(ng) + Bio3d(i,k,iiNO3)) * (1.0_r8 + Bio3d(i,k,iiNH4)/k2PhL(ng)))
               NHLimL = Bio3d(i,k,iiNH4)/(k2PhL(ng) + Bio3d(i,k,iiNH4))
-              
+
               fratioS = NHLimS/(NOLimS + NHLimS)
               fratioL = NHLimL/(NOLimL + NHLimL)
-              
+
               ! Maximum uptake rate, carbon-specific and chl-specific
               ! (Frost 1987,  Mar Ecol Prog Ser, v39)
-              
+
               DrateS = DiS(ng) * 10.0_r8 ** (DpS(ng) * Temp(i,k)) ! doublings d^-1 (temp dependent doubling rate)
               DrateL = DiL(ng) * 10.0_r8 ** (DpL(ng) * Temp(i,k)) ! doublings d^-1
 
               PmaxS = (2.0_r8 ** DrateS - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
               PmaxL = (2.0_r8 ** DrateL - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
-              
+
               PmaxSs = PmaxS*ccr(ng)    ! mg C (mg chl)^-1 d^-1
               PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
-              
+
               ! chl-a in layer
-              
+
               chl = Bio3d(i,k,iiPhS)/ccr(ng) + Bio3d(i,k,iiPhL)/ccrPhL(ng) ! mg chl-a m^-3
-              
-              ! Attenuation coefficient, including that due to clear water, 
+
+              ! Attenuation coefficient, including that due to clear water,
               ! chlorophyll, and optionally other organics/sediment/etc.
               ! Citations for indended parameter sets are as follows:
               !
               ! Luokos et al (1997, Deep Sea Res. Part II,v44(97)), after
               ! Morel (1988, J. Geophys. Res., v93(C9))
-              ! k_ext = 0.0384, k_chlA = 0.0518, k_chlB = 0.428, 
+              ! k_ext = 0.0384, k_chlA = 0.0518, k_chlB = 0.428,
               ! k_chlC = 0, k_shallow = 0
               !
-              ! Ned Cokelet, personal communication (based on BEST 
+              ! Ned Cokelet, personal communication (based on BEST
               ! cruises and following the method of Morel (1988)
-              ! k_ext = 0.034, k_chlA = 0.1159, k_chlB = 0.2829, 
+              ! k_ext = 0.034, k_chlA = 0.1159, k_chlB = 0.2829,
               ! k_chlC = 0, k_shallow = 0
               !
               ! When used in the past, k_shallow = 2.0 (citation unknown)
               !
-              ! Update 7/17/2018: Changed hard-coded negative exponential to parameterized 
+              ! Update 7/17/2018: Changed hard-coded negative exponential to parameterized
               ! power law.  k_sed1 = 2.833, k_sed2 = -1.079, k_chlC = 0.0363 based
-              ! on fit of bottom depth vs satellite-derived Inherent Optical Properties 
-              ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm, 
+              ! on fit of bottom depth vs satellite-derived Inherent Optical Properties
+              ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm,
               ! entire-mission composite 2012-2018)
-            
+
               if (k_sed2(ng) .lt. -9990.0_r8) then
-                ! Lazy way to allow old sediment function without recompiling 
-                ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point 
+                ! Lazy way to allow old sediment function without recompiling
+                ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point
                 ! issues w/ -9999 equivalence)
                 katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*exp(z_w(i,j,0)*0.05)
               else
                 katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*(-z_w(i,j,0))**k_sed2(ng)
               endif
 
-              ! Calculate light at depth levels relevant for Simpson's 
-              ! rule integration      
+              ! Calculate light at depth levels relevant for Simpson's
+              ! rule integration
 
               z0 = 0
               z2 = z_w(i,j,k-1) - z_w(i,j,k)
               z1 = (z0+z2)/2
-              
+
               I1 = I0 * exp(z1 * katten)
               I2 = I0 * exp(z2 * katten)
-              
+
               PAR(i,k) = (((z0-z1)/3 * (I0 + 4*I1 + I2))/(z0-z2))/watts2photons ! mean over layer, W m^-2
-              
+
               ! Calculate average light limitation across the layer
-              ! This approach has been adopted in order to properly 
-              ! capture surface production, even when using coarse 
-              ! vertical resolution, where light levels may not be linear 
-              ! within a layer (the usual convention of using the depth 
-              ! midpoint to represent the entire layer makes the 
-              ! assumption that the vertical resolution is high enough 
+              ! This approach has been adopted in order to properly
+              ! capture surface production, even when using coarse
+              ! vertical resolution, where light levels may not be linear
+              ! within a layer (the usual convention of using the depth
+              ! midpoint to represent the entire layer makes the
+              ! assumption that the vertical resolution is high enough
               ! that one can assume linearity within a layer).
 
 # ifdef PI_CONSTANT
 
-              ! Light limitation (Jassby & Platt, 1976, Limnol Oceanogr, 
+              ! Light limitation (Jassby & Platt, 1976, Limnol Oceanogr,
               ! v21(4))
-            
+
               LightLimS0 = tanh(alphaPhS(ng) * I0/PmaxSs)
               LightLimS1 = tanh(alphaPhS(ng) * I1/PmaxSs)
               LightLimS2 = tanh(alphaPhS(ng) * I2/PmaxSs)
-              
+
               LightLimL0 = tanh(alphaPhL(ng) * I0/PmaxLs)
               LightLimL1 = tanh(alphaPhL(ng) * I1/PmaxLs)
               LightLimL2 = tanh(alphaPhL(ng) * I2/PmaxLs)
 # else
 
-              ! Light limitation, Jassby & Platt (1976, Limnol Oceanogr, 
-              ! v21(4)) but with modifiction so phytoplankton can take 
-              ! better advantage of low light levels (personal 
+              ! Light limitation, Jassby & Platt (1976, Limnol Oceanogr,
+              ! v21(4)) but with modifiction so phytoplankton can take
+              ! better advantage of low light levels (personal
               ! communication, Ken Coyle)
-              
+
               amax = 18.0
               amin =  5.6
               ihi  = 40.0
@@ -1492,7 +1459,7 @@
               alphaPhS0 = min(max(amax - (amax - amin)/(ihi-ilo)*(I0-ilo), amin), amax) ! mg C (mg chl-a)^-1 (E m^-2)^-1
               alphaPhS1 = min(max(amax - (amax - amin)/(ihi-ilo)*(I1-ilo), amin), amax)
               alphaPhS2 = min(max(amax - (amax - amin)/(ihi-ilo)*(I2-ilo), amin), amax)
-              
+
               amax = 10.0
               amin =  2.2
               ihi  = 40.0
@@ -1512,20 +1479,20 @@
 # endif
 
               ! Light at bottom of this layer is the top of next layer
-              
+
               I0 = I2
-              
+
               ! Nitrate uptake, small
-              
+
               f0 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS0, NOLimS, IronLimS)
               f1 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS1, NOLimS, IronLimS)
-              f2 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS2, NOLimS, IronLimS)    
+              f2 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS2, NOLimS, IronLimS)
 # ifdef GPPMID
               Gpp_NO3_PhS(i,k) = f1 ! mg C m^-3 d^-1
 # else
               Gpp_NO3_PhS(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
 # endif
-              
+
               ! Ammonium uptake, small
 
               f0 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS0, NHLimS)
@@ -1541,15 +1508,15 @@
 
               f0 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL0, NOLimL, IronLimL)
               f1 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NOLimL, IronLimL)
-              f2 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL2, NOLimL, IronLimL)    
+              f2 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL2, NOLimL, IronLimL)
 # ifdef GPPMID
               Gpp_NO3_PhL(i,k) = f1 ! mg C m^-3 d^-1
 # else
               Gpp_NO3_PhL(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
 # endif
-              
+
               ! Ammonium uptake, large
-              
+
               f0 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL0, NHLimL)
               f1 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NHLimL)
               f2 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL2, NHLimL)
@@ -1584,7 +1551,7 @@
 
               ! Save limitation terms for output
 
-# ifdef GPPMID              
+# ifdef GPPMID
               DiaBio3d(i,j,k,iilims) = LightLimS1
               DiaBio3d(i,j,k,iiliml) = LightLimL1
 # else
@@ -2131,7 +2098,7 @@
      &                            cff0*BenPred(ng)*Bio2d(i,1,iiBen)**2  ! mg C m^-2 d^-1
 
             ! Benthic remineralization: assumes only the top 25% is
-            ! available to remineralize to NH4 (in bottom layer) 
+            ! available to remineralize to NH4 (in bottom layer)
             ! (Kawamiya et al., 2000, J. Mar. Syst., v25(2))
 
             PON = Bio3d(i,1,iiDetBen)*0.25*xi(ng)  ! Benthic Particulate organic nitrogen
@@ -2147,7 +2114,7 @@
           ! Ice Sub Model
           !-----------------
 
-          ! All equations after Jin et al., 2006 (Ann. Glaciol., vol. 44) unless otherwise 
+          ! All equations after Jin et al., 2006 (Ann. Glaciol., vol. 44) unless otherwise
           ! specified
 
           DO i=Istr,Iend
@@ -2243,13 +2210,7 @@
               ! is determined based on a polynomial fit with rate of
               ! change of ice thickness.
 
-# if defined CLIM_ICE_1D
-              ! TODO: update
-              dhicedt=it(i,j,nnew,iIceZ)-it(i,j,nstp,iIceZ) ! change in ice thickness over this time step (m)
-# else
-              dhicedt=hi(i,j,nnew)-hi(i,j,nstp) ! change in ice thickness over this time step (m)
-# endif
-              dhicedt=dhicedt*sec2day/dtdays ! convert to m/s for polynomial fit
+              dhicedt = (ice_thick(i,j) - ice_prev(i,j))*sec2day/dtdays ! m/s
 
               IF (dhicedt.lt.0) THEN ! Ice is melting
 
@@ -2278,7 +2239,7 @@
 
 # ifdef CARBON
               Frz_TIC(i,N(ng)) = dhicedt*86400.0_r8*1650.0_r8*12.0_r8  ! convert to mg C for consistency w/ bio loop
-              Frz_TAlk(i,N(ng)) = dhicedt*86400.0_r8*1600.0_r8/xi(ng)  ! convert to mg C for consistency w/ bio loop 
+              Frz_TAlk(i,N(ng)) = dhicedt*86400.0_r8*1600.0_r8/xi(ng)  ! convert to mg C for consistency w/ bio loop
 # endif
 
             endif
@@ -2572,10 +2533,10 @@
      &                        + Res_EupO_NH4                            &
      &                        + Res_Jel_NH4                             &
      &                        + Res_Ben_NH4                             &
-     &                        + Mor_IPhL_INH4  ! mg C m^-2 d^-1 
+     &                        + Mor_IPhL_INH4  ! mg C m^-2 d^-1
 
           total_remin         = Rem_Det_NH4                             &
-     &                        + Rem_DetF_NH4                            & 
+     &                        + Rem_DetF_NH4                            &
      &                        + Rem_DetBen_NH4                          &
      &                        + Exc_Ben_NH4    ! mg C m^-2 d^-1
 
@@ -2604,7 +2565,7 @@
      &                       -  Gpp_NH4_PhS                             &
      &                       -  Gpp_NH4_PhL                             &
      &                       -  Gpp_INO3_IPhL                           &
-     &                       -  Gpp_INH4_IPhL)*dtdays/12._r8)           
+     &                       -  Gpp_INH4_IPhL)*dtdays/12._r8)
 
           DBio(:,:,iiTAlk   ) = (Gpp_NO3_PhS                            &
      &                       +  Gpp_NO3_PhL                             &
@@ -2627,7 +2588,7 @@
      &                       +  Frz_TAlk                                &
 # endif
      &                       +  Res_IPhL_INH4                           &
-     &                       +  Mor_IPhL_INH4                           & 
+     &                       +  Mor_IPhL_INH4                           &
      &                       -  (2.0_r8*Nit_NH4_NO3)                    &
      &                       -  (2.0_r8*Nit_INH4_INO3)                  &
      &                       -  Gpp_NH4_PhS                             &
@@ -2693,7 +2654,7 @@
                 Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/Hz(i,j,k)
               END DO
 #ifdef CARBON
-               Bio3d(i,k,iiTIC_) = Bio2d(i,k,iiTIC_)/Hz(i,j,k) 
+               Bio3d(i,k,iiTIC_) = Bio2d(i,k,iiTIC_)/Hz(i,j,k)
                Bio3d(i,k,iiTAlk) = Bio2d(i,k,iiTAlk)/Hz(i,j,k)
 #endif
 #ifdef OXYGEN
@@ -2975,12 +2936,17 @@
 !
 !  Add in O2 gas exchange.
 !
-#ifdef ICE_BIO & !defined CLIM_ICE_1D
             O2_Flux=cff3*(O2satu-Bio3d(i,k,iiOxyg))*                    &
-      &         (1.0_r8-ai(i,j,nstp)) ! TODO: add CLIM_ICE_1D option
+#ifdef ICEBIO
+# ifdef CLIM_ICE_1D
+     &              (1.0_r8 - (ice_thick(i,j) .gt. 0.0_r8))
+# else
+     &              (1.0_r8-ai(i,j,nstp))
+# endif
 #else
-            O2_Flux=cff3*(O2satu-Bio3d(i,k,iiOxyg))
+     &              1.0_r8
 #endif
+
             Bio3d(i,k,iiOxyg)=Bio3d(i,k,iiOxyg)+                        &
       &         O2_Flux*Hz_inv(i,k)
 #ifdef DIAGNOSTICS_BIO
@@ -3063,12 +3029,16 @@
 !  Add in CO2 gas exchange.
 !
              if(pCO2(i).gt.0.0_r8)then
-# ifdef ICE_BIO & !defined CLIM_ICE_1D
                 CO2_Flux=cff3*CO2_sol*(pCO2air(i,j)-pCO2(i))*           &
-     &            (1.0_r8-ai(i,j,nstp))    ! mmolC/m^2
+#ifdef ICEBIO
+# ifdef CLIM_ICE_1D
+    &              (1.0_r8 - (ice_thick(i,j) .gt. 0.0_r8)) ! mmolC/m^2
 # else
-                CO2_Flux=cff3*CO2_sol*(pCO2air(i,j)-pCO2(i)) ! mmolC/m^2
+    &              (1.0_r8-ai(i,j,nstp)) ! mmolC/m^2
 # endif
+#else
+    &              1.0_r8 ! mmolC/m^2
+#endif
 !               if(ai(i,j,nstp).gt.0.8_r8)then
 !                 print *, 'pCO2air', pCO2air(i,j)
 !               else
@@ -3095,11 +3065,11 @@
                 Bio2d(i,k,itrc) = Bio3d(i,k,itrc)*Hz(i,j,k)
               END DO
 #ifdef CARBON
-             Bio2d(i,k,iiTIC_) = Bio3d(i,k,iiTIC_)*Hz(i,j,k) 
+             Bio2d(i,k,iiTIC_) = Bio3d(i,k,iiTIC_)*Hz(i,j,k)
              Bio2d(i,k,iiTAlk) = Bio3d(i,k,iiTAlk)*Hz(i,j,k)
 #endif
 #ifdef OXYGEN
-             Bio2d(i,k,iiOxyg) = Bio3d(i,k,iiOxyg)*Hz(i,j,k) 
+             Bio2d(i,k,iiOxyg) = Bio3d(i,k,iiOxyg)*Hz(i,j,k)
 #endif
             END DO
             ! Sync benthic (2D modified in sinking portion of code)
@@ -3285,7 +3255,7 @@
             t(i,j,k,nnew,iTAlk ) = t(i,j,k,nnew,iTAlk ) + (Bio2d(i,k,iiTAlk ) - Bio_bak(i,k,iiTAlk ))
 #endif
 #ifdef OXYGEN
-            t(i,j,k,nnew,iOxyg ) = t(i,j,k,nnew,iOxyg ) + (Bio2d(i,k,iiOxyg ) - Bio_bak(i,k,iiOxyg )) 
+            t(i,j,k,nnew,iOxyg ) = t(i,j,k,nnew,iOxyg ) + (Bio2d(i,k,iiOxyg ) - Bio_bak(i,k,iiOxyg ))
 #endif
             ! Check for negatives and NaNs (for debugging)
 
@@ -3346,10 +3316,10 @@
 
 #ifdef BENTHIC
 
-        ! The benthos aren't subject to any advection or diffusion, so 
-        ! the nnew timestep is not pre-stepped like the other tracers. 
-        ! So rather than adding the difference to an existing value (as 
-        ! with the others), we'll just place the new value directly into 
+        ! The benthos aren't subject to any advection or diffusion, so
+        ! the nnew timestep is not pre-stepped like the other tracers.
+        ! So rather than adding the difference to an existing value (as
+        ! with the others), we'll just place the new value directly into
         ! the nnew timestep.
 
         DO i=Istr,Iend
@@ -3360,13 +3330,13 @@
           bt(i,j,1,nnew,iBen)    = bt(i,j,1,nnew,iBen   )*rmask(i,j)
           bt(i,j,1,nnew,iDetBen) = bt(i,j,1,nnew,iDetBen)*rmask(i,j)
 # endif
-          ! Benthos are not subject to any outside movement or mixing, so 
-          ! we'll just do the time-step copy here, rather than adding 
+          ! Benthos are not subject to any outside movement or mixing, so
+          ! we'll just do the time-step copy here, rather than adding
           ! extra code to step3d_t.F
 
           bt(i,j,1,nstp,iBen)    = bt(i,j,1,nnew,iBen)
           bt(i,j,1,nstp,iDetBen) = bt(i,j,1,nnew,iDetBen)
-          
+
         END DO
 #endif
 
@@ -3390,13 +3360,13 @@
 
       END DO J_LOOP
 
-      ! TODO: As expected, all this tiling/exchange stuff is now incompatible with newer 
+      ! TODO: As expected, all this tiling/exchange stuff is now incompatible with newer
       ! ROMS, and given that I never figured out quite why it was here in the first place,
-      ! I'm not sure how to fix it.  For now, just commenting out.  The eventual plan for 
-      ! this newer BESTNPZ version is to rewrite FEAST to use diagnostics instead of 
-      ! passive tracers so it will be compatible with this newer code.  And hopefully by 
-      ! the time I'm done this update, I'll have cleaned up ice tracers to be more robust. 
-      
+      ! I'm not sure how to fix it.  For now, just commenting out.  The eventual plan for
+      ! this newer BESTNPZ version is to rewrite FEAST to use diagnostics instead of
+      ! passive tracers so it will be compatible with this newer code.  And hopefully by
+      ! the time I'm done this update, I'll have cleaned up ice tracers to be more robust.
+
       !=============================================
       !  FEAST
       !=============================================
@@ -3882,7 +3852,7 @@
 
       RETURN
       END SUBROUTINE BIOSINK
-      
+
 #ifdef CARBON
 # ifdef pCO2_RZ
       SUBROUTINE pCO2_water_RZ (Istr, Iend,                             &
@@ -4681,8 +4651,8 @@
 # endif
 #endif
 
-      
-      
+
+
 
 
 
