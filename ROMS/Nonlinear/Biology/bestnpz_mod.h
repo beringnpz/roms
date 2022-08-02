@@ -1584,10 +1584,10 @@
 
           dx = knots(xbin+1)-knots(xbin)
           t = (x - knots(xbin))/dx
-          t2 = t^2
-          t3 = t^3
-          s2 = (1-t)^2
-          s3 = (1-t)^3
+          t2 = t**2
+          t3 = t**3
+          s2 = (1-t)**2
+          s3 = (1-t)**3
           y = (-coef(xbin,2)*(s3-s2) +                               &
      &          coef(xbin+1,2)*(t3-t2))*dx +                         &
      &          coef(xbin,1)*(3*s2-2*s3) +                           &
