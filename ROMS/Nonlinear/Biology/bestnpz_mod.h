@@ -1573,11 +1573,11 @@
 
         ! Evaluate spline
 
-        IF (x .lt. knots(1)) .or. (x .gt. knots(4)) THEN
+        IF ((x .lt. knots(1)) .or. (x .gt. knots(4))) THEN
             y = 0
         ELSE
           DO ii = 1,3
-            IF (x .ge. knots(ii)) .and. (x .lt. knots(ii+1)) THEN
+            IF ((x .ge. knots(ii)) .and. (x .lt. knots(ii+1))) THEN
               xbin = ii
             END IF
           END DO
