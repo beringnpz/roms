@@ -2689,7 +2689,7 @@
 
           DO i=Istr,Iend
             DO k = 1,N(ng)
-              DO itrc = 1,17 ! Pelagic (and benthic, for bookkeeping)
+              DO itrc = 1,iiDetBen ! Pelagic (and benthic, for bookkeeping)
                 Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/Hz(i,j,k)
               END DO
 #ifdef CARBON
@@ -2700,7 +2700,7 @@
                Bio3d(i,k,iiOxyg) = Bio2d(i,k,iiOxyg)/Hz(i,j,k)
 #endif
 #ifdef ICE_BIO
-              DO itrc = 18,20 ! Ice
+              DO itrc = iiIcePhL,iiIceNH4 ! Ice
                 Bio3d(i,k,itrc) = Bio2d(i,k,itrc)/aidz(ng)
               END DO
 #endif
