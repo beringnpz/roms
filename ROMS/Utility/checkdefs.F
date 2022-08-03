@@ -3671,7 +3671,7 @@
       IF (Master) THEN
         WRITE (stdout,260) uppercase('cice_model'),                     &
      &                     uppercase('ice_model')
- 260    FORMAT (/,' CHECKDEFS - cannot activate ',a,'                   &
+ 260    FORMAT (/,' CHECKDEFS - cannot activate ',a,                    &
      &            ' and',a,/,13x,'at the same time. Choose one!')
         exit_flag=5
       END IF

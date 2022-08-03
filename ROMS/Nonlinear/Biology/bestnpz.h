@@ -1001,10 +1001,6 @@
           END DO
         END DO
 
-#ifdef CORRECT_TEMP_BIAS
-        Temp = Temp - 1.94_r8 ! bias correction for bio only, not fed back
-#endif
-
         ! Save a copy of the original biomass, prior to any adjustments
 
         Bio_bak = Bio2d
@@ -1150,37 +1146,10 @@
         END DO
 
         !-------------------------------------
-        ! Calculate Day Length and Surface PAR
+        ! Calculate Surface PAR
         !-------------------------------------
 
         DO i=Istr,Iend
-
-#if defined DIURNAL_SRFLUX
-          ! Calculate Day Length:  Day Length is already accounted for
-          ! in ANA_SWRAD so disable correction
-
-          Dl = 24.0_r8 ! hours
-#else
-          ! Day Length calculation (orig from R. Davis) from latitude and
-          ! declination.
-
-          cff1 = 2.0_r8 * pi * ( yday-1.0_r8 ) / 365.0_r8
-          cff2 = 0.006918_r8 - 0.399912_r8*cos(cff1)                    &
-     &           + 0.070257_r8*sin(cff1) - 0.006758_r8*cos(2*cff1)      &
-     &           + 0.000907_r8*sin(2*cff1) - 0.002697_r8*cos(3*cff1)    &
-     &           + 0.00148_r8*sin(3*cff1) ! Solar declination from Oberhuber (1988) (COADS documentation)
-          cff3 = lat(i,j) * pi /180.0_r8
-          IF ( abs( -tan(cff3)*tan(cff2) ) .le. 1.0_r8 ) THEN
-            cff1 = acos( -tan(cff3)*tan(cff2) ) * 180.0_r8 / pi
-            Dl = 2.0_r8 / 15.0_r8 * cff1 ! hours
-          ELSE
-            IF ( yday.gt.90.0_r8 .and. yday.lt.270.0_r8 ) THEN
-              Dl = 24.0_r8  ! hours
-            ELSE
-              Dl = 0.0_r8   ! hours
-            END IF
-          END IF
-#endif
 
           ! Calculate PAR at the surface
           ! Shortwave radiation input (in deg C m/s) is converted to
@@ -1820,20 +1789,8 @@
               Mor_MZL_Det(i,k) = mpredMZL(ng)*Bio3d(i,k,iiMZL)**2   ! quadratic
 #endif
 
-#ifdef fixedPRED
-              ! TODO: original DBio(i,k,iXXX) = DBio(i,k,iXXX) - 0.5*Hz(i,j,k)/dtdays
-              ! Implies coefficient units of mg C * day * m^-4???  Typo?
-              ! Supposed to be constant rate, or maybe constant fraction
-              ! of biomass?  Assuming the former for now.  This option
-              ! seems deprecated and should probably be removed.
-              Mor_Cop_DetF(i,k)  = 0.5
-              Mor_NCaS_DetF(i,k) = 0.5
-              Mor_EupS_DetF(i,k) = 1.0
-              Mor_NCaO_DetF(i,k) = 0.5
-              Mor_EupO_DetF(i,k) = 1.0
-#else
               TFEup = Q10Eup(ng) ** ((Temp(i,k)-Q10EupT(ng)) / 10.0_r8)
-# ifdef FEAST
+#ifdef FEAST
               ! Mesozooplankton (quadratic predation closure).  FEAST
               ! predation only affects zooplankton within a specific
               ! region (mostly EBS).  This term (modified spatially by
@@ -1847,15 +1804,15 @@
               Mor_EupS_DetF(i,k) = TFEup*(mpredEup(ng) + fpredEupS * GF%zoop_force(1,4,i,j,1))*Bio3d(i,k,iiEupS)**2
               Mor_NCaO_DetF(i,k) = TFEup*(mpredNca(ng) + fpredNcaO * GF%zoop_force(1,3,i,j,1))*Bio3d(i,k,iiNCaO)**2
               Mor_EupO_DetF(i,k) = TFEup*(mpredEup(ng) + fpredEupO * GF%zoop_force(1,5,i,j,1))*Bio3d(i,k,iiEupO)**2
-# else
+#else
               ! Mesozooplankton (quadratic predation closure)
               Mor_Cop_DetF(i,k)  = TFEup*(mpredCop(ng))*Bio3d(i,k,iiCop)**2
               Mor_NCaS_DetF(i,k) = TFEup*(mpredNca(ng))*Bio3d(i,k,iiNCaS)**2
               Mor_EupS_DetF(i,k) = TFEup*(mpredEup(ng))*Bio3d(i,k,iiEupS)**2
               Mor_NCaO_DetF(i,k) = TFEup*(mpredNca(ng))*Bio3d(i,k,iiNCaO)**2
               Mor_EupO_DetF(i,k) = TFEup*(mpredEup(ng))*Bio3d(i,k,iiEupO)**2
-# endif
 #endif
+
 
               ! Jellyfish (quadratic predation closure)
 

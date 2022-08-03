@@ -86,8 +86,13 @@
 !  egg_count    Number of eggs in each box for each species.           !
 # endif
 #endif
-#ifdef BEST_NPZ
-!  TODO: add list
+#ifdef ICE_BIO
+!  it           Ice tracer type variables (2D, located in and advected !
+!               by ice)                                                !
+#endif
+#ifdef BENTHIC
+!  bt           Benthic tracer type variables (3D, located in benthic  !
+!               layers)
 #endif
 !=======================================================================
 !

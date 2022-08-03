@@ -1571,7 +1571,7 @@
         ! Evaluate spline
 
         IF ((x .lt. knots(1)) .or. (x .gt. knots(4))) THEN
-            y = 0
+          ClimIce = 0
         ELSE
           DO ii = 1,3
             IF ((x .ge. knots(ii)) .and. (x .lt. knots(ii+1))) THEN
@@ -1585,7 +1585,7 @@
           t3 = t**3
           s2 = (1-t)**2
           s3 = (1-t)**3
-          y = (-coef(xbin,2)*(s3-s2) +                               &
+          ClimIce = (-coef(xbin,2)*(s3-s2) +                         &
      &          coef(xbin+1,2)*(t3-t2))*dx +                         &
      &          coef(xbin,1)*(3*s2-2*s3) +                           &
      &          coef(xbin+1,1)*(3*t2-2*t3)
