@@ -920,9 +920,7 @@
             Vinfo( 1)=Vname(1,idBeTvar(itrc))
             WRITE (Vinfo( 2),'(a,1x,a)') Prefix,                        &
      &                                   TRIM(Vname(2,idBeTvar(itrc)))
-
             Vinfo( 1)=Vname(1,idBeTvar(itrc))
-            Vinfo( 2)=Vname(2,idBeTvar(itrc))
             Vinfo(3)=Vname(3,idBeTvar(itrc))
             Vinfo(14)=Vname(4,idBeTvar(itrc))
             Vinfo(16)=Vname(1,idtime)
@@ -947,9 +945,7 @@
             Vinfo( 1)=Vname(1,idIceTvar(itrc))
             WRITE (Vinfo( 2),'(a,1x,a)') Prefix,                        &
      &                                   TRIM(Vname(2,idIceTvar(itrc)))
-
             Vinfo( 1)=Vname(1,idIceTvar(itrc))
-            Vinfo( 2)=Vname(2,idIceTvar(itrc))
             Vinfo(3)=Vname(3,idIceTvar(itrc))
             Vinfo(14)=Vname(4,idIceTvar(itrc))
             Vinfo(16)=Vname(1,idtime)

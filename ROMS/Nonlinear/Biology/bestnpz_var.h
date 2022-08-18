@@ -200,16 +200,11 @@
 #endif
 #ifdef ICE_BIO
               CASE ('idIceTvar(iIcPhL)')
-!                 idIcePhL=varid
                 idIceTvar(iIcPhL)=varid
               CASE ('idIceTvar(iIcNO3)')
-!                 idIceNO3=varid
                 idIceTvar(iIcNO3)=varid
               CASE ('idIceTvar(iIcNH4)')
-!                 idIceNH4=varid
                 idIceTvar(iIcNH4)=varid
-!               CASE ('iIceLog')
-!                 idIceLog=varid
 #endif
 #ifdef BENTHIC
               CASE ('idBeTvar(iBen)')
