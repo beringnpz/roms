@@ -964,8 +964,8 @@
           elseif (ice_thick(i,j).lt.aidz(ng) .and. ice_prev(i,j).lt.aidz(ng)) THEN
             ice_status(i,j) = 0.0  ! no ice, now or previous
           endif
-          
-          DiaBio2d(i,j,iclimice) = ice_thick(i,j) 
+
+          DiaBio2d(i,j,iclimice) = ice_thick(i,j)
 
 
         END DO
@@ -1314,6 +1314,13 @@
 
           DO i=Istr,Iend
 
+#ifndef OPTIC_MANIZZA
+
+            ! Set top-of-layer irradiance to surface irradiance,
+            ! converted to E/m^2/d
+
+            I0 = PARs(i) * watts2photons
+#endif
             ! Loop over layers, starting at surface...
 
             DO k=N(ng),1,-1
@@ -1350,11 +1357,58 @@
               PmaxSs = PmaxS*ccr(ng)    ! mg C (mg chl)^-1 d^-1
               PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
 
+#ifdef OPTIC_MANIZZA
               ! Light at midpoint of layer (assumes linear decay across layer)
 
               PAR(i,k) = PARs(i) * 0.5*(decayW(i,j,k,  3) + decayW(i,j,k,  4) +          &
      &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
               I1 = PAR(i,k) * watts2photons
+#else
+              ! chl-a in layer
+
+              chl = Bio3d(i,k,iiPhS)/ccr + Bio3d(i,k,iiPhL)/ccrPhL ! mg chl-a m^-3
+
+              ! Attenuation coefficient, including that due to clear water,
+              ! chlorophyll, and optionally other organics/sediment/etc.
+              ! Citations for indended parameter sets are as follows:
+              !
+              ! Luokos et al (1997, Deep Sea Res. Part II,v44(97)), after
+              ! Morel (1988, J. Geophys. Res., v93(C9))
+              ! k_ext = 0.0384, k_chlA = 0.0518, k_chlB = 0.428,
+              ! k_chlC = 0, k_shallow = 0
+              !
+              ! Ned Cokelet, personal communication (based on BEST
+              ! cruises and following the method of Morel (1988)
+              ! k_ext = 0.034, k_chlA = 0.1159, k_chlB = 0.2829,
+              ! k_chlC = 0, k_shallow = 0
+              !
+              ! When used in the past, k_shallow = 2.0 (citation unknown)
+              !
+              ! Update 7/17/2018: Changed hard-coded negative exponential to parameterized
+              ! power law.  k_sed1 = 2.833, k_sed2 = -1.079, k_chlC = 0.0363 based
+              ! on fit of bottom depth vs satellite-derived Inherent Optical Properties
+              ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm,
+              ! entire-mission composite 2012-2018)
+
+              if (k_sed2 .lt. -9990.0_r8) then
+                ! Lazy way to allow old sediment function without recompiling
+                ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point
+                ! issues w/ -9999 equivalence)
+                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*exp(z_w(i,j,0)*0.05)
+              else
+                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*(-z_w(i,j,0))**k_sed2
+              endif
+              z0 = 0
+              z2 = z_w(i,j,k-1) - z_w(i,j,k)
+              z1 = (z0+z2)/2
+
+              I1 = I0 * exp(z1 * katten)
+              I2 = I0 * exp(z2 * katten)
+
+              PAR(i,k) = I1/watts2photons !  W m^-2
+
+              I0 = I2 ! Light at bottom of this layer is the top of next layer
+#endif
 
               ! Light limitation (Jassby & Platt, 1976, Limnol Oceanogr,
               ! v21(4))
