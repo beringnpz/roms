@@ -29,9 +29,11 @@ MODULE optic_manizza_mod
       USE mod_ocean
       USE mod_stepping, only: nstp
 #ifdef BIO_COBALT
-     USE mod_biology, only: iochl
+      USE mod_biology, only: iochl
 #elif defined BIO_UMAINE
-     USE mod_biology, only: iS1CH, iS2CH, iS3CH
+      USE mod_biology, only: iS1CH, iS2CH, iS3CH
+#elif defined BEST_NPZ
+      USE mod_biology, only: iPhS, iPhL
 #endif
 !
 !  Imported variable declarations.
