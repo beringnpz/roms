@@ -122,6 +122,9 @@
      &                   ,ICE(ng) % vi                                  &
 # endif
 #endif
+#ifdef OPTIC_MANIZZA
+     &                   ,OCEAN(ng) % decayW                            &
+#endif
 #ifdef DIAGNOSTICS_BIO
      &                   ,DIAGS(ng) % DiaBio2d                          &
      &                   ,DIAGS(ng) % DiaBio3d                          &
@@ -182,6 +185,9 @@
      &                         ,ui                                      &
      &                         ,vi                                      &
 # endif
+#endif
+#ifdef OPTIC_MANIZZA
+     &                         ,decayW                                  &
 #endif
 #ifdef DIAGNOSTICS_BIO
      &                         ,DiaBio2d, DiaBio3d                      &
@@ -280,6 +286,9 @@
       real(r8), intent(in)    :: ui(LBi:,LBj:,:)
       real(r8), intent(in)    :: vi(LBi:,LBj:,:)
 #  endif
+# endif
+# ifdef OPTIC_MANIZZA
+      real(r8), intent(in) :: decayW(LBi:,LBj:,0:,:)
 # endif
 #ifdef DIAGNOSTICS_BIO
       real(r8), intent(inout) :: DiaBio2d(LBi:,LBj:,:)
@@ -1305,11 +1314,6 @@
 
           DO i=Istr,Iend
 
-            ! Set top-of-layer irradiance to surface irradiance,
-            ! converted to E/m^2/d
-
-            I0 = PARs(i) * watts2photons
-
             ! Loop over layers, starting at surface...
 
             DO k=N(ng),1,-1
@@ -1346,154 +1350,33 @@
               PmaxSs = PmaxS*ccr(ng)    ! mg C (mg chl)^-1 d^-1
               PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
 
-              ! chl-a in layer
+              ! Light at midpoint of layer (assumes linear decay across layer)
 
-              chl = Bio3d(i,k,iiPhS)/ccr(ng) + Bio3d(i,k,iiPhL)/ccrPhL(ng) ! mg chl-a m^-3
-
-              ! Attenuation coefficient, including that due to clear water,
-              ! chlorophyll, and optionally other organics/sediment/etc.
-              ! Citations for indended parameter sets are as follows:
-              !
-              ! Luokos et al (1997, Deep Sea Res. Part II,v44(97)), after
-              ! Morel (1988, J. Geophys. Res., v93(C9))
-              ! k_ext = 0.0384, k_chlA = 0.0518, k_chlB = 0.428,
-              ! k_chlC = 0, k_shallow = 0
-              !
-              ! Ned Cokelet, personal communication (based on BEST
-              ! cruises and following the method of Morel (1988)
-              ! k_ext = 0.034, k_chlA = 0.1159, k_chlB = 0.2829,
-              ! k_chlC = 0, k_shallow = 0
-              !
-              ! When used in the past, k_shallow = 2.0 (citation unknown)
-              !
-              ! Update 7/17/2018: Changed hard-coded negative exponential to parameterized
-              ! power law.  k_sed1 = 2.833, k_sed2 = -1.079, k_chlC = 0.0363 based
-              ! on fit of bottom depth vs satellite-derived Inherent Optical Properties
-              ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm,
-              ! entire-mission composite 2012-2018)
-
-              if (k_sed2(ng) .lt. -9990.0_r8) then
-                ! Lazy way to allow old sediment function without recompiling
-                ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point
-                ! issues w/ -9999 equivalence)
-                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*exp(z_w(i,j,0)*0.05)
-              else
-                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*(-z_w(i,j,0))**k_sed2(ng)
-              endif
-
-              ! Calculate light at depth levels relevant for Simpson's
-              ! rule integration
-
-              z0 = 0
-              z2 = z_w(i,j,k-1) - z_w(i,j,k)
-              z1 = (z0+z2)/2
-
-              I1 = I0 * exp(z1 * katten)
-              I2 = I0 * exp(z2 * katten)
-
-              PAR(i,k) = (((z0-z1)/3 * (I0 + 4*I1 + I2))/(z0-z2))/watts2photons ! mean over layer, W m^-2
-
-              ! Calculate average light limitation across the layer
-              ! This approach has been adopted in order to properly
-              ! capture surface production, even when using coarse
-              ! vertical resolution, where light levels may not be linear
-              ! within a layer (the usual convention of using the depth
-              ! midpoint to represent the entire layer makes the
-              ! assumption that the vertical resolution is high enough
-              ! that one can assume linearity within a layer).
-
-# ifdef PI_CONSTANT
+              PAR(i,k) = PARs(i) * 0.5*(decayW(i,j,k,  3) + decayW(i,j,k,  4) +          &
+     &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
+              I1 = PAR(i,k) * watts2photons
 
               ! Light limitation (Jassby & Platt, 1976, Limnol Oceanogr,
               ! v21(4))
 
-              LightLimS0 = tanh(alphaPhS(ng) * I0/PmaxSs)
               LightLimS1 = tanh(alphaPhS(ng) * I1/PmaxSs)
-              LightLimS2 = tanh(alphaPhS(ng) * I2/PmaxSs)
-
-              LightLimL0 = tanh(alphaPhL(ng) * I0/PmaxLs)
               LightLimL1 = tanh(alphaPhL(ng) * I1/PmaxLs)
-              LightLimL2 = tanh(alphaPhL(ng) * I2/PmaxLs)
-# else
-
-              ! Light limitation, Jassby & Platt (1976, Limnol Oceanogr,
-              ! v21(4)) but with modifiction so phytoplankton can take
-              ! better advantage of low light levels (personal
-              ! communication, Ken Coyle)
-
-              amax = 18.0
-              amin =  5.6
-              ihi  = 40.0
-              ilo  = 30.0
-              alphaPhS0 = min(max(amax - (amax - amin)/(ihi-ilo)*(I0-ilo), amin), amax) ! mg C (mg chl-a)^-1 (E m^-2)^-1
-              alphaPhS1 = min(max(amax - (amax - amin)/(ihi-ilo)*(I1-ilo), amin), amax)
-              alphaPhS2 = min(max(amax - (amax - amin)/(ihi-ilo)*(I2-ilo), amin), amax)
-
-              amax = 10.0
-              amin =  2.2
-              ihi  = 40.0
-              ilo  = 30.0
-              alphaPhL0 = min(max(amax - (amax - amin)/(ihi-ilo)*(I0-ilo), amin), amax)
-              alphaPhL1 = min(max(amax - (amax - amin)/(ihi-ilo)*(I1-ilo), amin), amax)
-              alphaPhL2 = min(max(amax - (amax - amin)/(ihi-ilo)*(I2-ilo), amin), amax)
-
-              LightLimS0 = tanh(alphaPhS0 * I0/PmaxSs)
-              LightLimS1 = tanh(alphaPhS1 * I1/PmaxSs)
-              LightLimS2 = tanh(alphaPhS2 * I2/PmaxSs)
-
-              LightLimL0 = tanh(alphaPhL0 * I0/PmaxLs)
-              LightLimL1 = tanh(alphaPhL1 * I1/PmaxLs)
-              LightLimL2 = tanh(alphaPhL2 * I2/PmaxLs)
-
-# endif
-
-              ! Light at bottom of this layer is the top of next layer
-
-              I0 = I2
 
               ! Nitrate uptake, small
 
-              f0 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS0, NOLimS, IronLimS)
-              f1 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS1, NOLimS, IronLimS)
-              f2 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS2, NOLimS, IronLimS)
-# ifdef GPPMID
-              Gpp_NO3_PhS(i,k) = f1 ! mg C m^-3 d^-1
-# else
-              Gpp_NO3_PhS(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
-# endif
+              Gpp_NO3_PhS(i,k) = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS1, NOLimS, IronLimS) ! mg C m^-3 d^-1
 
               ! Ammonium uptake, small
 
-              f0 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS0, NHLimS)
-              f1 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS1, NHLimS)
-              f2 = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS2, NHLimS)
-# ifdef GPPMID
-              Gpp_NH4_PhS(i,k) = f1 ! mg C m^-3 d^-1
-# else
-              Gpp_NH4_PhS(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
-# endif
+              Gpp_NH4_PhS(i,k) = Bio3d(i,k,iiPhS) * PmaxS * min(LightLimS1, NHLimS) ! mg C m^-3 d^-1
 
               ! Nitrate uptake, large
 
-              f0 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL0, NOLimL, IronLimL)
-              f1 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NOLimL, IronLimL)
-              f2 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL2, NOLimL, IronLimL)
-# ifdef GPPMID
-              Gpp_NO3_PhL(i,k) = f1 ! mg C m^-3 d^-1
-# else
-              Gpp_NO3_PhL(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
-# endif
+              Gpp_NO3_PhL(i,k) = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NOLimL, IronLimL) ! mg C m^-3 d^-1
 
               ! Ammonium uptake, large
 
-              f0 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL0, NHLimL)
-              f1 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NHLimL)
-              f2 = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL2, NHLimL)
-# ifdef GPPMID
-              Gpp_NH4_PhL(i,k) = f1 ! mg C m^-3 d^-1
-# else
-              Gpp_NH4_PhL(i,k) = ((z0-z1)/3 * (f0 + 4*f1 + f2))/(z0-z2) ! mg C m^-3 d^-1
-# endif
+              Gpp_NH4_PhL(i,k) = Bio3d(i,k,iiPhL) * PmaxL * min(LightLimL1, NHLimL) ! mg C m^-3 d^-1
 
               ! Convert intermediate fluxes from volumetric to per area
 
@@ -1520,13 +1403,8 @@
 
               ! Save limitation terms for output
 
-# ifdef GPPMID
               DiaBio3d(i,j,k,iilims) = LightLimS1
               DiaBio3d(i,j,k,iiliml) = LightLimL1
-# else
-              DiaBio3d(i,j,k,iilims) = ((z0-z1)/3 * (LightLimS0 + 4*LightLimS1 + LightLimS2))/(z0-z2)
-              DiaBio3d(i,j,k,iiliml) = ((z0-z1)/3 * (LightLimL0 + 4*LightLimL1 + LightLimL2))/(z0-z2)
-# endif
               DiaBio3d(i,j,k,inolims) = NOLimS
               DiaBio3d(i,j,k,inoliml) = NOLimL
               DiaBio3d(i,j,k,inhlims) = NHLimS

@@ -457,7 +457,7 @@
 ** BENTHIC             use if model has benthic tracers [BEST_NPZ, COBALT]   **
 ** ICE_BIO             use if model has ice tracers [BEST_NPZ]               **
 ** OPTIC_MANIZZA       use if light attenuation affected by Chl [BEST_NPZ,   **
-**                     COBALT]                                               **
+**                     COBALT, UMAINE]                                       **
 **                                                                           **
 ** Fennel et al. (2006) biology model OPTIONS:                               **
 **                                                                           **
