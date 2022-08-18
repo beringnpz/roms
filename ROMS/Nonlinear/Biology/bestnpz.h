@@ -1366,7 +1366,7 @@
 #else
               ! chl-a in layer
 
-              chl = Bio3d(i,k,iiPhS)/ccr + Bio3d(i,k,iiPhL)/ccrPhL ! mg chl-a m^-3
+              chl = Bio3d(i,k,iiPhS)/ccr(ng) + Bio3d(i,k,iiPhL)/ccrPhL(ng) ! mg chl-a m^-3
 
               ! Attenuation coefficient, including that due to clear water,
               ! chlorophyll, and optionally other organics/sediment/etc.
@@ -1390,13 +1390,13 @@
               ! (SNPP VIRRS absorption due to gelbstoff and detritus @ 443nm,
               ! entire-mission composite 2012-2018)
 
-              if (k_sed2 .lt. -9990.0_r8) then
+              if (k_sed2(ng) .lt. -9990.0_r8) then
                 ! Lazy way to allow old sediment function without recompiling
                 ! (k_sed1 = old k_shallow here) (<-9990 just to avoid any floating point
                 ! issues w/ -9999 equivalence)
-                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*exp(z_w(i,j,0)*0.05)
+                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*exp(z_w(i,j,0)*0.05)
               else
-                katten = k_ext + k_chlA*chl**k_chlB + k_chlC + k_sed1*(-z_w(i,j,0))**k_sed2
+                katten = k_ext(ng) + k_chlA(ng)*chl**k_chlB(ng) + k_chlC(ng) + k_sed1(ng)*(-z_w(i,j,0))**k_sed2(ng)
               endif
               z0 = 0
               z2 = z_w(i,j,k-1) - z_w(i,j,k)
