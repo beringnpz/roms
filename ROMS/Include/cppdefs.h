@@ -195,7 +195,8 @@
 ** ANA_FSOBC           use if analytical free-surface boundary conditions    **
 ** ANA_GRID            use if analytical model grid set-up                   **
 ** ANA_HUMIDITY        use if analytical surface air humidity                **
-** ANA_ICE             use for analytic ice initial conditions               **
+** ANA_ICE             use if analytical ice initial conditions              **
+** ANA_ICEBIOBC        use if analytical ice bio tracer boundary conditions  **
 ** ANA_INITIAL         use if analytical initial conditions                  **
 ** ANA_LRFLUX          use if analytical surface longwave radiation flux     **
 ** ANA_M2CLIMA         use if analytical 2D momentum climatology             **
@@ -211,7 +212,7 @@
 ** ANA_RAIN            use if analytical rain fall rate                      **
 ** ANA_SEDIMENT        use if analytical sediment initial fields             **
 ** ANA_SMFLUX          use if analytical surface momentum stress             **
-** ANA_SNOW            use for analytic snowfall rate                        **
+** ANA_SNOW            use if analytical snowfall rate                       **
 ** ANA_SPFLUX          use if analytical surface passive tracers fluxes      **
 ** ANA_SPINNING        use if analytical time-varying rotation force         **
 ** ANA_SPONGE          use if analytical enhanced viscosity/diffusion sponge **
@@ -454,10 +455,14 @@
 ** Generic biology model options (applicable to multiple models, compatible  **
 ** models listed in []):                                                     **
 **                                                                           **
-** BENTHIC             use if model has benthic tracers [BEST_NPZ, COBALT]   **
-** ICE_BIO             use if model has ice tracers [BEST_NPZ]               **
-** OPTIC_MANIZZA       use if light attenuation affected by Chl [BEST_NPZ,   **
-**                     COBALT, UMAINE]                                       **
+** BENTHIC             use if model has benthic tracers                      **
+**                     [BEST_NPZ, BIO_COBALT]                                **
+** ICE_BIO             use if model has ice tracers                          **
+**                     [BEST_NPZ]                                            **
+** OPTIC_MANIZZA       use for Manizza et al., 2005 bio-optical feedbacks    **
+**                     [BEST_NPZ, BIO_COBALT, BIO_UMAINE]                    **
+** IRON_LIMIT          use if Fe limitation on primary production            **
+**                     [NPZD_IRON, NEMURO, BIO_GOANPZ, BIO_UMAINE, BEST_NPZ] **
 **                                                                           **
 ** Fennel et al. (2006) biology model OPTIONS:                               **
 **                                                                           **
@@ -469,20 +474,26 @@
 ** OCMIP_OXYGEN_SC     use if Schmidt number from Keeling et al. (1998)      **
 ** TALK_NONCONSERV     use if nonconservative computation of alkalinity      **
 **                                                                           **
-** Bering Sea biology model OPTIONS:                                         **
+** Bering Sea (Gibson et al., 2011; Kearney et al., 2020) biology model      **
+** OPTIONS:                                                                  **
 **                                                                           **
 ** BEST_NPZ            use if Gibson et al. Bering Sea model                 **
-** STATIONARY          use if ??                                             **
-** BENTHIC             use if benthic components                             **
-** ICE_BIO             use if ice biology tracers                            **
+** CARBON              use if carbonate system variables included            **
+** CARBON_FLUX         use if surface fluxes (river-derived) for TIC, alk    **
+** CLIM_ICE_1D         use if analytical 1D ice (no explicit sea ice model)  **
+** DEPTHLIMITER        use to enforce on/off-shelf habitat for large         **
+**                     copepods and euphausiids (not recommended)            **
+** DIAPAUSE            use for large copepod diapause                        **
+** EUPDIEL             use for euphausiid diel vertical migration            **
+**                     (experimental)                                        **
 ** JELLY               use if jellyfish                                      **
-** CLIM_ICE_1D         use if one-D with ice                                 **
+** MZLM0LIN            use if linear non-predatory mortality for MZL         **
+** OXYGEN              use if oxygen cycling                                 **
 **                                                                           **
 ** COBALT (Stock et al., 2014) options:                                      **
 **                                                                           **
 ** BIO_COBALT          use if Stock et al. (2014) COBALT model               **
 ** ANA_ALK_DIC         use if analytic alkalinity and DIC                    **
-** BENTHIC             use if benthic components (conflict with BEST_NPZ)    **
 ** BIO_COBALT_RUNOFF   use if runoff includes COBALT fields                  **
 ** COASTDIAT           use if coastal diatoms (md phyto) are included        **
 ** COBALT_CARBON       use if carbon compents matter                         **
@@ -491,7 +502,6 @@
 ** COBALT_MINERALS     use for mineral components                            **
 ** COBALT_PHOSPHORUS   use for phosphorus components                         **
 ** NO_IRON_COAST       use for no coastal iron                               **
-** OPTIC_MANIZZA       use for light limitation from Chl                     **
 **                                                                           **
 ** Hypoxia ecosysten model OPTIONS:                                          **
 **                                                                           **

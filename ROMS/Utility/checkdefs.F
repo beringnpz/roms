@@ -673,6 +673,13 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+12)=' BEOFS_ONLY,'
 #endif
+#ifdef BEST_NPZ
+!
+       IF (Master) WRITE (stdout,20) 'BEST_NPZ',                         &
+      &   'Bering Ecosystem Study NPZ model'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+10)=' BEST_NPZ,'
+#endif
 #ifdef BIO_FENNEL
 !
       IF (Master) WRITE (stdout,20) 'BIO_FENNEL',                       &
@@ -786,12 +793,20 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+8)=' CANUTO_B,'
 #endif
-#if defined CARBON && (defined BIO_FENNEL || defined BIO_UMAINE)
+#if defined CARBON && (defined BIO_FENNEL || defined BIO_UMAINE || \
+                       defined BEST_NPZ)
 !
       IF (Master) WRITE (stdout,20) 'CARBON',                           &
      &   'Add Carbon constituents'
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+8)=' CARBON,'
+#endif
+#ifdef CARBON_FLUX
+!
+       IF (Master) WRITE (stdout,20) 'CARBON_FLUX',                      &
+      &   'TIC and Alk surface (river-derived) fluxes'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+13)=' CARBON_FLUX,'
 #endif
 #ifdef CCSM_FLUXES
       IF (Master) WRITE (stdout,20) 'CCSM_FLUXES',                      &
@@ -837,6 +852,13 @@
      &   'Monitor the number opened, closed, and created NetCDF files'
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+18)=' CHECK_OPEN_FILES,'
+#endif
+#ifdef CLIM_ICE_1D
+!
+       IF (Master) WRITE (stdout,20) 'CLIM_ICE_1D',                      &
+      &   '1D analytical ice thickness, no explicit ice model'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+13)=' CLIM_ICE_1D,'
 #endif
 #ifdef CLIPPING
 !
@@ -1037,6 +1059,13 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+17)=' DENITRIFICATION,'
 #endif
+#ifdef DEPTHLIMITER
+!
+       IF (Master) WRITE (stdout,20) 'DEPTHLIMITER',                     &
+      &   'Enforce on/off-shelf habitat for large zooplankton'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+14)=' DEPTHLIMITER,'
+#endif
 #if defined DIAGNOSTICS_BIO
 !
       IF (Master) WRITE (stdout,20) 'DIAGNOSTICS_BIO',                  &
@@ -1058,11 +1087,18 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+16)=' DIAGNOSTICS_UV,'
 #endif
-#ifdef DIAPAUSE
+#ifdef DIAPAUSE && !defined BEST_NPZ
       IF (Master) WRITE (stdout,20) 'DIAPAUSE',                   &
      &   'Floats moving vertically to simulate diapause'
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+10)=' DIAPAUSE,'
+#endif
+#ifdef DIAPAUSE && defined BEST_NPZ
+!
+       IF (Master) WRITE (stdout,20) 'DIAPAUSE',                         &
+      &   'Seasonal diapuase for large copepods'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+10)=' DIAPAUSE,'
 #endif
 #if defined DIFF_3DCOEF
 !
@@ -1148,6 +1184,13 @@
      &   'Ensemble Forecasting Propagator'
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+10)=' ENSEMBLE,'
+#endif
+#ifdef EUPDIEL
+!
+       IF (Master) WRITE (stdout,20) 'EUPDIEL',                          &
+      &   'Diel vertical migration for euphausiids'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+9)=' EUPDIEL,'
 #endif
 #if defined EVOLVED_LCZ && defined FOUR_DVAR
 !
@@ -1559,7 +1602,8 @@
       idriver=idriver+1
 #endif
 #if defined IRON_LIMIT && (NPZD_IRON || defined NEMURO || \
-             defined BIO_GOANPZ || defined BIO_UMAINE)
+             defined BIO_GOANPZ || defined BIO_UMAINE || \
+             defined BEST_NPZ)
       IF (Master) WRITE (stdout,20) 'IRON LIMITATION',                  &
      &   'Iron limitation on phytoplankton growth'
       is=LEN_TRIM(Coptions)+1
@@ -1866,6 +1910,13 @@
       Coptions(is:is+13)=' MY25_MIXING,'
       ivmix=ivmix+1
 #endif
+#ifdef MZLM0LIN
+!
+       IF (Master) WRITE (stdout,20) 'MZLM0LIN',                         &
+      &   'Linear non-predatory mortality for microzooplankton'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+10)=' MZLM0LIN,'
+#endif
 #ifdef NEARSHORE_MELLOR05
 !
       IF (Master) WRITE (stdout,20) 'NEARSHORE_MELLOR05',               &
@@ -2152,7 +2203,8 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+14)=' OPTIC_UMAINE,'
 #endif
-#if defined OXYGEN && (defined BIO_FENNEL || defined BIO_UMAINE)
+#if defined OXYGEN && (defined BIO_FENNEL || defined BIO_UMAINE || \
+                       defined BEST_NPZ)
 # ifdef OCMIP_OXYGEN_SC
 !
       IF (Master) WRITE (stdout,20) 'OCMIP_OXYGEN_SC',                  &
