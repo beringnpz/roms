@@ -226,7 +226,7 @@
 #  if defined BIO_UMAINE
       USE mod_biology, ONLY : iS1CH, iS2CH, iS3CH
 #  elif defined BEST_NPZ
-      USE mod_biology, ONLY : iPhS, iPhL
+      USE mod_biology, ONLY : iPhS, iPhL, ccr, ccrPhL
 #  endif
 # endif
 !
