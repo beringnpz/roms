@@ -30,10 +30,6 @@ MODULE optic_manizza_mod
       USE mod_stepping, only: nstp
 #ifdef BIO_COBALT
       USE mod_biology, only: iochl
-#elif defined BIO_UMAINE
-      USE mod_biology, only: iS1CH, iS2CH, iS3CH
-#elif defined BEST_NPZ
-      USE mod_biology, only: iPhS, iPhL
 #endif
 !
 !  Imported variable declarations.
@@ -53,9 +49,6 @@ MODULE optic_manizza_mod
 #endif
 #ifdef BIO_COBALT
      &                            OCEAN(ng) % obgc(:,:,:,iochl),        &
-#elif defined BEST_NPZ
-     &                            OCEAN(ng) % t(:,:,:,nstp,iPhS),       &
-     &                            OCEAN(ng) % t(:,:,:,nstp,iPhL),       &
 #else
      &                            FORCES(ng) % chl,                     &
 #endif
@@ -72,11 +65,7 @@ MODULE optic_manizza_mod
 #ifdef MASKING
      &                            rmask,                                &
 #endif
-#ifdef BEST_NPZ
-     &                            phs, phl,                             &
-#else
      &                            chl,                                  &
-#endif
      &                            decayW)
 !
 !=======================================================================
@@ -111,9 +100,6 @@ MODULE optic_manizza_mod
       USE mod_param
       USE mod_mixing
       USE mod_scalars
-#ifdef BEST_NPZ
-      USE mod_biology, only: ccr, ccrPhL
-#endif
 !
       implicit none
 !
@@ -127,12 +113,7 @@ MODULE optic_manizza_mod
 #ifdef MASKING
       real(r8), intent(in)  :: rmask(LBi:UBi,LBj:UBj)
 #endif
-#ifdef BEST_NPZ
-      real(r8), intent(in)  :: phs(LBi:UBi,LBj:UBj,N(ng))
-      real(r8), intent(in)  :: phl(LBi:UBi,LBj:UBj,N(ng))
-#else
       real(r8), intent(in)  :: chl(LBi:UBi,LBj:UBj,N(ng))
-#endif
       real(r8), intent(out) :: decayW(LBi:UBi,LBj:UBj,0:N(ng),4)
 !
 !  Local variable declarations.
@@ -193,14 +174,6 @@ MODULE optic_manizza_mod
      DO j=Jstr,Jend
        DO i=Istr,Iend
           chl_conc(i,j,k) = chl(i,j,k) * rho0 / 1000.0d0
-       END DO
-     END DO
-   ENDDO
-#elif defined BEST_NPZ
-   DO k=1,N(ng)
-     DO j=Jstr,Jend
-       DO i=Istr,Iend
-          chl_conc(i,j,k) = phs(i,j,k)/ccr(ng) + phl(i,j,k)/ccrPhL(ng) ! mg chl-a m^-3
        END DO
      END DO
    ENDDO

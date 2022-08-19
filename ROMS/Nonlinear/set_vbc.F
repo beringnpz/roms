@@ -223,7 +223,11 @@
       USE mp_exchange_mod, ONLY : mp_exchange2d
 # endif
 # if defined OPTIC_MANIZZA && !defined BIO_COBALT
+#  if defined BIO_UMAINE
       USE mod_biology, ONLY : iS1CH, iS2CH, iS3CH
+#  elif defined BEST_NPZ
+      USE mod_biology, ONLY : iPhS, iPhL
+#  endif
 # endif
 !
 !  Imported variable declarations.
@@ -1114,8 +1118,13 @@
       DO k=1,N(ng)
         DO j=Jstr,Jend
           DO i=IstrU,Iend
+#   if defined BIO_UMAINE
             chl(i,j,k) = t(i,j,N(ng),nrhs,iS1CH) +                      &
      &              t(i,j,N(ng),nrhs,iS2CH) + t(i,j,N(ng),nrhs,iS3CH)
+#   elif defined BEST_NPZ
+            chl(i,j,k) = t(i,j,k,nrhs,iPhS)/ccr(ng) +                   &
+     &                   t(i,j,k,nrhs,iPhL)/ccrPhL(ng) ! mg chl-a m^-3
+#   endif
           END DO
         END DO
       END DO
