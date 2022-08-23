@@ -4175,7 +4175,7 @@
         END DO
       END DO
       DO itrc=1,NBT
-        max_bio(itrc) = 10000.0_r8   ! bio units
+        max_bio(itrc) = 50000.0_r8   ! bio units
       END DO
 #endif
 !
