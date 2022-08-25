@@ -213,6 +213,8 @@
                 idBeTvar(iDetBen)=varid
 #endif
 #ifdef DIAGNOSTICS_BIO
+              CASE ('iDbio3(ipar)')
+                iDbio3(ipar)=varid
               CASE ('iDbio3(iilims)')
                 iDbio3(iilims)=varid
               CASE ('iDbio3(iiliml)')

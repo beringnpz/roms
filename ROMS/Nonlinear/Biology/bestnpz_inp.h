@@ -825,6 +825,17 @@
               END DO
 #endif
 #ifdef DIAGNOSTICS_BIO
+            CASE ('Dout(ipar)')
+              IF (iDbio3(ipar).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(ipar)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(ipar)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
             CASE ('Dout(iilims)')
               IF (iDbio3(iilims).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio3(iilims)'

@@ -1457,6 +1457,7 @@
 
               ! Save limitation terms for output
 
+              DiaBio3d(i,j,k,ipar) = PAR(i,k)
               DiaBio3d(i,j,k,iilims) = LightLimS1
               DiaBio3d(i,j,k,iiliml) = LightLimL1
               DiaBio3d(i,j,k,inolims) = NOLimS
