@@ -246,7 +246,6 @@
       integer :: iIcNH4
 #endif
 #ifdef DIAGNOSTICS_BIO
-      integer :: ipar
       integer :: iilims
       integer :: iiliml
       integer :: inolims
@@ -605,7 +604,7 @@
 #  endif
 
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
-      NDbio3d=157
+      NDbio3d=156
       NDbio2d=4
 #endif
 #ifdef BENTHIC
@@ -1503,7 +1502,6 @@
       iflx_Adv_TIC=154
       iflx_Adv_Alk=155
       iflx_Adv_Oxyg=156
-      ipar=157
 
       ico2flx=1
       ipco2=2
