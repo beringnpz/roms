@@ -1165,7 +1165,11 @@
           ! W/m^2 (assuming standard density rho0=1025 kg/m^3 and heat
           ! capacity Cp=3985 J/kg/degC of seawater)
 
+#ifdef OPTIC_MANIZZA
+          PARs(i) = (decayW(i,j,N(ng),3) + decayW(i,j,N(ng),4)) * srflx(i,j) * rho0 * Cp
+#else
           PARs(i) = PARfrac(ng) * srflx(i,j) * rho0 * Cp ! W m^-2
+#endif
 
         END DO
 
@@ -1359,14 +1363,10 @@
 
 #ifdef OPTIC_MANIZZA
 
-              ! Light at top of layer
+            ! Light at midpoint of layer (assumes linear decay across layer)
 
-              PAR(i,k)=PARs(i)*(decayW(i,j,k,3) + decayW(i,j,k,4)) ! W m^-2
-
-!             ! Light at midpoint of layer (assumes linear decay across layer)
-!
-!               PAR(i,k) = PARs(i) * 0.5*(decayW(i,j,k,  3) + decayW(i,j,k,  4) +          &
-!      &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
+              PAR(i,k) = srflx(i,j)*rho0*Cp*0.5*(decayW(i,j,k,3) + decayW(i,j,k,4) +     &
+     &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
               I1 = PAR(i,k) * watts2photons
 #else
               ! chl-a in layer
