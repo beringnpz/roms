@@ -1358,10 +1358,15 @@
               PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
 
 #ifdef OPTIC_MANIZZA
-              ! Light at midpoint of layer (assumes linear decay across layer)
 
-              PAR(i,k) = PARs(i) * 0.5*(decayW(i,j,k,  3) + decayW(i,j,k,  4) +          &
-     &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
+              ! Light at top of layer
+
+              PAR(i,k)=PARs(i)*(decayW(i,j,k,3) + decayW(i,j,k,4)) ! W m^-2
+
+!             ! Light at midpoint of layer (assumes linear decay across layer)
+!
+!               PAR(i,k) = PARs(i) * 0.5*(decayW(i,j,k,  3) + decayW(i,j,k,  4) +          &
+!      &                                  decayW(i,j,k-1,3) + decayW(i,j,k-1,4)) ! W m^-2
               I1 = PAR(i,k) * watts2photons
 #else
               ! chl-a in layer
