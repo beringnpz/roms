@@ -1355,8 +1355,11 @@
               DrateS = DiS(ng) * 10.0_r8 ** (DpS(ng) * Temp(i,k)) ! doublings d^-1 (temp dependent doubling rate)
               DrateL = DiL(ng) * 10.0_r8 ** (DpL(ng) * Temp(i,k)) ! doublings d^-1
 
-              PmaxS = (2.0_r8 ** DrateS - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
-              PmaxL = (2.0_r8 ** DrateL - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
+              PmaxS = LOG(2.0_r8) * DrateS
+              PmaxL = LOG(2.0_r8) * DrateL
+              
+!               PmaxS = (2.0_r8 ** DrateS - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
+!               PmaxL = (2.0_r8 ** DrateL - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
 
               PmaxSs = PmaxS*ccr(ng)    ! mg C (mg chl)^-1 d^-1
               PmaxLs = PmaxL*ccrPhL(ng) ! mg C (mg chl)^-1 d^-1
