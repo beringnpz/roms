@@ -519,7 +519,8 @@
 ! end of BIO_COBALT
 #  endif
 
-# ifdef CARBON_FLUX
+#  ifdef BEST_NPZ
+#   ifdef CARBON_FLUX
 !---------------------------------------
 ! Set the DIC and ALK flux from the runoff file
 !---------------------------------------
@@ -539,9 +540,9 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 
-# endif
+#   endif
 
-# ifdef CARBON
+#   ifdef CARBON
 !---------------------------------------
 ! Set the atmospheric pCO2
 !---------------------------------------
@@ -553,7 +554,8 @@
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 
-# endif
+#   endif
+#  endif
 
 
 

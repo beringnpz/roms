@@ -133,8 +133,14 @@
 # endif
       USE mod_ocean
       USE mod_scalars
-# if defined BEST_NPZ || defined BIO_GOANPZ
+# if defined BIO_GOANPZ
       USE mod_biology
+# endif
+# ifdef BENTHIC
+      USE mod_biology, ONLY: NBET
+# endif
+# ifdef ICE_BIO
+      USE mod_biology, ONLY: NIceT
 # endif
 # if defined SEDIMENT && defined BEDLOAD
       USE mod_sedbed

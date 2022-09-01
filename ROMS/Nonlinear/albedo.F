@@ -104,9 +104,6 @@ contains
 !
       USE mod_param
       USE mod_scalars
-# if defined BEST_NPZ
-      USE mod_biology
-# endif
 
       USE exchange_2d_mod
 # ifdef DISTRIBUTE
