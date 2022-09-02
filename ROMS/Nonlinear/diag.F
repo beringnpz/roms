@@ -655,7 +655,7 @@
             DO j=Jstr,Jend
               DO k=1,N(ng)
                 DO i=Istr,Iend
-                  IF (t(i,j,k,itemp,nstp) < ts_min) THEN
+                  IF (t(i,j,k,itemp,nstp) < ts_min) THEN ! KK: should be t(i,j,k,nstp,itemp) ?
                     ii_max = i
                     jj_max = j
                     kk_max = k
@@ -672,10 +672,12 @@
           END IF
 # ifdef BIOLOGY
           DO ibt=1,NBT
+            ! Check if bio values exceed a predefined limit
             IF (maxbio(ibt,ng).gt.max_bio(ibt)) THEN
               IF (Master) print *, 'BIO trouble in DIAG ', maxbio(:,ng)
               exit_flag=1
             END IF
+            ! Check if all NaNs in biology tracers
             WRITE (pechar,'(1pe8.1)') maxbio(ibt,ng)
             DO i=1,8
               IF ((pechar(i:i).eq.'N').or.(pechar(i:i).eq.'n').or.      &
@@ -683,6 +685,21 @@
                 IF (Master) print *, 'BIO trouble in DIAG ', pechar, ibt
                 exit_flag=1
               END IF
+            END DO
+            ! Check if any NaNs in biology tracers
+            DO j=Jstr,Jend
+              DO k=1,N(ng)
+                DO i=Istr,Iend
+                  IF (t(i,j,k,nstp,idbio(ibt)) /= t(i,j,k,nstp,idbio(ibt))) THEN
+                    IF (Master) THEN
+                      write(*, '(A34,I3,A4,I3,A1,I3,A1,I3,A1)')                          &
+     &                 "BIO trouble (NaN) in DIAG, tracer ", ibt, "at (",                &
+     &                 i, ",", j, ",", k, ")"
+                    END IF
+                    exit_flag=1  
+                  END IF
+                END DO
+              END DO
             END DO
           END DO
 # endif

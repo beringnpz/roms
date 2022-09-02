@@ -229,6 +229,7 @@
         END DO
       END IF
 
+
 # ifdef ADJUST_BOUNDARY
 !
 !  Initialize open boundary counter for storage arrays.
@@ -306,6 +307,7 @@
         END DO
 #endif
 
+
 #ifdef SOLVE3D
 !
 !-----------------------------------------------------------------------
@@ -317,6 +319,7 @@
           CALL set_scoord (ng)
 !$OMP END MASTER
         END DO
+
 !$OMP BARRIER
 #endif
 
@@ -331,6 +334,7 @@
           CALL set_weights (ng)
 !$OMP END MASTER
         END DO
+
 !$OMP BARRIER
 #endif
 !
@@ -344,6 +348,7 @@
           END DO
 !$OMP BARRIER
         END DO
+        
 #ifdef ICE_STRENGTH_QUAD
 !
 !-----------------------------------------------------------------------
@@ -369,6 +374,7 @@
           CALL nesting (ng, iNLM, ndxdy)
         END DO
 #endif
+
 
 #if defined WTYPE_GRID && defined ANA_WTYPE     && \
    (defined LMD_SKPP   || defined SOLAR_SOURCE)
@@ -469,6 +475,7 @@
 !$OMP BARRIER
       END DO
 #endif
+
 
 #if defined SOLVE3D && !defined INI_FILE
 !
@@ -575,6 +582,7 @@
           CALL get_state (ng, 0, 1, INI(ng)%name,                       &
      &                    IniRec(ng), Tindex(ng))
 !$OMP END MASTER
+
 # ifdef DISTRIBUTE
           CALL mp_bcasti (ng, iNLM, exit_flag)
 # endif

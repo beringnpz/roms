@@ -462,7 +462,7 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
-#  if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT
+#  ifdef DIAGBIO2 && if defined DIAGBIOAVG
         DO idiag=1,NDbio2d
 #   ifdef BIO_FENNEL
           IF (idiag.ne.ipCO2) THEN
@@ -473,12 +473,12 @@
      &                    DIAGS(ng)%DiaBio2d(i,j,idiag)
               END DO
             END DO
-#  ifdef BIO_FENNEL
+#   ifdef BIO_FENNEL
           END IF
-#  endif
+#   endif
         END DO
 #  endif
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  ifdef DIAGBIO3 && if defined DIAGBIOAVG
         DO idiag=1,NDbio3d
           DO k=1,N(ng)
             DO j=JstrR,JendR
@@ -489,7 +489,8 @@
             END DO
           END DO
         END DO
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
         DO idiag=1,NDbio3d
           DO k=1,NDbands
             DO j=JstrR,JendR
@@ -618,7 +619,7 @@
 #   endif
 #  endif
 #  ifdef DIAGNOSTICS_BIO
-#   if defined BIO_FENNEL || defined HYPOXIA_SRM || defined BIO_COBALT
+#   ifdef DIAGBIO2
 !
 !  Biological terms 2D diagnostics.
 !
@@ -635,7 +636,7 @@
      &                      DIAGS(ng)%DiaBio2d)
 #    endif
 #   endif
-#   if defined BIO_FENNEL || defined BIO_COBALT
+#   ifdef DIAGBIO3
 !
 !  Biological terms 3D diagnostics.
 !
@@ -651,7 +652,8 @@
      &                      EWperiodic(ng), NSperiodic(ng),             &
      &                      DIAGS(ng)%DiaBio3d)
 #    endif
-#   elif defined ECOSIM
+#   endif
+#   ifdef ECOSIM
 !
 !  Biological terms 3D diagnostics.
 !

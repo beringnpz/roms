@@ -532,6 +532,28 @@
 #endif
 
 /*
+** Activate diagnostics flags as relevant for the biology option
+*/
+
+#if defined DIAGNOSTICS_BIO &&                    \
+    (defined BEST_NPZ   || defined BIO_COBALT  || \
+     defined BIO_FENNEL || defined HYPOXIA_SRM || \
+     defined BIO_UMAINE)
+# define DIAGBIO2
+#endif
+#if defined DIAGNOSTICS_BIO &&                    \
+    (defined BEST_NPZ   || defined BIO_COBALT  || \
+     defined BIO_FENNEL || defined HYPOXIA_SRM || \
+     defined BIO_UMAINE)
+# define DIAGBIO3
+#endif
+#if defined DIAGNOSTICS_BIO &&                    \
+    (defined BIO_COBALT  || defined BIO_FENNEL)
+# define DIAGBIOAVG
+#endif
+
+
+/*
 ** Use AVERAGES structures to write out filtered data
  */
 
@@ -810,7 +832,7 @@
 #endif
 #if defined DIAGNOSTICS_BIO && \
   !(defined BIO_FENNEL      || defined HYPOXIA_SRM || defined ECOSIM || \
-    defined BIO_COBALT)
+    defined BIO_COBALT      || defined BEST_NPZ)
 #  undef DIAGNOSTICS_BIO
 #endif
 #if defined DIAGNOSTICS_BIO || defined DIAGNOSTICS_TS || \

@@ -824,6 +824,55 @@
 ! END OF BIO_COBALT
 # endif
 
+# ifdef BEST_NPZ
+#  ifdef CARBON_FLUX
+!
+! BEST_NPZ
+!-----------------------------------------------------------------------
+! Get the Carbon and ALK runoff data
+!-----------------------------------------------------------------------
+!
+      CALL get_2dfld (ng, iNLM, idTAFlux, ncFRCid(idTAFlux,ng),         &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                LBi, UBi, LBj, UBj, 2, 1,                         &
+#   ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#   endif
+     &                FORCES(ng) % TAFluxG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+      CALL get_2dfld (ng, iNLM, idDICFlux, ncFRCid(idDICFlux,ng),       &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                LBi, UBi, LBj, UBj, 2, 1,                         &
+#   ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#   endif
+     &                FORCES(ng) % DICFluxG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+#  endif
+#  ifdef CARBON
+!
+!-----------------------------------------------------------------------
+! Get the Atmospheric pCO2 data
+!-----------------------------------------------------------------------
+!
+      CALL get_2dfld (ng, iNLM, idpCO2air, ncFRCid(idpCO2air,ng),       &
+     &                nFfiles(ng), FRC(1,ng), update(1),                &
+     &                 LBi, UBi, LBj, UBj, 2, 1,                        &
+#   ifdef MASKING
+     &                GRID(ng) % rmask,                                 &
+#   endif
+     &                FORCES(ng) % pCO2airG(:,:,1))
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+! End of BEST_NPZ
+#  endif
+# endif
+
+
 # if !(defined ANA_CLOUD || defined FRC_COUPLING) && defined CLOUDS
 !
 !-----------------------------------------------------------------------
@@ -1976,7 +2025,7 @@
      &               __FILE__)) RETURN
 # endif
 
-# if (defined BEST_NPZ || defined BIO_GOANPZ) && defined IRON_LIMIT
+# if (defined BEST_NPZ || defined BIO_GOANPZ) && defined IRON_LIMIT && !defined ANA_TCLIMA
       CALL get_3dfld (ng, iNLM, idTclm(iFe), ncCLMid(idTclm(iFe),ng),   &
      &                nCLMfiles(ng), CLM(1,ng), update(1),              &
      &                LBi, UBi, LBj, UBj, 1, N(ng), 2, 1,               &
@@ -1984,17 +2033,6 @@
      &                GRID(ng) % rmask,                                 &
 #  endif
      &                CLIMA(ng) % tclmG(:,:,:,:,iFe))
-      IF (FoundError(exit_flag, NoError, __LINE__,                      &
-     &               __FILE__)) RETURN
-# endif
-# if defined ICE_BIO && defined CLIM_ICE_1D
-       CALL get_3dfld (ng, iNLM, idTclm(i1CI), ncCLMid(idTclm(i1CI),ng),&
-     &                nCLMfiles(ng), CLM(1,ng), update(1),              &
-     &                LBi, UBi, LBj, UBj, 1, N(ng), 2, 1,               &
-#  ifdef MASKING
-     &                GRID(ng) % rmask,                                 &
-#  endif
-     &                CLIMA(ng) % tclmG(:,:,:,:,i1CI))
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
 # endif

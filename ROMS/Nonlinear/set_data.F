@@ -519,6 +519,46 @@
 ! end of BIO_COBALT
 #  endif
 
+#  ifdef BEST_NPZ
+#   ifdef CARBON_FLUX
+!---------------------------------------
+! Set the DIC and ALK flux from the runoff file
+!---------------------------------------
+      CALL set_2dfld_tile (ng, tile, iNLM, idTAFlux,                    &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%TAFluxG,                          &
+     &                     FORCES(ng)%TAFlux,                           &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+      CALL set_2dfld_tile (ng, tile, iNLM, idDICFlux,                   &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%DICFluxG,                         &
+     &                     FORCES(ng)%DICFlux,                          &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+#   endif
+
+#   ifdef CARBON
+!---------------------------------------
+! Set the atmospheric pCO2
+!---------------------------------------
+      CALL set_2dfld_tile (ng, tile, iNLM, idpCO2air,                   &
+     &                     LBi, UBi, LBj, UBj,                          &
+     &                     FORCES(ng)%pCO2airG,                         &
+     &                     FORCES(ng)%pCO2air,                          &
+     &                     update)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+
+#   endif
+#  endif
+
+
+
 #  ifdef CLOUDS
 !
 #   ifdef CLOUDS
@@ -1884,12 +1924,8 @@
       END IF
 
       IF (.not.(RefinedGrid(ng).and.RefineScale(ng).gt.0)) THEN
-# if defined ICE_BIO
-#  ifdef BERING_10K
-        CALL ana_IcePhLbc (ng, tile, iNLM)
-        CALL ana_IceNO3bc (ng, tile, iNLM)
-        CALL ana_IceNH4bc (ng, tile, iNLM)
-#  endif
+# ifdef ANA_ICEBIOBC
+        CALL ana_itobc (ng, tile, iNLM)
 # endif
       END IF
 
@@ -2397,22 +2433,6 @@
      &                       update)
 
 #  endif
-#  if defined BEST_NPZ
-#   if defined ICE_BIO && defined CLIM_ICE_1D
-      CALL set_3dfld_tile (ng, tile, iNLM, idTclm(i1CI),                &
-     &                       LBi, UBi, LBj, UBj, 1, N(ng),              &
-     &                       CLIMA(ng)%tclmG(:,:,:,:,i1CI),             &
-     &                       CLIMA(ng)%tclm(:,:,:,i1CI),                &
-     &                       update)
-      DO j=Jstr,Jend
-        DO i=Istr,Iend
-          OCEAN(ng)%it(i,j,nnew(ng),iIceZ) =                            &
-     &                  CLIMA(ng)%tclm(i,j,N(ng),i1CI)
-        END DO
-      END DO
-#   endif
-#  endif
-
 #  if defined OFFLINE
       DO itrc=1,NAT
         DO k=1,N(ng)

@@ -147,9 +147,7 @@
 # endif
 
 # if defined ANA_ICEBIOBC && defined ICE_BIO
-#  include <ana_IcePhLbc.h>
-#  include <ana_IceNO3bc.h>
-#  include <ana_IceNH4bc.h>
+#  include <ana_itobc.h>
 # endif
 
 # ifdef SOLVE3D

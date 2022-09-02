@@ -236,6 +236,7 @@
       END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
+#  ifdef DIAGBIO2
 !
 !  Write out 2D biological diagnostic fields.
 !
@@ -275,7 +276,8 @@
           END IF
         END IF
       END DO
-#  if defined BIO_FENNEL || defined BIO_COBALT
+#  endif
+#  ifdef DIAGBIO3
 !
 !  Write out 3D biological diagnostic fields.
 !
@@ -309,7 +311,8 @@
           END IF
         END IF
       END DO
-#  elif defined ECOSIM
+#  endif
+#  ifdef ECOSIM
 !
 !  Write out 3D biological diagnostic fields.
 !

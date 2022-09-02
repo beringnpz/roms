@@ -1,5 +1,14 @@
 Regional Ocean Modeling System
 
+This is a fork of Kate Hedstrom's version of ROMS.  See details of the
+original below.
+
+This fork includes several customizations tailored to projects at within
+the Bering Sea (and related) ROMS modeling group at University of 
+Washington CICOES/NOAA PMEL/NOAA AFSC.
+
+************************************************************************
+
 This is a branch of the ROMS code kept at myroms.org
 (https://www.myroms.org/), containing sea ice and several other changes
 people have contributed, notably the CoSiNE and COBALT ecosystem models,

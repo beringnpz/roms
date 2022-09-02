@@ -41,6 +41,9 @@
 #if defined BENTHIC
       USE mod_biology, only: idBeTvar
 #endif
+# if defined ICE_BIO
+      USE mod_biology, only: idIceTvar
+#endif
 #if defined STOPERTURB
       USE mod_stoperturb
 #endif
@@ -687,7 +690,7 @@
         gtype=gfactor*r3dvar
 # ifdef PERFECT_RESTART
         status=nf_fwrite4d(ng, iNLM, RST(ng)%ncid,                      &
-     &                     RST(ng)%Vid(idBetvar(itrc)),                 &
+     &                     RST(ng)%Vid(idBeTvar(itrc)),                 &
      &                     RST(ng)%Rindex, gtype,                       &
      &                     LBi, UBi, LBj, UBj, 1, NBL(ng), 1, 2, scale, &
 #  ifdef MASKING
@@ -715,6 +718,44 @@
         END IF
       END DO
 #endif
+#ifdef ICE_BIO
+!------------------ Ice variables ------------------------
+
+      DO itrc=1,NIceT(ng)
+        scale=1.0_r8
+        gtype=gfactor*r3dvar
+# ifdef PERFECT_RESTART
+        status=nf_fwrite3d(ng, iNLM, RST(ng)%ncid,                      &
+     &                     RST(ng)%Vid(idIceTvar(itrc)),                &
+     &                     RST(ng)%Rindex, gtype,                       &
+     &                     LBi, UBi, LBj, UBj, 1, 2, scale,             &
+#  ifdef MASKING
+     &                     GRID(ng) % rmask,                            &
+#  endif
+     &                     OCEAN(ng) % it(:,:,:,itrc))
+# else
+        status=nf_fwrite2d(ng, iNLM, RST(ng)%ncid,                      &
+                           RST(ng)%Vid(idIceTvar(itrc)),                &
+     &                     RST(ng)%Rindex, gtype,                       &
+     &                     LBi, UBi, LBj, UBj, scale,                   &
+#  ifdef MASKING
+     &                     GRID(ng) % rmask,                            &
+#  endif
+     &                     OCEAN(ng) % it(:,:,NOUT,itrc))
+# endif
+        IF (FoundError(status, nf90_noerr, __LINE__,                    &
+     &                 __FILE__)) THEN
+          IF (Master) THEN
+            WRITE (stdout,10) TRIM(Vname(1,idIceTvar(itrc))), RST(ng)%Rindex
+          END IF
+          exit_flag=3
+          ioerror=status
+          RETURN
+        END IF
+      END DO
+#endif
+
+
 #ifdef FORCE_PERTURB
 !----- perturbations on forcing fields
 

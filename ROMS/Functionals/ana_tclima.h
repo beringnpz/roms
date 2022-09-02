@@ -50,6 +50,9 @@
 #if defined BIO_GOANPZ && defined IRON_LIMIT
       USE mod_biology
 #endif
+#if defined BEST_NPZ && defined IRON_LIMIT
+      USE mod_biology
+#endif
 !
       USE exchange_3d_mod, ONLY : exchange_r3d_tile
 #ifdef DISTRIBUTE
@@ -104,6 +107,27 @@
             DO k=1,N(ng)
               CLIMA(ng)%tclm(i,j,k,iFe) = MIN(val2, val1 -              &
      &                       GRID(ng)%z_r(i,j,k)*val3)
+            END DO
+          END DO
+        END DO
+#elif defined BEST_NPZ && defined IRON_LIMIT
+        DO i=IstrR,IendR
+          DO j=JstrR,JendR
+            val3 = MAX(0._r8,MIN(1._r8,(1._r8*GRID(ng)%h(i,j)-Feinh(ng))/(Feoffh(ng)-Feinh(ng))))
+            val1 = Feinlo(ng) + val3*(Feofflo(ng)-Feinlo(ng))
+            val2 = Feinhi(ng) + val3*(Feoffhi(ng)-Feinhi(ng))
+            val3 = (val2-val1) / 300._r8
+            DO k=1,N(ng)
+              if(GRID(ng)%h(i,j).gt.Feoffh(ng).and.GRID(ng)%z_r(i,j,k).ge.-50_r8)THEN
+                CLIMA(ng)%tclm(i,j,k,iFe) =  val1  
+              else 
+                CLIMA(ng)%tclm(i,j,k,iFe) = MIN(val2, val1 - GRID(ng)%z_r(i,j,k)*val3 )
+              endif
+           
+!               !ajh nitrate
+!               tclm(i,j,k,iNO3) = MIN(30._r8, 18._r8 - GRID(ng)%z_r(i,j,k)*(30._r8-18._r8)/200._r8)
+!               !ajh nh4
+!               tclm(i,j,k,iNH4) = 1.d-16
             END DO
           END DO
         END DO

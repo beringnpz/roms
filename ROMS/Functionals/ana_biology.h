@@ -15,16 +15,9 @@
       USE mod_param
       USE mod_ncparam
       USE mod_ocean
-
-#ifdef BEST_NPZ
-# if defined CLIM_ICE_1D
-      USE mod_clima
-# endif
-# ifdef  ICE_BIO
+#ifdef  ICE_BIO
       USE mod_ice
-# endif
 #endif
-
 #if defined BIO_GOANPZ || defined BEST_NPZ
       USE mod_grid
       USE mod_biology
@@ -47,44 +40,11 @@
 # endif
 # ifdef ICE_BIO
      &                       OCEAN(ng) % it,                            &
-     &                       OCEAN(ng) % itL,                           &
-#  ifdef CLIM_ICE_1D
-     &                       CLIMA(ng) % tclmG,                         &
-     &                       CLIMA(ng) % tclm,                          &
-#  else
-     &                       ICE(ng) % IcePhL,                          &
-     &                       ICE(ng) % IceNO3,                          &
-     &                       ICE(ng) % IceNH4,                          &
-     &                       ICE(ng) % IceLog,                          &
-     &                       ICE(ng) % ti,                              &
-     &                       ICE(ng) % hi,                              &
-     &                       ICE(ng) % ai,                              &
-     &                       ICE(ng) % ageice,                          &
-#  endif
-# endif
-# ifdef STATIONARY
-     &                       OCEAN(ng) % st,                            &
-     &                       NTS(ng),                                   &
-# endif
-# ifdef STATIONARY2
-     &                       OCEAN(ng) % st2,                           &
-     &                       NTS2(ng),                                  &
-# endif
-# ifdef PROD3R
-     &                       OCEAN(ng) % pt3,                           &
-     &                       NPT3(ng),                                  &
-# endif
-# ifdef PROD2R
-     &                       OCEAN(ng) % pt2,                           &
-     &                       NPT2(ng),                                  &
-# endif
-# ifdef BIOFLUX
-     &                       OCEAN(ng) % bflx,                          &
 # endif
 #endif
-# ifdef BIO_GOANPZ
+#ifdef BIO_GOANPZ
      &                       GRID(ng) % z_r,                            &
-# endif
+#endif
      &                       OCEAN(ng) % t)
 !
 ! Set analytical header file name used.
@@ -110,34 +70,7 @@
      &                             bt,                                  &
 # endif
 # ifdef ICE_BIO
-     &                             it, itL,                             &
-#  ifdef CLIM_ICE_1D
-     &                             tclmG,                               &
-     &                             tclm,                                &
-#  else
-     &                             IcePhL, IceNO3, IceNH4, IceLog,      &
-     &                             ti, hi, ai,                          &
-     &                             ageice ,                             &
-#  endif
-# endif
-# ifdef STATIONARY
-     &                             st,                                  &
-     &                             UBst ,                               &
-# endif
-# ifdef STATIONARY2
-     &                             st2,                                 &
-     &                             UBst2 ,                              &
-# endif
-# ifdef PROD3R
-     &                             pt3,                                 &
-     &                             UBpt3 ,                              &
-# endif
-# ifdef PROD2R
-     &                             pt2,                                 &
-     &                             UBpt2,                               &
-# endif
-# ifdef BIOFLUX
-     &                             bflx,                                &
+                                   it,                                  &
 # endif
 #endif
 # ifdef BIO_GOANPZ
@@ -168,43 +101,8 @@
 #  ifdef BENTHIC
       real(r8), intent(inout) :: bt(LBi:,LBj:,:,:,:)
 #  endif
-#  ifdef STATIONARY
-      real(r8), intent(inout) :: st(LBi:,LBj:,:,:,:)
-      integer, intent(in) :: UBst
-#  endif
-#  ifdef STATIONARY2
-      real(r8), intent(inout) :: st2(LBi:,LBj:,:,:)
-      integer, intent(in) :: UBst2
-#  endif
-#  ifdef PROD3R
-      real(r8), intent(inout) :: pt3(LBi:,LBj:,:,:,:)
-      integer, intent(in) :: UBpt3
-#  endif
-#  ifdef PROD2R
-      real(r8), intent(inout) :: pt2(LBi:,LBj:,:,:)
-      integer, intent(in) :: UBpt2
-#  endif
-
-#  ifdef BIOFLUX
-      real(r8), intent(inout) :: bflx(:,:)
-#  endif
-
 #  ifdef ICE_BIO
       real(r8), intent(inout) :: it(LBi:,LBj:,:,:)
-      real(r8), intent(inout) :: itL(LBi:,LBj:,:,:)
-#    ifdef CLIM_ICE_1D
-      real(r8), intent(inout) ::tclmG(LBi:,LBj:,:,:,:)
-      real(r8), intent(inout) ::tclm(LBi:,LBj:,:,:)
-#    else
-      real(r8), intent(inout) :: IcePhL(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IceNO3(LBi:,LBj:,:)
-      real(r8), intent(inout) :: IceNH4(LBi:,LBj:,:)
-      integer, intent(inout)  :: IceLog(LBi:,LBj:,:)
-      real(r8), intent(in) :: ti(LBi:,LBj:,:)
-      real(r8), intent(in) :: hi(LBi:,LBj:,:)
-      real(r8), intent(in) :: ai(LBi:,LBj:,:)
-      real(r8), intent(in) :: ageice(LBi:,LBj:,:)
-#    endif
 #  endif
 # endif
       real(r8), intent(inout) :: t(LBi:,LBj:,:,:,:)
@@ -215,44 +113,8 @@
 #   ifdef BENTHIC
       real(r8), intent(inout) :: bt(LBi:UBi,LBj:UBj,NBL(ng),3,NBeT(ng))
 #   endif
-#  ifdef STATIONARY
-      real(r8), intent(inout) :: st(LBi:UBi,LBj:UBj,UBk,3,UBst)
-      integer, intent(in) :: UBst
-#  endif
-#   ifdef STATIONARY2
-      real(r8), intent(inout) :: st2(LBi:UBi,LBj:UBj,3,UBst2)
-      integer, intent(in) :: UBst2
-#   endif
-#   ifdef PROD3R
-      real(r8), intent(inout) :: pt3(LBi:UBi,LBj:UBj,UBk,3,UBpt3)
-      integer, intent(in) :: UBpt3
-#   endif
-#   ifdef PROD2R
-      real(r8), intent(inout) :: pt2(LBi:UBi,LBj:UBj,3,UBpt2)
-      integer, intent(in) :: UBpt2
-#   endif
-
-#   ifdef BIOFLUX
-      real(r8), intent(inout) :: bflx(NT(ng),NT(ng))
-#   endif
-
 #  ifdef ICE_BIO
       real(r8), intent(inout) :: it(LBi:UBi,LBj:UBj,3,NIceT(ng))
-      real(r8), intent(inout) :: itL(LBi:UBi,LBj:UBj,3,NIceLog(ng))
-#    ifdef CLIM_ICE_1D
-      real(r8), intent(inout) ::tclmG(LBi:UBi,LBj:UBj,UBk,3,UBt+1)
-      real(r8), intent(inout) ::tclm(LBi:UBi,LBj:UBj,UBk,UBt+1)
-#    else
-      real(r8), intent(inout) :: IcePhL(LBi:UBi,LBj:UBJ,2)
-      real(r8), intent(inout) :: IceNO3(LBi:UBi,LBj:UBJ,2)
-      real(r8), intent(inout) :: IceNH4(LBi:UBi,LBj:UBJ,2)
-      integer, intent(inout)  :: IceLog(LBi:UBi,LBj:UBJ,2)
-      real(r8), intent(in) :: ti(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(in) :: hi(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(in) :: ai(LBi:UBi,LBj:UBj,2)
-      real(r8), intent(in) :: ageice(LBi:UBi,LBj:UBj,2)
-#   endif
-#  endif
 # endif
 
 # if defined BIO_GOANPZ
@@ -665,7 +527,87 @@
         END DO
       END DO
 #elif defined BEST_NPZ
-# include "ana_biology_BESTnpz.h"
+!
+!-----------------------------------------------------------------------
+! This set of initial conditions starts with an empty Bering Sea shelf;
+! NO3 is only present at depth, with no NH4 or detritus anywhere.
+! Living critters are seeded with only a tiny amount to allow for future
+! growth.  This start condition is intended to allow the model domain to
+! move towards its own internally-regulated nutrient/benthos steady-
+! state
+!-----------------------------------------------------------------------
+!
+      DO i=IstrR,IendR
+        DO j=JstrR,JendR
+
+# ifdef IRON_LIMIT
+          ! Iron top/bottom values set based on bottom (matches nudging)
+          FeSurf = CalcLinearCapped(Feinh(ng), Feinlo(ng), Feoffh(ng), Feofflo(ng), h(i,j))
+          FeDeep = CalcLinearCapped(Feinh(ng), Feinhi(ng), Feoffh(ng), Feoffhi(ng), h(i,j))
+# endif
+          DO k=1,N(ng)
+# ifdef IRON_LIMIT
+
+            ! Iron: depth-dependant linear-capped profile (same as nudging)
+
+            t(i,j,k,1,iFe) = CalcLinearCapped(-50.0_r8, FeSurf, -300.0_r8, FeDeep, z_r(i,j,k))
+# endif
+            ! Nitrate: depth-dependant linear-capped profile (0 above 100, 40 below 300
+            ! based very roughly on World Ocean Atlas 2013 January climatological values
+            ! at bottom depth in the Bering Sea)
+
+            t(i,j,k,1,iNO3) = CalcLinearCapped(-100.0_r8, 0.0_r8, -300.0_r8, 40.0_r8, z_r(i,j,k))
+
+            ! NH4: 0
+
+            t(i,j,k,1,iNH4) = 0.0_r8
+
+            ! Phytoplankton and zooplankton: constant seed
+
+            t(i,j,k,1,iPhS)  = eps
+            t(i,j,k,1,iPhL)  = eps
+            t(i,j,k,1,iMZL)  = eps
+            t(i,j,k,1,iCop)  = eps
+            t(i,j,k,1,iNCaS) = eps
+            t(i,j,k,1,iNCaO) = eps
+            t(i,j,k,1,iEupS) = eps
+            t(i,j,k,1,iEupO) = eps
+# ifdef JELLY
+            t(i,j,k,1,iJel) = eps
+# endif
+
+            ! Detritus: nothing
+
+            t(i,j,k,1,iDet) =  0.0_r8
+	          t(i,j,k,1,iDetF) =  0.0_r8
+
+          END DO
+# ifdef BENTHIC
+          DO k = 1,NBL(ng)
+
+            ! Benthos
+
+            bt(i,j,k,1,iBen) = eps
+
+            ! Benthic detritus
+
+		        bt(i,j,k,1,iDetBen) = 0.0_r8
+
+          END DO
+# endif
+# ifdef ICE_BIO
+
+          ! Ice: start with no-ice conditions
+
+          it(i,j,1,idice(1))  =  0.0_r8
+          it(i,j,1,idice(2))  =  0.0_r8
+          it(i,j,1,idice(3))  =  0.0_r8
+
+#  endif
+# endif
+
+        END DO
+      END DO
 #elif defined BIO_GOANPZ
 # include "ana_biology_goanpz.h"
 #endif

@@ -165,7 +165,7 @@
 !  Allocate and initialize all model state arrays.
 !
 !$OMP PARALLEL
-        CALL mod_arrays (allocate_vars)
+        CALL mod_arrays (allocate_vars) 
 !$OMP END PARALLEL
 
 #ifdef VERIFICATION

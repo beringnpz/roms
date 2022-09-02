@@ -3290,6 +3290,8 @@
 #  include <cobalt_def.h>
 # elif defined RED_TIDE
 #  include <red_tide_def.h>
+# elif defined BEST_NPZ
+#  include <bestnpz_def.h>
 # endif
 #endif
 

@@ -32,7 +32,7 @@
 !                                                                      !
 !  Biology Variables.                                                  !
 !                                                                      !
-# if defined BIO_FENNEL && defined CARBON
+# if (defined BIO_FENNEL || defined BEST_NPZ || defined BIO_UMAINE) && defined CARBON
 !  pH           Surface concentration of hydrogen ions.                !
 # endif
 # ifdef RED_TIDE
@@ -86,6 +86,14 @@
 !  egg_count    Number of eggs in each box for each species.           !
 # endif
 #endif
+#ifdef ICE_BIO
+!  it           Ice tracer type variables (2D, located in and advected !
+!               by ice)                                                !
+#endif
+#ifdef BENTHIC
+!  bt           Benthic tracer type variables (3D, located in benthic  !
+!               layers)
+#endif
 !=======================================================================
 !
         USE mod_kinds
@@ -95,6 +103,10 @@
 #endif
 #if defined BENTHIC
         USE mod_biology, only: NBeT, NBL
+#endif
+#if defined ICE_BIO
+!         USE mod_biology, only: NIceT, NIB, NIceLog
+        USE mod_biology, only: NIceT, NIB
 #endif
         implicit none
 
@@ -139,32 +151,9 @@
 # ifdef BULK_FLUXES
          real(r8), pointer :: u10_neutral(:,:)
 # endif
-# ifdef BEST_NPZ
-#   ifdef STATIONARY
-          real(r8), pointer :: st(:,:,:,:,:)
-#   endif
-#   ifdef STATIONARY2
-          real(r8), pointer :: st2(:,:,:,:)
-#   endif
-#   ifdef PROD2
-          real(r8), pointer :: pt2(:,:,:,:)
-#   endif
-#   ifdef PROD3
-          real(r8), pointer :: pt3(:,:,:,:,:)
-#   endif
-
-#   ifdef BENTHIC_BEST
-          real(r8), pointer :: bt(:,:,:,:,:)
-#   endif
-#   if defined ICE_BIO
+# if defined ICE_BIO
           real(r8), pointer :: it(:,:,:,:)
-          real(r8), pointer :: itL(:,:,:,:)
-#   endif
-#   ifdef BIOFLUX
-          real(r8), pointer :: bflx(:,:)
-#   endif
 # endif
-
 # ifdef NEMURO_SED1
           real(r8), pointer :: PONsed(:,:)
           real(r8), pointer :: OPALsed(:,:)
@@ -185,7 +174,7 @@
           real(r8), pointer :: u_stokes(:,:,:)
           real(r8), pointer :: v_stokes(:,:,:)
 # endif
-# if (defined BIO_FENNEL || defined BIO_UMAINE) && defined CARBON
+# if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && defined CARBON
           real(r8), pointer :: pH(:,:)
 # endif
 
@@ -419,10 +408,7 @@
 #ifdef NEMURO_SAN
       USE mod_types
 #endif
-#ifdef BEST_NPZ
-      USE mod_biology
-#endif
-#if defined NEMURO || defined BEST_NPZ
+#if defined NEMURO
       USE mod_biology
 #endif
 !
@@ -514,10 +500,6 @@
       allocate ( OCEAN(ng) % obgc(LBi:UBi,LBj:UBj,N(ng),NOBGC) )
       Dmem(ng)=Dmem(ng)+REAL(N(ng)*NOBGC,r8)*size2d
 # endif
-# ifdef BENTHIC
-      allocate ( OCEAN(ng) % bt(LBi:UBi,LBj:UBj,NBL(ng),3,NBeT(ng)) )
-      Dmem(ng)=Dmem(ng)+3.0_r8*REAL(NBL(ng)*NBeT(ng),r8)*size2d
-# endif
 # ifdef TIMESERIES
       allocate ( OCEAN(ng) % tms(1,1,NT(ng)) )
       Dmem(ng)=Dmem(ng)+REAL(NT(ng),r8)
@@ -526,28 +508,6 @@
       allocate ( OCEAN(ng) % u10_neutral(LBi:UBi,LBj:UBj) )
       Dmem(ng)=Dmem(ng)+size2d
 # endif
-# ifdef BEST_NPZ
-#  ifdef STATIONARY
-      ! Add a 3D stationary array to the biology module
-      allocate ( OCEAN(ng) % st(LBi:UBi,LBj:UBj,N(ng),3,NTS(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(N(ng)*NTS(ng),r8)*size2d*3.0_r8
-# endif
-# ifdef STATIONARY2
-      ! Add a 2D stationary array to the biology module
-      allocate ( OCEAN(ng) % st2(LBi:UBi,LBj:UBj,3,NTS2(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NTS(ng),r8)*size2d*3.0_r8
-# endif
-# ifdef PROD2
-      ! Add a 2D stationary production array to the biology module
-      allocate ( OCEAN(ng) % pt2(LBi:UBi,LBj:UBj,3,NPT2(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NPT2(ng),r8)*size2d*3.0_r8
-# endif
-# ifdef PROD3
-      ! Add a 3D stationary production array to the biology module
-      allocate ( OCEAN(ng) % pt3(LBi:UBi,LBj:UBj,N(ng),3,NPT3(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(N(ng)*NPT3(ng),r8)*size2d*3.0_r8
-# endif
-
 # ifdef BENTHIC
       allocate ( OCEAN(ng) % bt(LBi:UBi,LBj:UBj,NBL(ng),3,NBeT(ng)) )
       Dmem(ng)=Dmem(ng)+REAL(NBL(ng)*NBeT(ng),r8)*size2d*3.0_r8
@@ -555,14 +515,6 @@
 # if defined ICE_BIO
       allocate ( OCEAN(ng) % it(LBi:UBi,LBj:UBj,3,NIceT(ng)) )
       Dmem(ng)=Dmem(ng)+REAL(NIceT(ng),r8)*size2d*3.0_r8
-      allocate ( OCEAN(ng) % itL(LBi:UBi,LBj:UBj,3, NIceLog(ng)) )
-      Dmem(ng)=Dmem(ng)+REAL(NIceLog(ng),r8)*size2d*3.0_r8
-# endif
-# ifdef BIOFLUX
-      ! Add a 3D  biology flux array
-      allocate ( OCEAN(ng) % bflx(NT(ng),NT(ng)))
-      Dmem(ng)=Dmem(ng)+REAL(NT(ng)**2,r8)
-#    endif
 # endif
 
 # ifdef NEMURO_SED1
@@ -605,7 +557,7 @@
       Dmem(ng)=Dmem(ng)+REAL(N(ng),r8)*size2d
 # endif
 
-# if (defined BIO_FENNEL || defined BIO_UMAINE) && defined CARBON
+# if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && defined CARBON
       allocate ( OCEAN(ng) % pH(LBi:UBi,LBj:UBj) )
       Dmem(ng)=Dmem(ng)+size2d
 # endif
@@ -1049,10 +1001,7 @@
 #ifdef NEMURO_SAN
       USE mod_types
 #endif
-#ifdef BEST_NPZ
-      USE mod_biology
-#endif
-#if defined NEMURO || defined BEST_NPZ
+#if defined NEMURO
       USE mod_biology
 #endif
 !
@@ -1133,7 +1082,7 @@
             OCEAN(ng) % ubar_stokes(i,j) = IniVal
             OCEAN(ng) % vbar_stokes(i,j) = IniVal
 #endif
-#if (defined BIO_FENNEL || defined BIO_UMAINE) && \
+#if (defined BIO_FENNEL || defined BIO_UMAINE || defined BEST_NPZ) && \
       defined CARBON && defined SOLVED3D
             OCEAN(ng) % pH(i,j) = 8.0_r8
 #endif
@@ -1238,70 +1187,16 @@
                 OCEAN(ng) % u10_neutral(i,j) = IniVal
           ENDDO
 # endif
-# ifdef BEST_NPZ
-#    ifdef STATIONARY
-          DO itrc=1,NTS(ng)
-            DO k=1,N(ng)
-              DO i=Imin,Imax
-                OCEAN(ng) % st(i,j,k,1,itrc) = IniVal
-                OCEAN(ng) % st(i,j,k,2,itrc) = IniVal
-                OCEAN(ng) % st(i,j,k,3,itrc) = IniVal
-              END DO
-            END DO
-          END DO
-#    endif
-#    ifdef STATIONARY2
-          DO itrc=1,NTS2(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % st2(i,j,1,itrc) = IniVal
-              OCEAN(ng) % st2(i,j,2,itrc) = IniVal
-              OCEAN(ng) % st2(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#    endif
-#    ifdef PROD2
-          DO itrc=1,NPT2(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % pt2(i,j,1,itrc) = IniVal
-              OCEAN(ng) % pt2(i,j,2,itrc) = IniVal
-              OCEAN(ng) % pt2(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#    endif
-#    ifdef PROD3
-          DO itrc=1,NPT3(ng)
-            DO k=1,N(ng)
-              DO i=Imin,Imax
-                OCEAN(ng) % pt3(i,j,k,1,itrc) = IniVal
-                OCEAN(ng) % pt3(i,j,k,2,itrc) = IniVal
-                OCEAN(ng) % pt3(i,j,k,3,itrc) = IniVal
-              END DO
-            END DO
-          END DO
-#    endif
-#  if defined ICE_BIO
+# if defined ICE_BIO
           DO itrc=1,NIceT(ng)
             DO i=Imin,Imax
               OCEAN(ng) % it(i,j,1,itrc) = IniVal
               OCEAN(ng) % it(i,j,2,itrc) = IniVal
               OCEAN(ng) % it(i,j,3,itrc) = IniVal
-              OCEAN(ng) % it(i,j,4,itrc) = IniVal
             END DO
           END DO
-          DO itrc=1,NIceLog(ng)
-            DO i=Imin,Imax
-              OCEAN(ng) % itL(i,j,3,itrc) = IniVal
-            END DO
-          END DO
-#  endif
-#  ifdef BIOFLUX
-          DO itrc=1,NT(ng)
-            DO itrc2=1,NT(ng)
-              OCEAN(ng) % bflx(itrc,itrc2) = IniVal
-            END DO
-          END DO
-#  endif
 # endif
+
 # ifdef BIO_GOANPZ
           DO itrc=1,NTS(ng)
             DO k=1,N(ng)
