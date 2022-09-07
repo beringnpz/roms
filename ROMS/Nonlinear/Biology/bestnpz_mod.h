@@ -172,8 +172,8 @@
 !   rg          IcePhL temperature coefficient for mortality (1/deg C) !
 !   annit       IcePhL nitrification factor (1/d)                      !
 !   aidz        Ice thickness (m)                                      !
-!   tI0         Nitrification light threshold [W m^-2]                 !
-!   KI          Nitrification light half-saturation constant [W m^-2]  !
+!   tI0         Nitrification light threshold (W m^-2)                 !
+!   KI          Nitrification light half-saturation constant (W m^-2)  !
 !=======================================================================
 !
       USE mod_param
