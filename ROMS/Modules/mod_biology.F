@@ -151,6 +151,8 @@
 #  include <bestnpz_mod.h>
 # elif defined BIO_COBALT
 #  include <cobalt_mod.h>
+# elif defined BIO_BANAS
+#  include <banas_mod.h>
 # endif
 #endif
 

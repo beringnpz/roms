@@ -2531,6 +2531,8 @@
 #  include <cobalt_var.h>
 # elif defined RED_TIDE
 #  include <red_tide_var.h>
+# elif defined BIO_BANAS
+#  include <banas_var.h>
 # endif
 # if defined NEMURO_SAN
 #  include <fish_var.h>

@@ -137,6 +137,8 @@
 #  include <goanpz.h>
 # elif defined BIO_COBALT
 #  include <cobalt.h>
+# elif defined BIO_BANAS
+#  include <banas.h>
 # else
       SUBROUTINE biology(ng, tile)
       integer ng, tile

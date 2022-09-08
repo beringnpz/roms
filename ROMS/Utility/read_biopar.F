@@ -37,6 +37,8 @@
 #  include <cobalt_inp.h>
 # elif defined RED_TIDE
 #  include <red_tide_inp.h>
+# elif defined BIO_BANAS
+#  include <banas_inp.h>
 # endif
 #else
       SUBROUTINE read_BioPar

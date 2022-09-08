@@ -1562,6 +1562,8 @@
 #  include <red_tide_wrt.h>
 # elif defined BEST_NPZ
 #  include <bestnpz_wrt.h>
+# elif defined BIO_BANAS
+#  include <banas_wrt.h>
 # endif
 #endif
 

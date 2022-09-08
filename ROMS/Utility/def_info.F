@@ -3292,6 +3292,8 @@
 #  include <red_tide_def.h>
 # elif defined BEST_NPZ
 #  include <bestnpz_def.h>
+# elif defined BIO_BANAS
+#  include <banas_def.h>
 # endif
 #endif
 
