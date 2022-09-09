@@ -255,19 +255,19 @@
       real(r8), intent(in)    :: lat(LBi:,LBj:)
       real(r8), intent(in)    :: srflx(LBi:,LBj:)
       real(r8), intent(inout) :: t(LBi:,LBj:,:,:,:)
-#if defined CARBON || defined OXYGEN
+# if defined CARBON || defined OXYGEN
 #  ifdef BULK_FLUXES
       real(r8), intent(in) :: Uwind(LBi:,LBj:)
       real(r8), intent(in) :: Vwind(LBi:,LBj:)
 #  else
       real(r8), intent(in) :: sustr(LBi:,LBj:)
       real(r8), intent(in) :: svstr(LBi:,LBj:)
-#endif
-#endif
+#  endif
+# endif
 # ifdef CARBON
       real(r8), intent(in) :: pCO2air(LBi:,LBj:)
       real(r8), intent(inout) :: pH(LBi:,LBj:)
-#endif
+# endif
 
 # if defined BENTHIC
       real(r8), intent(inout) :: bt(LBi:,LBj:,:,:,:)
@@ -290,18 +290,17 @@
 # ifdef OPTIC_MANIZZA
       real(r8), intent(in) :: decayW(LBi:,LBj:,0:,:)
 # endif
-#ifdef DIAGNOSTICS_BIO
+# ifdef DIAGNOSTICS_BIO
       real(r8), intent(inout) :: DiaBio2d(LBi:,LBj:,:)
       real(r8), intent(inout) :: DiaBio3d(LBi:,LBj:,:,:)
-#endif
-
+# endif
       real(r8), intent(inout) :: Akt(LBi:,LBj:,0:,:) ! TODO why is this passed in?  Never used?
-#if defined CARBON || defined OXYGEN
+# if defined CARBON || defined OXYGEN
 !      integer, parameter :: Nsink = 4
       real(r8) :: u10squ
-#else
+# else
 !      integer, parameter :: Nsink = 4
-#endif
+# endif
 
 #else
 
@@ -327,7 +326,7 @@
 # ifdef CARBON
       real(r8), intent(in) :: pCO2air(LBi:UBi,LBj:UBj)
       real(r8), intent(inout) :: pH(LBi:UBi,LBj:UBj)
-#endif
+# endif
 # if defined BENTHIC
       real(r8), intent(inout) :: bt(LBi:UBi,LBj:UBj,NBL(ng),3,NBeT(ng))
 # endif
@@ -345,12 +344,19 @@
       real(r8), intent(in)    :: vi(LBi:UBi,LBj:UBj,2)
 #  endif
 # endif
-#if defined CARBON || defined OXYGEN
+# ifdef OPTIC_MANIZZA
+      real(r8), intent(in) :: decayW(LBi:UBi,LBj:UBj,0:UBk,4)
+# endif
+# ifdef DIAGNOSTICS_BIO
+      real(r8), intent(inout) :: DiaBio2d(LBi:UBi,LBj:UBj,NDbio2(ng))
+      real(r8), intent(inout) :: DiaBio3d(LBi:UBi,LBj:UBj,UBk,NDbio3(ng))
+# endif
+# if defined CARBON || defined OXYGEN
 !      integer, parameter :: Nsink = 4
       real(r8) :: u10squ
-#else
+# else
 !      integer, parameter :: Nsink = 4
-#endif
+# endif
       real(r8), intent(inout) :: Akt(LBi:UBi,LBj:UBj,0:N(ng),NAT)
 #endif
 
