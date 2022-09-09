@@ -16,7 +16,7 @@
 !    interannual variability diagnosed with a numericalmodel. J Geophys!
 !    Res 121:3372–3380                                                 !
 !                                                                      !
-!  It is intended to represent the planktonic food web of the eastern  ! 
+!  It is intended to represent the planktonic food web of the eastern  !
 !  Bering Sea shelf.                                                   !
 !                                                                      !
 !  Model implemented by K. Kearney, 2022.  Any errors in interpreting  !
@@ -62,6 +62,11 @@
      &                   GRID(ng) % Hz,                                 &
      &                   GRID(ng) % z_r,                                &
      &                   GRID(ng) % z_w,                                &
+     &                   FORCES(ng) % srflx,                            &
+     &                   MIXING(ng) % Akt,                              &
+#ifdef OPTIC_MANIZZA
+    &                    OCEAN(ng) % decayW,                            &
+#endif
      &                   OCEAN(ng) % t)
 
 #ifdef PROFILE
@@ -78,7 +83,10 @@
 #ifdef MASKING
      &                         rmask,                                   &
 #endif
-     &                         Hz, z_r, z_w,                            &
+     &                         Hz, z_r, z_w, srflx, AKt                 &
+#ifdef OPTIC_MANIZZA
+     &                         decayW,                                  &
+#endif
      &                         t)
 !-----------------------------------------------------------------------
 !
@@ -101,6 +109,11 @@
       real(r8), intent(in) :: Hz(LBi:,LBj:,:)
       real(r8), intent(in) :: z_r(LBi:,LBj:,:)
       real(r8), intent(in) :: z_w(LBi:,LBj:,0:)
+      real(r8), intent(in) :: srflx(LBi:,LBj:)
+      real(r8), intent(in) :: Akt(LBi:,LBj:,0:,:)
+# ifdef OPTIC_MANIZZA
+      real(r8), intent(in) :: decayW(LBi:,LBj:,0:,:)
+# endif
       real(r8), intent(inout) :: t(LBi:,LBj:,:,:,:)
 #else
 # ifdef MASKING
@@ -109,14 +122,17 @@
       real(r8), intent(in) :: Hz(LBi:UBi,LBj:UBj,UBk)
       real(r8), intent(in) :: z_r(LBi:UBi,LBj:UBj,UBk)
       real(r8), intent(in) :: z_w(LBi:UBi,LBj:UBj,0:UBk)
+      real(r8), intent(in) :: srflx(LBi:UBi,LBj:UBj)
+      real(r8), intent(in) :: Akt(LBi:UBi,LBj:UBj,0:UBk,NAT)
+# ifdef OPTIC_MANIZZA
+      real(r8), intent(in) :: decayW(LBi:UBi,LBj:UBj,0:UBk,4)
+# endif
       real(r8), intent(inout) :: t(LBi:UBi,LBj:UBj,UBk,3,UBt)
 #endif
 !
 !  Local variable declarations.
 !
-!  KK: add (and delete! keeping dead variables around is a major pain 
-!      for future maintenance coders) local variables as needed.
-      integer, parameter :: Nsink = 1
+      integer, parameter :: Nsink = 2
 
       integer :: Iter, i, ibio, isink, itrc, itrmx, j, k, ks
 
@@ -147,6 +163,11 @@
       real(r8), dimension(IminS:ImaxS,N(ng)) :: bR
       real(r8), dimension(IminS:ImaxS,N(ng)) :: qc
 
+      real(r8) :: E0, maxkappa, Eeff, alpha, Ntot, mu, qP, qZ, qR, I_P
+      
+      real(r8), dimension(IminS:ImaxS,N(ng)) :: gpp, gra, agg, pmor, 
+      real(r8), dimension(IminS:ImaxS,N(ng)) :: zmor, srem, lrem, nit
+
 #include "set_bounds.h"
 !
 !-----------------------------------------------------------------------
@@ -160,20 +181,20 @@
 !  Set time-stepping according to the number of iterations.
 !
       dtdays=dt(ng)*sec2day/REAL(BioIter(ng),r8)
-      
+
 !
-!  Set vertical sinking indentification vector and vertical sinking 
+!  Set vertical sinking indentification vector and vertical sinking
 !  velocity vector
-!  KK: If you use the sinking routine (see SINK_LOOP, below), you need to 
-!      set up these two vectors.  idsink is an array of the idbio indices 
-!      of things that sink, and Wbio is array of the respective sinking 
-!      velocities (m/s).  Also be sure to update the Nsink parameter 
-!      (above, in local variable declarations) so these arrays are the 
+!  KK: If you use the sinking routine (see SINK_LOOP, below), you need to
+!      set up these two vectors.  idsink is an array of the idbio indices
+!      of things that sink, and Wbio is array of the respective sinking
+!      velocities (m/s).  Also be sure to update the Nsink parameter
+!      (above, in local variable declarations) so these arrays are the
 !      right size for your model.
 !
       idsink(1)=idets                 ! Small detritus
       idsink(2)=idetl                 ! Large detritus
-      
+
       Wbio(1)=w_S(ng)                 ! Small detritus, m/d
       Wbio(2)=w_L(ng)                 ! Large detritus, m/d
 !
@@ -182,9 +203,9 @@
 !
 !  Compute inverse thickness to avoid repeated divisions.
 !  KK: This code is preserved in a lot of models (although most only use
-!      the Hz_inv variable) based on the fact that multiplication is 
-!      faster than division.  These factors are used whenever converting 
-!      from transport units to tracer units (see note below).  I'm 
+!      the Hz_inv variable) based on the fact that multiplication is
+!      faster than division.  These factors are used whenever converting
+!      from transport units to tracer units (see note below).  I'm
 !      skeptical whether the speed gain outweighs the decrease in human-
 !      legibility of code... but oh well, I'll follow the crowd.
 !
@@ -257,43 +278,107 @@
 !  backward-implicit solution.
 !=======================================================================
 !
-!  KK: To be fully compatible with all ROMS options, the biology *should*
-!      be solved implicitly.  But all the models I've written 
-!      are explicit.  Sorry, future coders/users who need implicit stuff.
-!
 !  The iterative loop below is to iterate toward an universal Backward-
 !  Euler treatment of all terms. So if there are oscillations in the
 !  system, they are only physical oscillations. These iterations,
 !  however, do not improve the accuaracy of the solution.
-!  KK: I've never actually seen a use case with BioIter > 1.  But it's a 
-!      good idea to preserve this option for subdividing the time step, 
-!      just in case...
 !
         ITER_LOOP: DO Iter=1,BioIter(ng)
+
 !
-! KK: Primary equations go here.  Usually written something like:
-!       DO k=1,N(ng)
-!         DO i=Istr,Iend
-!           Bio(i,k,ino3) = ... some function
-!           Bio(i,k,iphyto) = ... some function
-!           ...etc...
-!         END DO
-!       END DO
+!-----------------------------------------------------------------------
+!  Source/sink
+!-----------------------------------------------------------------------
+!
+          DO i=Istr,Iend
+
+            ! Light
+
+#ifdef OPTIC_MANIZZA
+            E0 = (decayW(i,j,N(ng),3) + decayW(i,j,N(ng),4)) *          &
+     &            srflx(i,j) * rho0 * Cp ! W m^-2, surface
+#else
+            ! TODO: implement Banas native atten?
+#endif
+            maxkappa = maxval(Akt(i,j,:,itemp))/sec2day  ! diffusivity m d^-1
+            DO k=1,N(ng)
+#ifdef OPTIC_MANIZZA
+              PAR(i,k) = (decayW(i,j,k,3) + decayW(i,j,k,4)) *          &
+     &                   srflx(i,j) * rho0 * Cp ! W m^-2
+#else
+              ! TODO: implement Banas native atten?
+#endif
+
+              ! Phytoplankton growth parameters
+
+              Eeff = E0 * exp(-att_sw * sqrt(maxkappa/mu0)
+              alpha = alpha_win + 0.5*(alpha_sum - alpha_win) *         &
+     &                  (1 + TANH((Eeff - Ecrit)/deltaE))
+
+              Ntot = Bio(i,k,ino3) + phi_NH4 * Bio(i,k,inh4)
+
+              mu = (alpha*PAR(i,k)/sqrt(alpha**2*PAR(i,k)**2+mu0**2)) * &
+     &             (Ntot/(kmin + 2*sqrt(kmin*Ntot) + Ntot)) * mu0
+
+              ! Q10 rates
+
+              qP = Q_P ** (t(i,j,k,nstp,itemp)/10)
+              qZ = Q_Z ** (t(i,j,k,nstp,itemp)/10)
+              qR = Q_R ** (t(i,j,k,nstp,itemp)/10)
+
+              ! Zooplankton grazing on phytoplankton parameters
+
+              I_P = I0 * Bio(i,k,iphyto)/(K + Bio(i,k,iphyto))
+
+              ! Intermediate fluxes
+
+              gpp( i,k) = qP*mu*Bio(i,k,iphyto)
+              gra( i,k) = qZ*I_P*Bio(i,k,izoo)
+              agg( i,k) = qP*m_agg*Bio(i,k,iphyto)**2
+              pmor(i,k) = qR*m_P*Bio(i,k,iphyto)
+              zmor(i,k) = qZ*m_Z*Bio(i,k,izoo)**2
+              srem(i,k) = qR*r_remin*Bio(i,k,idets)
+              lrem(i,k) = qR*r_remin*Bio(i,k,idetl)
+              nit( i,k) = qR*r_nitr*Bio(i,k,inh4)
+
+              ! Apply biomass change
+
+              Bio(i,k,iphyto) = Bio(i,k,iphyto) +                       &
+     &                           (gpp(i,k) -                            &
+     &                            gra(i,k) -                            &
+     &                            pmor(i,k) -
+     &                            agg(i,k))*dtdays
+
+              Bio(i,k,izoo  ) = Bio(i,k,izoo  ) +                       &
+     &                           (epsil*gra(i,k) -                      &
+     &                            zmor(i,k))*dtdays
+
+              Bio(i,k,idets ) = Bio(i,k,idets ) +                       &
+     &                           (1-epsil-fex)*gra(i,k) +               &
+     &                            pmor(i,k) -                           &
+     &                            srem(i,k))*dtdays
+
+              Bio(i,k,idetl ) = Bio(i,k,idetl ) +                       &
+     &                           (agg(i,k) -                            &
+     &                            lrem(i,k))*dtdays
+
+              Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
+     &                           (! TODO -fkappa?... +                  &
+     &                            fex*gra(i,k) +                        &
+     &                            srem(i,k) +                           &
+     &                            lrem(i,k) -                           &
+     &                            nit(i,k))*dtdays
+
+              Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
+     &                           (! TODO -fkappa?... +                  &
+     &                            nit(i,k))*dtdays
+
+            END DO
+          END DO
 !
 !-----------------------------------------------------------------------
 !  Vertical sinking terms.
 !-----------------------------------------------------------------------
-!
-!  KK: This sinking code is copy-pasted in a lot of bio models.  It's 
-!      overall task is to calculate the changes in tracer concentration 
-!      due to sinking material, accounting for cases where sinking may 
-!      cause material to cross multiple layers in a single time step.
-!      It's good, robust code, but annoying that it hasn't been 
-!      encapsulated in a more easily maintainable subroutine.  I made a 
-!      subroutine like this for bestnpz to simplify variants for sinking 
-!      and rising, but it violates a lot of Fortran's preferred array-
-!      slicing recommendations (requiring temporary arrays to be added to 
-!      memory and hence slowing things down).  I should revisit this...
 !
 !  Reconstruct vertical profile of selected biological constituents
 !  "Bio(:,:,isink)" in terms of a set of parabolic segments within each
