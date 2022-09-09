@@ -50,6 +50,11 @@
      &                      ncid = ncid)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+     CALL netcdf_put_fvar (ng, model, ncname, 'deltaE',                &
+     &                      deltaE(ng), (/0/), (/0/),                   &
+     &                      ncid = ncid)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
       CALL netcdf_put_fvar (ng, model, ncname, 'kmin',                  &
      &                      kmin(ng), (/0/), (/0/),                     &
      &                      ncid = ncid)

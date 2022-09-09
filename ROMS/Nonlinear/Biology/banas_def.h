@@ -70,6 +70,14 @@
     &               SetParAccess = .FALSE.)
      IF (FoundError(exit_flag, NoError, __LINE__,                      &
     &               __FILE__)) RETURN
+     Vinfo( 1)='deltaE'
+     Vinfo( 2)='width of alpha_win/alpha_sum transition'
+     Vinfo( 3)='W m^-2'
+     status=def_var(ng, model, ncid, varid, nf90_int,                  &
+    &               1, (/0/), Aval, Vinfo, ncname,                     &
+    &               SetParAccess = .FALSE.)
+     IF (FoundError(exit_flag, NoError, __LINE__,                      &
+    &               __FILE__)) RETURN
      Vinfo( 1)='kmin'
      Vinfo( 2)='minmimum half-saturation for NO3'
      Vinfo( 3)='uM N'

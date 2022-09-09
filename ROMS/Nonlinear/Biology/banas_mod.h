@@ -54,6 +54,7 @@
       real(r8), allocatable :: alpha_win(:)
       real(r8), allocatable :: alpha_sum(:)
       real(r8), allocatable :: Ecrit(:)
+      real(r8), allocatable :: deltaE(:)
       real(r8), allocatable :: kmin(:)
       real(r8), allocatable :: phi_NH4(:)
       real(r8), allocatable :: CNratio(:)
@@ -128,6 +129,10 @@
       END IF
       IF (.not.allocated(Ecrit)) THEN
         allocate ( Ecrit(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(deltaE)) THEN
+        allocate ( deltaE(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
       IF (.not.allocated(kmin)) THEN

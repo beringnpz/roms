@@ -80,6 +80,8 @@
               Npts=load_r(Nval, Rval, Ngrids, alpha_sum)
             CASE ('Ecrit')
               Npts=load_r(Nval, Rval, Ngrids, Ecrit)
+            CASE ('deltaE')
+              Npts=load_r(Nval, Rval, Ngrids, deltaE)
             CASE ('kmin')
               Npts=load_r(Nval, Rval, Ngrids, kmin)
             CASE ('phi_NH4')
@@ -520,6 +522,8 @@
      &            'initial growth-light slope, summer ((W M^-2)^-1 d^-1)'
             WRITE (out,80) Ecrit(ng), 'Ecrit',                          &
      &            'light level of alpha_win/alpha_sum transition (W m^-2)'
+            WRITE (out,80) deltaE(ng), 'deltaE',                        &
+     &            'width of alpha_win/alpha_sum transition (W m^-2)'
             WRITE (out,80) kmin(ng), 'kmin',                            &
      &            'minmimum half-saturation for NO3 (uM N)'
             WRITE (out,80) phi_NH4(ng), 'phi_NH4',                      &
