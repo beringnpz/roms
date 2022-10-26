@@ -363,15 +363,13 @@
      &                            lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                           (! TODO -fkappa?... +                  &
-     &                            fex*gra(i,k) +                        &
+     &                            (fex*gra(i,k) +                        &
      &                            srem(i,k) +                           &
      &                            lrem(i,k) -                           &
      &                            nit(i,k))*dtdays
 
               Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
-     &                           (! TODO -fkappa?... +                  &
-     &                            nit(i,k))*dtdays
+     &                            (nit(i,k))*dtdays
 
             END DO
           END DO
