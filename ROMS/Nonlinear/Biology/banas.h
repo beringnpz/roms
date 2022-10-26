@@ -274,14 +274,11 @@
         END DO
 !
 !=======================================================================
-!  Start internal iterations to achieve convergence of the nonlinear
-!  backward-implicit solution.
+!  Start internal iterations 
 !=======================================================================
 !
-!  The iterative loop below is to iterate toward an universal Backward-
-!  Euler treatment of all terms. So if there are oscillations in the
-!  system, they are only physical oscillations. These iterations,
-!  however, do not improve the accuaracy of the solution.
+!  Note: Most variable names reflect the symbols used in Banas et al., 
+!        2016 (doi.org/10.1002/2015JC011449).
 !
         ITER_LOOP: DO Iter=1,BioIter(ng)
 
@@ -298,7 +295,7 @@
             E0 = (decayW(i,j,N(ng),3) + decayW(i,j,N(ng),4)) *          &
      &            srflx(i,j) * rho0 * Cp ! W m^-2, surface
 #else
-            ! TODO: implement Banas native atten?
+            ! TODO: implement Banas Eq. 10?
 #endif
             maxkappa = maxval(Akt(i,j,:,itemp))/sec2day  ! diffusivity m d^-1
             DO k=1,N(ng)
@@ -306,7 +303,7 @@
               PAR(i,k) = (decayW(i,j,k,3) + decayW(i,j,k,4)) *          &
      &                   srflx(i,j) * rho0 * Cp ! W m^-2
 #else
-              ! TODO: implement Banas native atten?
+              ! TODO: implement implement Banas Eq. 10?
 #endif
 
               ! Phytoplankton growth parameters
@@ -344,34 +341,34 @@
               ! Apply biomass change
 
               Bio(i,k,iphyto) = Bio(i,k,iphyto) +                       &
-     &                           (gpp(i,k) -                            &
-     &                            gra(i,k) -                            &
-     &                            pmor(i,k) -
-     &                            agg(i,k))*dtdays
+     &                          (gpp(i,k) -                             &
+     &                           gra(i,k) -                             &
+     &                           pmor(i,k) -
+     &                           agg(i,k))*dtdays
 
               Bio(i,k,izoo  ) = Bio(i,k,izoo  ) +                       &
-     &                           (epsil*gra(i,k) -                      &
-     &                            zmor(i,k))*dtdays
+     &                          (epsil*gra(i,k) -                       &
+     &                           zmor(i,k))*dtdays
 
               Bio(i,k,idets ) = Bio(i,k,idets ) +                       &
-     &                           (1-epsil-fex)*gra(i,k) +               &
-     &                            pmor(i,k) -                           &
-     &                            srem(i,k))*dtdays
+     &                          (1-epsil-fex)*gra(i,k) +                &
+     &                           pmor(i,k) -                            &
+     &                           srem(i,k))*dtdays
 
               Bio(i,k,idetl ) = Bio(i,k,idetl ) +                       &
-     &                           (agg(i,k) -                            &
-     &                            lrem(i,k))*dtdays
+     &                          (agg(i,k) -                             &
+     &                           lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                           (! TODO -fkappa?... +                  &
-     &                            fex*gra(i,k) +                        &
-     &                            srem(i,k) +                           &
-     &                            lrem(i,k) -                           &
-     &                            nit(i,k))*dtdays
+     &                          ((phi_NH4*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
+     &                           fex*gra(i,k) +                         &
+     &                           srem(i,k) +                            &
+     &                           lrem(i,k) -                            &
+     &                           nit(i,k))*dtdays
 
               Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
-     &                           (! TODO -fkappa?... +                  &
-     &                            nit(i,k))*dtdays
+     &                          ((Bio(i,k,ino3)/Ntot)*gpp(i,k) +        &
+     &                           nit(i,k))*dtdays
 
             END DO
           END DO

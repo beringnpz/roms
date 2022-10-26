@@ -5,9 +5,9 @@
 !    Licensed under a MIT/X style license                              !
 !    See License_ROMS.txt                                              !
 !=======================================================================
-!
-! Parameters for the BESTNPZ model:
-!
+!                                                                      !
+! Parameters for the BESTNPZ model:                                    !
+!                                                                      !
 !   PARfrac     Fraction of irradiance that is photosynthetically      !
 !                 available (PAR) (unitless)                           !
 !   k_ext       Clear-water attenuation coefficient (m^-1)             !

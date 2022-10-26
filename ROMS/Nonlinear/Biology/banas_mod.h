@@ -5,12 +5,34 @@
 !    Licensed under a MIT/X style license                              !
 !    See License_ROMS.txt                                              !
 !=======================================================================
-!
-! Parameters for the TODO:name model:
-!
-!************************************************************************
-! TODO: add parameter documentation here (name, description, units)
-!************************************************************************
+!                                                                      !
+! Parameters for the Banas model:                                      !
+!                                                                      !
+!   mu0       maximum phytoplankton growth rate (d^-1)                 !
+!   att_sw    light attenuation by seawater (m^-1)                     !
+!   att_p     light attneuation by phytoplankton (m^-1 uM N^-1)        !
+!   alpha_win initial growth-light slope, winter ((W M^-2)^-1 d^-1)    !
+!   alpha_sum initial growth-light slope, summer ((W M^-2)^-1 d^-1)    !
+!   Ecrit     light level of alpha_win/alpha_sum transition (W m^-2)   !
+!   deltaE    width of alpha_win/alpha_sum transition (W m^-2)         !
+!   kmin      minmimum half-saturation for NO3 (uM N)                  !
+!   phi_NH4   preference for NH4 (unitless)                            !
+!   CNratio   phytoplankton C:N ratio (molC/molN)                      !
+!   chlNratio chlorohpyll:N ratio (mg chl/uM N)                        !
+!   m_P       phytoplankton mortality (d^-1)                           !
+!   m_agg     phytoplankton loss via aggregation ((uM N)^-1 d^-1)      !
+!   I0        max microzooplankton ingestion rate (d^-1)               !
+!   K         grazing half-saturation (uM N)                           !
+!   epsil     microzooplankton growth efficiency (unitless)            !
+!   fex       fraction of grazing excreted to NH4 (unitless)           !
+!   m_Z       microzooplankton mortality (d^-1)                        !
+!   w_S       small detritus sinking rate (m d^-1)                     !
+!   w_L       large detritus sinking rate (m d^-1)                     !
+!   r_remin   detrital remineralization rate (d^-1)                    !
+!   r_nitr    nitrification rate (d^-1)                                !
+!   Q_P       Q10 for phytoplankton (unitless)                         !
+!   Q_Z       Q10 for zooplankton (unitless)                           !
+!   Q_R       Q10 for bacterial respiration (unitless)                 !
 !                                                                      !
 !=======================================================================
 !
