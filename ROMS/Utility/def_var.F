@@ -887,7 +887,6 @@
                 text='x_rho y_rho benlayer'
                 location='face'
               END IF
-              END IF
             END IF
 
             status=nf90_put_att(ncid, Vid, 'grid',                      &
