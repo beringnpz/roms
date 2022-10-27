@@ -1003,7 +1003,7 @@
       DO itrc=1,NBeT(ng)
         IF (Aout(idBeTvar(itrc),ng)) THEN
           scale=1.0_r8
-          gtype=gfactor*r3dvar
+          gtype=gfactor*bn3dvar
           status=nf_fwrite3d(ng, iNLM, AVG(ng)%ncid,                    &
      &                       AVG(ng)%Vid(idBeTvar(itrc)),               &
      &                       AVG(ng)%Rindex, gtype,                     &

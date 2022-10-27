@@ -687,7 +687,7 @@
 
       DO itrc=1,NBeT(ng)
         scale=1.0_r8
-        gtype=gfactor*r3dvar
+        gtype=gfactor*bn3dvar
 # ifdef PERFECT_RESTART
         status=nf_fwrite4d(ng, iNLM, RST(ng)%ncid,                      &
      &                     RST(ng)%Vid(idBeTvar(itrc)),                 &

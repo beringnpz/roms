@@ -252,6 +252,8 @@
               gtype=w3dvar
             CASE ('b3dvar')
               gtype=b3dvar
+            CASE ('bn3dvar')
+              gtype=bn3dvar
             CASE DEFAULT
               gtype=0
           END SELECT

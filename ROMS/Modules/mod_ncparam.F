@@ -101,6 +101,7 @@
         integer, parameter :: b3dvar = 10        ! 3D BED-sediment
         integer, parameter :: l3dvar = 11        ! 3D spectral light
         integer, parameter :: l4dvar = 12        ! 4D spectral light
+        integer, parameter :: bn3dvar= 13        ! 3D benthic
 !
 !  Number of horizontal interior and boundary water points.
 !
@@ -1501,6 +1502,8 @@
               gtype=w3dvar
             CASE ('b3dvar')
               gtype=b3dvar
+            CASE ('bn3dvar')
+              gtype=bn3dvar
 #ifdef ECOSIM && defined DIAGNOSTICS_BIO
             CASE ('l3dvar')
               gtype=l3dvar

@@ -69,6 +69,9 @@
       integer :: k3dgrd(5), t3dgrd(5)
       integer :: r3dgrd(4), ru3dgrd(5), rv3dgrd(5)
       integer :: u3dgrd(5), v3dgrd(5), w3dgrd(4)
+# ifdef BENTHIC
+      integer :: bn3dgrd(4)
+# endif
 #endif
       real(r8) :: Aval(6)
 
@@ -257,6 +260,14 @@
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
 # endif
+
+# ifdef BENTHIC
+        status=def_dim(ng, iNLM, RST(ng)%ncid, ncname, 'benlayer',      &
+     &                 NBL, DimIDs(25))
+        IF (FoundError(exit_flag, NoError, __LINE__,                    &
+     &                 __FILE__)) RETURN
+# endif
+
 #endif
 
         status=def_dim(ng, iNLM, RST(ng)%ncid, ncname, 'boundary',      &
@@ -545,6 +556,17 @@
         sv3dgrd(3)=DimIDs( 9)
         sv3dgrd(4)=DimIDs(12)
 # endif
+
+# ifdef BENTHIC
+!
+!  Define dimension vector for bethic type variables.
+!
+        bn3dgrd(1)=DimIDs( 1)
+        bn3dgrd(2)=DimIDs( 5)
+        bn3dgrd(3)=DimIDs(25)
+        bn3dgrd(4)=DimIDs(12)
+# endif
+
 #endif
 !
 !  Initialize unlimited time record dimension.
@@ -1193,10 +1215,10 @@
             Vinfo(14)=Vname(4,idBeTvar(itrc))
             Vinfo(16)=Vname(1,idtime)
             Vinfo(22)='coordinates'
-            Aval(5)=REAL(r2dvar,r8)
+            Aval(5)=REAL(bn3dvar,r8)
             status=def_var(ng,iNLM,RST(ng)%ncid,                        &
      &                     RST(ng)%Vid(idBeTvar(itrc)),NF_FOUT,         &
-     &                     nvd3,t2dgrd,Aval,Vinfo,ncname)
+     &                     nvd4,bn3dgrd,Aval,Vinfo,ncname)
 
 !Will need to switch this if have more than one depth level for benthos
 !         status=def_var(ncRSTid(ng),hisBid(itrc,ng),NF_FOUT, &

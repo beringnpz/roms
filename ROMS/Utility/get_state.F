@@ -1296,7 +1296,7 @@
             foundit=find_string(var_name, n_var,                        &
      &                          TRIM(Vname(1,idBeTvar(itrc))), varid)
             IF (foundit) THEN
-              gtype=var_flag(varid)*r3dvar
+              gtype=var_flag(varid)*bn3dvar
               IF (Perfect3D) THEN
                 status=nf_fread4d(ng, IDmod, ncname, ncINPid,           &
      &                            Vname(1,idBeTvar(itrc)), varid,       &

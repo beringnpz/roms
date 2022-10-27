@@ -68,6 +68,9 @@
 #  ifdef SEDIMENT
       integer :: b3dgrd(4)
 #  endif
+#  ifdef BENTHIC
+      integer :: bn3dgrd(4)
+#  endif
       integer :: p3dgrd(4), t3dgrd(4), u3dgrd(4), v3dgrd(4), w3dgrd(4)
 # endif
 
@@ -273,6 +276,13 @@
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
 #  endif
+
+#  ifdef BENTHIC
+        status=def_dim(ng, model, AVG(ng)%ncid, ncname, 'benlayer',     &
+     &                 NBL, DimIDs(25))
+        IF (FoundError(exit_flag, NoError, __LINE__,                    &
+     &                 __FILE__)) RETURN
+#  endif
 # endif
 
         status=def_dim(ng, model, AVG(ng)%ncid, ncname, 'boundary',     &
@@ -414,6 +424,17 @@
         b3dgrd(3)=DimIDs(16)
         b3dgrd(4)=DimIDs(12)
 #   endif
+
+#  ifdef BENTHIC
+!
+!  Define dimension vector for bethic type variables.
+!
+        bn3dgrd(1)=DimIDs( 1)
+        bn3dgrd(2)=DimIDs( 5)
+        bn3dgrd(3)=DimIDs(25)
+        bn3dgrd(4)=DimIDs(12)
+#  endif
+
 #  endif
 # endif
 !
@@ -928,10 +949,10 @@
             Vinfo(20)='mask_rho'
 #   endif
             Vinfo(22)='coordinates'
-            Aval(5)=REAL(r2dvar,r8)
+            Aval(5)=REAL(bn3dvar,r8)
             status=def_var(ng, model, AVG(ng)%ncid,                     &
      &                     AVG(ng)%Vid(idBeTvar(itrc)),                 &
-     &                     NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
+     &                     NF_FOUT, nvd4, bn3dgrd, Aval, Vinfo, ncname)
           END IF
         END DO
 #  endif
