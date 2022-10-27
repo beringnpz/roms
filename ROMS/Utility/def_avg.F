@@ -279,7 +279,7 @@
 
 #  ifdef BENTHIC
         status=def_dim(ng, model, AVG(ng)%ncid, ncname, 'benlayer',     &
-     &                 NBL, DimIDs(25))
+     &                 NBL(ng), DimIDs(25))
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
 #  endif
@@ -941,7 +941,6 @@
             Vinfo( 1)=Vname(1,idBeTvar(itrc))
             WRITE (Vinfo( 2),'(a,1x,a)') Prefix,                        &
      &                                   TRIM(Vname(2,idBeTvar(itrc)))
-            Vinfo( 1)=Vname(1,idBeTvar(itrc))
             Vinfo(3)=Vname(3,idBeTvar(itrc))
             Vinfo(14)=Vname(4,idBeTvar(itrc))
             Vinfo(16)=Vname(1,idtime)

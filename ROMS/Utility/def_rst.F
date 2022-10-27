@@ -263,7 +263,7 @@
 
 # ifdef BENTHIC
         status=def_dim(ng, iNLM, RST(ng)%ncid, ncname, 'benlayer',      &
-     &                 NBL, DimIDs(25))
+     &                 NBL(ng), DimIDs(25))
         IF (FoundError(exit_flag, NoError, __LINE__,                    &
      &                 __FILE__)) RETURN
 # endif
