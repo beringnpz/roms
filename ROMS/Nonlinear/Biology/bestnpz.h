@@ -3234,13 +3234,6 @@
           bt(i,j,1,nnew,iBen)    = bt(i,j,1,nnew,iBen   )*rmask(i,j)
           bt(i,j,1,nnew,iDetBen) = bt(i,j,1,nnew,iDetBen)*rmask(i,j)
 # endif
-          ! Benthos are not subject to any outside movement or mixing, so
-          ! we'll just do the time-step copy here, rather than adding
-          ! extra code to step3d_t.F
-
-          bt(i,j,1,nstp,iBen)    = bt(i,j,1,nnew,iBen)
-          bt(i,j,1,nstp,iDetBen) = bt(i,j,1,nnew,iDetBen)
-
         END DO
 #endif
 
@@ -3263,6 +3256,13 @@
 #endif
 
       END DO J_LOOP
+      
+      ! Benthos are not subject to any outside movement or mixing, so
+      ! we'll just do the time-step copy here, rather than adding
+      ! extra code to step3d_t.F
+
+      bt(:,:,1,nstp,iBen)    = bt(:,:,1,nnew,iBen)
+      bt(:,:,1,nstp,iDetBen) = bt(:,:,1,nnew,iDetBen)
 
       ! TODO: As expected, all this tiling/exchange stuff is now incompatible with newer
       ! ROMS, and given that I never figured out quite why it was here in the first place,
