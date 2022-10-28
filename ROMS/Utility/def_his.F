@@ -4432,10 +4432,19 @@
             END IF
           END DO
 # ifdef BENTHIC
-          DO itrc=1,NBEN
+          DO itrc=1,NBeT(ng)
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idBeTvar(itrc)))) THEN
               got_var(idBeTvar(itrc))=.TRUE.
               HIS(ng)%Vid(idBeTvar(itrc))=var_id(i)
+            END IF
+          END DO
+# endif
+# ifdef ICE_BIO
+          DO itrc=1,NIceT(ng)
+            IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceTvar(itrc)))) THEN
+              got_var(idIceTvar(itrc))=.TRUE.
+              HIS(ng)%Vid(idIceTvar(itrc))=var_id(i)
+            END IF
           END DO
 # endif
 # ifdef SEDIMENT
@@ -5429,9 +5438,19 @@
 # endif
         END DO
 # ifdef BENTHIC
-        DO itrc=1,NBEN
+        DO itrc=1,NBeT(ng)
           IF (.not.got_var(idBeTvar(itrc)).and.Hout(idBeTvar(itrc),ng)) THEN
             IF (Master) WRITE (stdout,70) TRIM(Vname(1,idBeTvar(itrc))),&
+       &                                  TRIM(ncname)
+            exit_flag=3
+            RETURN
+          END IF
+        END DO
+# endif
+# ifdef ICE_BIO
+        DO itrc=1,NIceT(ng)
+          IF (.not.got_var(idIceTvar(itrc)).and.Hout(idIceTvar(itrc),ng)) THEN
+            IF (Master) WRITE (stdout,70) TRIM(Vname(1,idIceTvar(itrc))),&
        &                                  TRIM(ncname)
             exit_flag=3
             RETURN

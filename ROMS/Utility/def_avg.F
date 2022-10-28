@@ -929,7 +929,7 @@
      &                     __FILE__)) RETURN
           END IF
         END DO
-        
+
 #  if defined BENTHIC
 !
 !  Define tracer type variables (benthic)
@@ -978,7 +978,7 @@
           END IF
         END DO
 #  endif
-        
+
 #  ifdef BIO_GOANPZ
         DO itrc=1,NTS(ng)
           IF (Aout(idTSvar(itrc),ng)) THEN
@@ -3774,6 +3774,22 @@
             END IF
           END DO
 #  endif
+#  ifdef BENTHIC
+          DO itrc=1,NBeT(ng)
+            IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idBeTvar(itrc)))) THEN
+             got_var(idBeTvar(itrc))=.TRUE.
+             AVG(ng)%Vid(idBeTvar(itrc))=var_id(i)
+            END IF
+          END DO
+#  endif
+#  ifdef ICE_BIO
+          DO itrc=1,NIceT(ng)
+            IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idIceTvar(itrc)))) THEN
+             got_var(idIceTvar(itrc))=.TRUE.
+             AVG(ng)%Vid(idIceTvar(itrc))=var_id(i)
+            END IF
+          END DO
+#  endif
 #  if defined SEDIMENT && defined BEDLOAD
           DO itrc=1,NST
             IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idUbld(itrc)))) THEN
@@ -4639,6 +4655,26 @@
           IF (.not.got_var(idTrcD(itrc)).and.Aout(idTrcD(itrc),ng)) THEN
             IF (Master) WRITE (stdout,60) TRIM(Vname(1,idTrcD(itrc))),  &
      &                                    TRIM(ncname)
+            exit_flag=3
+            RETURN
+          END IF
+        END DO
+#  endif
+#  ifdef BENTHIC
+        DO itrc=1,NBeT(ng)
+          IF (.not.got_var(idBeTvar(itrc)).and.Aout(idBeTvar(itrc),ng)) THEN
+            IF (Master) WRITE (stdout,60) TRIM(Vname(1,idBeTvar(itrc))),&
+       &                                  TRIM(ncname)
+            exit_flag=3
+            RETURN
+          END IF
+        END DO
+#  endif
+#  ifdef ICE_BIO
+        DO itrc=1,NIceT(ng)
+          IF (.not.got_var(idIceTvar(itrc)).and.Aout(idIceTvar(itrc),ng)) THEN
+            IF (Master) WRITE (stdout,60) TRIM(Vname(1,idIceTvar(itrc))),&
+       &                                  TRIM(ncname)
             exit_flag=3
             RETURN
           END IF
