@@ -424,7 +424,7 @@
         b3dgrd(3)=DimIDs(16)
         b3dgrd(4)=DimIDs(12)
 #   endif
-
+#  endif
 #  ifdef BENTHIC
 !
 !  Define dimension vector for bethic type variables.
@@ -433,8 +433,6 @@
         bn3dgrd(2)=DimIDs( 5)
         bn3dgrd(3)=DimIDs(25)
         bn3dgrd(4)=DimIDs(12)
-#  endif
-
 #  endif
 # endif
 !
