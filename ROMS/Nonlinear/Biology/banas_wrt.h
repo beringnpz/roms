@@ -145,3 +145,15 @@
      &                      ncid = ncid)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+#ifdef COASTAL_ATTEN
+      CALL netcdf_put_fvar (ng, model, ncname, 'k_sed1',                &
+     &                      k_sed1(ng), (/0/), (/0/),                   &
+     &                      ncid = ncid)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+      CALL netcdf_put_fvar (ng, model, ncname, 'k_sed2',                &
+     &                      k_sed2(ng), (/0/), (/0/),                   &
+     &                      ncid = ncid)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+ #endif

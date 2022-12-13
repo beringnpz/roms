@@ -997,6 +997,13 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+22)=' COARE_TAYLOR_YELLAND,'
 #endif
+#ifdef COASTAL_ATTEN
+!
+       IF (Master) WRITE (stdout,20) 'COASTAL_ATTEN'                     &
+      &   'Increase light attenuation in shallow water'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+15)=' COASTAL_ATTEN,'
+#endif
 #if defined COOL_SKIN && defined BULK_FLUXES
 !
       IF (Master) WRITE (stdout,20) 'COOL_SKIN',                        &

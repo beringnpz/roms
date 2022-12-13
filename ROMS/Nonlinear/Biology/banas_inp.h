@@ -118,6 +118,12 @@
               Npts=load_r(Nval, Rval, Ngrids, Q_Z)
             CASE ('Q_R')
               Npts=load_r(Nval, Rval, Ngrids, Q_R)
+#ifdef COASTAL_ATTEN
+            CASE ('k_sed1')
+              Npts=load_r(Nval, Rval, Ngrids, k_sed1)
+            CASE ('k_sed2')
+              Npts=load_r(Nval, Rval, Ngrids, k_sed2)
+#endif
             CASE ('TNU2')
               Npts=load_r(Nval, Rval, NBT, Ngrids, Rbio)
               DO ng=1,Ngrids
@@ -560,6 +566,12 @@
      &            'Q10 for zooplankton (unitless)'
             WRITE (out,80) Q_R(ng), 'Q_R',                              &
      &            'Q10 for bacterial respiration (unitless)'
+#ifdef COASTAL_ATTEN
+            WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
+     &            'Depth-based attenuation coefficient, factor (m^-1)'
+            WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
+     &            'Depth-based attenuation coefficient, exponent (unitless)'
+#endif
 #ifdef TS_DIF2
             DO itrc=1,NBT
               i=idbio(itrc)

@@ -483,6 +483,9 @@
 !
 ! IC_file  IC_file: Initial conditions  N/A !
 !
+!   k_sed1      Depth-based attenuation coefficient, factor (m^-1)     !
+!   k_sed2      Depth-based attenuation coefficient, exponent          !
+!                 (unitless)                                           !
 !=======================================================================
 !
       USE mod_param
@@ -913,6 +916,10 @@
       real(r8), allocatable :: smz_ipa_mdp(:)
       real(r8), allocatable :: mdz_ipa_mdp(:)
       real(r8), allocatable :: lgz_ipa_mdp(:)
+#endif
+#ifdef COASTAL_ATTEN
+      real(r8), allocatable :: k_sed1(:)
+      real(r8), allocatable :: k_sed2(:)
 #endif
 
 ! Cobalt parameters
@@ -2682,6 +2689,16 @@
       END IF
       IF (.not.allocated(lgz_ipa_mdp)) THEN
         allocate ( lgz_ipa_mdp(Ngrids) )
+      END IF
+#endif
+#ifdef COASTAL_ATTEN
+      IF (.not.allocated(k_sed1)) THEN
+        allocate ( k_sed1(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(k_sed2)) THEN
+        allocate ( k_sed2(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
 #endif
 ! RD TODO in the future

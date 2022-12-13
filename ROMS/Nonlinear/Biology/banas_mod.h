@@ -33,6 +33,9 @@
 !   Q_P       Q10 for phytoplankton (unitless)                         !
 !   Q_Z       Q10 for zooplankton (unitless)                           !
 !   Q_R       Q10 for bacterial respiration (unitless)                 !
+!   k_sed1    Depth-based attenuation coefficient, factor (m^-1)       !
+!   k_sed2    Depth-based attenuation coefficient, exponent            !
+!                 (unitless)                                           !
 !                                                                      !
 !=======================================================================
 !
@@ -95,6 +98,10 @@
       real(r8), allocatable :: Q_P(:)
       real(r8), allocatable :: Q_Z(:)
       real(r8), allocatable :: Q_R(:)
+#ifdef COASTAL_ATTEN
+      real(r8), allocatable :: k_sed1(:)
+      real(r8), allocatable :: k_sed2(:)
+#endif
       CONTAINS
 
       SUBROUTINE initialize_biology
@@ -229,6 +236,16 @@
         allocate ( Q_R(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
+#ifdef COASTAL_ATTEN
+      IF (.not.allocated(k_sed1)) THEN
+        allocate ( k_sed1(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(k_sed2)) THEN
+        allocate ( k_sed2(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+#endif
 !
 !  Allocate biological tracer vector.
 !

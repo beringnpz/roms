@@ -246,6 +246,14 @@ MODULE optic_manizza_mod
            ! we use the chlorophyll concentration between two interfaces
            k_red  = ksw_red  + xsi_red  * ( max( chl_conc(i,j,k+1), 0. ) ** eps_red  )
            k_blue = ksw_blue + xsi_blue * ( max( chl_conc(i,j,k+1), 0. ) ** eps_blue )
+           
+#ifdef COASTAL_ATTEN
+           ! Increase attenuation in shallow water to approximate effect of 
+           ! coastal CDOM, sediment, etc. (see Kearney et al., 2021, Appendix B, 
+           ! 10.5194/gmd-13-597-2020)
+           k_red  = k_red  + k_sed1 * (-z_w(i,j,0)) ** k_sed2
+           k_blue = k_blue + k_sed1 * (-z_w(i,j,0)) ** k_sed2
+#endif
 
            ! compute the decay in the red and blue bands
            dz0 = z_w(i,j,k+1) - z_w(i,j,k)

@@ -2085,3 +2085,22 @@
      &               __FILE__)) RETURN
 
 #endif
+#ifdef COASTAL_ATTEN
+      Vinfo( 1)='k_sed1'
+      Vinfo( 2)='Depth-based attenuation coefficient, factor'
+      Vinfo( 3)='m^-1'
+      status=def_var(ng, model, ncid, varid, NF_TYPE,                   &
+     &               1, (/0/), Aval, Vinfo, ncname,                     &
+     &               SetParAccess = .FALSE.)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+     
+      Vinfo( 1)='k_sed2'
+      Vinfo( 2)='Depth-based attenuation coefficient, exponent'
+      Vinfo( 3)='unitless'
+      status=def_var(ng, model, ncid, varid, NF_TYPE,                   &
+     &               1, (/0/), Aval, Vinfo, ncname,                     &
+     &               SetParAccess = .FALSE.)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
+#endif
