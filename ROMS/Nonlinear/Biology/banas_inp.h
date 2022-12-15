@@ -96,8 +96,8 @@
               Npts=load_r(Nval, Rval, Ngrids, m_agg)
             CASE ('I0')
               Npts=load_r(Nval, Rval, Ngrids, I0)
-            CASE ('K')
-              Npts=load_r(Nval, Rval, Ngrids, K)
+            CASE ('Kgraz')
+              Npts=load_r(Nval, Rval, Ngrids, Kgraz)
             CASE ('epsil')
               Npts=load_r(Nval, Rval, Ngrids, epsil)
             CASE ('fex')
@@ -544,7 +544,7 @@
      &            'phytoplankton loss via aggregation ((uM N)^-1 d^-1)'
             WRITE (out,80) I0(ng), 'I0',                                &
      &            'max microzooplankton ingestion rate (d^-1)'
-            WRITE (out,80) K(ng), 'K',                                  &
+            WRITE (out,80) Kgraz(ng), 'Kgraz',                          &
      &            'grazing half-saturation (uM N)'
             WRITE (out,80) epsil(ng), 'epsil',                          &
      &            'microzooplankton growth efficiency (unitless)'
@@ -869,6 +869,9 @@
               END DO
             END IF
 #endif
+          END IF
+        END DO
+      END IF
 !
 !-----------------------------------------------------------------------
 !  Rescale biological tracer parameters.

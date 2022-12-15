@@ -134,7 +134,7 @@
      &               SetParAccess = .FALSE.)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
-      Vinfo( 1)='K'
+      Vinfo( 1)='Kgraz'
       Vinfo( 2)='grazing half-saturation'
       Vinfo( 3)='uM N'
       status=def_var(ng, model, ncid, varid, nf90_int,                  &

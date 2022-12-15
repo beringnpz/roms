@@ -999,8 +999,8 @@
 #endif
 #ifdef COASTAL_ATTEN
 !
-       IF (Master) WRITE (stdout,20) 'COASTAL_ATTEN'                     &
-      &   'Increase light attenuation in shallow water'
+       IF (Master) WRITE (stdout,20) 'COASTAL_ATTEN',                   &
+     &   'Increase light attenuation in shallow water'
        is=LEN_TRIM(Coptions)+1
        Coptions(is:is+15)=' COASTAL_ATTEN,'
 #endif

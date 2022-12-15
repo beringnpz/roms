@@ -25,10 +25,15 @@
 !***********************************************************************
 !
       USE mod_param
+#ifdef DIAGNOSTICS_BIO
+      USE mod_diags
+#endif
+      USE mod_forces
       USE mod_grid
       USE mod_ncparam
       USE mod_ocean
       USE mod_stepping
+      USE mod_mixing
 !
 !  Imported variable declarations.
 !
@@ -83,7 +88,7 @@
 #ifdef MASKING
      &                         rmask,                                   &
 #endif
-     &                         Hz, z_r, z_w, srflx, AKt                 &
+     &                         Hz, z_r, z_w, srflx, AKt,                &
 #ifdef OPTIC_MANIZZA
      &                         decayW,                                  &
 #endif
@@ -134,7 +139,7 @@
 !
       integer, parameter :: Nsink = 2
 
-      integer :: Iter, i, ibio, isink, itrc, itrmx, j, k, ks
+      integer :: Iter, i, ibio, isink, itrc, itrmx, j, k, ks, itime, iTrcMax
 
       integer, dimension(Nsink) :: idsink
 
@@ -148,8 +153,9 @@
 
       integer, dimension(IminS:ImaxS,N(ng)) :: ksource
 
-      real(r8), dimension(IminS:ImaxS,N(ng),NT(ng)) :: Bio
+      real(r8), dimension(NT(ng),2) :: BioTrc
 
+      real(r8), dimension(IminS:ImaxS,N(ng),NT(ng)) :: Bio
       real(r8), dimension(IminS:ImaxS,N(ng),NT(ng)) :: Bio_old
 
       real(r8), dimension(IminS:ImaxS,0:N(ng)) :: FC
@@ -162,10 +168,11 @@
       real(r8), dimension(IminS:ImaxS,N(ng)) :: bL
       real(r8), dimension(IminS:ImaxS,N(ng)) :: bR
       real(r8), dimension(IminS:ImaxS,N(ng)) :: qc
+      real(r8), dimension(IminS:ImaxS,N(ng)) :: PAR
 
       real(r8) :: E0, maxkappa, Eeff, alpha, Ntot, mu, qP, qZ, qR, I_P
-      
-      real(r8), dimension(IminS:ImaxS,N(ng)) :: gpp, gra, agg, pmor, 
+
+      real(r8), dimension(IminS:ImaxS,N(ng)) :: gpp, gra, agg, pmor
       real(r8), dimension(IminS:ImaxS,N(ng)) :: zmor, srem, lrem, nit
 
 #include "set_bounds.h"
@@ -274,10 +281,10 @@
         END DO
 !
 !=======================================================================
-!  Start internal iterations 
+!  Start internal iterations
 !=======================================================================
 !
-!  Note: Most variable names reflect the symbols used in Banas et al., 
+!  Note: Most variable names reflect the symbols used in Banas et al.,
 !        2016 (doi.org/10.1002/2015JC011449).
 !
         ITER_LOOP: DO Iter=1,BioIter(ng)
@@ -308,50 +315,50 @@
 
               ! Phytoplankton growth parameters
 
-              Eeff = E0 * exp(-att_sw * sqrt(maxkappa/mu0)
-              alpha = alpha_win + 0.5*(alpha_sum - alpha_win) *         &
-     &                  (1 + TANH((Eeff - Ecrit)/deltaE))
+              Eeff = E0 * exp(-att_sw(ng) * sqrt(maxkappa/mu0(ng)))
+              alpha = alpha_win(ng) + 0.5*(alpha_sum(ng) - alpha_win(ng)) *  &
+     &                  (1 + TANH((Eeff - Ecrit(ng))/deltaE(ng)))
 
-              Ntot = Bio(i,k,ino3) + phi_NH4 * Bio(i,k,inh4)
+              Ntot = Bio(i,k,ino3) + phi_NH4(ng) * Bio(i,k,inh4)
 
-              mu = (alpha*PAR(i,k)/sqrt(alpha**2*PAR(i,k)**2+mu0**2)) * &
-     &             (Ntot/(kmin + 2*sqrt(kmin*Ntot) + Ntot)) * mu0
+              mu = (alpha*PAR(i,k)/sqrt(alpha**2*PAR(i,k)**2+mu0(ng)**2)) * &
+     &             (Ntot/(kmin(ng) + 2*sqrt(kmin(ng)*Ntot) + Ntot)) * mu0(ng)
 
               ! Q10 rates
 
-              qP = Q_P ** (t(i,j,k,nstp,itemp)/10)
-              qZ = Q_Z ** (t(i,j,k,nstp,itemp)/10)
-              qR = Q_R ** (t(i,j,k,nstp,itemp)/10)
+              qP = Q_P(ng) ** (t(i,j,k,nstp,itemp)/10)
+              qZ = Q_Z(ng) ** (t(i,j,k,nstp,itemp)/10)
+              qR = Q_R(ng) ** (t(i,j,k,nstp,itemp)/10)
 
               ! Zooplankton grazing on phytoplankton parameters
 
-              I_P = I0 * Bio(i,k,iphyto)/(K + Bio(i,k,iphyto))
+              I_P = I0(ng) * Bio(i,k,iphyto)/(Kgraz(ng) + Bio(i,k,iphyto))
 
               ! Intermediate fluxes
 
               gpp( i,k) = qP*mu*Bio(i,k,iphyto)
               gra( i,k) = qZ*I_P*Bio(i,k,izoo)
-              agg( i,k) = qP*m_agg*Bio(i,k,iphyto)**2
-              pmor(i,k) = qR*m_P*Bio(i,k,iphyto)
-              zmor(i,k) = qZ*m_Z*Bio(i,k,izoo)**2
-              srem(i,k) = qR*r_remin*Bio(i,k,idets)
-              lrem(i,k) = qR*r_remin*Bio(i,k,idetl)
-              nit( i,k) = qR*r_nitr*Bio(i,k,inh4)
+              agg( i,k) = qP*m_agg(ng)*Bio(i,k,iphyto)**2
+              pmor(i,k) = qR*m_P(ng)*Bio(i,k,iphyto)
+              zmor(i,k) = qZ*m_Z(ng)*Bio(i,k,izoo)**2
+              srem(i,k) = qR*r_remin(ng)*Bio(i,k,idets)
+              lrem(i,k) = qR*r_remin(ng)*Bio(i,k,idetl)
+              nit( i,k) = qR*r_nitr(ng)*Bio(i,k,inh4)
 
               ! Apply biomass change
 
               Bio(i,k,iphyto) = Bio(i,k,iphyto) +                       &
      &                          (gpp(i,k) -                             &
      &                           gra(i,k) -                             &
-     &                           pmor(i,k) -
+     &                           pmor(i,k) -                            &
      &                           agg(i,k))*dtdays
 
               Bio(i,k,izoo  ) = Bio(i,k,izoo  ) +                       &
-     &                          (epsil*gra(i,k) -                       &
+     &                          (epsil(ng)*gra(i,k) -                   &
      &                           zmor(i,k))*dtdays
 
               Bio(i,k,idets ) = Bio(i,k,idets ) +                       &
-     &                          (1-epsil-fex)*gra(i,k) +                &
+     &                          ((1-epsil(ng)-fex(ng))*gra(i,k) +       &
      &                           pmor(i,k) -                            &
      &                           srem(i,k))*dtdays
 
@@ -360,8 +367,8 @@
      &                           lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                          ((phi_NH4*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
-     &                           fex*gra(i,k) +                         &
+     &                          ((phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
+     &                           fex(ng)*gra(i,k) +                     &
      &                           srem(i,k) +                            &
      &                           lrem(i,k) -                            &
      &                           nit(i,k))*dtdays

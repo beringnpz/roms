@@ -22,7 +22,7 @@
 !   m_P       phytoplankton mortality (d^-1)                           !
 !   m_agg     phytoplankton loss via aggregation ((uM N)^-1 d^-1)      !
 !   I0        max microzooplankton ingestion rate (d^-1)               !
-!   K         grazing half-saturation (uM N)                           !
+!   Kgraz     grazing half-saturation (uM N)                           !
 !   epsil     microzooplankton growth efficiency (unitless)            !
 !   fex       fraction of grazing excreted to NH4 (unitless)           !
 !   m_Z       microzooplankton mortality (d^-1)                        !
@@ -87,7 +87,7 @@
       real(r8), allocatable :: m_P(:)
       real(r8), allocatable :: m_agg(:)
       real(r8), allocatable :: I0(:)
-      real(r8), allocatable :: K(:)
+      real(r8), allocatable :: Kgraz(:)
       real(r8), allocatable :: epsil(:)
       real(r8), allocatable :: fex(:)
       real(r8), allocatable :: m_Z(:)
@@ -192,8 +192,8 @@
         allocate ( I0(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
-      IF (.not.allocated(K)) THEN
-        allocate ( K(Ngrids) )
+      IF (.not.allocated(Kgraz)) THEN
+        allocate ( Kgraz(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
       IF (.not.allocated(epsil)) THEN

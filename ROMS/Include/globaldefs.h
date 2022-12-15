@@ -527,7 +527,8 @@
     defined NPZD_FRANKS || defined NPZD_IRON   || \
     defined NPZD_POWELL || defined RED_TIDE    || \
     defined BIO_GOANPZ  || defined BIO_COBALT  || \
-    defined BIO_UMAINE  || defined BEST_NPZ
+    defined BIO_UMAINE  || defined BEST_NPZ    || \
+    defined BIO_BANAS
 # define BIOLOGY
 #endif
 

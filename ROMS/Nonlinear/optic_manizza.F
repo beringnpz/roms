@@ -100,6 +100,7 @@ MODULE optic_manizza_mod
       USE mod_param
       USE mod_mixing
       USE mod_scalars
+      USE mod_biology, ONLY: k_sed1, k_sed2
 !
       implicit none
 !
@@ -167,34 +168,34 @@ MODULE optic_manizza_mod
 
 
 #ifdef BIO_COBALT
-   ! the rho0 / 1000 is a unit conversion from ug Chl.kg-1 of Cobalt to
-   ! mg Chl.m-3 used in the light penetration ( manizza ) routine
+      ! the rho0 / 1000 is a unit conversion from ug Chl.kg-1 of Cobalt to
+      ! mg Chl.m-3 used in the light penetration ( manizza ) routine
 
-   DO k=1,N(ng)
-     DO j=Jstr,Jend
-       DO i=Istr,Iend
-          chl_conc(i,j,k) = chl(i,j,k) * rho0 / 1000.0d0
-       END DO
-     END DO
-   ENDDO
+      DO k=1,N(ng)
+        DO j=Jstr,Jend
+          DO i=Istr,Iend
+             chl_conc(i,j,k) = chl(i,j,k) * rho0 / 1000.0d0
+          END DO
+        END DO
+      ENDDO
 #else
-   DO k=1,N(ng)
-     DO j=Jstr,Jend
-       DO i=Istr,Iend
-          chl_conc(i,j,k) = chl(i,j,k)
-       END DO
-     END DO
-   ENDDO
+      DO k=1,N(ng)
+        DO j=Jstr,Jend
+          DO i=Istr,Iend
+             chl_conc(i,j,k) = chl(i,j,k)
+          END DO
+        END DO
+      ENDDO
 #endif
 
-   ! 4. Compute depth at w-point
-   DO k=0,N(ng)
-     DO j=Jstr,Jend
-       DO i=Istr,Iend
-         depth_w(i,j,k) = z_w(i,j,N(ng)) - z_w(i,j,k)
-       ENDDO
-     ENDDO
-   ENDDO
+      ! 4. Compute depth at w-point
+      DO k=0,N(ng)
+        DO j=Jstr,Jend
+          DO i=Istr,Iend
+            depth_w(i,j,k) = z_w(i,j,N(ng)) - z_w(i,j,k)
+          ENDDO
+        ENDDO
+      ENDDO
 !
 !-----------------------------------------------------------------------
 !  Use Paulson and Simpson (1977) two wavelength bands solar
@@ -246,13 +247,13 @@ MODULE optic_manizza_mod
            ! we use the chlorophyll concentration between two interfaces
            k_red  = ksw_red  + xsi_red  * ( max( chl_conc(i,j,k+1), 0. ) ** eps_red  )
            k_blue = ksw_blue + xsi_blue * ( max( chl_conc(i,j,k+1), 0. ) ** eps_blue )
-           
+
 #ifdef COASTAL_ATTEN
-           ! Increase attenuation in shallow water to approximate effect of 
-           ! coastal CDOM, sediment, etc. (see Kearney et al., 2021, Appendix B, 
+           ! Increase attenuation in shallow water to approximate effect of
+           ! coastal CDOM, sediment, etc. (see Kearney et al., 2021, Appendix B,
            ! 10.5194/gmd-13-597-2020)
-           k_red  = k_red  + k_sed1 * (-z_w(i,j,0)) ** k_sed2
-           k_blue = k_blue + k_sed1 * (-z_w(i,j,0)) ** k_sed2
+           k_red  = k_red  + k_sed1(ng) * (-z_w(i,j,0)) ** k_sed2(ng)
+           k_blue = k_blue + k_sed1(ng) * (-z_w(i,j,0)) ** k_sed2(ng)
 #endif
 
            ! compute the decay in the red and blue bands
