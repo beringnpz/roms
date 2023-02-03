@@ -2025,7 +2025,7 @@
      &               __FILE__)) RETURN
 # endif
 
-# if (defined BEST_NPZ || defined BIO_GOANPZ) && defined IRON_LIMIT && !defined ANA_TCLIMA
+# if (defined BIO_GOANPZ) && defined IRON_LIMIT && !defined ANA_TCLIMA
       CALL get_3dfld (ng, iNLM, idTclm(iFe), ncCLMid(idTclm(iFe),ng),   &
      &                nCLMfiles(ng), CLM(1,ng), update(1),              &
      &                LBi, UBi, LBj, UBj, 1, N(ng), 2, 1,               &
