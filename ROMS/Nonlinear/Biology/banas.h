@@ -70,7 +70,10 @@
      &                   FORCES(ng) % srflx,                            &
      &                   MIXING(ng) % Akt,                              &
 #ifdef OPTIC_MANIZZA
-    &                    OCEAN(ng) % decayW,                            &
+     &                   OCEAN(ng) % decayW,                            &
+#endif
+#ifdef DIAGNOSTICS_BIO
+     &                   DIAGS(ng) % DiaBio3d,                          &
 #endif
      &                   OCEAN(ng) % t)
 
@@ -91,6 +94,9 @@
      &                         Hz, z_r, z_w, srflx, AKt,                &
 #ifdef OPTIC_MANIZZA
      &                         decayW,                                  &
+#endif
+#ifdef DIAGNOSTICS_BIO
+     &                         DiaBio3d,                                &
 #endif
      &                         t)
 !-----------------------------------------------------------------------
@@ -134,6 +140,9 @@
 # endif
       real(r8), intent(inout) :: t(LBi:UBi,LBj:UBj,UBk,3,UBt)
 #endif
+# ifdef DIAGNOSTICS_BIO
+      real(r8), intent(inout) :: DiaBio3d(LBi:,LBj:,:,:)
+# endif
 !
 !  Local variable declarations.
 !

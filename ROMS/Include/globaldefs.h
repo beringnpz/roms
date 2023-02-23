@@ -545,7 +545,7 @@
 #if defined DIAGNOSTICS_BIO &&                    \
     (defined BEST_NPZ   || defined BIO_COBALT  || \
      defined BIO_FENNEL || defined HYPOXIA_SRM || \
-     defined BIO_UMAINE)
+     defined BIO_UMAINE || defined BIO_BANAS)
 # define DIAGBIO3
 #endif
 #if defined DIAGNOSTICS_BIO &&                    \
