@@ -481,22 +481,94 @@
               END DO
 #endif
 #ifdef DIAGNOSTICS_BIO
-!************************************************************************
-! TODO: Insert custom Dout parameters here
-!
-!           CASE ('Dout(iCOfx)')
-!             IF (iDbio2(iCOfx).eq.0) THEN
-!               IF (Master) WRITE (out,40) 'iDbio2(iCOfx)'
-!               exit_flag=5
-!               RETURN
-!             END IF
-!             Npts=load_l(Nval, Cval, Ngrids, Lbio)
-!             i=iDbio2(iCOfx)
-!             DO ng=1,Ngrids
-!               Dout(i,ng)=Lbio(ng)
-!             END DO
-!
-!************************************************************************
+            CASE ('Dout(iflxgpp)')
+              IF (iDbio3(iflxgpp).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxgpp)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxgpp)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxgra)')
+              IF (iDbio3(iflxgra).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxgra)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxgra)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxagg)')
+              IF (iDbio3(iflxagg).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxagg)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxagg)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxpmor)')
+              IF (iDbio3(iflxpmor).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxpmor)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxpmor)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxzmor)')
+              IF (iDbio3(iflxzmor).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxzmor)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxzmor)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxsrem)')
+              IF (iDbio3(iflxsrem).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxsrem)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxsrem)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxlrem)')
+              IF (iDbio3(iflxlrem).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxlrem)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxlrem)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxnit)')
+              IF (iDbio3(iflxnit).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxnit)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxnit)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
 #endif
           END SELECT
         END IF

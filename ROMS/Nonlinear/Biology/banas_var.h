@@ -75,3 +75,21 @@
                 idTbry(iwest,ino3)=varid
               CASE ('idTbry(isouth,ino3)')
                 idTbry(isouth,ino3)=varid
+#ifdef DIAGNOSTICS_BIO
+              CASE ('iDbio3(iflxgpp)')
+                iDbio3(iflxgpp)=varid
+              CASE ('iDbio3(iflxgra)')
+                iDbio3(iflxgra)=varid
+              CASE ('iDbio3(iflxagg)')
+                iDbio3(iflxagg)=varid
+              CASE ('iDbio3(iflxpmor)')
+                iDbio3(iflxpmor)=varid
+              CASE ('iDbio3(iflxzmor)')
+                iDbio3(iflxzmor)=varid
+              CASE ('iDbio3(iflxsrem)')
+                iDbio3(iflxsrem)=varid
+              CASE ('iDbio3(iflxlrem)')
+                iDbio3(iflxlrem)=varid
+              CASE ('iDbio3(iflxnit)')
+                iDbio3(iflxnit)=varid
+#endif

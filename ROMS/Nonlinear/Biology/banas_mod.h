@@ -69,6 +69,16 @@
       integer :: idetl
       integer :: inh4
       integer :: ino3
+#ifdef DIAGNOSTICS_BIO
+      integer :: iflxgpp
+      integer :: iflxgra
+      integer :: iflxagg
+      integer :: iflxpmor
+      integer :: iflxzmor
+      integer :: iflxsrem
+      integer :: iflxlrem
+      integer :: iflxnit
+#endif
 !
 !  Biological parameters.
 !
@@ -124,7 +134,7 @@
 !
       NBT=6
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
-      NDbio3d=0
+      NDbio3d=8
       NDbio2d=0
 #endif
 !
@@ -308,6 +318,22 @@
       inh4=ic+5
       ino3=ic+6
       ic=ic+6
+#ifdef DIAGNOSTICS_BIO
+      DO i=1,NDbio3d
+        iDbio3(i)=i
+      END DO
+      DO i=1,NDbio2d
+        iDbio2(i)=i
+      END DO
+      iflxgpp=1
+      iflxgra=2
+      iflxagg=3
+      iflxpmor=4
+      iflxzmor=5
+      iflxsrem=6
+      iflxlrem=7
+      iflxnit=8
+#endif
 
       RETURN
       END SUBROUTINE initialize_biology

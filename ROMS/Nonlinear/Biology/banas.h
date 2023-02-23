@@ -344,6 +344,17 @@
               srem(i,k) = qR*r_remin(ng)*Bio(i,k,idets)
               lrem(i,k) = qR*r_remin(ng)*Bio(i,k,idetl)
               nit( i,k) = qR*r_nitr(ng)*Bio(i,k,inh4)
+              
+#ifdef DIAGNOSTICS_BIO
+              DiaBio3d(i,j,k,iflxgpp)  = gpp( i,k)
+              DiaBio3d(i,j,k,iflxgra)  = gra( i,k)
+              DiaBio3d(i,j,k,iflxagg)  = agg( i,k)
+              DiaBio3d(i,j,k,iflxpmor) = pmor(i,k)
+              DiaBio3d(i,j,k,iflxzmor) = zmor(i,k)
+              DiaBio3d(i,j,k,iflxsrem) = srem(i,k)
+              DiaBio3d(i,j,k,iflxlrem) = lrem(i,k)
+              DiaBio3d(i,j,k,iflxnit)  = nit( i,k)
+#endif
 
               ! Apply biomass change
 
