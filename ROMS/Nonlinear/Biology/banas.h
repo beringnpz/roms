@@ -387,14 +387,14 @@
      &                           lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                          ((phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
+     &                     (-(phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
      &                           fex(ng)*gra(i,k) +                     &
      &                           srem(i,k) +                            &
      &                           lrem(i,k) -                            &
      &                           nit(i,k))*dtdays
 
               Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
-     &                          ((Bio(i,k,ino3)/Ntot)*gpp(i,k) +        &
+     &                          (-(Bio(i,k,ino3)/Ntot)*gpp(i,k) +       &
      &                           nit(i,k))*dtdays
 
             END DO
