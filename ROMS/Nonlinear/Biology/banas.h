@@ -368,34 +368,34 @@
               ! Apply biomass change
 
               Bio(i,k,iphyto) = Bio(i,k,iphyto) +                       &
-     &                          (gpp(i,k) -                             &
-     &                           gra(i,k) -                             &
-     &                           pmor(i,k) -                            &
-     &                           agg(i,k))*dtdays
+     &                     (  gpp(i,k)                                  &
+     &                      - gra(i,k)                                  &
+     &                      - pmor(i,k)                                 &
+     &                      - agg(i,k))*dtdays
 
               Bio(i,k,izoo  ) = Bio(i,k,izoo  ) +                       &
-     &                          (epsil(ng)*gra(i,k) -                   &
-     &                           zmor(i,k))*dtdays
+     &                     (  epsil(ng)*gra(i,k)                        &
+     &                      - zmor(i,k))*dtdays
 
               Bio(i,k,idets ) = Bio(i,k,idets ) +                       &
-     &                          ((1-epsil(ng)-fex(ng))*gra(i,k) +       &
-     &                           pmor(i,k) -                            &
-     &                           srem(i,k))*dtdays
+     &                     (  (1-epsil(ng)-fex(ng))*gra(i,k)            &
+     &                      + pmor(i,k)                                 &
+     &                      - srem(i,k))*dtdays
 
               Bio(i,k,idetl ) = Bio(i,k,idetl ) +                       &
-     &                          (agg(i,k) -                             &
-     &                           lrem(i,k))*dtdays
+     &                     (  agg(i,k) -                                &
+     &                      - lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                     (-(phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)+ &
-     &                           fex(ng)*gra(i,k) +                     &
-     &                           srem(i,k) +                            &
-     &                           lrem(i,k) -                            &
-     &                           nit(i,k))*dtdays
+     &                     (-(phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)  &
+     &                      + fex(ng)*gra(i,k)                          &
+     &                      + srem(i,k)                                 &
+     &                      + lrem(i,k)                                 &
+     &                      - nit(i,k))*dtdays
 
               Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
-     &                          (-(Bio(i,k,ino3)/Ntot)*gpp(i,k) +       &
-     &                           nit(i,k))*dtdays
+     &                     (-(Bio(i,k,ino3)/Ntot)*gpp(i,k)              &
+     &                      + nit(i,k))*dtdays
 
             END DO
           END DO
