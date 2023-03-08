@@ -1363,7 +1363,7 @@
 
               PmaxS = LOG(2.0_r8) * DrateS
               PmaxL = LOG(2.0_r8) * DrateL
-              
+
 !               PmaxS = (2.0_r8 ** DrateS - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
 !               PmaxL = (2.0_r8 ** DrateL - 1.0_r8 )   ! mg C production (mg C biomass)^-1 d^-1
 
@@ -3256,7 +3256,7 @@
 #endif
 
       END DO J_LOOP
-      
+
       ! Benthos are not subject to any outside movement or mixing, so
       ! we'll just do the time-step copy here, rather than adding
       ! extra code to step3d_t.F

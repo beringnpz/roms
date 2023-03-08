@@ -5061,88 +5061,206 @@ IF( Master ) WRITE(stdout,*) '>>>   max irr_mix is = ', MAXVAL(cobalt%irr_mix)
     ENDDO
     i=overflow ; j=overflow
 
-    ! RD dev notes :
-    ! update 3d diagnostics variables in ROMS
+    ! Update 3D diagnostics variables
+
     DO k=1,UBk
       DO j=Jstr,Jend
         DO i=Istr,Iend
+
+          ! Chl, CO3, and light
+
           DiaBio3d(i,j,k,ichl)          = DiaBio3d(i,j,k,ichl)      + cobalt%f_chl(i,j,k)
           DiaBio3d(i,j,k,ico3_ion)      = DiaBio3d(i,j,k,ico3_ion)  + cobalt%f_co3_ion(i,j,k)
           DiaBio3d(i,j,k,ihtotal)       = DiaBio3d(i,j,k,ihtotal)   + cobalt%f_htotal(i,j,k) * rmask_local(i,j)
           DiaBio3d(i,j,k,iirr_mem)      = DiaBio3d(i,j,k,iirr_mem)  + cobalt%f_irr_mem(i,j,k)
           DiaBio3d(i,j,k,iirr_mix)      = DiaBio3d(i,j,k,iirr_mix)  + cobalt%irr_mix(i,j,k)
           DiaBio3d(i,j,k,iirr_inst)     = DiaBio3d(i,j,k,iirr_inst) + cobalt%irr_inst(i,j,k)
+
+          ! Chl and C/Chl per phyto class
+
+          DiaBio3d(i,j,k,ichl_di)     = DiaBio3d(i,j,k,ichl_di)     + phyto(DIAZO)%chl(i,j,k)
+          DiaBio3d(i,j,k,iC_2_chl_di) = DiaBio3d(i,j,k,iC_2_chl_di) + phyto(DIAZO)%C_2_chl(i,j,k)
+          DiaBio3d(i,j,k,ichl_sm)     = DiaBio3d(i,j,k,ichl_sm)     + phyto(SMALL)%chl(i,j,k)
+          DiaBio3d(i,j,k,iC_2_chl_sm) = DiaBio3d(i,j,k,iC_2_chl_sm) + phyto(SMALL)%C_2_chl(i,j,k)
+          DiaBio3d(i,j,k,ichl_lg)     = DiaBio3d(i,j,k,ichl_lg)     + phyto(LARGE_)%chl(i,j,k)
+          DiaBio3d(i,j,k,iC_2_chl_lg) = DiaBio3d(i,j,k,iC_2_chl_lg) + phyto(LARGE_)%C_2_chl(i,j,k)
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,ichl_md)     = DiaBio3d(i,j,k,ichl_md)     + phyto(MEDIUM)%chl(i,j,k)
+          DiaBio3d(i,j,k,iC_2_chl_md) = DiaBio3d(i,j,k,iC_2_chl_md) + phyto(MEDIUM)%C_2_chl(i,j,k)
+# endif
+
+          ! Phyto production-related and source/sink terms
+
+          DiaBio3d(i,j,k,imu_mem_sm)  = DiaBio3d(i,j,k,imu_mem_sm)  + phyto(SMALL)%f_mu_mem(i,j,k)
+          DiaBio3d(i,j,k,imu_mem_di)  = DiaBio3d(i,j,k,imu_mem_di)  + phyto(DIAZO)%f_mu_mem(i,j,k)
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,imu_mem_md)  = DiaBio3d(i,j,k,imu_mem_md)  + phyto(MEDIUM)%f_mu_mem(i,j,k)
+# endif
+          DiaBio3d(i,j,k,imu_mem_lg)  = DiaBio3d(i,j,k,imu_mem_lg)  + phyto(LARGE_)%f_mu_mem(i,j,k)
+
+          DiaBio3d(i,j,k,iagg_lim_sm) = DiaBio3d(i,j,k,iagg_lim_sm) + phyto(SMALL)%agg_lim(i,j,k)
+          DiaBio3d(i,j,k,iagg_lim_di) = DiaBio3d(i,j,k,iagg_lim_di) + phyto(DIAZO)%agg_lim(i,j,k)
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,iagg_lim_md) = DiaBio3d(i,j,k,iagg_lim_md) + phyto(MEDIUM)%agg_lim(i,j,k)
+# endif
+          DiaBio3d(i,j,k,iagg_lim_lg) = DiaBio3d(i,j,k,iagg_lim_lg) + phyto(LARGE_)%agg_lim(i,j,k)
+
+          DiaBio3d(i,j,k,iaggloss_lg) = DiaBio3d(i,j,k,iaggloss_lg) + phyto(LARGE_)%jaggloss_n(i,j,k)  * n_dt
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,iaggloss_md) = DiaBio3d(i,j,k,iaggloss_md) + phyto(MEDIUM)%jaggloss_n(i,j,k) * n_dt
+# endif
+          DiaBio3d(i,j,k,iaggloss_sm) = DiaBio3d(i,j,k,iaggloss_sm) + phyto(SMALL)%jaggloss_n(i,j,k)  * n_dt
+          DiaBio3d(i,j,k,iaggloss_di) = DiaBio3d(i,j,k,iaggloss_di) + phyto(DIAZO)%jaggloss_n(i,j,k)  * n_dt
+
+          DiaBio3d(i,j,k,ivirloss_lg) = DiaBio3d(i,j,k,ivirloss_lg) + phyto(LARGE_)%jvirloss_n(i,j,k)  * n_dt
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,ivirloss_md) = DiaBio3d(i,j,k,ivirloss_md) + phyto(MEDIUM)%jvirloss_n(i,j,k) * n_dt
+# endif
+          DiaBio3d(i,j,k,ivirloss_sm) = DiaBio3d(i,j,k,ivirloss_sm) + phyto(SMALL)%jvirloss_n(i,j,k)  * n_dt
+          DiaBio3d(i,j,k,ivirloss_di) = DiaBio3d(i,j,k,ivirloss_di) + phyto(DIAZO)%jvirloss_n(i,j,k)  * n_dt
+
+          DiaBio3d(i,j,k,izloss_lg)   = DiaBio3d(i,j,k,izloss_lg)   + phyto(LARGE_)%jzloss_n(i,j,k)    * n_dt
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,izloss_md)   = DiaBio3d(i,j,k,izloss_md)   + phyto(MEDIUM)%jzloss_n(i,j,k)   * n_dt
+# endif
+          DiaBio3d(i,j,k,izloss_sm)   = DiaBio3d(i,j,k,izloss_sm)   + phyto(SMALL)%jzloss_n(i,j,k)    * n_dt
+          DiaBio3d(i,j,k,izloss_di)   = DiaBio3d(i,j,k,izloss_di)   + phyto(DIAZO)%jzloss_n(i,j,k)    * n_dt
+
+          ! Additional diagnostics (added by KAK, 2023/03/08)
+
+          ! NPP (mol/kg/s) per phytoplankton
+
+          DiaBio3d(i,j,k,inpp_sm)     = DiaBio3d(i,j,k,inpp_sm) +              &
+     &                                    phyto(SMALL)%juptake_no3(i,j,k) +    &
+     &                                    phyto(SMALL)%juptake_nh4(i,j,k)
+          DiaBio3d(i,j,k,inpp_lg)     = DiaBio3d(i,j,k,inpp_lg) +              &
+     &                                    phyto(LARGE_)%juptake_no3(i,j,k) +   &
+     &                                    phyto(LARGE_)%juptake_nh4(i,j,k)
+          DiaBio3d(i,j,k,inpp_di)     = DiaBio3d(i,j,k,inpp_di) +              &
+     &                                    phyto(DIAZO)%juptake_no3(i,j,k) +    &
+     &                                    phyto(DIAZO)%juptake_nh4(i,j,k) +    &
+     &                                    phyto(DIAZO)%juptake_n2(i,j,k)
+# ifdef COASTDIAT
+          DiaBio3d(i,j,k,inpp_md)     = DiaBio3d(i,j,k,inpp_md) +              &
+     &                                    phyto(MEDIUM)%juptake_no3(i,j,k) +   &
+     &                                    phyto(MEDIUM)%juptake_nh4(i,j,k)
+# endif
+
+          ! f-ratio (unitless)
+
+          DiaBio3d(i,j,k,ifratio)     = DiaBio3d(i,j,k,ifratio) +              &
+                                          (phyto(SMALL)%juptake_no3(i,j,k) +   &
+# ifdef COASTDIAT
+                                           phyto(MEDIUM)%juptake_no3(i,j,k) +  &
+# endif
+                                           phyto(LARGE_)%juptake_no3(i,j,k) +  &
+                                           phyto(DIAZO)%juptake_no3(i,j,k))/   &
+                                          (phyto(SMALL)%juptake_no3(i,j,k) +   &
+# ifdef COASTDIAT
+                                           phyto(MEDIUM)%juptake_no3(i,j,k) +  &
+# endif
+                                           phyto(LARGE_)%juptake_no3(i,j,k) +  &
+                                           phyto(DIAZO)%juptake_no3(i,j,k) +   &
+
+                                           phyto(SMALL)%juptake_nh4(i,j,k) +   &
+# ifdef COASTDIAT
+                                           phyto(MEDIUM)%juptake_nh4(i,j,k) +  &
+# endif
+                                           phyto(LARGE_)%juptake_nh4(i,j,k) +  &
+                                           phyto(DIAZO)%juptake_nh4(i,j,k) +   &
+                                           phyto(DIAZO)%juptake_n2(i,j,k))
+
+          ! Zooplankton production (mol/kg/s)
+
+          DiaBio3d(i,j,k,iprod_smz)   = DiaBio3d(i,j,k,iprod_smz) + zoo(1)%jprod_n(i,j,k)
+          DiaBio3d(i,j,k,iprod_mdz)   = DiaBio3d(i,j,k,iprod_mdz) + zoo(2)%jprod_n(i,j,k)
+          DiaBio3d(i,j,k,iprod_lgz)   = DiaBio3d(i,j,k,iprod_lgz) + zoo(3)%jprod_n(i,j,k)
+
         ENDDO
       ENDDO
     ENDDO
-    i=overflow ; j=overflow ; k=overflow
-
-    ! Chl and C/chl per class
-    DO k=1,UBk
-      DO j=Jstr,Jend
-        DO i=Istr,Iend
-           DiaBio3d(i,j,k,ichl_di)     = DiaBio3d(i,j,k,ichl_di)     + phyto(DIAZO)%chl(i,j,k)
-           DiaBio3d(i,j,k,iC_2_chl_di) = DiaBio3d(i,j,k,iC_2_chl_di) + phyto(DIAZO)%C_2_chl(i,j,k)
-           DiaBio3d(i,j,k,ichl_sm)     = DiaBio3d(i,j,k,ichl_sm)     + phyto(SMALL)%chl(i,j,k)
-           DiaBio3d(i,j,k,iC_2_chl_sm) = DiaBio3d(i,j,k,iC_2_chl_sm) + phyto(SMALL)%C_2_chl(i,j,k)
-           DiaBio3d(i,j,k,ichl_lg)     = DiaBio3d(i,j,k,ichl_lg)     + phyto(LARGE_)%chl(i,j,k)
-           DiaBio3d(i,j,k,iC_2_chl_lg) = DiaBio3d(i,j,k,iC_2_chl_lg) + phyto(LARGE_)%C_2_chl(i,j,k)
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,ichl_md)     = DiaBio3d(i,j,k,ichl_md)     + phyto(MEDIUM)%chl(i,j,k)
-           DiaBio3d(i,j,k,iC_2_chl_md) = DiaBio3d(i,j,k,iC_2_chl_md) + phyto(MEDIUM)%C_2_chl(i,j,k)
-# endif
-        ENDDO
-      ENDDO
-    ENDDO
-
-
-    DO k=1,UBk
-      DO j=Jstr,Jend
-        DO i=Istr,Iend
-           DiaBio3d(i,j,k,imu_mem_sm)  = DiaBio3d(i,j,k,imu_mem_sm)  + phyto(SMALL)%f_mu_mem(i,j,k)
-           DiaBio3d(i,j,k,imu_mem_di)  = DiaBio3d(i,j,k,imu_mem_di)  + phyto(DIAZO)%f_mu_mem(i,j,k)
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,imu_mem_md)  = DiaBio3d(i,j,k,imu_mem_md)  + phyto(MEDIUM)%f_mu_mem(i,j,k)
-# endif
-           DiaBio3d(i,j,k,imu_mem_lg)  = DiaBio3d(i,j,k,imu_mem_lg)  + phyto(LARGE_)%f_mu_mem(i,j,k)
-           DiaBio3d(i,j,k,iagg_lim_sm) = DiaBio3d(i,j,k,iagg_lim_sm) + phyto(SMALL)%agg_lim(i,j,k)
-           DiaBio3d(i,j,k,iagg_lim_di) = DiaBio3d(i,j,k,iagg_lim_di) + phyto(DIAZO)%agg_lim(i,j,k)
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,iagg_lim_md) = DiaBio3d(i,j,k,iagg_lim_md) + phyto(MEDIUM)%agg_lim(i,j,k)
-# endif
-           DiaBio3d(i,j,k,iagg_lim_lg) = DiaBio3d(i,j,k,iagg_lim_lg) + phyto(LARGE_)%agg_lim(i,j,k)
-        ENDDO
-      ENDDO
-    ENDDO
-
-    DO k=1,UBk
-      DO j=Jstr,Jend
-        DO i=Istr,Iend
-
-           DiaBio3d(i,j,k,iaggloss_lg) = DiaBio3d(i,j,k,iaggloss_lg) + phyto(LARGE_)%jaggloss_n(i,j,k)  * n_dt
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,iaggloss_md) = DiaBio3d(i,j,k,iaggloss_md) + phyto(MEDIUM)%jaggloss_n(i,j,k) * n_dt
-# endif
-           DiaBio3d(i,j,k,iaggloss_sm) = DiaBio3d(i,j,k,iaggloss_sm) + phyto(SMALL)%jaggloss_n(i,j,k)  * n_dt
-           DiaBio3d(i,j,k,iaggloss_di) = DiaBio3d(i,j,k,iaggloss_di) + phyto(DIAZO)%jaggloss_n(i,j,k)  * n_dt
-
-           DiaBio3d(i,j,k,ivirloss_lg) = DiaBio3d(i,j,k,ivirloss_lg) + phyto(LARGE_)%jvirloss_n(i,j,k)  * n_dt
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,ivirloss_md) = DiaBio3d(i,j,k,ivirloss_md) + phyto(MEDIUM)%jvirloss_n(i,j,k) * n_dt
-# endif
-           DiaBio3d(i,j,k,ivirloss_sm) = DiaBio3d(i,j,k,ivirloss_sm) + phyto(SMALL)%jvirloss_n(i,j,k)  * n_dt
-           DiaBio3d(i,j,k,ivirloss_di) = DiaBio3d(i,j,k,ivirloss_di) + phyto(DIAZO)%jvirloss_n(i,j,k)  * n_dt
-
-           DiaBio3d(i,j,k,izloss_lg)   = DiaBio3d(i,j,k,izloss_lg)   + phyto(LARGE_)%jzloss_n(i,j,k)    * n_dt
-# ifdef COASTDIAT
-           DiaBio3d(i,j,k,izloss_md)   = DiaBio3d(i,j,k,izloss_md)   + phyto(MEDIUM)%jzloss_n(i,j,k)   * n_dt
-# endif
-           DiaBio3d(i,j,k,izloss_sm)   = DiaBio3d(i,j,k,izloss_sm)   + phyto(SMALL)%jzloss_n(i,j,k)    * n_dt
-           DiaBio3d(i,j,k,izloss_di)   = DiaBio3d(i,j,k,izloss_di)   + phyto(DIAZO)%jzloss_n(i,j,k)    * n_dt
-
-        ENDDO
-      ENDDO
-    ENDDO
+!     ! RD dev notes :
+!     ! update 3d diagnostics variables in ROMS
+!     DO k=1,UBk
+!       DO j=Jstr,Jend
+!         DO i=Istr,Iend
+!           DiaBio3d(i,j,k,ichl)          = DiaBio3d(i,j,k,ichl)      + cobalt%f_chl(i,j,k)
+!           DiaBio3d(i,j,k,ico3_ion)      = DiaBio3d(i,j,k,ico3_ion)  + cobalt%f_co3_ion(i,j,k)
+!           DiaBio3d(i,j,k,ihtotal)       = DiaBio3d(i,j,k,ihtotal)   + cobalt%f_htotal(i,j,k) * rmask_local(i,j)
+!           DiaBio3d(i,j,k,iirr_mem)      = DiaBio3d(i,j,k,iirr_mem)  + cobalt%f_irr_mem(i,j,k)
+!           DiaBio3d(i,j,k,iirr_mix)      = DiaBio3d(i,j,k,iirr_mix)  + cobalt%irr_mix(i,j,k)
+!           DiaBio3d(i,j,k,iirr_inst)     = DiaBio3d(i,j,k,iirr_inst) + cobalt%irr_inst(i,j,k)
+!         ENDDO
+!       ENDDO
+!     ENDDO
+!     i=overflow ; j=overflow ; k=overflow
+!
+!     ! Chl and C/chl per class
+!     DO k=1,UBk
+!       DO j=Jstr,Jend
+!         DO i=Istr,Iend
+!            DiaBio3d(i,j,k,ichl_di)     = DiaBio3d(i,j,k,ichl_di)     + phyto(DIAZO)%chl(i,j,k)
+!            DiaBio3d(i,j,k,iC_2_chl_di) = DiaBio3d(i,j,k,iC_2_chl_di) + phyto(DIAZO)%C_2_chl(i,j,k)
+!            DiaBio3d(i,j,k,ichl_sm)     = DiaBio3d(i,j,k,ichl_sm)     + phyto(SMALL)%chl(i,j,k)
+!            DiaBio3d(i,j,k,iC_2_chl_sm) = DiaBio3d(i,j,k,iC_2_chl_sm) + phyto(SMALL)%C_2_chl(i,j,k)
+!            DiaBio3d(i,j,k,ichl_lg)     = DiaBio3d(i,j,k,ichl_lg)     + phyto(LARGE_)%chl(i,j,k)
+!            DiaBio3d(i,j,k,iC_2_chl_lg) = DiaBio3d(i,j,k,iC_2_chl_lg) + phyto(LARGE_)%C_2_chl(i,j,k)
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,ichl_md)     = DiaBio3d(i,j,k,ichl_md)     + phyto(MEDIUM)%chl(i,j,k)
+!            DiaBio3d(i,j,k,iC_2_chl_md) = DiaBio3d(i,j,k,iC_2_chl_md) + phyto(MEDIUM)%C_2_chl(i,j,k)
+! # endif
+!         ENDDO
+!       ENDDO
+!     ENDDO
+!
+!
+!     DO k=1,UBk
+!       DO j=Jstr,Jend
+!         DO i=Istr,Iend
+!            DiaBio3d(i,j,k,imu_mem_sm)  = DiaBio3d(i,j,k,imu_mem_sm)  + phyto(SMALL)%f_mu_mem(i,j,k)
+!            DiaBio3d(i,j,k,imu_mem_di)  = DiaBio3d(i,j,k,imu_mem_di)  + phyto(DIAZO)%f_mu_mem(i,j,k)
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,imu_mem_md)  = DiaBio3d(i,j,k,imu_mem_md)  + phyto(MEDIUM)%f_mu_mem(i,j,k)
+! # endif
+!            DiaBio3d(i,j,k,imu_mem_lg)  = DiaBio3d(i,j,k,imu_mem_lg)  + phyto(LARGE_)%f_mu_mem(i,j,k)
+!            DiaBio3d(i,j,k,iagg_lim_sm) = DiaBio3d(i,j,k,iagg_lim_sm) + phyto(SMALL)%agg_lim(i,j,k)
+!            DiaBio3d(i,j,k,iagg_lim_di) = DiaBio3d(i,j,k,iagg_lim_di) + phyto(DIAZO)%agg_lim(i,j,k)
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,iagg_lim_md) = DiaBio3d(i,j,k,iagg_lim_md) + phyto(MEDIUM)%agg_lim(i,j,k)
+! # endif
+!            DiaBio3d(i,j,k,iagg_lim_lg) = DiaBio3d(i,j,k,iagg_lim_lg) + phyto(LARGE_)%agg_lim(i,j,k)
+!         ENDDO
+!       ENDDO
+!     ENDDO
+!
+!     DO k=1,UBk
+!       DO j=Jstr,Jend
+!         DO i=Istr,Iend
+!
+!            DiaBio3d(i,j,k,iaggloss_lg) = DiaBio3d(i,j,k,iaggloss_lg) + phyto(LARGE_)%jaggloss_n(i,j,k)  * n_dt
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,iaggloss_md) = DiaBio3d(i,j,k,iaggloss_md) + phyto(MEDIUM)%jaggloss_n(i,j,k) * n_dt
+! # endif
+!            DiaBio3d(i,j,k,iaggloss_sm) = DiaBio3d(i,j,k,iaggloss_sm) + phyto(SMALL)%jaggloss_n(i,j,k)  * n_dt
+!            DiaBio3d(i,j,k,iaggloss_di) = DiaBio3d(i,j,k,iaggloss_di) + phyto(DIAZO)%jaggloss_n(i,j,k)  * n_dt
+!
+!            DiaBio3d(i,j,k,ivirloss_lg) = DiaBio3d(i,j,k,ivirloss_lg) + phyto(LARGE_)%jvirloss_n(i,j,k)  * n_dt
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,ivirloss_md) = DiaBio3d(i,j,k,ivirloss_md) + phyto(MEDIUM)%jvirloss_n(i,j,k) * n_dt
+! # endif
+!            DiaBio3d(i,j,k,ivirloss_sm) = DiaBio3d(i,j,k,ivirloss_sm) + phyto(SMALL)%jvirloss_n(i,j,k)  * n_dt
+!            DiaBio3d(i,j,k,ivirloss_di) = DiaBio3d(i,j,k,ivirloss_di) + phyto(DIAZO)%jvirloss_n(i,j,k)  * n_dt
+!
+!            DiaBio3d(i,j,k,izloss_lg)   = DiaBio3d(i,j,k,izloss_lg)   + phyto(LARGE_)%jzloss_n(i,j,k)    * n_dt
+! # ifdef COASTDIAT
+!            DiaBio3d(i,j,k,izloss_md)   = DiaBio3d(i,j,k,izloss_md)   + phyto(MEDIUM)%jzloss_n(i,j,k)   * n_dt
+! # endif
+!            DiaBio3d(i,j,k,izloss_sm)   = DiaBio3d(i,j,k,izloss_sm)   + phyto(SMALL)%jzloss_n(i,j,k)    * n_dt
+!            DiaBio3d(i,j,k,izloss_di)   = DiaBio3d(i,j,k,izloss_di)   + phyto(DIAZO)%jzloss_n(i,j,k)    * n_dt
+!
+!         ENDDO
+!       ENDDO
+!     ENDDO
 #endif
 !   call system_clock(clock1stop)
 !   time_clock1 = elapsed_time(clock1start,clock1stop)

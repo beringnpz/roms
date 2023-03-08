@@ -641,6 +641,16 @@
       integer :: iprod_n_100_mdz, iingest_n_100_mdz, izloss_n_100_mdz, ihploss_n_100_mdz, iprod_ndet_100_mdz
       integer :: iprod_n_100_lgz, iingest_n_100_lgz, izloss_n_100_lgz, ihploss_n_100_lgz, iprod_ndet_100_lgz
       integer :: iprod_n_100_bact, izloss_n_100_bact
+      integer :: inpp_sm
+#ifdef COASTDIAT
+      integer :: inpp_md
+#endif
+      integer :: inpp_lg
+      integer :: inpp_di
+      integer :: ifratio
+      integer :: iprod_smz
+      integer :: iprod_mdz
+      integer :: iprod_lgz
       ! 200 meters diags
       integer :: imesozooprod_200, iuptake_din_100, iuptake_no3_n2_100, iprod_mesozoo_100
       integer :: iz_ratio_100, ipe_ratio_100, if_ratio_100
@@ -1889,10 +1899,10 @@
       ! Diagnostic tracers
 # ifdef COASTDIAT
       NDbio2d = 65
-      NDbio3d = 61
+      NDbio3d = 69
 # else
       NDbio2d = 62
-      NDbio3d = 49
+      NDbio3d = 56
 # endif
 #endif
 #ifdef BENTHIC
@@ -3030,19 +3040,28 @@
       iC_2_chl_lg=48
       ipCO2=49
 
+      inpp_sm=50
+      inpp_lg=51
+      inpp_di=52
+      ifratio=53
+      iprod_smz=54
+      iprod_mdz=55
+      iprod_lgz=56
+
 # ifdef COASTDIAT
-      imu_mem_md=50
-      iagg_lim_md=51
-      iaggloss_md=52
-      ivirloss_md=53
-      izloss_md=54
-      idef_fe_md=55
-      ifelim_md=56
-      ino3lim_md=57
-      inh4lim_md=58
-      ipo4lim_md=59
-      ichl_md=60
-      iC_2_chl_md=61
+      imu_mem_md=57
+      iagg_lim_md=58
+      iaggloss_md=59
+      ivirloss_md=60
+      izloss_md=61
+      idef_fe_md=62
+      ifelim_md=63
+      ino3lim_md=64
+      inh4lim_md=65
+      ipo4lim_md=66
+      ichl_md=67
+      iC_2_chl_md=68
+      inpp_md=69
 # endif
 
 

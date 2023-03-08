@@ -345,7 +345,7 @@
 
               ! Intermediate fluxes
 
-              gpp( i,k) = qP*mu*Bio(i,k,iphyto)
+              npp( i,k) = qP*mu*Bio(i,k,iphyto)
               gra( i,k) = qZ*I_P*Bio(i,k,izoo)
               agg( i,k) = qP*m_agg(ng)*Bio(i,k,iphyto)**2
               pmor(i,k) = qR*m_P(ng)*Bio(i,k,iphyto)
@@ -353,9 +353,9 @@
               srem(i,k) = qR*r_remin(ng)*Bio(i,k,idets)
               lrem(i,k) = qR*r_remin(ng)*Bio(i,k,idetl)
               nit( i,k) = qR*r_nitr(ng)*Bio(i,k,inh4)
-              
+
 #ifdef DIAGNOSTICS_BIO
-              DiaBio3d(i,j,k,iflxgpp)  = gpp( i,k)
+              DiaBio3d(i,j,k,iflxnpp)  = npp( i,k)
               DiaBio3d(i,j,k,iflxgra)  = gra( i,k)
               DiaBio3d(i,j,k,iflxagg)  = agg( i,k)
               DiaBio3d(i,j,k,iflxpmor) = pmor(i,k)

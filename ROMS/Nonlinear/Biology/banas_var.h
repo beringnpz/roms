@@ -76,8 +76,8 @@
               CASE ('idTbry(isouth,ino3)')
                 idTbry(isouth,ino3)=varid
 #ifdef DIAGNOSTICS_BIO
-              CASE ('iDbio3(iflxgpp)')
-                iDbio3(iflxgpp)=varid
+              CASE ('iDbio3(iflxnpp)')
+                iDbio3(iflxnpp)=varid
               CASE ('iDbio3(iflxgra)')
                 iDbio3(iflxgra)=varid
               CASE ('iDbio3(iflxagg)')

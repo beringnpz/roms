@@ -481,14 +481,14 @@
               END DO
 #endif
 #ifdef DIAGNOSTICS_BIO
-            CASE ('Dout(iflxgpp)')
-              IF (iDbio3(iflxgpp).eq.0) THEN
-                IF (Master) WRITE (out,40) 'iDbio3(iflxgpp)'
+            CASE ('Dout(iflxnpp)')
+              IF (iDbio3(iflxnpp).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxnpp)'
                 exit_flag=5
                 RETURN
               END IF
               Npts=load_l(Nval, Cval, Ngrids, Lbio)
-              i=iDbio3(iflxgpp)
+              i=iDbio3(iflxnpp)
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO

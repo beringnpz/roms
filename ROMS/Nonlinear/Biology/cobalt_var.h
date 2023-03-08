@@ -1115,6 +1115,24 @@
               CASE ('iDbio3(iC_2_chl_md)')
                 iDbio3(iC_2_chl_md)=varid
 #endif
+              CASE ('iDbio3(inpp_sm)')
+                iDbio3(inpp_sm)=varid
+#ifdef COASTDIAT
+              CASE ('iDbio3(inpp_md)')
+                iDbio3(inpp_md)=varid
+#endif
+              CASE ('iDbio3(inpp_lg)')
+                iDbio3(inpp_lg)=varid
+              CASE ('iDbio3(inpp_di)')
+                iDbio3(inpp_di)=varid
+              CASE ('iDbio3(ifratio)')
+                iDbio3(ifratio)=varid
+              CASE ('iDbio3(iprod_smz)')
+                iDbio3(iprod_smz)=varid
+              CASE ('iDbio3(iprod_mdz)')
+                iDbio3(iprod_mdz)=varid
+              CASE ('iDbio3(iprod_lgz)')
+                iDbio3(iprod_lgz)=varid
 
 
 #endif

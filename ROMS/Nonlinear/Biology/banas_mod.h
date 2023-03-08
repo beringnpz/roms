@@ -70,7 +70,7 @@
       integer :: inh4
       integer :: ino3
 #ifdef DIAGNOSTICS_BIO
-      integer :: iflxgpp
+      integer :: iflxnpp
       integer :: iflxgra
       integer :: iflxagg
       integer :: iflxpmor
@@ -325,7 +325,7 @@
       DO i=1,NDbio2d
         iDbio2(i)=i
       END DO
-      iflxgpp=1
+      iflxnpp=1
       iflxgra=2
       iflxagg=3
       iflxpmor=4
