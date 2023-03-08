@@ -181,7 +181,7 @@
 
       real(r8) :: E0, maxkappa, Eeff, alpha, Ntot, mu, qP, qZ, qR, I_P
 
-      real(r8), dimension(IminS:ImaxS,N(ng)) :: gpp, gra, agg, pmor
+      real(r8), dimension(IminS:ImaxS,N(ng)) :: npp, gra, agg, pmor
       real(r8), dimension(IminS:ImaxS,N(ng)) :: zmor, srem, lrem, nit
 
 #include "set_bounds.h"
@@ -368,7 +368,7 @@
               ! Apply biomass change
 
               Bio(i,k,iphyto) = Bio(i,k,iphyto) +                       &
-     &                     (  gpp(i,k)                                  &
+     &                     (  npp(i,k)                                  &
      &                      - gra(i,k)                                  &
      &                      - pmor(i,k)                                 &
      &                      - agg(i,k))*dtdays
@@ -387,14 +387,14 @@
      &                      - lrem(i,k))*dtdays
 
               Bio(i,k,inh4  ) = Bio(i,k,inh4  ) +                       &
-     &                     (-(phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*gpp(i,k)  &
+     &                     (-(phi_NH4(ng)*Bio(i,k,inh4)/Ntot)*npp(i,k)  &
      &                      + fex(ng)*gra(i,k)                          &
      &                      + srem(i,k)                                 &
      &                      + lrem(i,k)                                 &
      &                      - nit(i,k))*dtdays
 
               Bio(i,k,ino3  ) = Bio(i,k,ino3  ) +                       &
-     &                     (-(Bio(i,k,ino3)/Ntot)*gpp(i,k)              &
+     &                     (-(Bio(i,k,ino3)/Ntot)*npp(i,k)              &
      &                      + nit(i,k))*dtdays
 
             END DO
