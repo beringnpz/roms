@@ -2726,28 +2726,345 @@
 #ifdef COASTAL_ATTEN
             WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
      &            'Depth-based attenuation coefficient, factor (m^-1)'
-            WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
+            WRITE (out,80) k_sed2(ng), 'k_sed2',                        &
      &            'Depth-based attenuation coefficient, exponent (unitless)'
 #endif
 #ifdef COASTDIAT
-             WRITE (out,100) k_fed_Md(ng), 'k_fed_Md',                  &
-     &            'k_fed_Md: Nutrient Limitation Parameters             &
-     &            (phytoplankton)[mol Fed kg-1].'
-             WRITE (out,100) k_nh4_Md(ng), 'k_nh4_Md',                  &
-     &            'k_nh4_Md: Nutrient Limitation Parameters             &
-     &            (phytoplankton)[mol NH4 kg-1].'
-             WRITE (out,100) k_no3_Md(ng), 'k_no3_Md',                  &
-     &            'k_no3_Md: Nutrient Limitation Parameters             &
-     &            (phytoplankton) [mol NO3 kg-1].'
-             WRITE (out,100) k_po4_Md(ng), 'k_po4_Md',                  &
-     &            'k_po4_Md: Nutrient Limitation Parameters             &
-     &            (phytoplankton) [mol PO4 kg-1].'
-             WRITE (out,100) k_sio4_Md(ng), 'k_sio4_Md',                &
-     &            'k_sio4_Md: Nutrient Limitation Parameters            &
-     &            (phytoplankton) [mol SiO4 kg-1].'
-             WRITE (out,100) k_fe_2_n_Md(ng), 'k_fe_2_n_Md',            &
-     &            'k_fe_2_n_Md: Nutrient Limitation Parameters          &
-     &            (phytoplankton) [mol Fe mol N-1].'
+            WRITE (out,100) k_fed_Md(ng), 'k_fed_Md',                  &
+     &           'k_fed_Md: Nutrient Limitation Parameters             &
+     &           (phytoplankton)[mol Fed kg-1].'
+            WRITE (out,100) k_nh4_Md(ng), 'k_nh4_Md',                  &
+     &           'k_nh4_Md: Nutrient Limitation Parameters             &
+     &           (phytoplankton)[mol NH4 kg-1].'
+            WRITE (out,100) k_no3_Md(ng), 'k_no3_Md',                  &
+     &           'k_no3_Md: Nutrient Limitation Parameters             &
+     &           (phytoplankton) [mol NO3 kg-1].'
+            WRITE (out,100) k_po4_Md(ng), 'k_po4_Md',                  &
+     &           'k_po4_Md: Nutrient Limitation Parameters             &
+     &           (phytoplankton) [mol PO4 kg-1].'
+            WRITE (out,100) k_sio4_Md(ng), 'k_sio4_Md',                &
+     &           'k_sio4_Md: Nutrient Limitation Parameters            &
+     &           (phytoplankton) [mol SiO4 kg-1].'
+            WRITE (out,100) k_fe_2_n_Md(ng), 'k_fe_2_n_Md',            &
+     &           'k_fe_2_n_Md: Nutrient Limitation Parameters          &
+     &           (phytoplankton) [mol Fe mol N-1].'
+#endif
+          END IF
+        END DO
+      END IF
+
+#ifdef TS_DIF2
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              WRITE (out,100) nl_tnu2(i,ng), 'nl_tnu2', i,              &
+     &              'NLM Horizontal, harmonic mixing coefficient',      &
+     &              '(m2/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# ifdef ADJOINT
+              WRITE (out,100) ad_tnu2(i,ng), 'ad_tnu2', i,              &
+     &              'ADM Horizontal, harmonic mixing coefficient',      &
+     &              '(m2/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+# if defined TANGENT || defined TL_IOMS
+              WRITE (out,100) tl_tnu2(i,ng), 'tl_tnu2', i,              &
+     &              'TLM Horizontal, harmonic mixing coefficient',      &
+     &              '(m2/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+            END DO
+#endif
+#ifdef TS_DIF4
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              WRITE (out,100) nl_tnu4(i,ng), 'nl_tnu4', i,              &
+     &              'NLM Horizontal, biharmonic mixing coefficient',    &
+     &              '(m4/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# ifdef ADJOINT
+              WRITE (out,100) ad_tnu4(i,ng), 'ad_tnu4', i,              &
+     &              'ADM Horizontal, biharmonic mixing coefficient',    &
+     &              '(m4/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+# if defined TANGENT || defined TL_IOMS
+              WRITE (out,100) tl_tnu4(i,ng), 'tl_tnu4', i,              &
+     &              'TLM Horizontal, biharmonic mixing coefficient',    &
+     &              '(m4/s) for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+            END DO
+#endif
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              IF (LtracerSponge(i,ng)) THEN
+                WRITE (out,110) LtracerSponge(i,ng), 'LtracerSponge',   &
+     &              i, 'Turning ON  sponge on tracer ', i,              &
+     &              TRIM(Vname(1,idTvar(i)))
+              ELSE
+                WRITE (out,110) LtracerSponge(i,ng), 'LtracerSponge',   &
+     &              i, 'Turning OFF sponge on tracer ', i,              &
+     &              TRIM(Vname(1,idTvar(i)))
+              END IF
+            END DO
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              WRITE(out,100) Akt_bak(i,ng), 'Akt_bak', i,               &
+     &             'Background vertical mixing coefficient (m2/s)',     &
+     &             'for tracer ', i, TRIM(Vname(1,idTvar(i)))
+            END DO
+#ifdef FORWARD_MIXING
+            DO itrc=1,NBT
+              i=idbio(itrc)
+# ifdef ADJOINT
+              WRITE (out,100) ad_Akt_fac(i,ng), 'ad_Akt_fac', i,        &
+     &              'ADM basic state vertical mixing scale factor',     &
+     &              'for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+# if defined TANGENT || defined TL_IOMS
+              WRITE (out,100) tl_Akt_fac(i,ng), 'tl_Akt_fac', i,        &
+     &              'TLM basic state vertical mixing scale factor',     &
+     &              'for tracer ', i, TRIM(Vname(1,idTvar(i)))
+# endif
+            END DO
+#endif
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              WRITE (out,100) Tnudg(i,ng), 'Tnudg', i,                  &
+     &              'Nudging/relaxation time scale (days)',             &
+     &              'for tracer ', i, TRIM(Vname(1,idTvar(i)))
+            END DO
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              IF (LtracerSrc(i,ng)) THEN
+                WRITE (out,110) LtracerSrc(i,ng), 'LtracerSrc',         &
+     &              i, 'Turning ON  point sources/Sink on tracer ', i,  &
+     &              TRIM(Vname(1,idTvar(i)))
+              ELSE
+                WRITE (out,110) LtracerSrc(i,ng), 'LtracerSrc',         &
+     &              i, 'Turning OFF point sources/Sink on tracer ', i,  &
+     &              TRIM(Vname(1,idTvar(i)))
+              END IF
+            END DO
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              IF (LtracerCLM(i,ng)) THEN
+                WRITE (out,110) LtracerCLM(i,ng), 'LtracerCLM', i,      &
+     &              'Turning ON  processing of climatology tracer ', i, &
+     &              TRIM(Vname(1,idTvar(i)))
+              ELSE
+                WRITE (out,110) LtracerCLM(i,ng), 'LtracerCLM', i,      &
+     &              'Turning OFF processing of climatology tracer ', i, &
+     &              TRIM(Vname(1,idTvar(i)))
+              END IF
+            END DO
+            DO itrc=1,NBT
+              i=idbio(itrc)
+              IF (LnudgeTCLM(i,ng)) THEN
+                WRITE (out,110) LnudgeTCLM(i,ng), 'LnudgeTCLM', i,      &
+     &              'Turning ON  nudging of climatology tracer ', i,    &
+     &              TRIM(Vname(1,idTvar(i)))
+              ELSE
+                WRITE (out,110) LnudgeTCLM(i,ng), 'LnudgeTCLM', i,      &
+     &              'Turning OFF nudging of climatology tracer ', i,    &
+     &              TRIM(Vname(1,idTvar(i)))
+              END IF
+            END DO
+            IF ((nHIS(ng).gt.0).and.ANY(Hout(:,ng))) THEN
+              WRITE (out,'(1x)')
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Hout(idTvar(i),ng)) WRITE (out,120)                 &
+     &              Hout(idTvar(i),ng), 'Hout(idTvar)',                 &
+     &              'Write out tracer ', i, TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Hout(idTsur(i),ng)) WRITE (out,120)                 &
+     &              Hout(idTsur(i),ng), 'Hout(idTsur)',                 &
+     &              'Write out tracer flux ', i,                        &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+            END IF
+#ifdef BENTHIC
+              DO itrc=1,NBEN
+                i=idben(itrc)
+                IF (Hout(idBeTvar(i),ng)) WRITE (out,120)               &
+   &                Hout(idBeTvar(i),ng), 'Hout(idBeTvar)',             &
+   &                'Write out benthic tracer ', i, TRIM(Vname(1,idBeTvar(i)))
+              END DO
+#endif
+            IF ((nQCK(ng).gt.0).and.ANY(Qout(:,ng))) THEN
+              WRITE (out,'(1x)')
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Qout(idTvar(i),ng)) WRITE (out,120)                 &
+     &              Qout(idTvar(i),ng), 'Qout(idTvar)',                 &
+     &              'Write out tracer ', i, TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Qout(idsurT(i),ng)) WRITE (out,120)                 &
+     &              Qout(idsurT(i),ng), 'Qout(idsurT)',                 &
+     &              'Write out surface tracer ', i,                     &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Qout(idTsur(i),ng)) WRITE (out,120)                 &
+     &              Qout(idTsur(i),ng), 'Qout(idTsur)',                 &
+     &              'Write out tracer flux ', i,                        &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+            END IF
+#if defined AVERAGES    || \
+   (defined AD_AVERAGES && defined ADJOINT) || \
+   (defined RP_AVERAGES && defined TL_IOMS) || \
+   (defined TL_AVERAGES && defined TANGENT)
+            IF ((nAVG(ng).gt.0).and.ANY(Aout(:,ng))) THEN
+              WRITE (out,'(1x)')
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(idTvar(i),ng)) WRITE (out,120)                 &
+     &              Aout(idTvar(i),ng), 'Aout(idTvar)',                 &
+     &              'Write out averaged tracer ', i,                    &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(idTTav(i),ng)) WRITE (out,120)                 &
+     &              Aout(idTTav(i),ng), 'Aout(idTTav)',                 &
+     &              'Write out averaged <t*t> for tracer ', i,          &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(idUTav(i),ng)) WRITE (out,120)                 &
+     &              Aout(idUTav(i),ng), 'Aout(idUTav)',                 &
+     &              'Write out averaged <u*t> for tracer ', i,          &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(idVTav(i),ng)) WRITE (out,120)                 &
+     &              Aout(idVTav(i),ng), 'Aout(idVTav)',                 &
+     &              'Write out averaged <v*t> for tracer ', i,          &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(iHUTav(i),ng)) WRITE (out,120)                 &
+     &              Aout(iHUTav(i),ng), 'Aout(iHUTav)',                 &
+     &              'Write out averaged <Huon*t> for tracer ', i,       &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+              DO itrc=1,NBT
+                i=idbio(itrc)
+                IF (Aout(iHVTav(i),ng)) WRITE (out,120)                 &
+     &              Aout(iHVTav(i),ng), 'Aout(iHVTav)',                 &
+     &              'Write out averaged <Hvom*t> for tracer ', i,       &
+     &              TRIM(Vname(1,idTvar(i)))
+              END DO
+#ifdef BENTHIC
+              DO itrc=1,NBEN
+                i=idben(itrc)
+                IF (Aout(idBeTvar(i),ng)) WRITE (out,120)               &
+   &                Aout(idBeTvar(i),ng), 'Aout(idBeTvar)',             &
+   &                'Write out averaged benthic tracer ', i, TRIM(Vname(1,idBeTvar(i)))
+              END DO
+#endif
+            END IF
+#endif
+#ifdef DIAGNOSTICS_TS
+            IF ((nDIA(ng).gt.0).and.ANY(Dout(:,ng))) THEN
+              WRITE (out,'(1x)')
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTrate),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTrate)',               &
+     &                'Write out rate of change of tracer ', itrc,      &
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iThadv),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iThadv)',               &
+     &                'Write out horizontal advection, tracer ', itrc,  &
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTxadv),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTxadv)',               &
+     &                'Write out horizontal X-advection, tracer ', itrc,&
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTyadv),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTyadv)',               &
+     &                'Write out horizontal Y-advection, tracer ', itrc,&
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTvadv),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTvadv)',               &
+     &                'Write out vertical advection, tracer ', itrc,    &
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+# if defined TS_DIF2 || defined TS_DIF4
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iThdif),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iThdif)',               &
+     &                'Write out horizontal diffusion, tracer ', itrc,  &
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(i,iTxdif),ng))                          &
+     &            WRITE (out,120) .TRUE., 'Dout(iTxdif)',               &
+     &                'Write out horizontal X-diffusion, tracer ', itrc,&
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTydif),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTydif)',               &
+     &                'Write out horizontal Y-diffusion, tracer ', itrc,&
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+#  if defined MIX_GEO_TS || defined MIX_ISO_TS
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTsdif),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTsdif)',               &
+     &                'Write out horizontal S-diffusion, tracer ', itrc,&
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+#  endif
+# endif
+              DO i=1,NBT
+                itrc=idbio(i)
+                IF (Dout(idDtrc(itrc,iTvdif),ng))                       &
+     &            WRITE (out,120) .TRUE., 'Dout(iTvdif)',               &
+     &                'Write out vertical diffusion, tracer ', itrc,    &
+     &                TRIM(Vname(1,idTvar(itrc)))
+              END DO
+            END IF
+#endif
+#ifdef DIAGNOSTICS_BIO
+            IF (nDIA(ng).gt.0) THEN
+              IF (NDbio2d.gt.0) THEN
+                DO itrc=1,NDbio2d
+                  i=iDbio2(itrc)
+                  IF (Dout(i,ng)) WRITE (out,130)                       &
+     &                Dout(i,ng), 'Dout(iDbio2)',                       &
+     &                'Write out diagnostics for', TRIM(Vname(1,i))
+                END DO
+              END IF
+              DO itrc=1,NDbio3d
+                i=iDbio3(itrc)
+                IF (Dout(i,ng)) WRITE (out,130)                         &
+     &              Dout(i,ng), 'Dout(iDbio3)',                         &
+     &              'Write out diagnostics for', TRIM(Vname(1,i))
+              END DO
+            END IF
 #endif
           END IF
         END DO

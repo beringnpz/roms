@@ -641,7 +641,7 @@
 #ifdef COASTAL_ATTEN
             WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
      &            'Depth-based attenuation coefficient, factor (m^-1)'
-            WRITE (out,80) k_sed1(ng), 'k_sed1',                        &
+            WRITE (out,80) k_sed2(ng), 'k_sed2',                        &
      &            'Depth-based attenuation coefficient, exponent (unitless)'
 #endif
 #ifdef TS_DIF2
