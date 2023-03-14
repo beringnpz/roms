@@ -355,6 +355,18 @@
               nit( i,k) = qR*r_nitr(ng)*Bio(i,k,inh4)
 
 #ifdef DIAGNOSTICS_BIO
+# ifdef DIAGBIOAVG
+              ! Diagnostics are averaged over archiving time step (averages-like) 
+              DiaBio3d(i,j,k,iflxnpp)  = DiaBio3d(i,j,k,iflxnpp)  + npp( i,k)
+              DiaBio3d(i,j,k,iflxgra)  = DiaBio3d(i,j,k,iflxgra)  + gra( i,k)
+              DiaBio3d(i,j,k,iflxagg)  = DiaBio3d(i,j,k,iflxagg)  + agg( i,k)
+              DiaBio3d(i,j,k,iflxpmor) = DiaBio3d(i,j,k,iflxpmor) + pmor(i,k)
+              DiaBio3d(i,j,k,iflxzmor) = DiaBio3d(i,j,k,iflxzmor) + zmor(i,k)
+              DiaBio3d(i,j,k,iflxsrem) = DiaBio3d(i,j,k,iflxsrem) + srem(i,k)
+              DiaBio3d(i,j,k,iflxlrem) = DiaBio3d(i,j,k,iflxlrem) + lrem(i,k)
+              DiaBio3d(i,j,k,iflxnit)  = DiaBio3d(i,j,k,iflxnit)  + nit( i,k)
+# else
+              ! Diagnostics are instantaneous snapshots (history-like) 
               DiaBio3d(i,j,k,iflxnpp)  = npp( i,k)
               DiaBio3d(i,j,k,iflxgra)  = gra( i,k)
               DiaBio3d(i,j,k,iflxagg)  = agg( i,k)
@@ -363,6 +375,7 @@
               DiaBio3d(i,j,k,iflxsrem) = srem(i,k)
               DiaBio3d(i,j,k,iflxlrem) = lrem(i,k)
               DiaBio3d(i,j,k,iflxnit)  = nit( i,k)
+# endif
 #endif
 
               ! Apply biomass change

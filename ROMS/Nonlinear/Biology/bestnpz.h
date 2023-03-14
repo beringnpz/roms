@@ -1470,16 +1470,27 @@
 #ifdef DIAGNOSTICS_BIO
 
               ! Save limitation terms for output
-
-              DiaBio3d(i,j,k,ipar) = PAR(i,k)
-              DiaBio3d(i,j,k,iilims) = LightLimS1
-              DiaBio3d(i,j,k,iiliml) = LightLimL1
+# ifdef DIAGBIOAVG
+              DiaBio3d(i,j,k,ipar)    = DiaBio3d(i,j,k,ipar)    + PAR(i,k)
+              DiaBio3d(i,j,k,iilims)  = DiaBio3d(i,j,k,iilims)  + LightLimS1
+              DiaBio3d(i,j,k,iiliml)  = DiaBio3d(i,j,k,iiliml)  + LightLimL1
+              DiaBio3d(i,j,k,inolims) = DiaBio3d(i,j,k,inolims) + NOLimS
+              DiaBio3d(i,j,k,inoliml) = DiaBio3d(i,j,k,inoliml) + NOLimL
+              DiaBio3d(i,j,k,inhlims) = DiaBio3d(i,j,k,inhlims) + NHLimS
+              DiaBio3d(i,j,k,inhliml) = DiaBio3d(i,j,k,inhliml) + NHLimL
+              DiaBio3d(i,j,k,ifelims) = DiaBio3d(i,j,k,ifelims) + IronLimS
+              DiaBio3d(i,j,k,ifeliml) = DiaBio3d(i,j,k,ifeliml) + IronLimL
+# else
+              DiaBio3d(i,j,k,ipar)    = PAR(i,k)
+              DiaBio3d(i,j,k,iilims)  = LightLimS1
+              DiaBio3d(i,j,k,iiliml)  = LightLimL1
               DiaBio3d(i,j,k,inolims) = NOLimS
               DiaBio3d(i,j,k,inoliml) = NOLimL
               DiaBio3d(i,j,k,inhlims) = NHLimS
               DiaBio3d(i,j,k,inhliml) = NHLimL
               DiaBio3d(i,j,k,ifelims) = IronLimS
               DiaBio3d(i,j,k,ifeliml) = IronLimL
+# endif
 #endif
             END DO
           END DO
@@ -3093,6 +3104,21 @@
                 end if
               END DO
 
+# ifdef DIAGBIOAVG
+              ! Net production
+
+              DiaBio3d(i,j,k,iprod_PhS)    = DiaBio3d(i,j,k,iprod_PhS)    + prod_PhS(i,k)
+              DiaBio3d(i,j,k,iprod_PhL)    = DiaBio3d(i,j,k,iprod_PhL)    + prod_PhL(i,k)
+              DiaBio3d(i,j,k,iprod_MZL)    = DiaBio3d(i,j,k,iprod_MZL)    + prod_MZL(i,k)
+              DiaBio3d(i,j,k,iprod_Cop)    = DiaBio3d(i,j,k,iprod_Cop)    + prod_Cop(i,k)
+              DiaBio3d(i,j,k,iprod_NCaS)   = DiaBio3d(i,j,k,iprod_NCaS)   + prod_NCaS(i,k)
+              DiaBio3d(i,j,k,iprod_EupS)   = DiaBio3d(i,j,k,iprod_EupS)   + prod_EupS(i,k)
+              DiaBio3d(i,j,k,iprod_NCaO)   = DiaBio3d(i,j,k,iprod_NCaO)   + prod_NCaO(i,k)
+              DiaBio3d(i,j,k,iprod_EupO)   = DiaBio3d(i,j,k,iprod_EupO)   + prod_EupO(i,k)
+              DiaBio3d(i,j,k,iprod_Jel)    = DiaBio3d(i,j,k,iprod_Jel)    + prod_Jel(i,k)
+              DiaBio3d(i,j,k,iprod_Ben)    = DiaBio3d(i,j,k,iprod_Ben)    + prod_Ben(i,k)
+              DiaBio3d(i,j,k,iprod_IcePhL) = DiaBio3d(i,j,k,iprod_IcePhL) + prod_IcePhL(i,k)
+# else
               ! Net production
 
               DiaBio3d(i,j,k,iprod_PhS)    = prod_PhS(i,k)
@@ -3106,6 +3132,7 @@
               DiaBio3d(i,j,k,iprod_Jel)    = prod_Jel(i,k)
               DiaBio3d(i,j,k,iprod_Ben)    = prod_Ben(i,k)
               DiaBio3d(i,j,k,iprod_IcePhL) = prod_IcePhL(i,k)
+# endif
 
               DiaBio3d(i,j,k,itotprod) = total_prod(i,k)
               DiaBio3d(i,j,k,itotresp) = total_resp(i,k)
