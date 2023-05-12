@@ -1162,12 +1162,12 @@
 !-----------------------------------------------------------------------------------
 !
 !
-!-----------------------------------------------------------------------------------
-! 1.1: Nutrient Limitation Calculations
-!-----------------------------------------------------------------------------------
-!
-! Calculate iron cell quota
-!
+      !-----------------------------------------------------------------------------------
+      ! 1.1: Nutrient Limitation Calculations
+      !-----------------------------------------------------------------------------------
+      !
+      ! Calculate iron cell quota
+      !
 
 !     call system_clock(clock1start)
 
@@ -1201,60 +1201,73 @@
       phyto(SMALL)%q_p_2_n(:,:,:)  = phyto(SMALL)%p_2_n_static
 
 
-!
-! N limitation with NH4 inhibition after Frost and Franzen (1992)
-!
-
-!     DO nphyto=2,NUM_PHYTO
-!       phyto(nphyto)%no3lim(:,:,:) = cobalt%f_no3(:,:,:) /     &
-!    &    ( (phyto(nphyto)%k_no3 + cobalt%f_no3(:,:,:))     *   &
-!    &    (1.0d0 + cobalt%f_nh4(:,:,:) / phyto(nphyto)%k_nh4) )
-!
-!       phyto(nphyto)%nh4lim(:,:,:) = cobalt%f_nh4(:,:,:) /     &
-!    &    (phyto(nphyto)%k_nh4 + cobalt%f_nh4(:,:,:))
-!     ENDDO
-!     nphyto=overflow
+      !
+      ! N limitation with NH4 inhibition after Frost and Franzen (1992) as in
+      ! COBALTv1 or O'Neill et al (1989) as in COBALTv2.
+      !
 
       DO k=1,UBk
+
+#ifdef NLIM_ONEILL
+
+        phyto(LARGE_)%no3lim(:,:,k) = cobalt%f_no3(:,:,k) / &
+             ( phyto(LARGE_)%k_no3+cobalt%f_no3(:,:,k)+phyto(LARGE_)%k_no3/phyto(LARGE_)%k_nh4*cobalt%f_nh4(:,:,k) )
+        phyto(LARGE_)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) / &
+             ( phyto(LARGE_)%k_nh4+cobalt%f_nh4(:,:,k)+phyto(LARGE_)%k_nh4/phyto(LARGE_)%k_no3*cobalt%f_no3(:,:,k) )
+
+        phyto(SMALL )%no3lim(:,:,k) = cobalt%f_no3(:,:,k) / &
+             ( phyto(SMALL )%k_no3+cobalt%f_no3(:,:,k)+phyto(SMALL )%k_no3/phyto(SMALL )%k_nh4*cobalt%f_nh4(:,:,k) )
+        phyto(SMALL)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) / &
+             ( phyto(SMALL )%k_nh4+cobalt%f_nh4(:,:,k)+phyto(SMALL )%k_nh4/phyto(SMALL )%k_no3*cobalt%f_no3(:,:,k) )
+
+# ifdef COASTDIAT
+        phyto(MEDIUM)%no3lim(:,:,k) = cobalt%f_no3(:,:,k) / &
+             ( phyto(MEDIUM)%k_no3+cobalt%f_no3(:,:,k)+phyto(MEDIUM)%k_no3/phyto(MEDIUM)%k_nh4*cobalt%f_nh4(:,:,k) )
+        phyto(MEDIUM)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) / &
+             ( phyto(MEDIUM)%k_nh4+cobalt%f_nh4(:,:,k)+phyto(MEDIUM)%k_nh4/phyto(MEDIUM)%k_no3*cobalt%f_no3(:,:,k) )
+# endif
+#else
+        ! NO3 Limitation
         phyto(LARGE_)%no3lim(:,:,k) = cobalt%f_no3(:,:,k) /                    &
           ( (phyto(LARGE_)%k_no3 + cobalt%f_no3(:,:,k))     *                  &
           (1.0d0 + cobalt%f_nh4(:,:,k) / phyto(LARGE_)%k_nh4) ) * rmask_local(:,:)
 
-#ifdef COASTDIAT
+# ifdef COASTDIAT
         phyto(MEDIUM)%no3lim(:,:,k) = cobalt%f_no3(:,:,k) /                    &
           ( (phyto(MEDIUM)%k_no3 + cobalt%f_no3(:,:,k))     *                  &
           (1.0d0 + cobalt%f_nh4(:,:,k) / phyto(MEDIUM)%k_nh4) ) * rmask_local(:,:)
-#endif
+# endif
 
         phyto(SMALL)%no3lim(:,:,k) = cobalt%f_no3(:,:,k) /                     &
           ( (phyto(SMALL)%k_no3 + cobalt%f_no3(:,:,k))     *                   &
           (1.0d0 + cobalt%f_nh4(:,:,k) / phyto(SMALL)%k_nh4) ) * rmask_local(:,:)
 
+        ! NH4 Limitation
         phyto(LARGE_)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) /                    &
           (phyto(LARGE_)%k_nh4 + cobalt%f_nh4(:,:,k)) * rmask_local(:,:)
 
-#ifdef COASTDIAT
+# ifdef COASTDIAT
         phyto(MEDIUM)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) /                    &
           (phyto(MEDIUM)%k_nh4 + cobalt%f_nh4(:,:,k)) * rmask_local(:,:)
-#endif
+# endif
 
         phyto(SMALL)%nh4lim(:,:,k) = cobalt%f_nh4(:,:,k) /                     &
           (phyto(SMALL)%k_nh4 + cobalt%f_nh4(:,:,k)) * rmask_local(:,:)
+#endif
       ENDDO
-!
-! O2 inhibition term for diazotrophs
-!
+
       DO k=1,UBk
+        !
+        ! O2 inhibition term for diazotrophs
+        !
         nphyto=DIAZO
         phyto(nphyto)%o2lim(:,:,k) = (1.0d0 -                                  &
      &    cobalt%f_o2(:,:,k)**cobalt%o2_inhib_Di_pow /                         &
      &    (cobalt%f_o2(:,:,k)**cobalt%o2_inhib_Di_pow +                        &
      &    cobalt%o2_inhib_Di_sat**cobalt%o2_inhib_Di_pow)) * rmask_local(:,:)
-
-!
-! SiO4, PO4 and Fe uptake limitation with Michaelis-Menten
-!
-
+        !
+        ! SiO4, PO4 and Fe uptake limitation with Michaelis-Menten
+        !
         phyto(LARGE_)%silim(:,:,k) = cobalt % f_sio4(:,:,k) /                  &
      &    (phyto(LARGE_)%k_sio4 + cobalt%f_sio4(:,:,k)) * rmask_local(:,:)
 #ifdef COASTDIAT
@@ -1281,20 +1294,20 @@
 ! set to 1 when the model is not using them.
 
 #ifdef COBALT_PHOSPHORUS
-      phyto(DIAZO)%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
-     &  (phyto(DIAZO)%k_po4 + cobalt%f_po4(:,:,:))
+      phyto(DIAZO )%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
+     &  (phyto(DIAZO )%k_po4 + cobalt%f_po4(:,:,:))
       phyto(LARGE_)%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
      &  (phyto(LARGE_)%k_po4 + cobalt%f_po4(:,:,:))
-      phyto(SMALL)%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
-     &  (phyto(SMALL)%k_po4 + cobalt%f_po4(:,:,:))
+      phyto(SMALL )%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
+     &  (phyto(SMALL )%k_po4 + cobalt%f_po4(:,:,:))
 # ifdef COASTDIAT
       phyto(MEDIUM)%po4lim(:,:,:) = cobalt%f_po4(:,:,:) / &
      &  (phyto(MEDIUM)%k_po4 + cobalt%f_po4(:,:,:))
 # endif
 #else
-      phyto(DIAZO)%po4lim(:,:,:) = 1.
+      phyto(DIAZO )%po4lim(:,:,:) = 1.
       phyto(LARGE_)%po4lim(:,:,:) = 1.
-      phyto(SMALL)%po4lim(:,:,:) = 1.
+      phyto(SMALL )%po4lim(:,:,:) = 1.
 # ifdef COASTDIAT
       phyto(MEDIUM)%po4lim(:,:,:) = 1.
 # endif
@@ -1607,8 +1620,8 @@
             ! compute the instant irradiance in layer k as a difference of fluxes
             ! between interfaces k and k-1 (like in pre_step3d)
             ! this was maybe a bad idea, replaced by half-sum
-            cobalt%irr_inst(i,j,k) = rho0 * Cp * srflx(i,j) * &
-          & 0.5d0 * ( swdk3(i,j,k) + swdk3(i,j,k-1) )
+            cobalt%irr_inst(i,j,k) = rho0 * Cp * srflx(i,j) *                  &
+     &                               0.5d0 * ( swdk3(i,j,k) + swdk3(i,j,k-1) )
 
             ! set base value of irr_mix to irr_inst (Charles Stock told me to do so)
             ! CAS: overwrite values in the mixed layer with mixed layer means below
@@ -4265,23 +4278,23 @@
             ! C/N ratio = 6.625 * Molar Mass Carbon = 12 g/mol * 1000 g/mg
             cobalt%juptake_din_100(i,j) = cobalt%juptake_din_100(i,j) +          &
                                           1035 * 86400 * cobalt%c_2_n * 12 * 1000 * Hz(i,j,k) * &
-                                        ( phyto(SMALL)%juptake_no3(i,j,k) + phyto(SMALL)%juptake_nh4(i,j,k) + &
+                                     ( phyto(SMALL )%juptake_no3(i,j,k) + phyto(SMALL )%juptake_nh4(i,j,k) + &
 # ifdef COASTDIAT
-                                       phyto(MEDIUM)%juptake_no3(i,j,k)+ phyto(MEDIUM)%juptake_nh4(i,j,k)+ &
+                                       phyto(MEDIUM)%juptake_no3(i,j,k) + phyto(MEDIUM)%juptake_nh4(i,j,k) + &
 # endif
                                        phyto(LARGE_)%juptake_no3(i,j,k) + phyto(LARGE_)%juptake_nh4(i,j,k) + &
-                                       phyto(DIAZO)%juptake_no3(i,j,k) + phyto(DIAZO)%juptake_n2(i,j,k)  + &
-                                       phyto(DIAZO)%juptake_nh4(i,j,k) ) * rmask_local(i,j)
+                                       phyto(DIAZO )%juptake_no3(i,j,k) + phyto(DIAZO )%juptake_n2(i,j,k)  + &
+                                       phyto(DIAZO )%juptake_nh4(i,j,k) ) * rmask_local(i,j)
 
             cobalt%juptake_no3_n2_100(i,j) = cobalt%juptake_no3_n2_100(i,j) +       &
                                           1035 * 86400 * cobalt%c_2_n * 12 * 1000 * Hz(i,j,k) * &
-                                        ( phyto(SMALL)%juptake_no3(i,j,k) +                     &
+                                        ( phyto(SMALL )%juptake_no3(i,j,k) +                     &
 # ifdef COASTDIAT
-                                          phyto(MEDIUM)%juptake_no3(i,j,k)+                     &
+                                          phyto(MEDIUM)%juptake_no3(i,j,k) +                     &
 # endif
                                           phyto(LARGE_)%juptake_no3(i,j,k) +                     &
-                                          phyto(DIAZO)%juptake_no3(i,j,k) +                     &
-                                          phyto(DIAZO)%juptake_n2(i,j,k)  ) * rmask_local(i,j)
+                                          phyto(DIAZO )%juptake_no3(i,j,k) +                     &
+                                          phyto(DIAZO )%juptake_n2(i,j,k)  ) * rmask_local(i,j)
 
             cobalt%jprod_mesozoo_100(i,j) = cobalt%jprod_mesozoo_100(i,j) + &
                                          1035 * 86400 * cobalt%c_2_n * 12 * 1000 * &
@@ -4292,15 +4305,15 @@
 
             ! note : prod, loss,.. in mol.kg-1.s-1, we integrate in depth ( x m ) and multiply by density 1035 kg.m-3
             ! which leads to mol.m-2.s-1 for diagnostics
-            phyto(SMALL)%jprod_n_100(i,j)    = phyto(SMALL)%jprod_n_100(i,j)    + 1035 * phyto(SMALL)%jprod_n(i,j,k)    * Hz(i,j,k)
+            phyto(SMALL )%jprod_n_100(i,j)    = phyto(SMALL )%jprod_n_100(i,j)    + 1035 * phyto(SMALL )%jprod_n(i,j,k)    * Hz(i,j,k)
             phyto(LARGE_)%jprod_n_100(i,j)    = phyto(LARGE_)%jprod_n_100(i,j)    + 1035 * phyto(LARGE_)%jprod_n(i,j,k)    * Hz(i,j,k)
-            phyto(DIAZO)%jprod_n_100(i,j)    = phyto(DIAZO)%jprod_n_100(i,j)    + 1035 * phyto(DIAZO)%jprod_n(i,j,k)    * Hz(i,j,k)
-            phyto(SMALL)%jaggloss_n_100(i,j) = phyto(SMALL)%jaggloss_n_100(i,j) + 1035 * phyto(SMALL)%jaggloss_n(i,j,k) * Hz(i,j,k)
+            phyto(DIAZO )%jprod_n_100(i,j)    = phyto(DIAZO )%jprod_n_100(i,j)    + 1035 * phyto(DIAZO )%jprod_n(i,j,k)    * Hz(i,j,k)
+            phyto(SMALL )%jaggloss_n_100(i,j) = phyto(SMALL )%jaggloss_n_100(i,j) + 1035 * phyto(SMALL )%jaggloss_n(i,j,k) * Hz(i,j,k)
             phyto(LARGE_)%jaggloss_n_100(i,j) = phyto(LARGE_)%jaggloss_n_100(i,j) + 1035 * phyto(LARGE_)%jaggloss_n(i,j,k) * Hz(i,j,k)
-            phyto(DIAZO)%jaggloss_n_100(i,j) = phyto(DIAZO)%jaggloss_n_100(i,j) + 1035 * phyto(DIAZO)%jaggloss_n(i,j,k) * Hz(i,j,k)
-            phyto(SMALL)%jzloss_n_100(i,j)   = phyto(SMALL)%jzloss_n_100(i,j)   + 1035 * phyto(SMALL)%jzloss_n(i,j,k)   * Hz(i,j,k)
+            phyto(DIAZO )%jaggloss_n_100(i,j) = phyto(DIAZO )%jaggloss_n_100(i,j) + 1035 * phyto(DIAZO )%jaggloss_n(i,j,k) * Hz(i,j,k)
+            phyto(SMALL )%jzloss_n_100(i,j)   = phyto(SMALL )%jzloss_n_100(i,j)   + 1035 * phyto(SMALL )%jzloss_n(i,j,k)   * Hz(i,j,k)
             phyto(LARGE_)%jzloss_n_100(i,j)   = phyto(LARGE_)%jzloss_n_100(i,j)   + 1035 * phyto(LARGE_)%jzloss_n(i,j,k)   * Hz(i,j,k)
-            phyto(DIAZO)%jzloss_n_100(i,j)   = phyto(DIAZO)%jzloss_n_100(i,j)   + 1035 * phyto(DIAZO)%jzloss_n(i,j,k)   * Hz(i,j,k)
+            phyto(DIAZO )%jzloss_n_100(i,j)   = phyto(DIAZO )%jzloss_n_100(i,j)   + 1035 * phyto(DIAZO )%jzloss_n(i,j,k)   * Hz(i,j,k)
 # ifdef COASTDIAT
             phyto(MEDIUM)%jprod_n_100(i,j)    = phyto(MEDIUM)%jprod_n_100(i,j)    + 1035 * phyto(MEDIUM)%jprod_n(i,j,k)    * Hz(i,j,k)
             phyto(MEDIUM)%jaggloss_n_100(i,j) = phyto(MEDIUM)%jaggloss_n_100(i,j) + 1035 * phyto(MEDIUM)%jaggloss_n(i,j,k) * Hz(i,j,k)
@@ -4464,7 +4477,8 @@
      &                     phyto(DIAZO)%jzloss_n(:,:,:)   -                  &
      &                     phyto(DIAZO)%jhploss_n(:,:,:)  -                  &
      &                     phyto(DIAZO)%jaggloss_n(:,:,:) -                  &
-     &                     phyto(DIAZO)%jvirloss_n(:,:,:) - phyto(DIAZO)%jexuloss_n(:,:,:)
+     &                     phyto(DIAZO)%jvirloss_n(:,:,:) -                  &
+     &                     phyto(DIAZO)%jexuloss_n(:,:,:)
 !
 !   *** Large Phytoplankton Nitrogen
 !
@@ -4569,17 +4583,20 @@
 !
 !   *** Small zooplankton
 !
-      cobalt%jnsmz(:,:,:) = zoo(1)%jprod_n(:,:,:) - zoo(1)%jzloss_n(:,:,:) - &
+      cobalt%jnsmz(:,:,:) = zoo(1)%jprod_n(:,:,:) -                          &
+     &                      zoo(1)%jzloss_n(:,:,:) -                         &
      &                      zoo(1)%jhploss_n(:,:,:)
 !
 !   *** Medium zooplankton
 !
-      cobalt%jnmdz(:,:,:) = zoo(2)%jprod_n(:,:,:) - zoo(2)%jzloss_n(:,:,:) - &
+      cobalt%jnmdz(:,:,:) = zoo(2)%jprod_n(:,:,:) -                          &
+     &                      zoo(2)%jzloss_n(:,:,:) -                         &
      &                      zoo(2)%jhploss_n(:,:,:)
 !
 !   *** Large zooplankton
 !
-      cobalt%jnlgz(:,:,:) = zoo(3)%jprod_n(:,:,:) - zoo(3)%jzloss_n(:,:,:) - &
+      cobalt%jnlgz(:,:,:) = zoo(3)%jprod_n(:,:,:) -                          &
+     &                      zoo(3)%jzloss_n(:,:,:) -                         &
      &                      zoo(3)%jhploss_n(:,:,:)
 !
 !
@@ -5117,25 +5134,25 @@
 
             ! NPP (mol/kg/s) per phytoplankton
 
-            DiaBio3d(i,j,k,inpp_sm)     = DiaBio3d(i,j,k,inpp_sm) +              &
+            DiaBio3d(i,j,k,inpp_sm)     = DiaBio3d(i,j,k,inpp_sm) +            &
      &                                    phyto(SMALL)%juptake_no3(i,j,k) +    &
      &                                    phyto(SMALL)%juptake_nh4(i,j,k)
-            DiaBio3d(i,j,k,inpp_lg)     = DiaBio3d(i,j,k,inpp_lg) +              &
+            DiaBio3d(i,j,k,inpp_lg)     = DiaBio3d(i,j,k,inpp_lg) +            &
      &                                    phyto(LARGE_)%juptake_no3(i,j,k) +   &
      &                                    phyto(LARGE_)%juptake_nh4(i,j,k)
-            DiaBio3d(i,j,k,inpp_di)     = DiaBio3d(i,j,k,inpp_di) +              &
+            DiaBio3d(i,j,k,inpp_di)     = DiaBio3d(i,j,k,inpp_di) +            &
      &                                    phyto(DIAZO)%juptake_no3(i,j,k) +    &
      &                                    phyto(DIAZO)%juptake_nh4(i,j,k) +    &
      &                                    phyto(DIAZO)%juptake_n2(i,j,k)
 # ifdef COASTDIAT
-            DiaBio3d(i,j,k,inpp_md)     = DiaBio3d(i,j,k,inpp_md) +              &
+            DiaBio3d(i,j,k,inpp_md)     = DiaBio3d(i,j,k,inpp_md) +            &
      &                                    phyto(MEDIUM)%juptake_no3(i,j,k) +   &
      &                                    phyto(MEDIUM)%juptake_nh4(i,j,k)
 # endif
 
             ! f-ratio (unitless)
 
-            DiaBio3d(i,j,k,ifratio)     = DiaBio3d(i,j,k,ifratio) +              &
+            DiaBio3d(i,j,k,ifratio)     = DiaBio3d(i,j,k,ifratio) +            &
                                           (phyto(SMALL)%juptake_no3(i,j,k) +   &
 # ifdef COASTDIAT
                                            phyto(MEDIUM)%juptake_no3(i,j,k) +  &
