@@ -569,6 +569,17 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+            CASE ('Dout(ifratio)')
+              IF (iDbio3(ifratio).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(ifratio)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(ifratio)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
 #endif
           END SELECT
         END IF

@@ -1133,8 +1133,139 @@
                 iDbio3(iprod_mdz)=varid
               CASE ('iDbio3(iprod_lgz)')
                 iDbio3(iprod_lgz)=varid
-
-
+                
+              CASE ('iDbio3(iflx_gpp_no3_nsm)')
+                iDbio3(iflx_gpp_no3_nsm)=varid
+              CASE ('iDbio3(iflx_gpp_no3_nlg)')
+                iDbio3(iflx_gpp_no3_nlg)=varid
+              CASE ('iDbio3(iflx_gpp_no3_ndi)')
+                iDbio3(iflx_gpp_no3_ndi)=varid
+              CASE ('iDbio3(iflx_gpp_nh4_nsm)')
+                iDbio3(iflx_gpp_nh4_nsm)=varid
+              CASE ('iDbio3(iflx_gpp_nh4_nlg)')
+                iDbio3(iflx_gpp_nh4_nlg)=varid
+              CASE ('iDbio3(iflx_gpp_nh4_ndi)')
+                iDbio3(iflx_gpp_nh4_ndi)=varid
+              CASE ('iDbio3(iflx_gpp_n2_ndi)')
+                iDbio3(iflx_gpp_n2_ndi)=varid
+              CASE ('iDbio3(iflx_gra_ldon_bac)')
+                iDbio3(iflx_gra_ldon_bac)=varid
+              CASE ('iDbio3(iflx_rem_ldon_nh4)')
+                iDbio3(iflx_rem_ldon_nh4)=varid
+              CASE ('iDbio3(iflx_gra_nsm_nsmz)')
+                iDbio3(iflx_gra_nsm_nsmz)=varid
+              CASE ('iDbio3(iflx_gra_bac_nsmz)')
+                iDbio3(iflx_gra_bac_nsmz)=varid
+              CASE ('iDbio3(iflx_gra_ndi_nmdz)')
+                iDbio3(iflx_gra_ndi_nmdz)=varid
+              CASE ('iDbio3(iflx_gra_nlg_nmdz)')
+                iDbio3(iflx_gra_nlg_nmdz)=varid
+              CASE ('iDbio3(iflx_gra_nsmz_nmdz)')
+                iDbio3(iflx_gra_nsmz_nmdz)=varid
+              CASE ('iDbio3(iflx_gra_ndi_nlgz)')
+                iDbio3(iflx_gra_ndi_nlgz)=varid
+              CASE ('iDbio3(iflx_gra_nlg_nlgz)')
+                iDbio3(iflx_gra_nlg_nlgz)=varid
+              CASE ('iDbio3(iflx_gra_nmdz_nlgz)')
+                iDbio3(iflx_gra_nmdz_nlgz)=varid
+              CASE ('iDbio3(iflx_gra_nsmz_hip)')
+                iDbio3(iflx_gra_nsmz_hip)=varid
+              CASE ('iDbio3(iflx_gra_nmdz_hip)')
+                iDbio3(iflx_gra_nmdz_hip)=varid
+              CASE ('iDbio3(iflx_gra_nlgz_hip)')
+                iDbio3(iflx_gra_nlgz_hip)=varid
+              CASE ('iDbio3(iflx_ege_nsmz_ndet)')
+                iDbio3(iflx_ege_nsmz_ndet)=varid
+              CASE ('iDbio3(iflx_ege_nsmz_sldon)')
+                iDbio3(iflx_ege_nsmz_sldon)=varid
+              CASE ('iDbio3(iflx_ege_nsmz_ldon)')
+                iDbio3(iflx_ege_nsmz_ldon)=varid
+              CASE ('iDbio3(iflx_ege_nsmz_srdon)')
+                iDbio3(iflx_ege_nsmz_srdon)=varid
+              CASE ('iDbio3(iflx_ege_nmdz_ndet)')
+                iDbio3(iflx_ege_nmdz_ndet)=varid
+              CASE ('iDbio3(iflx_ege_nmdz_sldon)')
+                iDbio3(iflx_ege_nmdz_sldon)=varid
+              CASE ('iDbio3(iflx_ege_nmdz_ldon)')
+                iDbio3(iflx_ege_nmdz_ldon)=varid
+              CASE ('iDbio3(iflx_ege_nmdz_srdon)')
+                iDbio3(iflx_ege_nmdz_srdon)=varid
+              CASE ('iDbio3(iflx_ege_nlgz_ndet)')
+                iDbio3(iflx_ege_nlgz_ndet)=varid
+              CASE ('iDbio3(iflx_ege_nlgz_sldon)')
+                iDbio3(iflx_ege_nlgz_sldon)=varid
+              CASE ('iDbio3(iflx_ege_nlgz_ldon)')
+                iDbio3(iflx_ege_nlgz_ldon)=varid
+              CASE ('iDbio3(iflx_ege_nlgz_srdon)')
+                iDbio3(iflx_ege_nlgz_srdon)=varid
+              CASE ('iDbio3(iflx_ege_hip_ndet)')
+                iDbio3(iflx_ege_hip_ndet)=varid
+              CASE ('iDbio3(iflx_agg_ndi_ndet)')
+                iDbio3(iflx_agg_ndi_ndet)=varid
+              CASE ('iDbio3(iflx_agg_nlg_ndet)')
+                iDbio3(iflx_agg_nlg_ndet)=varid
+              CASE ('iDbio3(iflx_agg_nsm_ndet)')
+                iDbio3(iflx_agg_nsm_ndet)=varid
+              CASE ('iDbio3(iflx_vir_ndi_ldon)')
+                iDbio3(iflx_vir_ndi_ldon)=varid
+              CASE ('iDbio3(iflx_vir_nlg_ldon)')
+                iDbio3(iflx_vir_nlg_ldon)=varid
+              CASE ('iDbio3(iflx_vir_nsm_ldon)')
+                iDbio3(iflx_vir_nsm_ldon)=varid
+              CASE ('iDbio3(iflx_vir_bac_ldon)')
+                iDbio3(iflx_vir_bac_ldon)=varid
+              CASE ('iDbio3(iflx_vir_ndi_sldon)')
+                iDbio3(iflx_vir_ndi_sldon)=varid
+              CASE ('iDbio3(iflx_vir_nlg_sldon)')
+                iDbio3(iflx_vir_nlg_sldon)=varid
+              CASE ('iDbio3(iflx_vir_nsm_sldon)')
+                iDbio3(iflx_vir_nsm_sldon)=varid
+              CASE ('iDbio3(iflx_vir_bac_sldon)')
+                iDbio3(iflx_vir_bac_sldon)=varid
+              CASE ('iDbio3(iflx_vir_ndi_srdon)')
+                iDbio3(iflx_vir_ndi_srdon)=varid
+              CASE ('iDbio3(iflx_vir_nlg_srdon)')
+                iDbio3(iflx_vir_nlg_srdon)=varid
+              CASE ('iDbio3(iflx_vir_nsm_srdon)')
+                iDbio3(iflx_vir_nsm_srdon)=varid
+              CASE ('iDbio3(iflx_vir_bac_srdon)')
+                iDbio3(iflx_vir_bac_srdon)=varid
+              CASE ('iDbio3(iflx_exu_ndi_ldon)')
+                iDbio3(iflx_exu_ndi_ldon)=varid
+              CASE ('iDbio3(iflx_exu_nlg_ldon)')
+                iDbio3(iflx_exu_nlg_ldon)=varid
+              CASE ('iDbio3(iflx_exu_nsm_ldon)')
+                iDbio3(iflx_exu_nsm_ldon)=varid
+              CASE ('iDbio3(iflx_ege_nsmz_nh4)')
+                iDbio3(iflx_ege_nsmz_nh4)=varid
+              CASE ('iDbio3(iflx_ege_nmdz_nh4)')
+                iDbio3(iflx_ege_nmdz_nh4)=varid
+              CASE ('iDbio3(iflx_ege_nlgz_nh4)')
+                iDbio3(iflx_ege_nlgz_nh4)=varid
+              CASE ('iDbio3(iflx_mor_nsmz_ndet)')
+                iDbio3(iflx_mor_nsmz_ndet)=varid
+              CASE ('iDbio3(iflx_mor_nmdz_ndet)')
+                iDbio3(iflx_mor_nmdz_ndet)=varid
+              CASE ('iDbio3(iflx_mor_nlgz_ndet)')
+                iDbio3(iflx_mor_nlgz_ndet)=varid
+              CASE ('iDbio3(iflx_mor_bac_ldon)')
+                iDbio3(iflx_mor_bac_ldon)=varid
+              CASE ('iDbio3(iflx_mor_bac_sldon)')
+                iDbio3(iflx_mor_bac_sldon)=varid
+              CASE ('iDbio3(iflx_mor_bac_srdon)')
+                iDbio3(iflx_mor_bac_srdon)=varid
+              CASE ('iDbio3(iflx_ege_hip_nh4)')
+                iDbio3(iflx_ege_hip_nh4)=varid
+              CASE ('iDbio3(iflx_rem_ndet_out)')
+                iDbio3(iflx_rem_ndet_out)=varid
+              CASE ('iDbio3(iflx_dnit_no3_nh4)')
+                iDbio3(iflx_dnit_no3_nh4)=varid
+              CASE ('iDbio3(iflx_nit_nh4_no3)')
+                iDbio3(iflx_nit_nh4_no3)=varid
+              CASE ('iDbio3(iflx_rem_sldon_ldon)')
+                iDbio3(iflx_rem_sldon_ldon)=varid
+              CASE ('iDbio3(iflx_rem_srdon_ldon)')
+                iDbio3(iflx_rem_srdon_ldon)=varid
 #endif
 #ifdef BENTHIC
               CASE ('idBeTvar(icased)')

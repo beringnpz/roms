@@ -1988,6 +1988,13 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+11)=' NLM_OUTER,'
 #endif
+#ifdef NLIM_ONEILL
+!
+       IF (Master) WRITE (stdout,20) 'NLIM_ONEILL',                      &
+      &   'use ONeill (1989) N-limitation (vs Frost & Franzen, 1992)'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+13)=' NLIM_ONEILL,'
+#endif
 #ifdef NN_MIXING
 !
       IF (Master) WRITE (stdout,20) 'NN_MIXING',                        &

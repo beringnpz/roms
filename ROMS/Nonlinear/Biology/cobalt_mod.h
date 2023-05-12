@@ -641,16 +641,85 @@
       integer :: iprod_n_100_mdz, iingest_n_100_mdz, izloss_n_100_mdz, ihploss_n_100_mdz, iprod_ndet_100_mdz
       integer :: iprod_n_100_lgz, iingest_n_100_lgz, izloss_n_100_lgz, ihploss_n_100_lgz, iprod_ndet_100_lgz
       integer :: iprod_n_100_bact, izloss_n_100_bact
-      integer :: inpp_sm
-#ifdef COASTDIAT
+#ifdef DIAGNOSTICS_BIO
+      integer :: inpp_sm ! KAK: A lot of the above should be wrapped in this DIAGNOSTICS_BIO block, but I'm leaving it along for now
+# ifdef COASTDIAT
       integer :: inpp_md
-#endif
+# endif
       integer :: inpp_lg
       integer :: inpp_di
       integer :: ifratio
       integer :: iprod_smz
       integer :: iprod_mdz
       integer :: iprod_lgz
+      integer :: iflx_gpp_no3_nsm
+      integer :: iflx_gpp_no3_nlg
+      integer :: iflx_gpp_no3_ndi
+      integer :: iflx_gpp_nh4_nsm
+      integer :: iflx_gpp_nh4_nlg
+      integer :: iflx_gpp_nh4_ndi
+      integer :: iflx_gpp_n2_ndi
+      integer :: iflx_gra_ldon_bac
+      integer :: iflx_rem_ldon_nh4
+      integer :: iflx_gra_nsm_nsmz
+      integer :: iflx_gra_bac_nsmz
+      integer :: iflx_gra_ndi_nmdz
+      integer :: iflx_gra_nlg_nmdz
+      integer :: iflx_gra_nsmz_nmdz
+      integer :: iflx_gra_ndi_nlgz
+      integer :: iflx_gra_nlg_nlgz
+      integer :: iflx_gra_nmdz_nlgz
+      integer :: iflx_gra_nsmz_hip
+      integer :: iflx_gra_nmdz_hip
+      integer :: iflx_gra_nlgz_hip
+      integer :: iflx_ege_nsmz_ndet
+      integer :: iflx_ege_nsmz_sldon
+      integer :: iflx_ege_nsmz_ldon
+      integer :: iflx_ege_nsmz_srdon
+      integer :: iflx_ege_nmdz_ndet
+      integer :: iflx_ege_nmdz_sldon
+      integer :: iflx_ege_nmdz_ldon
+      integer :: iflx_ege_nmdz_srdon
+      integer :: iflx_ege_nlgz_ndet
+      integer :: iflx_ege_nlgz_sldon
+      integer :: iflx_ege_nlgz_ldon
+      integer :: iflx_ege_nlgz_srdon
+      integer :: iflx_ege_hip_ndet
+      integer :: iflx_agg_ndi_ndet
+      integer :: iflx_agg_nlg_ndet
+      integer :: iflx_agg_nsm_ndet
+      integer :: iflx_vir_ndi_ldon
+      integer :: iflx_vir_nlg_ldon
+      integer :: iflx_vir_nsm_ldon
+      integer :: iflx_vir_bac_ldon
+      integer :: iflx_vir_ndi_sldon
+      integer :: iflx_vir_nlg_sldon
+      integer :: iflx_vir_nsm_sldon
+      integer :: iflx_vir_bac_sldon
+      integer :: iflx_vir_ndi_srdon
+      integer :: iflx_vir_nlg_srdon
+      integer :: iflx_vir_nsm_srdon
+      integer :: iflx_vir_bac_srdon
+      integer :: iflx_exu_ndi_ldon
+      integer :: iflx_exu_nlg_ldon
+      integer :: iflx_exu_nsm_ldon
+      integer :: iflx_ege_nsmz_nh4
+      integer :: iflx_ege_nmdz_nh4
+      integer :: iflx_ege_nlgz_nh4
+      integer :: iflx_mor_nsmz_ndet
+      integer :: iflx_mor_nmdz_ndet
+      integer :: iflx_mor_nlgz_ndet
+      integer :: iflx_mor_bac_ldon
+      integer :: iflx_mor_bac_sldon
+      integer :: iflx_mor_bac_srdon
+      integer :: iflx_ege_hip_nh4
+      integer :: iflx_rem_ndet_out
+      integer :: iflx_dnit_no3_nh4
+      integer :: iflx_nit_nh4_no3
+      integer :: iflx_rem_sldon_ldon
+      integer :: iflx_rem_srdon_ldon
+#endif
+      
       ! 200 meters diags
       integer :: imesozooprod_200, iuptake_din_100, iuptake_no3_n2_100, iprod_mesozoo_100
       integer :: iz_ratio_100, ipe_ratio_100, if_ratio_100
@@ -1325,16 +1394,16 @@
           nswitch_hp,       & ! higher predator switching behavior
           mswitch_hp,       & ! higher predator switching behavior
           hp_ipa_smp,       & ! innate prey availability of small phytos to hp's
-          hp_ipa_lgp,       & ! "  "  "  "  "  "  "  "  "   large phytos to hp's
-          hp_ipa_diaz,      & ! "  "  "  "  "  "  "  "  "   diazotrophs to hp's
-          hp_ipa_bact,      & ! "  "  "  "  "  "  "  "  "   bacteria to hp's
-          hp_ipa_smz,       & ! "  "  "  "  "  "  "  "  "   small zooplankton to hp's
-          hp_ipa_mdz,       & ! "  "  "  "  "  "  "  "  "   medium zooplankton to hp's
-          hp_ipa_lgz,       & ! "  "  "  "  "  "  "  "  "   large zooplankton to hp's
+          hp_ipa_lgp,       & !                    large phytos to hp's
+          hp_ipa_diaz,      & !                    diazotrophs to hp's
+          hp_ipa_bact,      & !                    bacteria to hp's
+          hp_ipa_smz,       & !                    small zooplankton to hp's
+          hp_ipa_mdz,       & !                    medium zooplankton to hp's
+          hp_ipa_lgz,       & !                    large zooplankton to hp's
 #ifdef COASTDIAT
           hp_ipa_mdp,       &
 #endif
-          hp_ipa_det,       & ! "  "  "  "  "  "  "  "  "   detritus to hp's
+          hp_ipa_det,       & !                    detritus to hp's
           hp_phi_det,       & ! fraction of ingested N to detritus
           hp_phi_ldon,      & ! fraction of ingested N to labile don
           hp_phi_sldon,     & ! fraction of ingested N to semi-labile don
@@ -1899,10 +1968,10 @@
       ! Diagnostic tracers
 # ifdef COASTDIAT
       NDbio2d = 65
-      NDbio3d = 69
+      NDbio3d = 135
 # else
-      NDbio2d = 62
-      NDbio3d = 56
+      NDbio2d = 65
+      NDbio3d = 122
 # endif
 #endif
 #ifdef BENTHIC
@@ -3047,21 +3116,88 @@
       iprod_smz=54
       iprod_mdz=55
       iprod_lgz=56
+      
+      iflx_gpp_no3_nsm=57
+      iflx_gpp_no3_nlg=58
+      iflx_gpp_no3_ndi=59
+      iflx_gpp_nh4_nsm=60
+      iflx_gpp_nh4_nlg=61
+      iflx_gpp_nh4_ndi=62
+      iflx_gpp_n2_ndi=63
+      iflx_gra_ldon_bac=64
+      iflx_rem_ldon_nh4=65
+      iflx_gra_nsm_nsmz=66
+      iflx_gra_bac_nsmz=67
+      iflx_gra_ndi_nmdz=68
+      iflx_gra_nlg_nmdz=69
+      iflx_gra_nsmz_nmdz=70
+      iflx_gra_ndi_nlgz=71
+      iflx_gra_nlg_nlgz=72
+      iflx_gra_nmdz_nlgz=73
+      iflx_gra_nsmz_hip=74
+      iflx_gra_nmdz_hip=75
+      iflx_gra_nlgz_hip=76
+      iflx_ege_nsmz_ndet=77
+      iflx_ege_nsmz_sldon=78
+      iflx_ege_nsmz_ldon=79
+      iflx_ege_nsmz_srdon=80
+      iflx_ege_nmdz_ndet=81
+      iflx_ege_nmdz_sldon=82
+      iflx_ege_nmdz_ldon=83
+      iflx_ege_nmdz_srdon=84
+      iflx_ege_nlgz_ndet=85
+      iflx_ege_nlgz_sldon=86
+      iflx_ege_nlgz_ldon=87
+      iflx_ege_nlgz_srdon=88
+      iflx_ege_hip_ndet=89
+      iflx_agg_ndi_ndet=90
+      iflx_agg_nlg_ndet=91
+      iflx_agg_nsm_ndet=92
+      iflx_vir_ndi_ldon=93
+      iflx_vir_nlg_ldon=94
+      iflx_vir_nsm_ldon=95
+      iflx_vir_bac_ldon=96
+      iflx_vir_ndi_sldon=97
+      iflx_vir_nlg_sldon=98
+      iflx_vir_nsm_sldon=99
+      iflx_vir_bac_sldon=100
+      iflx_vir_ndi_srdon=101
+      iflx_vir_nlg_srdon=102
+      iflx_vir_nsm_srdon=103
+      iflx_vir_bac_srdon=104
+      iflx_exu_ndi_ldon=105
+      iflx_exu_nlg_ldon=106
+      iflx_exu_nsm_ldon=107
+      iflx_ege_nsmz_nh4=108
+      iflx_ege_nmdz_nh4=109
+      iflx_ege_nlgz_nh4=110
+      iflx_mor_nsmz_ndet=111
+      iflx_mor_nmdz_ndet=112
+      iflx_mor_nlgz_ndet=113
+      iflx_mor_bac_ldon=114
+      iflx_mor_bac_sldon=115
+      iflx_mor_bac_srdon=116
+      iflx_ege_hip_nh4=117
+      iflx_rem_ndet_out=118
+      iflx_dnit_no3_nh4=119
+      iflx_nit_nh4_no3=120
+      iflx_rem_sldon_ldon=121
+      iflx_rem_srdon_ldon=122
 
 # ifdef COASTDIAT
-      imu_mem_md=57
-      iagg_lim_md=58
-      iaggloss_md=59
-      ivirloss_md=60
-      izloss_md=61
-      idef_fe_md=62
-      ifelim_md=63
-      ino3lim_md=64
-      inh4lim_md=65
-      ipo4lim_md=66
-      ichl_md=67
-      iC_2_chl_md=68
-      inpp_md=69
+      imu_mem_md=123
+      iagg_lim_md=124
+      iaggloss_md=125
+      ivirloss_md=126
+      izloss_md=127
+      idef_fe_md=128
+      ifelim_md=129
+      ino3lim_md=130
+      inh4lim_md=131
+      ipo4lim_md=132
+      ichl_md=133
+      iC_2_chl_md=134
+      inpp_md=135
 # endif
 
 

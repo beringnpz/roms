@@ -504,6 +504,8 @@
 ** COBALT_MINERALS     use for mineral components                            **
 ** COBALT_PHOSPHORUS   use for phosphorus components                         **
 ** NO_IRON_COAST       use for no coastal iron                               **
+** NLIM_ONEILL         use O'Neill (1989) N-limitation (vs Frost & Franzen,  **
+**                     1992)                                                 **
 **                                                                           **
 ** Hypoxia ecosysten model OPTIONS:                                          **
 **                                                                           **
