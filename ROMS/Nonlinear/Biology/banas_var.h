@@ -92,4 +92,6 @@
                 iDbio3(iflxlrem)=varid
               CASE ('iDbio3(iflxnit)')
                 iDbio3(iflxnit)=varid
+              CASE ('iDbio3(ifratio)')
+                iDbio3(ifratio)=varid
 #endif

@@ -78,6 +78,7 @@
       integer :: iflxsrem
       integer :: iflxlrem
       integer :: iflxnit
+      integer :: ifratio
 #endif
 !
 !  Biological parameters.
@@ -134,7 +135,7 @@
 !
       NBT=6
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
-      NDbio3d=8
+      NDbio3d=9
       NDbio2d=0
 #endif
 !
@@ -333,6 +334,7 @@
       iflxsrem=6
       iflxlrem=7
       iflxnit=8
+      ifratio=9
 #endif
 
       RETURN
