@@ -2275,7 +2275,7 @@
             ztemp_lim_zoo3 = exp(zoo(m)%ktemp*ztemp) * rmask_local(i,j)
             zoo(m)%temp_lim(i,j,k) = ztemp_lim_zoo3
 
-      s     w_fac_denom = (ipa_matrix(m,1)*prey_vec(1))**2 +    &
+            w_fac_denom = (ipa_matrix(m,1)*prey_vec(1))**2 +    &
      &                   (ipa_matrix(m,2)*prey_vec(2))**2 +    &
      &                   (ipa_matrix(m,7)*prey_vec(7))**2 + epsln
             pa_matrix(m,1) = ipa_matrix(m,1)*                                 &
@@ -5205,13 +5205,13 @@
 
             ! Primary production
 
-            DiaBio3d(i,j,k,iflx_gpp_no3_nsm) = DiaBio3d(i,j,k,iflx_gpp_no3_nsm) + max(0.0, phyto(SMALL )%no3lim(i,j,k)* phyto(SMALL )%mu(i,j,k)*phyto(SMALL )%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_no3_nlg) = DiaBio3d(i,j,k,iflx_gpp_no3_nlg) + max(0.0, phyto(LARGE_)%no3lim(i,j,k)* phyto(LARGE_)%mu(i,j,k)*phyto(LARGE_)%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_no3_ndi) = DiaBio3d(i,j,k,iflx_gpp_no3_ndi) + max(0.0, phyto(DIAZO )%no3lim(i,j,k)* phyto(DIAZO )%mu(i,j,k)*phyto(DIAZO )%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) = DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) + max(0.0, phyto(SMALL )%nh4lim(i,j,k)* phyto(SMALL )%mu(i,j,k)*phyto(SMALL )%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) = DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) + max(0.0, phyto(LARGE_)%nh4lim(i,j,k)* phyto(LARGE_)%mu(i,j,k)*phyto(LARGE_)%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) = DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) + max(0.0, phyto(DIAZO )%nh4lim(i,j,k)* phyto(DIAZO )%mu(i,j,k)*phyto(DIAZO )%f_n(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) = DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) + max(0.0, (1.0 - phyto(DIAZO)%no3lim(i,j,k) - phyto(DIAZO)%nh4lim(i,j,k))* phyto(DIAZO )%mu(i,j,k)*phyto(DIAZO )%f_n(i,j,k)))
+            DiaBio3d(i,j,k,iflx_gpp_no3_nsm) = DiaBio3d(i,j,k,iflx_gpp_no3_nsm) + max(0.0, phyto(SMALL )%mu(i,j,k) * phyto(SMALL )%f_n(i,j,k) * phyto(SMALL )%no3lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_no3_nlg) = DiaBio3d(i,j,k,iflx_gpp_no3_nlg) + max(0.0, phyto(LARGE_)%mu(i,j,k) * phyto(LARGE_)%f_n(i,j,k) * phyto(LARGE_)%no3lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_no3_ndi) = DiaBio3d(i,j,k,iflx_gpp_no3_ndi) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * phyto(DIAZO )%no3lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) = DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) + max(0.0, phyto(SMALL )%mu(i,j,k) * phyto(SMALL )%f_n(i,j,k) * phyto(SMALL )%nh4lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) = DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) + max(0.0, phyto(LARGE_)%mu(i,j,k) * phyto(LARGE_)%f_n(i,j,k) * phyto(LARGE_)%nh4lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) = DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * phyto(DIAZO )%nh4lim(i,j,k))
+            DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) = DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * (1.0 - phyto(DIAZO)%no3lim(i,j,k) - phyto(DIAZO)%nh4lim(i,j,k)))
 
             ! Bacterial growth/remin
 
@@ -5270,15 +5270,15 @@
 
             ! Zooplankton egestion (active metabolism)
 
-            DiaBio3d(i,j,k,iflx_ege_nsmz_nh4 = zoo(1)%jingest_n(i,j,k)   - zoo(1)%jprod_ndet(i,j,k) - &
-     &                                max(0.0, zoo(1)%jprod_n(i,j,k))    - zoo(1)%jprod_ldon(i,j,k) - &
-     &                                         zoo(1)%jprod_sldon(i,j,k) - zoo(1)%jprod_srdon(i,j,k)
-            DiaBio3d(i,j,k,iflx_ege_nmdz_nh4 = zoo(2)%jingest_n(i,j,k)   - zoo(2)%jprod_ndet(i,j,k) - &
-     &                                max(0.0, zoo(2)%jprod_n(i,j,k))    - zoo(2)%jprod_ldon(i,j,k) - &
-     &                                         zoo(2)%jprod_sldon(i,j,k) - zoo(2)%jprod_srdon(i,j,k)
-            DiaBio3d(i,j,k,iflx_ege_nlgz_nh4 = zoo(3)%jingest_n(i,j,k)   - zoo(3)%jprod_ndet(i,j,k) - &
-     &                                max(0.0, zoo(3)%jprod_n(i,j,k))    - zoo(3)%jprod_ldon(i,j,k) - &
-     &                                         zoo(3)%jprod_sldon(i,j,k) - zoo(3)%jprod_srdon(i,j,k)
+            DiaBio3d(i,j,k,iflx_ege_nsmz_nh4) = zoo(1)%jingest_n(i,j,k)   - zoo(1)%jprod_ndet(i,j,k) - &
+     &                                 max(0.0, zoo(1)%jprod_n(i,j,k))    - zoo(1)%jprod_ldon(i,j,k) - &
+     &                                          zoo(1)%jprod_sldon(i,j,k) - zoo(1)%jprod_srdon(i,j,k)
+            DiaBio3d(i,j,k,iflx_ege_nmdz_nh4) = zoo(2)%jingest_n(i,j,k)   - zoo(2)%jprod_ndet(i,j,k) - &
+     &                                 max(0.0, zoo(2)%jprod_n(i,j,k))    - zoo(2)%jprod_ldon(i,j,k) - &
+     &                                          zoo(2)%jprod_sldon(i,j,k) - zoo(2)%jprod_srdon(i,j,k)
+            DiaBio3d(i,j,k,iflx_ege_nlgz_nh4) = zoo(3)%jingest_n(i,j,k)   - zoo(3)%jprod_ndet(i,j,k) - &
+     &                                 max(0.0, zoo(3)%jprod_n(i,j,k))    - zoo(3)%jprod_ldon(i,j,k) - &
+     &                                          zoo(3)%jprod_sldon(i,j,k) - zoo(3)%jprod_srdon(i,j,k)
 
             ! Starvation mortality
 
