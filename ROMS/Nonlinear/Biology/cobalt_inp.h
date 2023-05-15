@@ -2406,14 +2406,14 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
-            CASE ('Dout(iflx_rem_ndet_out)')
-              IF (iDbio3(iflx_rem_ndet_out).eq.0) THEN
-                IF (Master) WRITE (out,40) 'iDbio3(iflx_rem_ndet_out)'
+            CASE ('Dout(iflx_rem_ndet_nh4)')
+              IF (iDbio3(iflx_rem_ndet_nh4).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflx_rem_ndet_nh4)'
                 exit_flag=5
                 RETURN
               END IF
               Npts=load_l(Nval, Cval, Ngrids, Lbio)
-              i=iDbio3(iflx_rem_ndet_out)
+              i=iDbio3(iflx_rem_ndet_nh4)
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO

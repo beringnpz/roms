@@ -1256,8 +1256,8 @@
                 iDbio3(iflx_mor_bac_srdon)=varid
               CASE ('iDbio3(iflx_ege_hip_nh4)')
                 iDbio3(iflx_ege_hip_nh4)=varid
-              CASE ('iDbio3(iflx_rem_ndet_out)')
-                iDbio3(iflx_rem_ndet_out)=varid
+              CASE ('iDbio3(iflx_rem_ndet_nh4)')
+                iDbio3(iflx_rem_ndet_nh4)=varid
               CASE ('iDbio3(iflx_dnit_no3_nh4)')
                 iDbio3(iflx_dnit_no3_nh4)=varid
               CASE ('iDbio3(iflx_nit_nh4_no3)')

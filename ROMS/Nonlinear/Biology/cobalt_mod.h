@@ -713,7 +713,7 @@
       integer :: iflx_mor_bac_sldon
       integer :: iflx_mor_bac_srdon
       integer :: iflx_ege_hip_nh4
-      integer :: iflx_rem_ndet_out
+      integer :: iflx_rem_ndet_nh4
       integer :: iflx_dnit_no3_nh4
       integer :: iflx_nit_nh4_no3
       integer :: iflx_rem_sldon_ldon
@@ -3178,7 +3178,7 @@
       iflx_mor_bac_sldon=115
       iflx_mor_bac_srdon=116
       iflx_ege_hip_nh4=117
-      iflx_rem_ndet_out=118
+      iflx_rem_ndet_nh4=118
       iflx_dnit_no3_nh4=119
       iflx_nit_nh4_no3=120
       iflx_rem_sldon_ldon=121

@@ -2275,7 +2275,7 @@
             ztemp_lim_zoo3 = exp(zoo(m)%ktemp*ztemp) * rmask_local(i,j)
             zoo(m)%temp_lim(i,j,k) = ztemp_lim_zoo3
 
-            w_fac_denom = (ipa_matrix(m,1)*prey_vec(1))**2 +    &
+            sw_fac_denom = (ipa_matrix(m,1)*prey_vec(1))**2 +    &
      &                   (ipa_matrix(m,2)*prey_vec(2))**2 +    &
      &                   (ipa_matrix(m,7)*prey_vec(7))**2 + epsln
             pa_matrix(m,1) = ipa_matrix(m,1)*                                 &
@@ -5252,15 +5252,15 @@
             DiaBio3d(i,j,k,iflx_vir_ndi_ldon ) = DiaBio3d(i,j,k,iflx_vir_ndi_ldon ) + phyto(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_ldon
             DiaBio3d(i,j,k,iflx_vir_nlg_ldon ) = DiaBio3d(i,j,k,iflx_vir_nlg_ldon ) + phyto(2)%jvirloss_n(i,j,k)*cobalt%lysis_phi_ldon
             DiaBio3d(i,j,k,iflx_vir_nsm_ldon ) = DiaBio3d(i,j,k,iflx_vir_nsm_ldon ) + phyto(3)%jvirloss_n(i,j,k)*cobalt%lysis_phi_ldon
-            DiaBio3d(i,j,k,iflx_vir_bac_ldon ) = DiaBio3d(i,j,k,iflx_vir_bac_ldon ) +  bact(1)%jvirloss_n(:,:,:)*cobalt%lysis_phi_ldon
+            DiaBio3d(i,j,k,iflx_vir_bac_ldon ) = DiaBio3d(i,j,k,iflx_vir_bac_ldon ) +  bact(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_ldon
             DiaBio3d(i,j,k,iflx_vir_ndi_sldon) = DiaBio3d(i,j,k,iflx_vir_ndi_sldon) + phyto(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_sldon
             DiaBio3d(i,j,k,iflx_vir_nlg_sldon) = DiaBio3d(i,j,k,iflx_vir_nlg_sldon) + phyto(2)%jvirloss_n(i,j,k)*cobalt%lysis_phi_sldon
             DiaBio3d(i,j,k,iflx_vir_nsm_sldon) = DiaBio3d(i,j,k,iflx_vir_nsm_sldon) + phyto(3)%jvirloss_n(i,j,k)*cobalt%lysis_phi_sldon
-            DiaBio3d(i,j,k,iflx_vir_bac_sldon) = DiaBio3d(i,j,k,iflx_vir_bac_sldon) +  bact(1)%jvirloss_n(:,:,:)*cobalt%lysis_phi_sldon
+            DiaBio3d(i,j,k,iflx_vir_bac_sldon) = DiaBio3d(i,j,k,iflx_vir_bac_sldon) +  bact(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_sldon
             DiaBio3d(i,j,k,iflx_vir_ndi_srdon) = DiaBio3d(i,j,k,iflx_vir_ndi_srdon) + phyto(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_srdon
             DiaBio3d(i,j,k,iflx_vir_nlg_srdon) = DiaBio3d(i,j,k,iflx_vir_nlg_srdon) + phyto(2)%jvirloss_n(i,j,k)*cobalt%lysis_phi_srdon
             DiaBio3d(i,j,k,iflx_vir_nsm_srdon) = DiaBio3d(i,j,k,iflx_vir_nsm_srdon) + phyto(3)%jvirloss_n(i,j,k)*cobalt%lysis_phi_srdon
-            DiaBio3d(i,j,k,iflx_vir_bac_srdon) = DiaBio3d(i,j,k,iflx_vir_bac_srdon) +  bact(1)%jvirloss_n(:,:,:)*cobalt%lysis_phi_srdon
+            DiaBio3d(i,j,k,iflx_vir_bac_srdon) = DiaBio3d(i,j,k,iflx_vir_bac_srdon) +  bact(1)%jvirloss_n(i,j,k)*cobalt%lysis_phi_srdon
 
             ! Exudation
 
@@ -5285,9 +5285,9 @@
             DiaBio3d(i,j,k,iflx_mor_nsmz_ndet) = DiaBio3d(i,j,k,iflx_mor_nsmz_ndet) - (min(0.0, zoo(1)%jprod_n(i,j,k)))
             DiaBio3d(i,j,k,iflx_mor_nmdz_ndet) = DiaBio3d(i,j,k,iflx_mor_nmdz_ndet) - (min(0.0, zoo(2)%jprod_n(i,j,k)))
             DiaBio3d(i,j,k,iflx_mor_nlgz_ndet) = DiaBio3d(i,j,k,iflx_mor_nlgz_ndet) - (min(0.0, zoo(3)%jprod_n(i,j,k)))
-            DiaBio3d(i,j,k,iflx_mor_bac_ldon ) = DiaBio3d(i,j,k,iflx_mor_bac_ldon ) - (min(0.0, bact(1)%jprod_n(:,:,:)))*cobalt%lysis_phi_ldon
-            DiaBio3d(i,j,k,iflx_mor_bac_sldon) = DiaBio3d(i,j,k,iflx_mor_bac_sldon) - (min(0.0, bact(1)%jprod_n(:,:,:)))*cobalt%lysis_phi_sldon
-            DiaBio3d(i,j,k,iflx_mor_bac_srdon) = DiaBio3d(i,j,k,iflx_mor_bac_srdon) - (min(0.0, bact(1)%jprod_n(:,:,:)))*cobalt%lysis_phi_srdon
+            DiaBio3d(i,j,k,iflx_mor_bac_ldon ) = DiaBio3d(i,j,k,iflx_mor_bac_ldon ) - (min(0.0, bact(1)%jprod_n(i,j,k)))*cobalt%lysis_phi_ldon
+            DiaBio3d(i,j,k,iflx_mor_bac_sldon) = DiaBio3d(i,j,k,iflx_mor_bac_sldon) - (min(0.0, bact(1)%jprod_n(i,j,k)))*cobalt%lysis_phi_sldon
+            DiaBio3d(i,j,k,iflx_mor_bac_srdon) = DiaBio3d(i,j,k,iflx_mor_bac_srdon) - (min(0.0, bact(1)%jprod_n(i,j,k)))*cobalt%lysis_phi_srdon
 
             ! Excretion by higher predators
 
@@ -5295,9 +5295,9 @@
 
             ! Remineralization, denitrification, and nitrification
 
-            DiaBio3d(i,j,k,iflx_rem_ndet_out) = DiaBio3d(i,j,k,iflx_rem_ndet_out) + cobalt%jremin_ndet  ! Where does this go?
-            DiaBio3d(i,j,k,iflx_dnit_no3_nh4) = DiaBio3d(i,j,k,iflx_dnit_no3_nh4) + cobalt%jno3denit_wc
-            DiaBio3d(i,j,k,iflx_nit_nh4_no3 ) = DiaBio3d(i,j,k,iflx_nit_nh4_no3 ) + cobalt%jnitrif
+            DiaBio3d(i,j,k,iflx_rem_ndet_nh4) = DiaBio3d(i,j,k,iflx_rem_ndet_nh4) + cobalt%jremin_ndet(i,j,k)  ! Where does this go?
+            DiaBio3d(i,j,k,iflx_dnit_no3_nh4) = DiaBio3d(i,j,k,iflx_dnit_no3_nh4) + cobalt%jno3denit_wc(i,j,k)
+            DiaBio3d(i,j,k,iflx_nit_nh4_no3 ) = DiaBio3d(i,j,k,iflx_nit_nh4_no3 ) + cobalt%jnitrif(i,j,k)
 
             ! DON remineralization
 
