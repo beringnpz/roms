@@ -1970,7 +1970,7 @@
       NDbio2d = 65
       NDbio3d = 135
 # else
-      NDbio2d = 65
+      NDbio2d = 62
       NDbio3d = 122
 # endif
 #endif
@@ -3024,36 +3024,6 @@
       ! RD: maybe all the following could be removed someday:
       iirr_mix=5
       iirr_inst=6
-
-      !ijprod_cadet_arag=7
-      !ijprod_cadet_calc=8
-      !ijprod_fedet=9
-      !ijprod_lithdet=10
-      !ijprod_ndet=11
-      !ijprod_pdet=12
-      !ijprod_sidet=13
-
-      !ijdiss_cadet_arag=14
-      !ijdiss_cadet_calc=15
-      !ijremin_ndet=16
-      !ijremin_pdet=17
-      !ijremin_fedet=18
-      !idet_jzloss_n=19
-      !idet_jzloss_p=20
-      !idet_jzloss_fe=21
-      !idet_jhploss_n=22
-      !idet_jhploss_p=23
-      !idet_jhploss_fe=24
-
-
-      !indet_b4sink=25
-      !ipdet_b4sink=26
-      !ifedet_b4sink=27
-
-      !indet_afsink=28
-      !ipdet_afsink=29
-      !ifedet_afsink=30
-      !indet_flx=31
 
       ico3_sol_arag=7
       ico3_sol_calc=8
