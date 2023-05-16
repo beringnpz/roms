@@ -1526,6 +1526,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# ifdef COASTDIAT
             CASE ('Dout(imu_mem_md)')
               IF (iDbio3(imu_mem_md).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio3(imu_mem_md)'
@@ -1647,6 +1648,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# endif
             CASE ('Dout(inpp_sm)')
               IF (iDbio3(inpp_sm).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio3(inpp_sm)'
@@ -1658,6 +1660,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# ifdef COASTDIAT
             CASE ('Dout(inpp_md)')
               IF (iDbio3(inpp_md).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio3(inpp_md)'
@@ -1669,6 +1672,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# endif 
             CASE ('Dout(inpp_lg)')
               IF (iDbio3(inpp_lg).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio3(inpp_lg)'
@@ -3143,6 +3147,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# ifdef COASTDIAT
             CASE ('Dout(iprod_n_100_md)')
               IF (iDbio2(iprod_n_100_md).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio2(iprod_n_100_md)'
@@ -3176,6 +3181,7 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+# endif
 #endif
           END SELECT
         END IF
@@ -3201,7 +3207,7 @@
      &            '? (None)'
             WRITE (out,80) RHO_0(ng), 'RHO_0',                          &
      &            'coefficients for O2 saturation (N/A)'
-            WRITE (out,80) NKML(ng), 'NKML',                            &
+            WRITE (out,70) NKML(ng), 'NKML',                            &
      &            'coefficients for O2 saturation (N/A)'
             WRITE (out,80) a_0(ng), 'a_0',                              &
      &            'coefficients for O2 saturation (N/A)'
@@ -3259,22 +3265,28 @@
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fed kg-1)'
             WRITE (out,80) k_fed_Lg(ng), 'k_fed_Lg',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fed kg-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_fed_Md(ng), 'k_fed_Md',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fed kg-1)'
+# endif
             WRITE (out,80) k_fed_Sm(ng), 'k_fed_Sm',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fed kg-1)'
             WRITE (out,80) k_nh4_Lg(ng), 'k_nh4_Lg',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NH4 kg-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_nh4_Md(ng), 'k_nh4_Md',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NH4 kg-1)'
+# endif
             WRITE (out,80) k_nh4_Sm(ng), 'k_nh4_Sm',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NH4 kg-1)'
             WRITE (out,80) k_nh4_Di(ng), 'k_nh4_Di',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NH4 kg-1)'
             WRITE (out,80) k_no3_Lg(ng), 'k_no3_Lg',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NO3 kg-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_no3_Md(ng), 'k_no3_Md',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NO3 kg-1)'
+# endif
             WRITE (out,80) k_no3_Sm(ng), 'k_no3_Sm',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol NO3 kg-1)'
             WRITE (out,80) k_no3_Di(ng), 'k_no3_Di',                    &
@@ -3283,26 +3295,34 @@
      &            'Nutrient Limitation Parameters (phytoplankton) (mol PO4 kg-1)'
             WRITE (out,80) k_po4_Lg(ng), 'k_po4_Lg',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol PO4 kg-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_po4_Md(ng), 'k_po4_Md',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol PO4 kg-1)'
+# endif
             WRITE (out,80) k_po4_Sm(ng), 'k_po4_Sm',                    &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol PO4 kg-1)'
             WRITE (out,80) k_sio4_Lg(ng), 'k_sio4_Lg',                  &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol SiO4 kg-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_sio4_Md(ng), 'k_sio4_Md',                  &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol SiO4 kg-1)'
+# endif
             WRITE (out,80) k_fe_2_n_Di(ng), 'k_fe_2_n_Di',              &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
             WRITE (out,80) k_fe_2_n_Lg(ng), 'k_fe_2_n_Lg',              &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
+# ifdef COASTDIAT
             WRITE (out,80) k_fe_2_n_Md(ng), 'k_fe_2_n_Md',              &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
+# endif
             WRITE (out,80) k_fe_2_n_Sm(ng), 'k_fe_2_n_Sm',              &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
             WRITE (out,80) fe_2_n_max_Sm(ng), 'fe_2_n_max_Sm',          &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
+# ifdef COASTDIAT
             WRITE (out,80) fe_2_n_max_Md(ng), 'fe_2_n_max_Md',          &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
+# endif
             WRITE (out,80) fe_2_n_max_Lg(ng), 'fe_2_n_max_Lg',          &
      &            'Nutrient Limitation Parameters (phytoplankton) (mol Fe mol N-1)'
             WRITE (out,80) fe_2_n_max_Di(ng), 'fe_2_n_max_Di',          &
@@ -3313,8 +3333,10 @@
      &            'Phytoplankton light limitation/growth rate (g C g Chl-1 m2 W-1 s-1)'
             WRITE (out,80) alpha_Lg(ng), 'alpha_Lg',                    &
      &            'Phytoplankton light limitation/growth rate (g C g Chl-1 m2 W-1 s-1)'
+# ifdef COASTDIAT
             WRITE (out,80) alpha_Md(ng), 'alpha_Md',                    &
      &            'Phytoplankton light limitation/growth rate (g C g Chl-1 m2 W-1 s-1)'
+# endif
             WRITE (out,80) alpha_Sm(ng), 'alpha_Sm',                    &
      &            'Phytoplankton light limitation/growth rate (g C g Chl-1 m2 W-1 s-1)'
             WRITE (out,80) kappa_eppley(ng), 'kappa_eppley',            &
@@ -3323,24 +3345,30 @@
      &            'Phytoplankton light limitation/growth rate (s-1)'
             WRITE (out,80) P_C_max_Lg(ng), 'P_C_max_Lg',                &
      &            'Phytoplankton light limitation/growth rate (s-1)'
+# ifdef COASTDIAT
             WRITE (out,80) P_C_max_Md(ng), 'P_C_max_Md',                &
      &            'Phytoplankton light limitation/growth rate (s-1)'
+# endif
             WRITE (out,80) P_C_max_Sm(ng), 'P_C_max_Sm',                &
      &            'Phytoplankton light limitation/growth rate (s-1)'
             WRITE (out,80) thetamax_Di(ng), 'thetamax_Di',              &
      &            'Phytoplankton light limitation/growth rate (g Chl g C-1)'
             WRITE (out,80) thetamax_Lg(ng), 'thetamax_Lg',              &
      &            'Phytoplankton light limitation/growth rate (g Chl g C-1)'
+# ifdef COASTDIAT
             WRITE (out,80) thetamax_Md(ng), 'thetamax_Md',              &
      &            'Phytoplankton light limitation/growth rate (g Chl g C-1)'
+# endif
             WRITE (out,80) thetamax_Sm(ng), 'thetamax_Sm',              &
      &            'Phytoplankton light limitation/growth rate (g Chl g C-1)'
             WRITE (out,80) bresp_Di(ng), 'bresp_Di',                    &
      &            'Phytoplankton light limitation/growth rate (sec-1)'
             WRITE (out,80) bresp_Lg(ng), 'bresp_Lg',                    &
      &            'Phytoplankton light limitation/growth rate (sec-1)'
+# ifdef COASTDIAT
             WRITE (out,80) bresp_Md(ng), 'bresp_Md',                    &
      &            'Phytoplankton light limitation/growth rate (sec-1)'
+# endif
             WRITE (out,80) bresp_Sm(ng), 'bresp_Sm',                    &
      &            'Phytoplankton light limitation/growth rate (sec-1)'
             WRITE (out,80) thetamin(ng), 'thetamin',                    &
@@ -3359,7 +3387,7 @@
      &            'Nitrogen fixation inhibition parameters (mol O2-1 m3)'
             WRITE (out,80) o2_inhib_Di_sat(ng), 'o2_inhib_Di_sat',      &
      &            'Nitrogen fixation inhibition parameters (mol O2 kg-1)'
-            WRITE (out,80) p_2_n_static(ng), 'p_2_n_static',            &
+            WRITE (out,70) p_2_n_static(ng), 'p_2_n_static',            &
      &            'Other stoichiometry (N/A)'
             WRITE (out,80) c_2_n(ng), 'c_2_n',                          &
      &            'Other stoichiometry (N/A)'
@@ -3369,18 +3397,22 @@
      &            'Other stoichiometry (mol P mol N-1)'
             WRITE (out,80) p_2_n_static_Lg(ng), 'p_2_n_static_Lg',      &
      &            'Other stoichiometry (mol P mol N-1)'
+# ifdef COASTDIAT
             WRITE (out,80) p_2_n_static_Md(ng), 'p_2_n_static_Md',      &
      &            'Other stoichiometry (mol P mol N-1)'
+# endif
             WRITE (out,80) p_2_n_static_Sm(ng), 'p_2_n_static_Sm',      &
      &            'Other stoichiometry (mol P mol N-1)'
             WRITE (out,80) si_2_n_static_Lg(ng), 'si_2_n_static_Lg',    &
      &            'Other stoichiometry (mol Si mol N-1)'
             WRITE (out,80) si_2_n_max_Lg(ng), 'si_2_n_max_Lg',          &
      &            'Other stoichiometry (mol Si mol N-1)'
+# ifdef COASTDIAT
             WRITE (out,80) si_2_n_static_Md(ng), 'si_2_n_static_Md',    &
      &            'Other stoichiometry (mol Si mol N-1)'
             WRITE (out,80) si_2_n_max_Md(ng), 'si_2_n_max_Md',          &
      &            'Other stoichiometry (mol Si mol N-1)'
+# endif
             WRITE (out,80) ca_2_n_arag(ng), 'ca_2_n_arag',              &
      &            'Other stoichiometry (mol Ca mol N-1)'
             WRITE (out,80) ca_2_n_calc(ng), 'ca_2_n_calc',              &
@@ -3401,16 +3433,20 @@
      &            'Phytoplankton aggregation (s-1 (mole N kg)-1)'
             WRITE (out,80) agg_Lg(ng), 'agg_Lg',                        &
      &            'Phytoplankton aggregation (s-1 (mole N kg)-1)'
+# ifdef COASTDIAT
             WRITE (out,80) agg_Md(ng), 'agg_Md',                        &
      &            'Phytoplankton aggregation (s-1 (mole N kg)-1)'
+# endif
             WRITE (out,80) vir_Sm(ng), 'vir_Sm',                        &
      &            'Phytoplankton and bacterial losses to viruses (mole N kg)-1)'
             WRITE (out,80) vir_Di(ng), 'vir_Di',                        &
      &            'Phytoplankton and bacterial losses to viruses (mole N kg)-1)'
             WRITE (out,80) vir_Lg(ng), 'vir_Lg',                        &
      &            'Phytoplankton and bacterial losses to viruses (mole N kg)-1)'
+# ifdef COASTDIAT
             WRITE (out,80) vir_Md(ng), 'vir_Md',                        &
      &            'Phytoplankton and bacterial losses to viruses (mole N kg)-1)'
+# endif
             WRITE (out,80) vir_Bact(ng), 'vir_Bact',                    &
      &            'Phytoplankton and bacterial losses to viruses (mole N kg)-1)'
             WRITE (out,80) ktemp_vir(ng), 'ktemp_vir',                  &
@@ -3421,8 +3457,10 @@
      &            'Phytoplankton losses to exudation (dimensionless)'
             WRITE (out,80) exu_Lg(ng), 'exu_Lg',                        &
      &            'Phytoplankton losses to exudation (dimensionless)'
+# ifdef COASTDIAT
             WRITE (out,80) exu_Md(ng), 'exu_Md',                        &
      &            'Phytoplankton losses to exudation (dimensionless)'
+# endif
             WRITE (out,80) imax_smz(ng), 'imax_smz',                    &
      &            'Zooplankton ingestion parameterization and temperature dependence (s-1)'
             WRITE (out,80) imax_mdz(ng), 'imax_mdz',                    &
@@ -3461,8 +3499,10 @@
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) smz_ipa_smp(ng), 'smz_ipa_smp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# ifdef COASTDIAT
             WRITE (out,80) smz_ipa_mdp(ng), 'smz_ipa_mdp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# endif
             WRITE (out,80) smz_ipa_lgp(ng), 'smz_ipa_lgp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) smz_ipa_diaz(ng), 'smz_ipa_diaz',            &
@@ -3479,8 +3519,10 @@
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) mdz_ipa_smp(ng), 'mdz_ipa_smp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# ifdef COASTDIAT
             WRITE (out,80) mdz_ipa_mdp(ng), 'mdz_ipa_mdp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# endif
             WRITE (out,80) mdz_ipa_lgp(ng), 'mdz_ipa_lgp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) mdz_ipa_diaz(ng), 'mdz_ipa_diaz',            &
@@ -3497,8 +3539,10 @@
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) lgz_ipa_smp(ng), 'lgz_ipa_smp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# ifdef COASTDIAT
             WRITE (out,80) lgz_ipa_mdp(ng), 'lgz_ipa_mdp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
+# endif
             WRITE (out,80) lgz_ipa_lgp(ng), 'lgz_ipa_lgp',              &
      &            'Zooplankton switching and prey preference parameters (dimensionless)'
             WRITE (out,80) lgz_ipa_diaz(ng), 'lgz_ipa_diaz',            &

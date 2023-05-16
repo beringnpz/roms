@@ -5205,13 +5205,13 @@
 
             ! Primary production
 
-            DiaBio3d(i,j,k,iflx_gpp_no3_nsm) = DiaBio3d(i,j,k,iflx_gpp_no3_nsm) + max(0.0, phyto(SMALL )%mu(i,j,k) * phyto(SMALL )%f_n(i,j,k) * phyto(SMALL )%no3lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_no3_nlg) = DiaBio3d(i,j,k,iflx_gpp_no3_nlg) + max(0.0, phyto(LARGE_)%mu(i,j,k) * phyto(LARGE_)%f_n(i,j,k) * phyto(LARGE_)%no3lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_no3_ndi) = DiaBio3d(i,j,k,iflx_gpp_no3_ndi) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * phyto(DIAZO )%no3lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) = DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) + max(0.0, phyto(SMALL )%mu(i,j,k) * phyto(SMALL )%f_n(i,j,k) * phyto(SMALL )%nh4lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) = DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) + max(0.0, phyto(LARGE_)%mu(i,j,k) * phyto(LARGE_)%f_n(i,j,k) * phyto(LARGE_)%nh4lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) = DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * phyto(DIAZO )%nh4lim(i,j,k))
-            DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) = DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) + max(0.0, phyto(DIAZO )%mu(i,j,k) * phyto(DIAZO )%f_n(i,j,k) * (1.0 - phyto(DIAZO)%no3lim(i,j,k) - phyto(DIAZO)%nh4lim(i,j,k)))
+            DiaBio3d(i,j,k,iflx_gpp_no3_nsm) = DiaBio3d(i,j,k,iflx_gpp_no3_nsm) + phyto(SMALL )%juptake_no3(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_no3_nlg) = DiaBio3d(i,j,k,iflx_gpp_no3_nlg) + phyto(LARGE_)%juptake_no3(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_no3_ndi) = DiaBio3d(i,j,k,iflx_gpp_no3_ndi) + phyto(DIAZO )%juptake_no3(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) = DiaBio3d(i,j,k,iflx_gpp_nh4_nsm) + phyto(SMALL )%juptake_nh4(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) = DiaBio3d(i,j,k,iflx_gpp_nh4_nlg) + phyto(LARGE_)%juptake_nh4(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) = DiaBio3d(i,j,k,iflx_gpp_nh4_ndi) + phyto(DIAZO )%juptake_nh4(i,j,k)
+            DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) = DiaBio3d(i,j,k,iflx_gpp_n2_ndi ) + phyto(DIAZO )%juptake_n2( i,j,k)
 
             ! Bacterial growth/remin
 
