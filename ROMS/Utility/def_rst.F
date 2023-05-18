@@ -1230,8 +1230,7 @@
 !  Define ice bio tracer type variables.
 !------------------------------------------
         DO itrc=1,NIceT(ng)
-          IF (Hout(idIceTvar(itrc),ng)) THEN
-        
+
             Vinfo( 1)=Vname(1,idIceTvar(itrc))
             Vinfo( 2)=Vname(2,idIceTvar(itrc))
             Vinfo(3)=Vname(3,idIceTvar(itrc))
@@ -1242,7 +1241,6 @@
             status=def_var(ng,iNLM,RST(ng)%ncid,                           &
      &                     RST(ng)%Vid(idIceTvar(itrc)),NF_FOUT,           &
      &                     nvd3,t2dgrd,Aval,Vinfo,ncname)
-          END IF
         END DO
 #  endif
 
