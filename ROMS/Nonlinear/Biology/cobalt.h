@@ -3906,6 +3906,8 @@
               IF ( ibio == indet ) THEN
                 ndet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #ifdef DIAGNOSTICS_BIO
+                DiaBio3d(i,j,k,iflx_snk_ndet_out) = DiaBio3d(i,j,k,iflx_snk_ndet_out) + ndet_sinking(i,j,k)
+
 ! WILL NEED TO ADD rmask_local factor for WET_DRY - above, silly
                 !DiaBio3d(i,j,k,indet_b4sink) = Hz(i,j,k) * t(i,j,k,nstp,indet)
                 !DiaBio3d(i,j,k,indet_b4sink) = Hz(i,j,k) * qc(i,k)
@@ -4175,9 +4177,7 @@
       DO k=2,N(ng)
         DO j=Jstr,Jend
           DO i=Istr,Iend
-
-          cobalt%f_cased(i,j,k) = 0.0
-
+            cobalt%f_cased(i,j,k) = 0.0
           ENDDO
         ENDDO
       ENDDO
@@ -5301,8 +5301,13 @@
 
             ! DON remineralization
 
-            iflx_rem_sldon_ldon = cobalt%gamma_sldon*cobalt%f_sldon(i,j,k)
-            iflx_rem_srdon_ldon = cobalt%gamma_srdon*cobalt%f_srdon(i,j,k)
+            DiaBio3d(i,j,k,iflx_rem_sldon_ldon) = DiaBio3d(i,j,k,iflx_rem_sldon_ldon) + cobalt%gamma_sldon*cobalt%f_sldon(i,j,k)
+            DiaBio3d(i,j,k,iflx_rem_srdon_ldon) = DiaBio3d(i,j,k,iflx_rem_srdon_ldon) + cobalt%gamma_srdon*cobalt%f_srdon(i,j,k)
+
+            ! Sinking
+            ! (See above with sinking calcs)
+
+            ! Sedminetary remineralization
 
           ENDDO
         ENDDO

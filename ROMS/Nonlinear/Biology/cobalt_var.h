@@ -1266,6 +1266,8 @@
                 iDbio3(iflx_rem_sldon_ldon)=varid
               CASE ('iDbio3(iflx_rem_srdon_ldon)')
                 iDbio3(iflx_rem_srdon_ldon)=varid
+              CASE ('iDbio3(iflx_snk_ndet_out)')
+                iDbio3(iflx_snk_ndet_out)=varid
 #endif
 #ifdef BENTHIC
               CASE ('idBeTvar(icased)')

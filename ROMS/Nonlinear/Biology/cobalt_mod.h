@@ -718,6 +718,7 @@
       integer :: iflx_nit_nh4_no3
       integer :: iflx_rem_sldon_ldon
       integer :: iflx_rem_srdon_ldon
+      integer :: iflx_snk_ndet_out
 #endif
       
       ! 200 meters diags
@@ -1968,10 +1969,10 @@
       ! Diagnostic tracers
 # ifdef COASTDIAT
       NDbio2d = 65
-      NDbio3d = 135
+      NDbio3d = 136
 # else
       NDbio2d = 62
-      NDbio3d = 122
+      NDbio3d = 123
 # endif
 #endif
 #ifdef BENTHIC
@@ -3153,21 +3154,22 @@
       iflx_nit_nh4_no3=120
       iflx_rem_sldon_ldon=121
       iflx_rem_srdon_ldon=122
+      iflx_snk_ndet_out=123
 
 # ifdef COASTDIAT
-      imu_mem_md=123
-      iagg_lim_md=124
-      iaggloss_md=125
-      ivirloss_md=126
-      izloss_md=127
-      idef_fe_md=128
-      ifelim_md=129
-      ino3lim_md=130
-      inh4lim_md=131
-      ipo4lim_md=132
-      ichl_md=133
-      iC_2_chl_md=134
-      inpp_md=135
+      imu_mem_md=124
+      iagg_lim_md=125
+      iaggloss_md=126
+      ivirloss_md=127
+      izloss_md=128
+      idef_fe_md=129
+      ifelim_md=130
+      ino3lim_md=131
+      inh4lim_md=132
+      ipo4lim_md=133
+      ichl_md=134
+      iC_2_chl_md=135
+      inpp_md=136
 # endif
 
 
