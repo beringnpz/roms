@@ -3858,7 +3858,6 @@
 !
           !cff=dtdays*ABS(wsink(ng))
           cff=n_dt*ABS(wsink(ng)) ! RD : in cobalt wsink is in m.s-1
-          !cff=86400*dt(ng)*ABS(wsink(ng)) ! RD test
           DO k=1,UBk
             DO i=Istr,Iend
               FC(i,k-1)=0.0_r8
@@ -3895,84 +3894,59 @@
             END DO
           END DO
 
-          ! update with sinking flux
-          ! RD TODO this is probably not the right arrays to change !!!
-          !DO k=1,N(ng)
+          ! KK: Save sinking flux to named arrays
+          ! Note: FC in units of (umol/kg)*m, xxx_sinking in umol/kg/s
           DO k=1,UBk
             DO i=Istr,Iend
-
-              !FC(i,0) = 0.0d0
-
-              IF ( ibio == indet ) THEN
-                ndet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-#ifdef DIAGNOSTICS_BIO
-                DiaBio3d(i,j,k,iflx_snk_ndet_out) = DiaBio3d(i,j,k,iflx_snk_ndet_out) + ndet_sinking(i,j,k)
-
-! WILL NEED TO ADD rmask_local factor for WET_DRY - above, silly
-                !DiaBio3d(i,j,k,indet_b4sink) = Hz(i,j,k) * t(i,j,k,nstp,indet)
-                !DiaBio3d(i,j,k,indet_b4sink) = Hz(i,j,k) * qc(i,k)
-                !DiaBio3d(i,j,k,indet_b4sink) = 0.0d0
-                !DiaBio3d(i,j,k,indet_flx)    = FC(i,k-1) !FC(N) is zero anyway
-                !DiaBio3d(i,j,k,indet_afsink) = Hz(i,j,k) * ( t(i,j,k,nstp,indet) + ndet_sinking(i,j,k) * dt(ng) )
-                !DiaBio3d(i,j,k,indet_afsink) = Hz(i,j,k) * t(i,j,k,nstp,indet) + (FC(i,k)-FC(i,k-1))
-                !DiaBio3d(i,j,k,indet_afsink) = Hz(i,j,k) * qc(i,k) + (FC(i,k)-FC(i,k-1))
-                !DiaBio3d(i,j,k,indet_afsink) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-#endif
-              ELSEIF ( ibio == isidet ) THEN
-                sidet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-              ELSEIF ( ibio == icadet_calc ) THEN
-                cadet_calc_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-              ELSEIF ( ibio == icadet_arag ) THEN
-                cadet_arag_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              SELECT CASE (ibio)
+                CASE (indet)
+                  ndet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+                CASE (isidet)
+                  sidet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+                CASE (icadet_calc)
+                  cadet_calc_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+                CASE (icadet_arag)
+                  cadet_arag_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #ifdef COBALT_PHOSPHORUS
-              ELSEIF ( ibio == ipdet ) THEN
-                pdet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-                !DiaBio3d(i,j,k,ipdet_b4sink) = t(i,j,k,nstp,ipdet)
-                !DiaBio3d(i,j,k,ipdet_afsink) = t(i,j,k,nstp,ipdet) + pdet_sinking(i,j,k) * dt(ng)
+                CASE (ipdet)
+                  pdet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #endif
 #ifdef COBALT_IRON
-              ELSEIF ( ibio == ifedet ) THEN
-                fedet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-                !DiaBio3d(i,j,k,ifedet_b4sink) = t(i,j,k,nstp,ifedet)
-                !DiaBio3d(i,j,k,ifedet_afsink) = t(i,j,k,nstp,ifedet) + fedet_sinking(i,j,k) * dt(ng)
+                CASE (ifedet)
+                  fedet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #endif
-              ELSEIF ( ibio == ilithdet ) THEN
-                lithdet_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-              ENDIF
-
+                CASE (ilithdet)
+                  lithdet_sinking(i,j,k)    = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              END SELECT
             END DO
           END DO
 
-          ! Set bottom fluxes in Cobalt units :
-          ! FC in [mol.kg-1.m] cos' (see (1)), rho0 in [kg.m-3], dt in [s]
-          ! flux is then in [mol.m-2.s-1]
-
+          ! KK: Save fluxes through bottom layer
+          ! Note: Flux in original COBALTv2 units: mol/m2/s, fluxes are
+          ! positive into the sediment
           DO i=Istr,Iend
-            IF ( ibio == indet ) THEN
-              cobalt%f_ndet_btf(i,j,1) = FC(i,0) * rho0 * r_dt
-            ELSEIF ( ibio == isidet ) THEN
-              cobalt%f_sidet_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+            SELECT CASE (ibio)
+              CASE (indet)
+                cobalt%f_ndet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
+              CASE (isidet)
+                cobalt%f_sidet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
+              CASE (icadet_calc)
+                cobalt%f_cadet_calc_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+              CASE (icadet_arag)
+                cobalt%f_cadet_arag_btf(i,j,1) = FC(i,0) * rho0 * r_dt
 #ifdef COBALT_PHOSPHORUS
-            ELSEIF ( ibio == ipdet ) THEN
-              cobalt%f_pdet_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+              CASE (ipdet)
+                cobalt%f_pdet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
 #endif
-            ELSEIF ( ibio == icadet_arag ) THEN
-              cobalt%f_cadet_arag_btf(i,j,1) = FC(i,0) * rho0 * r_dt
-            ELSEIF ( ibio == icadet_calc ) THEN
-              cobalt%f_cadet_calc_btf(i,j,1) = FC(i,0) * rho0 * r_dt
 #ifdef COBALT_IRON
-            ELSEIF ( ibio == ifedet ) THEN
-              cobalt%f_fedet_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+              CASE (ifedet)
+                cobalt%f_fedet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
 #endif
-            ELSEIF ( ibio == ilithdet ) THEN
-              cobalt%f_lithdet_btf(i,j,1) = FC(i,0) * rho0 * r_dt
-            ELSE
-              PRINT *, 'no such sinking flux' ; STOP
-            ENDIF
-          ENDDO
-
+              CASE (ilithdet)
+                cobalt%f_lithdet_btf(i,j,1)    = FC(i,0) * rho0 * r_dt
+            END SELECT
+          END DO
         ENDDO ! sink loop
-
       ENDDO ! j loop
 
 !     call system_clock(clock1stop)
@@ -5305,9 +5279,17 @@
             DiaBio3d(i,j,k,iflx_rem_srdon_ldon) = DiaBio3d(i,j,k,iflx_rem_srdon_ldon) + cobalt%gamma_srdon*cobalt%f_srdon(i,j,k)
 
             ! Sinking
-            ! (See above with sinking calcs)
+
+            DiaBio3d(i,j,k,iflx_snk_ndet_out) = DiaBio3d(i,j,k,iflx_snk_ndet_out) + ndet_sinking(i,j,k)
 
             ! Sedminetary remineralization
+
+            if (k.eq.1) then
+              cff_btf = 1.0d0 / ( rho0 * Hz(i,j,1) )
+              DiaBio3d(i,j,k,iflx_sed_out_nh4) = -(cobalt%b_nh4(i,j) * cff_btf)
+              DiaBio3d(i,j,k,iflx_sed_out_no3) = -(cobalt%b_no3(i,j) * cff_btf)
+            endif
+
 
           ENDDO
         ENDDO

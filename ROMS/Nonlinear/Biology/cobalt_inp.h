@@ -2476,6 +2476,28 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+            CASE ('Dout(iflx_sed_out_nh4)')
+              IF (iDbio3(iflx_sed_out_nh4).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflx_sed_out_nh4)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflx_sed_out_nh4)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflx_sed_out_no3)')
+              IF (iDbio3(iflx_sed_out_no3).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflx_sed_out_no3)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflx_sed_out_no3)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
             CASE ('Dout(icased)')
               IF (iDbio2(icased).eq.0) THEN
                 IF (Master) WRITE (out,40) 'iDbio2(icased)'
