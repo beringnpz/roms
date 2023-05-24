@@ -580,6 +580,28 @@
               DO ng=1,Ngrids
                 Dout(i,ng)=Lbio(ng)
               END DO
+            CASE ('Dout(iflxsinks)')
+              IF (iDbio3(iflxsinks).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxsinks)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxsinks)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
+            CASE ('Dout(iflxsinkl)')
+              IF (iDbio3(iflxsinkl).eq.0) THEN
+                IF (Master) WRITE (out,40) 'iDbio3(iflxsinkl)'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Lbio)
+              i=iDbio3(iflxsinkl)
+              DO ng=1,Ngrids
+                Dout(i,ng)=Lbio(ng)
+              END DO
 #endif
           END SELECT
         END IF

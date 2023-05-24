@@ -591,9 +591,26 @@
             DO k=1,N(ng)
               DO i=Istr,Iend
                 Bio(i,k,ibio)=qc(i,k)+(FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+#ifdef DIAGNOSTICS_BIO
+                !
+                ! Save change due to sinking to appropriate diagnostic
+                !
+                SELECT CASE (ibio)
+# ifdef DIAGBIOAVG
+                  CASE (idets)
+                    DiaBio3d(i,j,k,iflxsinks) = DiaBio3d(i,j,k,iflxsinks) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                  CASE (idetl)
+                    DiaBio3d(i,j,k,iflxsinkl) = DiaBio3d(i,j,k,iflxsinkl) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+# else
+                  CASE (idets)
+                    DiaBio3d(i,j,k,iflxsinks) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                  CASE (idetl)
+                    DiaBio3d(i,j,k,iflxsinkl) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+# endif
+                END SELECT
               END DO
             END DO
-
+#endif
           END DO SINK_LOOP
         END DO ITER_LOOP
 !
