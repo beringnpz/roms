@@ -3898,26 +3898,25 @@
           ! Note: FC in units of (umol/kg)*m, xxx_sinking in umol/kg/s
           DO k=1,UBk
             DO i=Istr,Iend
-              SELECT CASE (ibio)
-                CASE (indet)
-                  ndet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-                CASE (isidet)
-                  sidet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-                CASE (icadet_calc)
-                  cadet_calc_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-                CASE (icadet_arag)
-                  cadet_arag_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              IF     (ibio .eq. indet      ) then
+                ndet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              ELSEIF (ibio .eq. isidet     ) then
+                sidet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              ELSEIF (ibio .eq. icadet_calc) then
+                cadet_calc_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              ELSEIF (ibio .eq. icadet_arag) then
+                cadet_arag_sinking(i,j,k) = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #ifdef COBALT_PHOSPHORUS
-                CASE (ipdet)
-                  pdet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              ELSEIF (ibio .eq. ipdet      ) then
+                pdet_sinking(i,j,k)       = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #endif
 #ifdef COBALT_IRON
-                CASE (ifedet)
-                  fedet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              ELSEIF (ibio .eq. ifedet     ) then
+                fedet_sinking(i,j,k)      = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
 #endif
-                CASE (ilithdet)
-                  lithdet_sinking(i,j,k)    = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
-              END SELECT
+              ELSEIF (ibio .eq. ilithdet   ) then
+                lithdet_sinking(i,j,k)    = r_dt * (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)
+              END IF
             END DO
           END DO
 
@@ -3925,26 +3924,25 @@
           ! Note: Flux in original COBALTv2 units: mol/m2/s, fluxes are
           ! positive into the sediment
           DO i=Istr,Iend
-            SELECT CASE (ibio)
-              CASE (indet)
-                cobalt%f_ndet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
-              CASE (isidet)
-                cobalt%f_sidet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
-              CASE (icadet_calc)
-                cobalt%f_cadet_calc_btf(i,j,1) = FC(i,0) * rho0 * r_dt
-              CASE (icadet_arag)
-                cobalt%f_cadet_arag_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+            IF     (ibio .eq. indet      ) then
+              cobalt%f_ndet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
+            ELSEIF (ibio .eq. isidet     ) then
+              cobalt%f_sidet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
+            ELSEIF (ibio .eq. icadet_calc) then
+              cobalt%f_cadet_calc_btf(i,j,1) = FC(i,0) * rho0 * r_dt
+            ELSEIF (ibio .eq. icadet_arag) then
+              cobalt%f_cadet_arag_btf(i,j,1) = FC(i,0) * rho0 * r_dt
 #ifdef COBALT_PHOSPHORUS
-              CASE (ipdet)
-                cobalt%f_pdet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
+            ELSEIF (ibio .eq. ipdet      ) then
+              cobalt%f_pdet_btf(i,j,1)       = FC(i,0) * rho0 * r_dt
 #endif
 #ifdef COBALT_IRON
-              CASE (ifedet)
-                cobalt%f_fedet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
+            ELSEIF (ibio .eq. ifedet     ) then
+              cobalt%f_fedet_btf(i,j,1)      = FC(i,0) * rho0 * r_dt
 #endif
-              CASE (ilithdet)
-                cobalt%f_lithdet_btf(i,j,1)    = FC(i,0) * rho0 * r_dt
-            END SELECT
+            ELSEIF (ibio .eq. ilithdet   ) then
+              cobalt%f_lithdet_btf(i,j,1)    = FC(i,0) * rho0 * r_dt
+            END IF
           END DO
         ENDDO ! sink loop
       ENDDO ! j loop

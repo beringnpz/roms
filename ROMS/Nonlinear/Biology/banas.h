@@ -595,19 +595,19 @@
                 !
                 ! Save change due to sinking to appropriate diagnostic
                 !
-                SELECT CASE (ibio)
 # ifdef DIAGBIOAVG
-                  CASE (idets)
-                    DiaBio3d(i,j,k,iflxsinks) = DiaBio3d(i,j,k,iflxsinks) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
-                  CASE (idetl)
-                    DiaBio3d(i,j,k,iflxsinkl) = DiaBio3d(i,j,k,iflxsinkl) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                IF      (ibio .eq. idets) then
+                  DiaBio3d(i,j,k,iflxsinks) = DiaBio3d(i,j,k,iflxsinks) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                ELSE IF (ibio .eq. idetl) then
+                  DiaBio3d(i,j,k,iflxsinkl) = DiaBio3d(i,j,k,iflxsinkl) + (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                END IF
 # else
-                  CASE (idets)
-                    DiaBio3d(i,j,k,iflxsinks) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
-                  CASE (idetl)
-                    DiaBio3d(i,j,k,iflxsinkl) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                IF      (ibio .eq. idets) then
+                  DiaBio3d(i,j,k,iflxsinks) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                ELSE IF (ibio .eq. idetl) then
+                  DiaBio3d(i,j,k,iflxsinkl) = (FC(i,k)-FC(i,k-1))*Hz_inv(i,k)/dtdays
+                END IF
 # endif
-                END SELECT
               END DO
             END DO
 #endif
