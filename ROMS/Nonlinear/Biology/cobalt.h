@@ -5278,7 +5278,7 @@
 
             ! Sinking
 
-            DiaBio3d(i,j,k,iflx_snk_ndet_out) = DiaBio3d(i,j,k,iflx_snk_ndet_out) + ndet_sinking(i,j,k)
+            DiaBio3d(i,j,k,iflx_snk_ndet_out) = DiaBio3d(i,j,k,iflx_snk_ndet_out) - ndet_sinking(i,j,k)
 
             ! Sedminetary remineralization
 
