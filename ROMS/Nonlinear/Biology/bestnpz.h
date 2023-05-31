@@ -883,30 +883,29 @@
             Bio2d(i,k,iiOxyg) = Bio3d(i,k,iiOxyg)*Hz(i,j,k)
 #endif
 
-#ifdef DIAGNOSTICS_BIO
-            ! Rate of change due to processes outside this subroutine
-            ! (Note: this calc depends on the step3d_t.F code where
-            ! stationary diagnostic values are copied from nstp to nnew...
-            ! if that changes, this will break.)
-
-            DiaBio3d(i,j,k,iflx_Adv_NO3)  = (Bio2d(i,k,iiNO3 ) - DiaBio3d(i,j,k,ibiomem_NO3) )/dtdays ! mmol N m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_NH4)  = (Bio2d(i,k,iiNH4 ) - DiaBio3d(i,j,k,ibiomem_NH4) )/dtdays ! mmol N m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_PhS)  = (Bio2d(i,k,iiPhS ) - DiaBio3d(i,j,k,ibiomem_PhS) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_PhL)  = (Bio2d(i,k,iiPhL ) - DiaBio3d(i,j,k,ibiomem_PhL) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_MZL)  = (Bio2d(i,k,iiMZL ) - DiaBio3d(i,j,k,ibiomem_MZL) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_Cop)  = (Bio2d(i,k,iiCop ) - DiaBio3d(i,j,k,ibiomem_Cop) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_NCaS) = (Bio2d(i,k,iiNCaS) - DiaBio3d(i,j,k,ibiomem_NCaS))/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_EupS) = (Bio2d(i,k,iiEupS) - DiaBio3d(i,j,k,ibiomem_EupS))/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_NCaO) = (Bio2d(i,k,iiNCaO) - DiaBio3d(i,j,k,ibiomem_NCaO))/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_EupO) = (Bio2d(i,k,iiEupO) - DiaBio3d(i,j,k,ibiomem_EupO))/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_Det)  = (Bio2d(i,k,iiDet ) - DiaBio3d(i,j,k,ibiomem_Det) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_DetF) = (Bio2d(i,k,iiDetF) - DiaBio3d(i,j,k,ibiomem_DetF))/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_Jel)  = (Bio2d(i,k,iiJel ) - DiaBio3d(i,j,k,ibiomem_Jel) )/dtdays ! mg C m^-2 d^-1
-            DiaBio3d(i,j,k,iflx_Adv_Fe)   = (Bio2d(i,k,iiFe  ) - DiaBio3d(i,j,k,ibiomem_Fe)  )/dtdays ! umol Fe m^-2 d^-1
-#endif
+! #ifdef DIAGNOSTICS_BIO
+!             ! Rate of change due to processes outside this subroutine
+!             ! (Note: this calc depends on the step3d_t.F code where
+!             ! stationary diagnostic values are copied from nstp to nnew...
+!             ! if that changes, this will break.)
+!
+!             DiaBio3d(i,j,k,iflx_Adv_NO3)  = (Bio2d(i,k,iiNO3 ) - DiaBio3d(i,j,k,ibiomem_NO3) )/dtdays ! mmol N m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_NH4)  = (Bio2d(i,k,iiNH4 ) - DiaBio3d(i,j,k,ibiomem_NH4) )/dtdays ! mmol N m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_PhS)  = (Bio2d(i,k,iiPhS ) - DiaBio3d(i,j,k,ibiomem_PhS) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_PhL)  = (Bio2d(i,k,iiPhL ) - DiaBio3d(i,j,k,ibiomem_PhL) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_MZL)  = (Bio2d(i,k,iiMZL ) - DiaBio3d(i,j,k,ibiomem_MZL) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_Cop)  = (Bio2d(i,k,iiCop ) - DiaBio3d(i,j,k,ibiomem_Cop) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_NCaS) = (Bio2d(i,k,iiNCaS) - DiaBio3d(i,j,k,ibiomem_NCaS))/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_EupS) = (Bio2d(i,k,iiEupS) - DiaBio3d(i,j,k,ibiomem_EupS))/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_NCaO) = (Bio2d(i,k,iiNCaO) - DiaBio3d(i,j,k,ibiomem_NCaO))/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_EupO) = (Bio2d(i,k,iiEupO) - DiaBio3d(i,j,k,ibiomem_EupO))/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_Det)  = (Bio2d(i,k,iiDet ) - DiaBio3d(i,j,k,ibiomem_Det) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_DetF) = (Bio2d(i,k,iiDetF) - DiaBio3d(i,j,k,ibiomem_DetF))/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_Jel)  = (Bio2d(i,k,iiJel ) - DiaBio3d(i,j,k,ibiomem_Jel) )/dtdays ! mg C m^-2 d^-1
+!             DiaBio3d(i,j,k,iflx_Adv_Fe)   = (Bio2d(i,k,iiFe  ) - DiaBio3d(i,j,k,ibiomem_Fe)  )/dtdays ! umol Fe m^-2 d^-1
+! #endif
           END DO
         END DO
-
 
         ! Benthic variables: These are originally stored in per-area
         ! concentrations in each benthic layer, in mg C m^-2.  The
@@ -1027,6 +1026,30 @@
         Bio3d = max(0.0_r8, Bio3d)
 
         extrabio = Bio2d - Bio_bak ! biomass added to make non-negative
+
+
+#ifdef DIAGNOSTICS_BIO
+# ifndef DIAGBIOAVG
+        ! When diagnostic-averaging is off, we want to reset the values of 
+        ! all DiaBio[2/3]d arrays so values aren't accumulated over time.
+        ! pCO2 and climatological ice don't need this since they are never 
+        ! accumulated.
+        DO k=1,N(ng)
+          DO i=Istr,Iend
+            DO itrc = 1,NDbio3d
+              DiaBio3d(i,j,k,itrc) = 0.0
+            END DO
+          END DO
+        END DO
+        DO i=Istr,Iend
+          DO itrc = 1,NDbio2d
+            if ((itrc .ne. iclimice) .and. (itrc .ne. ipco2)) then
+              DiaBio2d(i,j,itrc) = 0.0
+            end if
+          END DO
+        END DO
+#endif
+
 
 #ifdef ICE_BIO
         ! Move tracers between surface water layer and ice skeletal layer
@@ -1470,7 +1493,7 @@
 #ifdef DIAGNOSTICS_BIO
 
               ! Save limitation terms for output
-# ifdef DIAGBIOAVG
+              
               DiaBio3d(i,j,k,ipar)    = DiaBio3d(i,j,k,ipar)    + PAR(i,k)
               DiaBio3d(i,j,k,iilims)  = DiaBio3d(i,j,k,iilims)  + LightLimS1
               DiaBio3d(i,j,k,iiliml)  = DiaBio3d(i,j,k,iiliml)  + LightLimL1
@@ -1480,17 +1503,6 @@
               DiaBio3d(i,j,k,inhliml) = DiaBio3d(i,j,k,inhliml) + NHLimL
               DiaBio3d(i,j,k,ifelims) = DiaBio3d(i,j,k,ifelims) + IronLimS
               DiaBio3d(i,j,k,ifeliml) = DiaBio3d(i,j,k,ifeliml) + IronLimL
-# else
-              DiaBio3d(i,j,k,ipar)    = PAR(i,k)
-              DiaBio3d(i,j,k,iilims)  = LightLimS1
-              DiaBio3d(i,j,k,iiliml)  = LightLimL1
-              DiaBio3d(i,j,k,inolims) = NOLimS
-              DiaBio3d(i,j,k,inoliml) = NOLimL
-              DiaBio3d(i,j,k,inhlims) = NHLimS
-              DiaBio3d(i,j,k,inhliml) = NHLimL
-              DiaBio3d(i,j,k,ifelims) = IronLimS
-              DiaBio3d(i,j,k,ifeliml) = IronLimL
-# endif
 #endif
             END DO
           END DO
@@ -2998,104 +3010,104 @@
             DO k = 1,N(ng)
 
               ! Intermediate fluxes
-
-              DiaBio3d(i,j,k,iflx_Gpp_NO3_PhS)   = Gpp_NO3_PhS(i,k)
-              DiaBio3d(i,j,k,iflx_Gpp_NO3_PhL)   = Gpp_NO3_PhL(i,k)
-              DiaBio3d(i,j,k,iflx_Gpp_NH4_PhS)   = Gpp_NH4_PhS(i,k)
-              DiaBio3d(i,j,k,iflx_Gpp_NH4_PhL)   = Gpp_NH4_PhL(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_MZL)   = Gra_PhS_MZL(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_MZL)   = Gra_PhL_MZL(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_MZL_Det)   = Ege_MZL_Det(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_Cop)   = Gra_PhS_Cop(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_Cop)   = Gra_PhL_Cop(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_MZL_Cop)   = Gra_MZL_Cop(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_IPhL_Cop)  = Gra_IPhL_Cop(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_Cop_DetF)  = Ege_Cop_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_NCaS)  = Gra_PhS_NCaS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_NCaS)  = Gra_PhL_NCaS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_MZL_NCaS)  = Gra_MZL_NCaS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaS) = Gra_IPhL_NCaS(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_NCaS_DetF) = Ege_NCaS_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_NCaO)  = Gra_PhS_NCaO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_NCaO)  = Gra_PhL_NCaO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_MZL_NCaO)  = Gra_MZL_NCaO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaO) = Gra_IPhL_NCaO(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_NCaO_DetF) = Ege_NCaO_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_EupS)  = Gra_PhS_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_EupS)  = Gra_PhL_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_MZL_EupS)  = Gra_MZL_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Cop_EupS)  = Gra_Cop_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_IPhL_EupS) = Gra_IPhL_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Det_EupS)  = Gra_Det_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_DetF_EupS) = Gra_DetF_EupS(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_EupS_DetF) = Ege_EupS_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_EupO)  = Gra_PhS_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_EupO)  = Gra_PhL_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_MZL_EupO)  = Gra_MZL_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Cop_EupO)  = Gra_Cop_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_IPhL_EupO) = Gra_IPhL_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Det_EupO)  = Gra_Det_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_DetF_EupO) = Gra_DetF_EupO(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_EupO_DetF) = Ege_EupO_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Cop_Jel)   = Gra_Cop_Jel(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_EupS_Jel)  = Gra_EupS_Jel(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_EupO_Jel)  = Gra_EupO_Jel(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_NCaS_Jel)  = Gra_NCaS_Jel(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_NCaO_Jel)  = Gra_NCaO_Jel(i,k)
-              DiaBio3d(i,j,k,iflx_Ege_Jel_DetF)  = Ege_Jel_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_PhS_Det)   = Mor_PhS_Det(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_PhL_Det)   = Mor_PhL_Det(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_MZL_Det)   = Mor_MZL_Det(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_Cop_DetF)  = Mor_Cop_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_NCaS_DetF) = Mor_NCaS_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_EupS_DetF) = Mor_EupS_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_NCaO_DetF) = Mor_NCaO_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_EupO_DetF) = Mor_EupO_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_Jel_DetF)  = Mor_Jel_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Res_PhS_NH4)   = Res_PhS_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_PhL_NH4)   = Res_PhL_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_MZL_NH4)   = Res_MZL_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_Cop_NH4)   = Res_Cop_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_NCaS_NH4)  = Res_NCaS_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_NCaO_NH4)  = Res_NCaO_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_EupS_NH4)  = Res_EupS_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_EupO_NH4)  = Res_EupO_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Res_Jel_NH4)   = Res_Jel_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Rem_Det_NH4)   = Rem_Det_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Rem_DetF_NH4)  = Rem_DetF_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Nit_NH4_NO3)   = Nit_NH4_NO3(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_Det_Ben)   = Gra_Det_Ben(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_DetF_Ben)  = Gra_DetF_Ben(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhS_Ben)   = Gra_PhS_Ben(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_PhL_Ben)   = Gra_PhL_Ben(i,k)
-              DiaBio3d(i,j,k,iflx_Gra_DetB_Ben)  = Gra_DetBen_Ben(i,k)
-              DiaBio3d(i,j,k,iflx_Exc_Ben_NH4)   = Exc_Ben_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Exc_Ben_DetB)  = Exc_Ben_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Res_Ben_NH4)   = Res_Ben_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_Ben_DetB)  = Mor_Ben_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Rem_DetB_NH4)  = Rem_DetBen_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Gpp_INO3_IPhL) = Gpp_INO3_IPhL(i,k)
-              DiaBio3d(i,j,k,iflx_Gpp_INH4_IPhL) = Gpp_INH4_IPhL(i,k)
-              DiaBio3d(i,j,k,iflx_Res_IPhL_INH4) = Res_IPhL_INH4(i,k)
-              DiaBio3d(i,j,k,iflx_Mor_IPhL_INH4) = Mor_IPhL_INH4(i,k)
-              DiaBio3d(i,j,k,iflx_Nit_INH4_INO3) = Nit_INH4_INO3(i,k)
-              DiaBio3d(i,j,k,iflx_Twi_IPhL_PhL)  = Twi_IPhL_PhL(i,k)
-              DiaBio3d(i,j,k,iflx_Twi_INO3_NO3)  = Twi_INO3_NO3(i,k)
-              DiaBio3d(i,j,k,iflx_Twi_INH4_NH4)  = Twi_INH4_NH4(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_PhS_DetB)  = Ver_PhS_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_PhS_Out)   = Ver_PhS_Out(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_PhL_DetB)  = Ver_PhL_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_PhL_Out)   = Ver_PhL_Out(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_Det_DetB)  = Ver_Det_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_Det_Out)   = Ver_Det_Out(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_DetF_DetB) = Ver_DetF_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_DetF_Out)  = Ver_DetF_Out(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_NCaO_DetB) = Ver_NCaO_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_NCaS_DetF) = Ver_NCaS_DetF(i,k)
-              DiaBio3d(i,j,k,iflx_Ver_NCaS_DetB) = Ver_NCaS_DetBen(i,k)
-              DiaBio3d(i,j,k,iflx_Frz_PhL_IPhL)  = Frz_PhL_IPhL(i,k)
-              DiaBio3d(i,j,k,iflx_Frz_NO3_INO3)  = Frz_NO3_INO3(i,k)
-              DiaBio3d(i,j,k,iflx_Frz_NH4_INH4)  = Frz_NH4_INH4(i,k)
+              
+              DiaBio3d(i,j,k,iflx_Gpp_NO3_PhS)   = DiaBio3d(i,j,k,iflx_Gpp_NO3_PhS)   + Gpp_NO3_PhS(i,k)
+              DiaBio3d(i,j,k,iflx_Gpp_NO3_PhL)   = DiaBio3d(i,j,k,iflx_Gpp_NO3_PhL)   + Gpp_NO3_PhL(i,k)
+              DiaBio3d(i,j,k,iflx_Gpp_NH4_PhS)   = DiaBio3d(i,j,k,iflx_Gpp_NH4_PhS)   + Gpp_NH4_PhS(i,k)
+              DiaBio3d(i,j,k,iflx_Gpp_NH4_PhL)   = DiaBio3d(i,j,k,iflx_Gpp_NH4_PhL)   + Gpp_NH4_PhL(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_MZL)   = DiaBio3d(i,j,k,iflx_Gra_PhS_MZL)   + Gra_PhS_MZL(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_MZL)   = DiaBio3d(i,j,k,iflx_Gra_PhL_MZL)   + Gra_PhL_MZL(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_MZL_Det)   = DiaBio3d(i,j,k,iflx_Ege_MZL_Det)   + Ege_MZL_Det(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_Cop)   = DiaBio3d(i,j,k,iflx_Gra_PhS_Cop)   + Gra_PhS_Cop(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_Cop)   = DiaBio3d(i,j,k,iflx_Gra_PhL_Cop)   + Gra_PhL_Cop(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_MZL_Cop)   = DiaBio3d(i,j,k,iflx_Gra_MZL_Cop)   + Gra_MZL_Cop(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_IPhL_Cop)  = DiaBio3d(i,j,k,iflx_Gra_IPhL_Cop)  + Gra_IPhL_Cop(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_Cop_DetF)  = DiaBio3d(i,j,k,iflx_Ege_Cop_DetF)  + Ege_Cop_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_NCaS)  = DiaBio3d(i,j,k,iflx_Gra_PhS_NCaS)  + Gra_PhS_NCaS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_NCaS)  = DiaBio3d(i,j,k,iflx_Gra_PhL_NCaS)  + Gra_PhL_NCaS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_MZL_NCaS)  = DiaBio3d(i,j,k,iflx_Gra_MZL_NCaS)  + Gra_MZL_NCaS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaS) = DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaS) + Gra_IPhL_NCaS(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_NCaS_DetF) = DiaBio3d(i,j,k,iflx_Ege_NCaS_DetF) + Ege_NCaS_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_NCaO)  = DiaBio3d(i,j,k,iflx_Gra_PhS_NCaO)  + Gra_PhS_NCaO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_NCaO)  = DiaBio3d(i,j,k,iflx_Gra_PhL_NCaO)  + Gra_PhL_NCaO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_MZL_NCaO)  = DiaBio3d(i,j,k,iflx_Gra_MZL_NCaO)  + Gra_MZL_NCaO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaO) = DiaBio3d(i,j,k,iflx_Gra_IPhL_NCaO) + Gra_IPhL_NCaO(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_NCaO_DetF) = DiaBio3d(i,j,k,iflx_Ege_NCaO_DetF) + Ege_NCaO_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_EupS)  = DiaBio3d(i,j,k,iflx_Gra_PhS_EupS)  + Gra_PhS_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_EupS)  = DiaBio3d(i,j,k,iflx_Gra_PhL_EupS)  + Gra_PhL_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_MZL_EupS)  = DiaBio3d(i,j,k,iflx_Gra_MZL_EupS)  + Gra_MZL_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Cop_EupS)  = DiaBio3d(i,j,k,iflx_Gra_Cop_EupS)  + Gra_Cop_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_IPhL_EupS) = DiaBio3d(i,j,k,iflx_Gra_IPhL_EupS) + Gra_IPhL_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Det_EupS)  = DiaBio3d(i,j,k,iflx_Gra_Det_EupS)  + Gra_Det_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_DetF_EupS) = DiaBio3d(i,j,k,iflx_Gra_DetF_EupS) + Gra_DetF_EupS(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_EupS_DetF) = DiaBio3d(i,j,k,iflx_Ege_EupS_DetF) + Ege_EupS_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_EupO)  = DiaBio3d(i,j,k,iflx_Gra_PhS_EupO)  + Gra_PhS_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_EupO)  = DiaBio3d(i,j,k,iflx_Gra_PhL_EupO)  + Gra_PhL_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_MZL_EupO)  = DiaBio3d(i,j,k,iflx_Gra_MZL_EupO)  + Gra_MZL_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Cop_EupO)  = DiaBio3d(i,j,k,iflx_Gra_Cop_EupO)  + Gra_Cop_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_IPhL_EupO) = DiaBio3d(i,j,k,iflx_Gra_IPhL_EupO) + Gra_IPhL_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Det_EupO)  = DiaBio3d(i,j,k,iflx_Gra_Det_EupO)  + Gra_Det_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_DetF_EupO) = DiaBio3d(i,j,k,iflx_Gra_DetF_EupO) + Gra_DetF_EupO(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_EupO_DetF) = DiaBio3d(i,j,k,iflx_Ege_EupO_DetF) + Ege_EupO_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Cop_Jel)   = DiaBio3d(i,j,k,iflx_Gra_Cop_Jel)   + Gra_Cop_Jel(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_EupS_Jel)  = DiaBio3d(i,j,k,iflx_Gra_EupS_Jel)  + Gra_EupS_Jel(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_EupO_Jel)  = DiaBio3d(i,j,k,iflx_Gra_EupO_Jel)  + Gra_EupO_Jel(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_NCaS_Jel)  = DiaBio3d(i,j,k,iflx_Gra_NCaS_Jel)  + Gra_NCaS_Jel(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_NCaO_Jel)  = DiaBio3d(i,j,k,iflx_Gra_NCaO_Jel)  + Gra_NCaO_Jel(i,k)
+              DiaBio3d(i,j,k,iflx_Ege_Jel_DetF)  = DiaBio3d(i,j,k,iflx_Ege_Jel_DetF)  + Ege_Jel_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_PhS_Det)   = DiaBio3d(i,j,k,iflx_Mor_PhS_Det)   + Mor_PhS_Det(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_PhL_Det)   = DiaBio3d(i,j,k,iflx_Mor_PhL_Det)   + Mor_PhL_Det(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_MZL_Det)   = DiaBio3d(i,j,k,iflx_Mor_MZL_Det)   + Mor_MZL_Det(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_Cop_DetF)  = DiaBio3d(i,j,k,iflx_Mor_Cop_DetF)  + Mor_Cop_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_NCaS_DetF) = DiaBio3d(i,j,k,iflx_Mor_NCaS_DetF) + Mor_NCaS_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_EupS_DetF) = DiaBio3d(i,j,k,iflx_Mor_EupS_DetF) + Mor_EupS_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_NCaO_DetF) = DiaBio3d(i,j,k,iflx_Mor_NCaO_DetF) + Mor_NCaO_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_EupO_DetF) = DiaBio3d(i,j,k,iflx_Mor_EupO_DetF) + Mor_EupO_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_Jel_DetF)  = DiaBio3d(i,j,k,iflx_Mor_Jel_DetF)  + Mor_Jel_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Res_PhS_NH4)   = DiaBio3d(i,j,k,iflx_Res_PhS_NH4)   + Res_PhS_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_PhL_NH4)   = DiaBio3d(i,j,k,iflx_Res_PhL_NH4)   + Res_PhL_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_MZL_NH4)   = DiaBio3d(i,j,k,iflx_Res_MZL_NH4)   + Res_MZL_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_Cop_NH4)   = DiaBio3d(i,j,k,iflx_Res_Cop_NH4)   + Res_Cop_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_NCaS_NH4)  = DiaBio3d(i,j,k,iflx_Res_NCaS_NH4)  + Res_NCaS_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_NCaO_NH4)  = DiaBio3d(i,j,k,iflx_Res_NCaO_NH4)  + Res_NCaO_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_EupS_NH4)  = DiaBio3d(i,j,k,iflx_Res_EupS_NH4)  + Res_EupS_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_EupO_NH4)  = DiaBio3d(i,j,k,iflx_Res_EupO_NH4)  + Res_EupO_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Res_Jel_NH4)   = DiaBio3d(i,j,k,iflx_Res_Jel_NH4)   + Res_Jel_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Rem_Det_NH4)   = DiaBio3d(i,j,k,iflx_Rem_Det_NH4)   + Rem_Det_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Rem_DetF_NH4)  = DiaBio3d(i,j,k,iflx_Rem_DetF_NH4)  + Rem_DetF_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Nit_NH4_NO3)   = DiaBio3d(i,j,k,iflx_Nit_NH4_NO3)   + Nit_NH4_NO3(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_Det_Ben)   = DiaBio3d(i,j,k,iflx_Gra_Det_Ben)   + Gra_Det_Ben(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_DetF_Ben)  = DiaBio3d(i,j,k,iflx_Gra_DetF_Ben)  + Gra_DetF_Ben(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhS_Ben)   = DiaBio3d(i,j,k,iflx_Gra_PhS_Ben)   + Gra_PhS_Ben(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_PhL_Ben)   = DiaBio3d(i,j,k,iflx_Gra_PhL_Ben)   + Gra_PhL_Ben(i,k)
+              DiaBio3d(i,j,k,iflx_Gra_DetB_Ben)  = DiaBio3d(i,j,k,iflx_Gra_DetB_Ben)  + Gra_DetBen_Ben(i,k)
+              DiaBio3d(i,j,k,iflx_Exc_Ben_NH4)   = DiaBio3d(i,j,k,iflx_Exc_Ben_NH4)   + Exc_Ben_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Exc_Ben_DetB)  = DiaBio3d(i,j,k,iflx_Exc_Ben_DetB)  + Exc_Ben_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Res_Ben_NH4)   = DiaBio3d(i,j,k,iflx_Res_Ben_NH4)   + Res_Ben_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_Ben_DetB)  = DiaBio3d(i,j,k,iflx_Mor_Ben_DetB)  + Mor_Ben_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Rem_DetB_NH4)  = DiaBio3d(i,j,k,iflx_Rem_DetB_NH4)  + Rem_DetBen_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Gpp_INO3_IPhL) = DiaBio3d(i,j,k,iflx_Gpp_INO3_IPhL) + Gpp_INO3_IPhL(i,k)
+              DiaBio3d(i,j,k,iflx_Gpp_INH4_IPhL) = DiaBio3d(i,j,k,iflx_Gpp_INH4_IPhL) + Gpp_INH4_IPhL(i,k)
+              DiaBio3d(i,j,k,iflx_Res_IPhL_INH4) = DiaBio3d(i,j,k,iflx_Res_IPhL_INH4) + Res_IPhL_INH4(i,k)
+              DiaBio3d(i,j,k,iflx_Mor_IPhL_INH4) = DiaBio3d(i,j,k,iflx_Mor_IPhL_INH4) + Mor_IPhL_INH4(i,k)
+              DiaBio3d(i,j,k,iflx_Nit_INH4_INO3) = DiaBio3d(i,j,k,iflx_Nit_INH4_INO3) + Nit_INH4_INO3(i,k)
+              DiaBio3d(i,j,k,iflx_Twi_IPhL_PhL)  = DiaBio3d(i,j,k,iflx_Twi_IPhL_PhL)  + Twi_IPhL_PhL(i,k)
+              DiaBio3d(i,j,k,iflx_Twi_INO3_NO3)  = DiaBio3d(i,j,k,iflx_Twi_INO3_NO3)  + Twi_INO3_NO3(i,k)
+              DiaBio3d(i,j,k,iflx_Twi_INH4_NH4)  = DiaBio3d(i,j,k,iflx_Twi_INH4_NH4)  + Twi_INH4_NH4(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_PhS_DetB)  = DiaBio3d(i,j,k,iflx_Ver_PhS_DetB)  + Ver_PhS_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_PhS_Out)   = DiaBio3d(i,j,k,iflx_Ver_PhS_Out)   + Ver_PhS_Out(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_PhL_DetB)  = DiaBio3d(i,j,k,iflx_Ver_PhL_DetB)  + Ver_PhL_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_PhL_Out)   = DiaBio3d(i,j,k,iflx_Ver_PhL_Out)   + Ver_PhL_Out(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_Det_DetB)  = DiaBio3d(i,j,k,iflx_Ver_Det_DetB)  + Ver_Det_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_Det_Out)   = DiaBio3d(i,j,k,iflx_Ver_Det_Out)   + Ver_Det_Out(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_DetF_DetB) = DiaBio3d(i,j,k,iflx_Ver_DetF_DetB) + Ver_DetF_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_DetF_Out)  = DiaBio3d(i,j,k,iflx_Ver_DetF_Out)  + Ver_DetF_Out(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_NCaO_DetB) = DiaBio3d(i,j,k,iflx_Ver_NCaO_DetB) + Ver_NCaO_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_NCaS_DetF) = DiaBio3d(i,j,k,iflx_Ver_NCaS_DetF) + Ver_NCaS_DetF(i,k)
+              DiaBio3d(i,j,k,iflx_Ver_NCaS_DetB) = DiaBio3d(i,j,k,iflx_Ver_NCaS_DetB) + Ver_NCaS_DetBen(i,k)
+              DiaBio3d(i,j,k,iflx_Frz_PhL_IPhL)  = DiaBio3d(i,j,k,iflx_Frz_PhL_IPhL)  + Frz_PhL_IPhL(i,k)
+              DiaBio3d(i,j,k,iflx_Frz_NO3_INO3)  = DiaBio3d(i,j,k,iflx_Frz_NO3_INO3)  + Frz_NO3_INO3(i,k)
+              DiaBio3d(i,j,k,iflx_Frz_NH4_INH4)  = DiaBio3d(i,j,k,iflx_Frz_NH4_INH4)  + Frz_NH4_INH4(i,k)
 
               DO itrc=iflx_Gpp_NO3_PhS,iflx_Frz_NH4_INH4
                 if (DiaBio3d(i,j,k,itrc) /= DiaBio3d(i,j,k,itrc)) then
@@ -3104,7 +3116,6 @@
                 end if
               END DO
 
-# ifdef DIAGBIOAVG
               ! Net production
 
               DiaBio3d(i,j,k,iprod_PhS)    = DiaBio3d(i,j,k,iprod_PhS)    + prod_PhS(i,k)
@@ -3118,29 +3129,17 @@
               DiaBio3d(i,j,k,iprod_Jel)    = DiaBio3d(i,j,k,iprod_Jel)    + prod_Jel(i,k)
               DiaBio3d(i,j,k,iprod_Ben)    = DiaBio3d(i,j,k,iprod_Ben)    + prod_Ben(i,k)
               DiaBio3d(i,j,k,iprod_IcePhL) = DiaBio3d(i,j,k,iprod_IcePhL) + prod_IcePhL(i,k)
-# else
-              ! Net production
 
-              DiaBio3d(i,j,k,iprod_PhS)    = prod_PhS(i,k)
-              DiaBio3d(i,j,k,iprod_PhL)    = prod_PhL(i,k)
-              DiaBio3d(i,j,k,iprod_MZL)    = prod_MZL(i,k)
-              DiaBio3d(i,j,k,iprod_Cop)    = prod_Cop(i,k)
-              DiaBio3d(i,j,k,iprod_NCaS)   = prod_NCaS(i,k)
-              DiaBio3d(i,j,k,iprod_EupS)   = prod_EupS(i,k)
-              DiaBio3d(i,j,k,iprod_NCaO)   = prod_NCaO(i,k)
-              DiaBio3d(i,j,k,iprod_EupO)   = prod_EupO(i,k)
-              DiaBio3d(i,j,k,iprod_Jel)    = prod_Jel(i,k)
-              DiaBio3d(i,j,k,iprod_Ben)    = prod_Ben(i,k)
-              DiaBio3d(i,j,k,iprod_IcePhL) = prod_IcePhL(i,k)
-# endif
-
-              DiaBio3d(i,j,k,itotprod) = total_prod(i,k)
-              DiaBio3d(i,j,k,itotresp) = total_resp(i,k)
-              DiaBio3d(i,j,k,itotrem)  = total_remin(i,k)
+              ! Total fluxes across all state variables
+              
+              DiaBio3d(i,j,k,itotprod) = DiaBio3d(i,j,k,itotprod) + total_prod(i,k)
+              DiaBio3d(i,j,k,itotresp) = DiaBio3d(i,j,k,itotresp) + total_resp(i,k)
+              DiaBio3d(i,j,k,itotrem)  = DiaBio3d(i,j,k,itotrem)  + total_remin(i,k)
 # ifdef CARBON
 #  ifdef ICE_BIO
-              DiaBio3d(i,j,k,iflx_Frz_TIC) = Frz_TIC(i,k)/12.0_r8
-              DiaBio3d(i,j,k,iflx_Frz_Alk) = Frz_TAlk(i,k)*xi(ng)
+              ! C fluxes 
+              DiaBio3d(i,j,k,iflx_Frz_TIC) = DiaBio3d(i,j,k,iflx_Frz_TIC) + Frz_TIC(i,k)/12.0_r8
+              DiaBio3d(i,j,k,iflx_Frz_Alk) = DiaBio3d(i,j,k,iflx_Frz_Alk) + Frz_TAlk(i,k)*xi(ng)
 #  endif
 # endif
 
@@ -3200,31 +3199,31 @@
 !               end if
 !             end do
 
-#ifdef DIAGNOSTICS_BIO
-            ! Add 2D tracer values to diagnostic array to allow
-            ! calculation of advective-diffusive fluxes.  A bit silly to
-            ! have these as extra outputs, but sticking the values here
-            ! is a lot easier than creating and allocating entirely new
-            ! arrays for it.
-            ! (Note: step3d_t.F copies the nstp values to nnew, so when
-            ! bestnpz.h is next called, the nnew values will hold the
-            ! previous step... I think)
-
-            DiaBio3d(i,j,k,ibiomem_NO3)  = t(i,j,k,nnew,iNO3 )
-            DiaBio3d(i,j,k,ibiomem_NH4)  = t(i,j,k,nnew,iNH4 )
-            DiaBio3d(i,j,k,ibiomem_PhS)  = t(i,j,k,nnew,iPhS )
-            DiaBio3d(i,j,k,ibiomem_PhL)  = t(i,j,k,nnew,iPhL )
-            DiaBio3d(i,j,k,ibiomem_MZL)  = t(i,j,k,nnew,iMZL )
-            DiaBio3d(i,j,k,ibiomem_Cop)  = t(i,j,k,nnew,iCop )
-            DiaBio3d(i,j,k,ibiomem_NCaS) = t(i,j,k,nnew,iNCaS)
-            DiaBio3d(i,j,k,ibiomem_EupS) = t(i,j,k,nnew,iEupS)
-            DiaBio3d(i,j,k,ibiomem_NCaO) = t(i,j,k,nnew,iNCaO)
-            DiaBio3d(i,j,k,ibiomem_EupO) = t(i,j,k,nnew,iEupO)
-            DiaBio3d(i,j,k,ibiomem_Det)  = t(i,j,k,nnew,iDet )
-            DiaBio3d(i,j,k,ibiomem_DetF) = t(i,j,k,nnew,iDetF)
-            DiaBio3d(i,j,k,ibiomem_Jel)  = t(i,j,k,nnew,iJel )
-            DiaBio3d(i,j,k,ibiomem_Fe)   = t(i,j,k,nnew,iFe  )
-#endif
+! #ifdef DIAGNOSTICS_BIO
+!             ! Add 2D tracer values to diagnostic array to allow
+!             ! calculation of advective-diffusive fluxes.  A bit silly to
+!             ! have these as extra outputs, but sticking the values here
+!             ! is a lot easier than creating and allocating entirely new
+!             ! arrays for it.
+!             ! (Note: step3d_t.F copies the nstp values to nnew, so when
+!             ! bestnpz.h is next called, the nnew values will hold the
+!             ! previous step... I think)
+!
+!             DiaBio3d(i,j,k,ibiomem_NO3)  = t(i,j,k,nnew,iNO3 )
+!             DiaBio3d(i,j,k,ibiomem_NH4)  = t(i,j,k,nnew,iNH4 )
+!             DiaBio3d(i,j,k,ibiomem_PhS)  = t(i,j,k,nnew,iPhS )
+!             DiaBio3d(i,j,k,ibiomem_PhL)  = t(i,j,k,nnew,iPhL )
+!             DiaBio3d(i,j,k,ibiomem_MZL)  = t(i,j,k,nnew,iMZL )
+!             DiaBio3d(i,j,k,ibiomem_Cop)  = t(i,j,k,nnew,iCop )
+!             DiaBio3d(i,j,k,ibiomem_NCaS) = t(i,j,k,nnew,iNCaS)
+!             DiaBio3d(i,j,k,ibiomem_EupS) = t(i,j,k,nnew,iEupS)
+!             DiaBio3d(i,j,k,ibiomem_NCaO) = t(i,j,k,nnew,iNCaO)
+!             DiaBio3d(i,j,k,ibiomem_EupO) = t(i,j,k,nnew,iEupO)
+!             DiaBio3d(i,j,k,ibiomem_Det)  = t(i,j,k,nnew,iDet )
+!             DiaBio3d(i,j,k,ibiomem_DetF) = t(i,j,k,nnew,iDetF)
+!             DiaBio3d(i,j,k,ibiomem_Jel)  = t(i,j,k,nnew,iJel )
+!             DiaBio3d(i,j,k,ibiomem_Fe)   = t(i,j,k,nnew,iFe  )
+! #endif
 
 #ifdef TS_MPDATA
             t(i,j,k,3,iNO3 ) = t(i,j,k,nnew,iNO3 ) * Hz_inv(i,k)

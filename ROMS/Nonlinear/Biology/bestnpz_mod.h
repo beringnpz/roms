@@ -353,23 +353,23 @@
       integer :: iflx_Frz_NH4_INH4
       integer :: iflx_Frz_TIC
       integer :: iflx_Frz_Alk
-      integer :: iflx_Adv_NO3
-      integer :: iflx_Adv_NH4
-      integer :: iflx_Adv_PhS
-      integer :: iflx_Adv_PhL
-      integer :: iflx_Adv_MZL
-      integer :: iflx_Adv_Cop
-      integer :: iflx_Adv_NCaS
-      integer :: iflx_Adv_EupS
-      integer :: iflx_Adv_NCaO
-      integer :: iflx_Adv_EupO
-      integer :: iflx_Adv_Det
-      integer :: iflx_Adv_DetF
-      integer :: iflx_Adv_Jel
-      integer :: iflx_Adv_Fe
-      integer :: iflx_Adv_TIC
-      integer :: iflx_Adv_Alk
-      integer :: iflx_Adv_Oxyg
+!       integer :: iflx_Adv_NO3
+!       integer :: iflx_Adv_NH4
+!       integer :: iflx_Adv_PhS
+!       integer :: iflx_Adv_PhL
+!       integer :: iflx_Adv_MZL
+!       integer :: iflx_Adv_Cop
+!       integer :: iflx_Adv_NCaS
+!       integer :: iflx_Adv_EupS
+!       integer :: iflx_Adv_NCaO
+!       integer :: iflx_Adv_EupO
+!       integer :: iflx_Adv_Det
+!       integer :: iflx_Adv_DetF
+!       integer :: iflx_Adv_Jel
+!       integer :: iflx_Adv_Fe
+!       integer :: iflx_Adv_TIC
+!       integer :: iflx_Adv_Alk
+!       integer :: iflx_Adv_Oxyg
       integer :: iprod_PhS
       integer :: iprod_PhL
       integer :: iprod_MZL
@@ -387,23 +387,23 @@
       integer :: io2flx
       integer :: ico2flx
       integer :: ipco2
-      integer :: ibiomem_NO3
-      integer :: ibiomem_NH4
-      integer :: ibiomem_PhS
-      integer :: ibiomem_PhL
-      integer :: ibiomem_MZL
-      integer :: ibiomem_Cop
-      integer :: ibiomem_NCaS
-      integer :: ibiomem_EupS
-      integer :: ibiomem_NCaO
-      integer :: ibiomem_EupO
-      integer :: ibiomem_Det
-      integer :: ibiomem_DetF
-      integer :: ibiomem_Jel
-      integer :: ibiomem_Fe
-      integer :: ibiomem_TIC
-      integer :: ibiomem_Alk
-      integer :: ibiomem_Oxyg
+!       integer :: ibiomem_NO3
+!       integer :: ibiomem_NH4
+!       integer :: ibiomem_PhS
+!       integer :: ibiomem_PhL
+!       integer :: ibiomem_MZL
+!       integer :: ibiomem_Cop
+!       integer :: ibiomem_NCaS
+!       integer :: ibiomem_EupS
+!       integer :: ibiomem_NCaO
+!       integer :: ibiomem_EupO
+!       integer :: ibiomem_Det
+!       integer :: ibiomem_DetF
+!       integer :: ibiomem_Jel
+!       integer :: ibiomem_Fe
+!       integer :: ibiomem_TIC
+!       integer :: ibiomem_Alk
+!       integer :: ibiomem_Oxyg
       integer :: ipar
       integer :: iclimice
 #endif
@@ -604,7 +604,7 @@
 #  endif
 
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
-      NDbio3d=156
+      NDbio3d=122
       NDbio2d=4
 #endif
 #ifdef BENTHIC
@@ -1462,46 +1462,46 @@
       iprod_Jel=114
       iprod_Ben=115
       iprod_IcePhL=116
-      ibiomem_NO3=117
-      ibiomem_NH4=118
-      ibiomem_PhS=119
-      ibiomem_PhL=120
-      ibiomem_MZL=121
-      ibiomem_Cop=122
-      ibiomem_NCaS=123
-      ibiomem_EupS=124
-      ibiomem_NCaO=125
-      ibiomem_EupO=126
-      ibiomem_Det=127
-      ibiomem_DetF=128
-      ibiomem_Jel=129
-      ibiomem_Fe=130
-      iflx_Adv_NO3=131
-      iflx_Adv_NH4=132
-      iflx_Adv_PhS=133
-      iflx_Adv_PhL=134
-      iflx_Adv_MZL=135
-      iflx_Adv_Cop=136
-      iflx_Adv_NCaS=137
-      iflx_Adv_EupS=138
-      iflx_Adv_NCaO=139
-      iflx_Adv_EupO=140
-      iflx_Adv_Det=141
-      iflx_Adv_DetF=142
-      iflx_Adv_Jel=143
-      iflx_Adv_Fe=144
-      ipar=145
-      itotprod=146
-      itotresp=147
-      itotrem=148
-      iflx_Frz_Alk=149
-      iflx_Frz_TIC=150
-      ibiomem_TIC=151
-      ibiomem_Alk=152
-      ibiomem_Oxyg=153
-      iflx_Adv_TIC=154
-      iflx_Adv_Alk=155
-      iflx_Adv_Oxyg=156
+!       ibiomem_NO3=117
+!       ibiomem_NH4=118
+!       ibiomem_PhS=119
+!       ibiomem_PhL=120
+!       ibiomem_MZL=121
+!       ibiomem_Cop=122
+!       ibiomem_NCaS=123
+!       ibiomem_EupS=124
+!       ibiomem_NCaO=125
+!       ibiomem_EupO=126
+!       ibiomem_Det=127
+!       ibiomem_DetF=128
+!       ibiomem_Jel=129
+!       ibiomem_Fe=130
+!       iflx_Adv_NO3=131
+!       iflx_Adv_NH4=132
+!       iflx_Adv_PhS=133
+!       iflx_Adv_PhL=134
+!       iflx_Adv_MZL=135
+!       iflx_Adv_Cop=136
+!       iflx_Adv_NCaS=137
+!       iflx_Adv_EupS=138
+!       iflx_Adv_NCaO=139
+!       iflx_Adv_EupO=140
+!       iflx_Adv_Det=141
+!       iflx_Adv_DetF=142
+!       iflx_Adv_Jel=143
+!       iflx_Adv_Fe=144
+      ipar=117
+      itotprod=118
+      itotresp=119
+      itotrem=120
+      iflx_Frz_Alk=121
+      iflx_Frz_TIC=122
+!       ibiomem_TIC=151
+!       ibiomem_Alk=152
+!       ibiomem_Oxyg=153
+!       iflx_Adv_TIC=154
+!       iflx_Adv_Alk=155
+!       iflx_Adv_Oxyg=156
 
       ico2flx=1
       ipco2=2

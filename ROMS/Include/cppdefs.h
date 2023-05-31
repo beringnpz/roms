@@ -465,6 +465,10 @@
 **                     [NPZD_IRON, NEMURO, BIO_GOANPZ, BIO_UMAINE, BEST_NPZ] **
 ** COASTAL_ATTEN       Increase light attenuation in shallow water           **
 **                     [BEST_NPZ, BIO_COBALT, BIO_BANAS]                     **
+** DIAGBIOAVG          Report biological diagnostics as time-averages rather **
+**                     than history-like snapshots                           **
+**                     [FENNEL*, BIO_COBALT*, BEST_NPZ, BANAS]               **
+**                     *automatically turned on vs optional                  **
 **                                                                           **
 ** Fennel et al. (2006) biology model OPTIONS:                               **
 **                                                                           **

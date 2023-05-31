@@ -462,10 +462,13 @@
         END DO
 # endif
 # ifdef DIAGNOSTICS_BIO
-#  if defined DIAGBIO2 && defined DIAGBIOAVG && !defined BEST_NPZ
+#  if defined DIAGBIO2 && defined DIAGBIOAVG
         DO idiag=1,NDbio2d
 #   ifdef BIO_FENNEL
           IF (idiag.ne.ipCO2) THEN
+#   endif
+#   ifdef BEST_NPZ
+          IF ((idiag.ne.ipco2) .and. (idiag.ne.iclimice)) THEN
 #   endif
             DO j=JstrR,JendR
               DO i=IstrR,IendR
@@ -473,35 +476,13 @@
      &                    DIAGS(ng)%DiaBio2d(i,j,idiag)
               END DO
             END DO
-#   ifdef BIO_FENNEL
+#   if defined BIO_FENNEL || defined BEST_NPZ 
           END IF
 #   endif
         END DO
 #  endif
 #  if defined DIAGBIO3 && defined DIAGBIOAVG
         DO idiag=1,NDbio3d
-#   ifdef BEST_NPZ
-          IF ((idiag .eq. iprod_PhS   ) .or.                             &
-     &        (idiag .eq. iprod_PhL   ) .or.                             &
-     &        (idiag .eq. iprod_MZL   ) .or.                             &
-     &        (idiag .eq. iprod_Cop   ) .or.                             &
-     &        (idiag .eq. iprod_NCaS  ) .or.                             &
-     &        (idiag .eq. iprod_EupS  ) .or.                             &
-     &        (idiag .eq. iprod_NCaO  ) .or.                             &
-     &        (idiag .eq. iprod_EupO  ) .or.                             &
-     &        (idiag .eq. iprod_Jel   ) .or.                             &
-     &        (idiag .eq. iprod_Ben   ) .or.                             &
-     &        (idiag .eq. iprod_IcePhL) .or.                             &
-     &        (idiag .eq. ipar        ) .or.                             &
-     &        (idiag .eq. iilims      ) .or.                             &
-     &        (idiag .eq. iiliml      ) .or.                             &
-     &        (idiag .eq. inolims     ) .or.                             &
-     &        (idiag .eq. inoliml     ) .or.                             &
-     &        (idiag .eq. inhlims     ) .or.                             &
-     &        (idiag .eq. inhliml     ) .or.                             &
-     &        (idiag .eq. ifelims     ) .or.                             &
-     &        (idiag .eq. ifeliml     )) THEN
-#   endif
           DO k=1,N(ng)
             DO j=JstrR,JendR
               DO i=IstrR,IendR
@@ -510,9 +491,6 @@
               END DO
             END DO
           END DO
-#   ifdef BEST_NPZ
-          END IF
-#   endif
         END DO
 #  endif
 #  ifdef ECOSIM

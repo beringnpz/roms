@@ -445,62 +445,62 @@
                 iDbio3(iprod_Ben)=varid
               CASE ('iDbio3(iprod_IcePhL)')
                 iDbio3(iprod_IcePhL)=varid
-              CASE ('iDbio3(ibiomem_NO3)')
-                iDbio3(ibiomem_NO3)=varid
-              CASE ('iDbio3(ibiomem_NH4)')
-                iDbio3(ibiomem_NH4)=varid
-              CASE ('iDbio3(ibiomem_PhS)')
-                iDbio3(ibiomem_PhS)=varid
-              CASE ('iDbio3(ibiomem_PhL)')
-                iDbio3(ibiomem_PhL)=varid
-              CASE ('iDbio3(ibiomem_MZL)')
-                iDbio3(ibiomem_MZL)=varid
-              CASE ('iDbio3(ibiomem_Cop)')
-                iDbio3(ibiomem_Cop)=varid
-              CASE ('iDbio3(ibiomem_NCaS)')
-                iDbio3(ibiomem_NCaS)=varid
-              CASE ('iDbio3(ibiomem_EupS)')
-                iDbio3(ibiomem_EupS)=varid
-              CASE ('iDbio3(ibiomem_NCaO)')
-                iDbio3(ibiomem_NCaO)=varid
-              CASE ('iDbio3(ibiomem_EupO)')
-                iDbio3(ibiomem_EupO)=varid
-              CASE ('iDbio3(ibiomem_Det)')
-                iDbio3(ibiomem_Det)=varid
-              CASE ('iDbio3(ibiomem_DetF)')
-                iDbio3(ibiomem_DetF)=varid
-              CASE ('iDbio3(ibiomem_Jel)')
-                iDbio3(ibiomem_Jel)=varid
-              CASE ('iDbio3(ibiomem_Fe)')
-                iDbio3(ibiomem_Fe)=varid
-              CASE ('iDbio3(iflx_Adv_NO3)')
-                iDbio3(iflx_Adv_NO3)=varid
-              CASE ('iDbio3(iflx_Adv_NH4)')
-                iDbio3(iflx_Adv_NH4)=varid
-              CASE ('iDbio3(iflx_Adv_PhS)')
-                iDbio3(iflx_Adv_PhS)=varid
-              CASE ('iDbio3(iflx_Adv_PhL)')
-                iDbio3(iflx_Adv_PhL)=varid
-              CASE ('iDbio3(iflx_Adv_MZL)')
-                iDbio3(iflx_Adv_MZL)=varid
-              CASE ('iDbio3(iflx_Adv_Cop)')
-                iDbio3(iflx_Adv_Cop)=varid
-              CASE ('iDbio3(iflx_Adv_NCaS)')
-                iDbio3(iflx_Adv_NCaS)=varid
-              CASE ('iDbio3(iflx_Adv_EupS)')
-                iDbio3(iflx_Adv_EupS)=varid
-              CASE ('iDbio3(iflx_Adv_NCaO)')
-                iDbio3(iflx_Adv_NCaO)=varid
-              CASE ('iDbio3(iflx_Adv_EupO)')
-                iDbio3(iflx_Adv_EupO)=varid
-              CASE ('iDbio3(iflx_Adv_Det)')
-                iDbio3(iflx_Adv_Det)=varid
-              CASE ('iDbio3(iflx_Adv_DetF)')
-                iDbio3(iflx_Adv_DetF)=varid
-              CASE ('iDbio3(iflx_Adv_Jel)')
-                iDbio3(iflx_Adv_Jel)=varid
-              CASE ('iDbio3(iflx_Adv_Fe)')
-                iDbio3(iflx_Adv_Fe)=varid
+!               CASE ('iDbio3(ibiomem_NO3)')
+!                 iDbio3(ibiomem_NO3)=varid
+!               CASE ('iDbio3(ibiomem_NH4)')
+!                 iDbio3(ibiomem_NH4)=varid
+!               CASE ('iDbio3(ibiomem_PhS)')
+!                 iDbio3(ibiomem_PhS)=varid
+!               CASE ('iDbio3(ibiomem_PhL)')
+!                 iDbio3(ibiomem_PhL)=varid
+!               CASE ('iDbio3(ibiomem_MZL)')
+!                 iDbio3(ibiomem_MZL)=varid
+!               CASE ('iDbio3(ibiomem_Cop)')
+!                 iDbio3(ibiomem_Cop)=varid
+!               CASE ('iDbio3(ibiomem_NCaS)')
+!                 iDbio3(ibiomem_NCaS)=varid
+!               CASE ('iDbio3(ibiomem_EupS)')
+!                 iDbio3(ibiomem_EupS)=varid
+!               CASE ('iDbio3(ibiomem_NCaO)')
+!                 iDbio3(ibiomem_NCaO)=varid
+!               CASE ('iDbio3(ibiomem_EupO)')
+!                 iDbio3(ibiomem_EupO)=varid
+!               CASE ('iDbio3(ibiomem_Det)')
+!                 iDbio3(ibiomem_Det)=varid
+!               CASE ('iDbio3(ibiomem_DetF)')
+!                 iDbio3(ibiomem_DetF)=varid
+!               CASE ('iDbio3(ibiomem_Jel)')
+!                 iDbio3(ibiomem_Jel)=varid
+!               CASE ('iDbio3(ibiomem_Fe)')
+!                 iDbio3(ibiomem_Fe)=varid
+!               CASE ('iDbio3(iflx_Adv_NO3)')
+!                 iDbio3(iflx_Adv_NO3)=varid
+!               CASE ('iDbio3(iflx_Adv_NH4)')
+!                 iDbio3(iflx_Adv_NH4)=varid
+!               CASE ('iDbio3(iflx_Adv_PhS)')
+!                 iDbio3(iflx_Adv_PhS)=varid
+!               CASE ('iDbio3(iflx_Adv_PhL)')
+!                 iDbio3(iflx_Adv_PhL)=varid
+!               CASE ('iDbio3(iflx_Adv_MZL)')
+!                 iDbio3(iflx_Adv_MZL)=varid
+!               CASE ('iDbio3(iflx_Adv_Cop)')
+!                 iDbio3(iflx_Adv_Cop)=varid
+!               CASE ('iDbio3(iflx_Adv_NCaS)')
+!                 iDbio3(iflx_Adv_NCaS)=varid
+!               CASE ('iDbio3(iflx_Adv_EupS)')
+!                 iDbio3(iflx_Adv_EupS)=varid
+!               CASE ('iDbio3(iflx_Adv_NCaO)')
+!                 iDbio3(iflx_Adv_NCaO)=varid
+!               CASE ('iDbio3(iflx_Adv_EupO)')
+!                 iDbio3(iflx_Adv_EupO)=varid
+!               CASE ('iDbio3(iflx_Adv_Det)')
+!                 iDbio3(iflx_Adv_Det)=varid
+!               CASE ('iDbio3(iflx_Adv_DetF)')
+!                 iDbio3(iflx_Adv_DetF)=varid
+!               CASE ('iDbio3(iflx_Adv_Jel)')
+!                 iDbio3(iflx_Adv_Jel)=varid
+!               CASE ('iDbio3(iflx_Adv_Fe)')
+!                 iDbio3(iflx_Adv_Fe)=varid
               CASE ('iDbio3(ipar)')
                 iDbio3(ipar)=varid
               CASE ('iDbio3(itotprod)')
