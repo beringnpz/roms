@@ -2959,7 +2959,7 @@
 
       phyto(DIAZO )%jaggloss_sio2(:,:,:) = phyto(DIAZO )%jaggloss_n(:,:,:)*phyto(DIAZO )%q_si_2_n(:,:,:)
       phyto(LARGE_)%jaggloss_sio2(:,:,:) = phyto(LARGE_)%jaggloss_n(:,:,:)*phyto(LARGE_)%q_si_2_n(:,:,:)
-      phyto(SMAL L)%jaggloss_sio2(:,:,:) = phyto(SMALL )%jaggloss_n(:,:,:)*phyto(SMALL )%q_si_2_n(:,:,:)
+      phyto(SMALL )%jaggloss_sio2(:,:,:) = phyto(SMALL )%jaggloss_n(:,:,:)*phyto(SMALL )%q_si_2_n(:,:,:)
 #ifdef COASTDIAT
       phyto(MEDIUM)%jaggloss_sio2(:,:,:) = phyto(MEDIUM)%jaggloss_n(:,:,:)*phyto(MEDIUM)%q_si_2_n(:,:,:)
 #endif
