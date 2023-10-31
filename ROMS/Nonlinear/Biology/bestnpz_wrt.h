@@ -752,6 +752,11 @@
      &                      ncid = ncid)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+      CALL netcdf_put_fvar (ng, model, ncname, 'fracUnburied',          &
+     &                      fracUnburied(ng), (/0/), (/0/),             &
+     &                      ncid = ncid)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
 #  ifdef BENTHIC
       CALL netcdf_put_fvar (ng, model, ncname, 'q10r',                  &
      &                      q10r(ng), (/0/), (/0/),                     &

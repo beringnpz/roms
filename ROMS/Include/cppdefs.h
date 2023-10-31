@@ -510,6 +510,8 @@
 ** NO_IRON_COAST       use for no coastal iron                               **
 ** NLIM_ONEILL         use O'Neill (1989) N-limitation (vs Frost & Franzen,  **
 **                     1992)                                                 **
+** COBALT_ALLBURIAL    set frac_burial to 1.0 instead of Dunne et al.        **
+**                     function                                              **
 **                                                                           **
 ** Hypoxia ecosysten model OPTIONS:                                          **
 **                                                                           **

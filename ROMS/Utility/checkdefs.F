@@ -919,6 +919,13 @@
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+19)=' COBALT_PHOSPHORUS,'
 #endif
+#ifdef COBALT_ALLBURIAL
+!
+       IF (Master) WRITE (stdout,20) 'COBALT_ALLBURIAL',                 &
+      &   'set frac_burial to 1.0 instead of Dunne et al. function'
+       is=LEN_TRIM(Coptions)+1
+       Coptions(is:is+18)=' COBALT_ALLBURIAL,'
+#endif
 #if defined DISTRIBUTE
 # if defined COLLECT_ALLGATHER
 !

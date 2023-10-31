@@ -174,6 +174,8 @@
 !   aidz        Ice thickness (m)                                      !
 !   tI0         Nitrification light threshold (W m^-2)                 !
 !   KI          Nitrification light half-saturation constant (W m^-2)  !
+!   fracUnburied fraction of sinking flux across bottom boundary that  !
+!                remains in system (unburied) (None)                   !
 !=======================================================================
 !
       USE mod_param
@@ -534,6 +536,7 @@
       real(r8), allocatable :: ktntr(:)
       real(r8), allocatable :: KNH4Nit(:)
       real(r8), allocatable :: ToptNtr(:)
+      real(r8), allocatable :: fracUnburied(:)
 #ifdef BENTHIC
       real(r8), allocatable :: q10r(:)
       real(r8), allocatable :: Rup(:)
@@ -1109,6 +1112,10 @@
       END IF
       IF (.not.allocated(ToptNtr)) THEN
         allocate ( ToptNtr(Ngrids) )
+        Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+      END IF
+      IF (.not.allocated(fracUnburied)) THEN
+        allocate ( fracUnburied(Ngrids) )
         Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
       END IF
 # ifdef BENTHIC

@@ -383,6 +383,8 @@
               Npts=load_r(Nval, Rval, Ngrids, T0benr)
             CASE ('BenPred')
               Npts=load_r(Nval, Rval, Ngrids, BenPred)
+            CASE ('fracUnburied')
+              Npts=load_r(Nval, Rval, Ngrids, fracUnburied)
 #endif
 #ifdef ICE_BIO
 
@@ -2849,6 +2851,8 @@
      &            'Half saturation constant for nitrification (mmolN/m^3)'
             WRITE (out,80) ToptNtr(ng), 'ToptNtr',                      &
      &            'Optimal temperature for nitrification (degC)'
+            WRITE (out,80) fracUnburied(ng), 'fracUnburied',            &
+     &            'fraction of sinking flux across bottom boundary that remains in system (unburied) (None)'
 #ifdef BENTHIC
             WRITE (out,80) q10r(ng), 'q10r',                            &
      &            'Q10 for growth/feeding and mortality rate (unitless)'

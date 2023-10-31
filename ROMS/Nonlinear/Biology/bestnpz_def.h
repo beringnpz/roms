@@ -1383,4 +1383,12 @@
      &               SetParAccess = .FALSE.)
       IF (FoundError(exit_flag, NoError, __LINE__,                      &
      &               __FILE__)) RETURN
+      Vinfo( 1)='fracUnburied'
+      Vinfo( 2)='fraction of sinking flux across bottom boundary that remains in system (unburied)'
+      Vinfo( 3)='None'
+      status=def_var(ng, model, ncid, varid, nf90_int,                  &
+     &               1, (/0/), Aval, Vinfo, ncname,                     &
+     &               SetParAccess = .FALSE.)
+      IF (FoundError(exit_flag, NoError, __LINE__,                      &
+     &               __FILE__)) RETURN
 #  endif

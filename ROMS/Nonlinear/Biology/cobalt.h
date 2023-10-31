@@ -3974,6 +3974,10 @@
             ! RD dev notes ; this is to test conservation or if no burial is necessary
             cobalt%frac_burial(i,j) = 0.0d0
 #endif
+#if defined COBALT_ALLBURIAL
+            ! KAK: This is to test influence of sedimentary remin on pelagic NH4
+            cobalt%frac_burial(i,j) = 1.0d0
+#endif
 
 
             cobalt%fndet_burial(i,j) = cobalt%frac_burial(i,j)*cobalt%f_ndet_btf(i,j,1)
